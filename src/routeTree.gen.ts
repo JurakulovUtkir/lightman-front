@@ -38,6 +38,9 @@ import { Route as AuthenticatedSettingsNotificationsRouteImport } from './routes
 import { Route as AuthenticatedSettingsDisplayRouteImport } from './routes/_authenticated/settings/display'
 import { Route as AuthenticatedSettingsAppearanceRouteImport } from './routes/_authenticated/settings/appearance'
 import { Route as AuthenticatedSettingsAccountRouteImport } from './routes/_authenticated/settings/account'
+import { Route as AuthenticatedNetworkTypesRouteImport } from './routes/_authenticated/network/types'
+import { Route as AuthenticatedNetworkSocialsRouteImport } from './routes/_authenticated/network/socials'
+import { Route as AuthenticatedNetworkCategoriesRouteImport } from './routes/_authenticated/network/categories'
 
 const ClerkRouteRoute = ClerkRouteRouteImport.update({
   id: '/clerk',
@@ -189,6 +192,24 @@ const AuthenticatedSettingsAccountRoute =
     path: '/account',
     getParentRoute: () => AuthenticatedSettingsRouteRoute,
   } as any)
+const AuthenticatedNetworkTypesRoute =
+  AuthenticatedNetworkTypesRouteImport.update({
+    id: '/network/types',
+    path: '/network/types',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedNetworkSocialsRoute =
+  AuthenticatedNetworkSocialsRouteImport.update({
+    id: '/network/socials',
+    path: '/network/socials',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedNetworkCategoriesRoute =
+  AuthenticatedNetworkCategoriesRouteImport.update({
+    id: '/network/categories',
+    path: '/network/categories',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/clerk': typeof ClerkAuthenticatedRouteRouteWithChildren
@@ -204,6 +225,9 @@ export interface FileRoutesByFullPath {
   '/500': typeof errors500Route
   '/503': typeof errors503Route
   '/': typeof AuthenticatedIndexRoute
+  '/network/categories': typeof AuthenticatedNetworkCategoriesRoute
+  '/network/socials': typeof AuthenticatedNetworkSocialsRoute
+  '/network/types': typeof AuthenticatedNetworkTypesRoute
   '/settings/account': typeof AuthenticatedSettingsAccountRoute
   '/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
   '/settings/display': typeof AuthenticatedSettingsDisplayRoute
@@ -231,6 +255,9 @@ export interface FileRoutesByTo {
   '/500': typeof errors500Route
   '/503': typeof errors503Route
   '/': typeof AuthenticatedIndexRoute
+  '/network/categories': typeof AuthenticatedNetworkCategoriesRoute
+  '/network/socials': typeof AuthenticatedNetworkSocialsRoute
+  '/network/types': typeof AuthenticatedNetworkTypesRoute
   '/settings/account': typeof AuthenticatedSettingsAccountRoute
   '/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
   '/settings/display': typeof AuthenticatedSettingsDisplayRoute
@@ -263,6 +290,9 @@ export interface FileRoutesById {
   '/(errors)/500': typeof errors500Route
   '/(errors)/503': typeof errors503Route
   '/_authenticated/': typeof AuthenticatedIndexRoute
+  '/_authenticated/network/categories': typeof AuthenticatedNetworkCategoriesRoute
+  '/_authenticated/network/socials': typeof AuthenticatedNetworkSocialsRoute
+  '/_authenticated/network/types': typeof AuthenticatedNetworkTypesRoute
   '/_authenticated/settings/account': typeof AuthenticatedSettingsAccountRoute
   '/_authenticated/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
   '/_authenticated/settings/display': typeof AuthenticatedSettingsDisplayRoute
@@ -293,6 +323,9 @@ export interface FileRouteTypes {
     | '/500'
     | '/503'
     | '/'
+    | '/network/categories'
+    | '/network/socials'
+    | '/network/types'
     | '/settings/account'
     | '/settings/appearance'
     | '/settings/display'
@@ -320,6 +353,9 @@ export interface FileRouteTypes {
     | '/500'
     | '/503'
     | '/'
+    | '/network/categories'
+    | '/network/socials'
+    | '/network/types'
     | '/settings/account'
     | '/settings/appearance'
     | '/settings/display'
@@ -351,6 +387,9 @@ export interface FileRouteTypes {
     | '/(errors)/500'
     | '/(errors)/503'
     | '/_authenticated/'
+    | '/_authenticated/network/categories'
+    | '/_authenticated/network/socials'
+    | '/_authenticated/network/types'
     | '/_authenticated/settings/account'
     | '/_authenticated/settings/appearance'
     | '/_authenticated/settings/display'
@@ -586,6 +625,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSettingsAccountRouteImport
       parentRoute: typeof AuthenticatedSettingsRouteRoute
     }
+    '/_authenticated/network/types': {
+      id: '/_authenticated/network/types'
+      path: '/network/types'
+      fullPath: '/network/types'
+      preLoaderRoute: typeof AuthenticatedNetworkTypesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/network/socials': {
+      id: '/_authenticated/network/socials'
+      path: '/network/socials'
+      fullPath: '/network/socials'
+      preLoaderRoute: typeof AuthenticatedNetworkSocialsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/network/categories': {
+      id: '/_authenticated/network/categories'
+      path: '/network/categories'
+      fullPath: '/network/categories'
+      preLoaderRoute: typeof AuthenticatedNetworkCategoriesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
@@ -615,6 +675,9 @@ const AuthenticatedSettingsRouteRouteWithChildren =
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedSettingsRouteRoute: typeof AuthenticatedSettingsRouteRouteWithChildren
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
+  AuthenticatedNetworkCategoriesRoute: typeof AuthenticatedNetworkCategoriesRoute
+  AuthenticatedNetworkSocialsRoute: typeof AuthenticatedNetworkSocialsRoute
+  AuthenticatedNetworkTypesRoute: typeof AuthenticatedNetworkTypesRoute
   AuthenticatedAppsIndexRoute: typeof AuthenticatedAppsIndexRoute
   AuthenticatedChatsIndexRoute: typeof AuthenticatedChatsIndexRoute
   AuthenticatedHelpCenterIndexRoute: typeof AuthenticatedHelpCenterIndexRoute
@@ -625,6 +688,9 @@ interface AuthenticatedRouteRouteChildren {
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedSettingsRouteRoute: AuthenticatedSettingsRouteRouteWithChildren,
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
+  AuthenticatedNetworkCategoriesRoute: AuthenticatedNetworkCategoriesRoute,
+  AuthenticatedNetworkSocialsRoute: AuthenticatedNetworkSocialsRoute,
+  AuthenticatedNetworkTypesRoute: AuthenticatedNetworkTypesRoute,
   AuthenticatedAppsIndexRoute: AuthenticatedAppsIndexRoute,
   AuthenticatedChatsIndexRoute: AuthenticatedChatsIndexRoute,
   AuthenticatedHelpCenterIndexRoute: AuthenticatedHelpCenterIndexRoute,

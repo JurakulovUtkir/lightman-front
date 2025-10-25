@@ -14,6 +14,7 @@ import {
   IconPalette,
   IconServerOff,
   IconSettings,
+  IconSocial,
   IconTool,
   IconUserCog,
   IconUserOff,
@@ -75,6 +76,24 @@ export const sidebarData: SidebarData = {
           title: 'Users',
           url: '/users',
           icon: IconUsers,
+        },
+        {
+          title: 'Network',
+          icon: IconSocial,
+          items: [
+            {
+              title: 'Types',
+              url: '/network/types',
+            },
+            {
+              title: 'Categories',
+              url: '/network/categories',
+            },
+            {
+              title: 'Socials',
+              url: '/network/socials',
+            },
+          ],
         },
         {
           title: 'Secured by Clerk',
