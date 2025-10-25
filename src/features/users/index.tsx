@@ -1,20 +1,19 @@
+import { useSearch } from '@tanstack/react-router'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
+import { DataTable } from '@/components/table/data-table'
 import { ThemeSwitch } from '@/components/theme-switch'
 import { columns } from './components/users-columns'
 import { UsersDialogs } from './components/users-dialogs'
 import { UsersPrimaryButtons } from './components/users-primary-buttons'
-import { UsersTable } from './components/users-table'
 import UsersProvider from './context/users-context'
-import { userListSchema } from './data/schema'
-import { users } from './data/users'
+import { useGetUsers } from './data/hooks'
 
 export default function Users() {
-  // Parse user list
-  const userList = userListSchema.parse(users)
-
+  const { page, size } = useSearch({ from: '/_authenticated/users/' })
+  const { data: users } = useGetUsers()
   return (
     <UsersProvider>
       <Header fixed>
@@ -36,7 +35,13 @@ export default function Users() {
           <UsersPrimaryButtons />
         </div>
         <div className='-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-y-0 lg:space-x-12'>
-          <UsersTable data={userList} columns={columns} />
+          <DataTable
+            data={users?.data ?? []}
+            columns={columns}
+            page={page}
+            size={size}
+            total={users?.data?.length ?? 0}
+          />
         </div>
       </Main>
 

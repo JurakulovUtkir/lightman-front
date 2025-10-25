@@ -1,10 +1,8 @@
 // /src/stores/authStore.ts
 import Cookies from 'js-cookie'
+import { ACCESS_TOKEN, USER_DATA } from '@/constants'
 import { toast } from 'sonner'
 import { create } from 'zustand'
-
-const ACCESS_TOKEN = 'thisisjustarandomstring'
-const USER_DATA = 'user_data'
 
 interface AuthUser {
   id: string
@@ -67,7 +65,14 @@ export const useAuthStore = create<AuthState>()((set) => {
       setAccessToken: (accessToken) =>
         set((state) => {
           if (accessToken) {
-            Cookies.set(ACCESS_TOKEN, JSON.stringify(accessToken))
+            Cookies.set(ACCESS_TOKEN, accessToken, { path: '/' })
+            return {
+              ...state,
+              auth: {
+                ...state.auth,
+                accessToken,
+              },
+            }
           } else {
             Cookies.remove(ACCESS_TOKEN)
           }

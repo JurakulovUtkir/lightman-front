@@ -1,12 +1,10 @@
-'use client'
-
 import { useState } from 'react'
 import { IconAlertTriangle } from '@tabler/icons-react'
-import { showSubmittedData } from '@/utils/show-submitted-data'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { ConfirmDialog } from '@/components/confirm-dialog'
+import { useDeleteUser } from '../data/hooks'
 import { User } from '../data/schema'
 
 interface Props {
@@ -17,12 +15,14 @@ interface Props {
 
 export function UsersDeleteDialog({ open, onOpenChange, currentRow }: Props) {
   const [value, setValue] = useState('')
-
+  const { mutate, isPending } = useDeleteUser()
   const handleDelete = () => {
-    if (value.trim() !== currentRow.username) return
-
-    onOpenChange(false)
-    showSubmittedData(currentRow, 'The following user has been deleted:')
+    if (value.trim() !== currentRow.full_name) return
+    mutate(currentRow.id, {
+      onSuccess: () => {
+        onOpenChange(false)
+      },
+    })
   }
 
   return (
@@ -30,7 +30,7 @@ export function UsersDeleteDialog({ open, onOpenChange, currentRow }: Props) {
       open={open}
       onOpenChange={onOpenChange}
       handleConfirm={handleDelete}
-      disabled={value.trim() !== currentRow.username}
+      disabled={value.trim() !== currentRow.full_name}
       title={
         <span className='text-destructive'>
           <IconAlertTriangle
@@ -44,7 +44,7 @@ export function UsersDeleteDialog({ open, onOpenChange, currentRow }: Props) {
         <div className='space-y-4'>
           <p className='mb-2'>
             Are you sure you want to delete{' '}
-            <span className='font-bold'>{currentRow.username}</span>?
+            <span className='font-bold'>{currentRow.full_name}</span>?
             <br />
             This action will permanently remove the user with the role of{' '}
             <span className='font-bold'>
@@ -70,8 +70,9 @@ export function UsersDeleteDialog({ open, onOpenChange, currentRow }: Props) {
           </Alert>
         </div>
       }
-      confirmText='Delete'
+      confirmText={isPending ? 'Deleting' : 'Delete'}
       destructive
+      isLoading={isPending}
     />
   )
 }

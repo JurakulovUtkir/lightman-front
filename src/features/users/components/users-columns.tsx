@@ -1,4 +1,5 @@
 import { ColumnDef } from '@tanstack/react-table'
+import { formatDateToLongString } from '@/lib/dateFormatter'
 import { cn } from '@/lib/utils'
 import { Badge } from '@/components/ui/badge'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -19,7 +20,7 @@ export const columns: ColumnDef<User>[] = [
         }
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
         aria-label='Select all'
-        className='translate-y-[2px]'
+        className='translate-y-0.5'
       />
     ),
     meta: {
@@ -33,19 +34,19 @@ export const columns: ColumnDef<User>[] = [
         checked={row.getIsSelected()}
         onCheckedChange={(value) => row.toggleSelected(!!value)}
         aria-label='Select row'
-        className='translate-y-[2px]'
+        className='translate-y-0.5'
       />
     ),
     enableSorting: false,
     enableHiding: false,
   },
   {
-    accessorKey: 'username',
+    accessorKey: 'full_name',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Username' />
+      <DataTableColumnHeader column={column} title='Full name' />
     ),
     cell: ({ row }) => (
-      <LongText className='max-w-36'>{row.getValue('username')}</LongText>
+      <LongText className='max-w-36'>{row.getValue('full_name')}</LongText>
     ),
     meta: {
       className: cn(
@@ -55,36 +56,18 @@ export const columns: ColumnDef<User>[] = [
       ),
     },
     enableHiding: false,
+    enableSorting: false,
   },
+
   {
-    id: 'fullName',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Name' />
-    ),
-    cell: ({ row }) => {
-      const { firstName, lastName } = row.original
-      const fullName = `${firstName} ${lastName}`
-      return <LongText className='max-w-36'>{fullName}</LongText>
-    },
-    meta: { className: 'w-36' },
-  },
-  {
-    accessorKey: 'email',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Email' />
-    ),
-    cell: ({ row }) => (
-      <div className='w-fit text-nowrap'>{row.getValue('email')}</div>
-    ),
-  },
-  {
-    accessorKey: 'phoneNumber',
+    accessorKey: 'phone_number',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='Phone Number' />
     ),
-    cell: ({ row }) => <div>{row.getValue('phoneNumber')}</div>,
+    cell: ({ row }) => <div>{row.getValue('phone_number')}</div>,
     enableSorting: false,
   },
+
   {
     accessorKey: 'status',
     header: ({ column }) => (
@@ -135,6 +118,27 @@ export const columns: ColumnDef<User>[] = [
     enableSorting: false,
     enableHiding: false,
   },
+  {
+    accessorKey: 'is_verified',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Is verified' />
+    ),
+    cell: ({ row }) => (
+      <div>{row.getValue('is_verified') ? 'Verified' : 'Not Verified'}</div>
+    ),
+    enableSorting: false,
+  },
+  {
+    accessorKey: 'created_at',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Created at' />
+    ),
+    cell: ({ row }) => (
+      <div>{formatDateToLongString(row.getValue('created_at'))}</div>
+    ),
+    enableSorting: false,
+  },
+
   {
     id: 'actions',
     cell: DataTableRowActions,

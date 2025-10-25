@@ -1,7 +1,6 @@
 import axios from 'axios'
 import Cookies from 'js-cookie'
-
-const ACCESS_TOKEN = 'access_token'
+import { ACCESS_TOKEN } from '@/constants'
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_BASE_URL,

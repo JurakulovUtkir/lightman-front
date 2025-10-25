@@ -1,4 +1,6 @@
+import Cookies from 'js-cookie'
 import { createFileRoute, redirect } from '@tanstack/react-router'
+import { ACCESS_TOKEN } from '@/constants'
 import { useAuthStore } from '@/stores/authStore'
 import { AuthenticatedLayout } from '@/components/layout/authenticated-layout'
 import { getMe } from '@/features/auth/data/api'
@@ -6,7 +8,9 @@ import { getMe } from '@/features/auth/data/api'
 export const Route = createFileRoute('/_authenticated')({
   component: AuthenticatedLayout,
   beforeLoad: async ({ context, location }) => {
-    const accessToken = useAuthStore.getState().auth.accessToken
+    // const accessToken = useAuthStore.getState().auth.accessToken
+
+    const accessToken = Cookies.get(ACCESS_TOKEN)
 
     if (!accessToken) {
       throw redirect({

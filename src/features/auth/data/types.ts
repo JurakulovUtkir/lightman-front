@@ -1,5 +1,6 @@
 // /src/features/auth/sign-in/data/types.ts
 import { z } from 'zod'
+import { ApiResponse } from '@/constants'
 
 export const signInSchema = z.object({
   phone_number: z.string(),
@@ -30,28 +31,13 @@ export type UserType = {
   avatar?: string
 }
 
-export interface SignInResponse {
-  message: string
-  statusCode: number
-  data: {
-    user: UserType
-    token: string
-  }
-  error: null
-}
-export interface SignUpResponse {
-  message: string
-  statusCode: number
-  data: {
-    user: Partial<UserType>
-    token: string
-  }
-  error: null
-}
+export type SignInResponse = ApiResponse<{
+  user: UserType
+  token: string
+}>
+export type SignUpResponse = ApiResponse<{
+  user: Partial<UserType>
+  token: string
+}>
 
-export interface GetMeResponse {
-  message: string
-  statusCode: number
-  data: UserType
-  error: null
-}
+export type GetMeResponse = ApiResponse<UserType>
