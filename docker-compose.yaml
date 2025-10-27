@@ -1,0 +1,13 @@
+# docker-compose.yml (PROD)
+version: "3.9"
+services:
+  web:
+    build:
+      context: .
+    # optional: name your image
+    image: vite-frontend:latest
+    ports:
+      - "8080:8080"
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
