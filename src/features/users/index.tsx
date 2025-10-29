@@ -12,8 +12,17 @@ import UsersProvider from './context/users-context'
 import { useGetUsers } from './data/hooks'
 
 export default function Users() {
-  const { page, size } = useSearch({ from: '/_authenticated/users/' })
-  const { data: users } = useGetUsers()
+  const { offset, limit } = useSearch({
+    from: '/_authenticated/users/',
+  })
+  const currentOffset = offset ?? 0
+  const currentLimit = limit ?? 20
+
+  const { data } = useGetUsers({
+    offset: currentOffset,
+    limit: currentLimit,
+  })
+
   return (
     <UsersProvider>
       <Header fixed>
@@ -36,11 +45,11 @@ export default function Users() {
         </div>
         <div className='-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-y-0 lg:space-x-12'>
           <DataTable
-            data={users?.data ?? []}
+            data={data?.data.items?.length ? data.data.items : []}
             columns={columns}
-            page={page}
-            size={size}
-            total={users?.data?.length ?? 0}
+            offset={offset}
+            limit={limit}
+            total={data?.data.total ?? 0}
           />
         </div>
       </Main>

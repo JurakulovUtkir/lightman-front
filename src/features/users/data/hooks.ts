@@ -3,10 +3,20 @@ import { toast } from 'sonner'
 import { getUsers, deleteUser } from './api'
 import { UsersResponse } from './types'
 
-export const useGetUsers = () => {
+export const useGetUsers = ({
+  limit,
+  offset,
+}: {
+  limit?: number
+  offset?: number
+}) => {
   return useQuery<UsersResponse>({
-    queryKey: ['users'],
-    queryFn: () => getUsers(),
+    queryKey: ['users', limit, offset],
+    queryFn: () =>
+      getUsers({
+        limit,
+        offset,
+      }),
   })
 }
 

@@ -5,11 +5,15 @@ import { NetworkCategoryResponse } from './types'
 export const getCategories = async ({
   limit,
   offset,
+  search,
 }: {
   limit?: number
   offset?: number
+  search?: string
 }): Promise<NetworkCategoryResponse> => {
-  const response = await api.get(`/categories?limit=${limit}&offset=${offset}`)
+  const response = await api.get(
+    `/categories?limit=${limit}&offset=${offset}${search && `&search=${search}`}`
+  )
   return response.data
 }
 export const getCategory = async (

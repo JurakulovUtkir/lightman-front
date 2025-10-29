@@ -12,16 +12,19 @@ import { NetworkCategorySchema } from './schema'
 export const useNetworkCategories = ({
   limit,
   offset,
+  search = '',
 }: {
   limit?: number
   offset?: number
+  search?: string
 }) => {
   return useQuery({
-    queryKey: ['categories', limit, offset],
+    queryKey: ['categories', limit, offset, search],
     queryFn: () =>
       getCategories({
         limit,
         offset,
+        search,
       }),
   })
 }
