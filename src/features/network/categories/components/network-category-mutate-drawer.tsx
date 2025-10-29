@@ -21,6 +21,7 @@ import {
   SheetTitle,
 } from '@/components/ui/sheet'
 import { Switch } from '@/components/ui/switch'
+import { NetworkTypesDialogType } from '../../types/context'
 import {
   useCreateNetworkCategory,
   useUpdateNetworkCategory,
@@ -31,12 +32,18 @@ interface Props {
   open: boolean
   onOpenChange: (open: boolean) => void
   currentRow?: NetworkCategorySchema
+  setCurrentRow?: React.Dispatch<
+    React.SetStateAction<NetworkCategorySchema | null>
+  >
+  setOpen?: (str: NetworkTypesDialogType | null) => void
 }
 
 export function NetworkCategoryMutateDrawer({
   open,
   onOpenChange,
   currentRow,
+  setCurrentRow,
+  setOpen,
 }: Props) {
   const createNetworkCategory = useCreateNetworkCategory()
   const updateNetworkCategory = useUpdateNetworkCategory()
@@ -75,6 +82,13 @@ export function NetworkCategoryMutateDrawer({
           form.reset()
         },
       })
+    }
+  }
+
+  const handleDelete = () => {
+    if (isUpdate && setCurrentRow && setOpen && currentRow) {
+      setCurrentRow(currentRow)
+      setOpen('delete')
     }
   }
 
@@ -140,6 +154,11 @@ export function NetworkCategoryMutateDrawer({
           </Form>
         </div>
         <SheetFooter className='gap-2'>
+          {isUpdate && (
+            <Button onClick={handleDelete} size='sm' variant='destructive'>
+              Delete
+            </Button>
+          )}
           <SheetClose asChild>
             <Button variant='outline'>Close</Button>
           </SheetClose>

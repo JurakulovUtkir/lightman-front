@@ -26,6 +26,19 @@ export function FormFieldWrapper<TFieldValues extends FieldValues>({
   type = 'text',
   suffix,
 }: FormFieldWrapperProps<TFieldValues>) {
+  // Format number with spaces for display
+  const formatNumber = (value: number | undefined): string => {
+    if (value === undefined || value === null || isNaN(value)) return ''
+    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
+  }
+
+  // Parse formatted string back to number
+  const parseNumber = (value: string): number | undefined => {
+    const cleaned = value.replace(/\s/g, '')
+    const parsed = parseFloat(cleaned)
+    return isNaN(parsed) ? undefined : parsed
+  }
+
   return (
     <FormField
       control={control}
@@ -44,23 +57,29 @@ export function FormFieldWrapper<TFieldValues extends FieldValues>({
             ) : (
               <div className='relative'>
                 <Input
-                  {...field}
-                  value={field.value || ''}
                   placeholder={placeholder}
-                  type={type}
+                  type={type === 'number' ? 'text' : type}
                   className={
                     type === 'number'
                       ? 'appearance-none pr-10 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none'
                       : ''
                   }
+                  value={
+                    type === 'number'
+                      ? formatNumber(field.value as number)
+                      : field.value || ''
+                  }
                   onChange={(e) => {
                     if (type === 'number') {
-                      const value = e.target.valueAsNumber
-                      field.onChange(isNaN(value) ? undefined : value)
+                      const parsedValue = parseNumber(e.target.value)
+                      field.onChange(parsedValue)
                     } else {
                       field.onChange(e.target.value)
                     }
                   }}
+                  onBlur={field.onBlur}
+                  name={field.name}
+                  ref={field.ref}
                 />
                 {suffix && (
                   <span className='text-muted-foreground pointer-events-none absolute inset-y-0 right-3 flex items-center text-[10px]'>

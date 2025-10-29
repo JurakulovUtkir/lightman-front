@@ -2,7 +2,11 @@ import React, { useState } from 'react'
 import useDialogState from '@/hooks/use-dialog-state'
 import { NetworkCategorySchema } from '../data/schema'
 
-type NetworkCategoryDialogType = 'create' | 'update' | 'delete' | 'import'
+export type NetworkCategoryDialogType =
+  | 'create'
+  | 'update'
+  | 'delete'
+  | 'import'
 
 interface NetworkCategoryContextType {
   open: NetworkCategoryDialogType | null
@@ -26,11 +30,11 @@ export default function NetworkCategoryProvider({ children }: Props) {
     null
   )
   return (
-    <NetworkCategoryContext
+    <NetworkCategoryContext.Provider
       value={{ open, setOpen, currentRow, setCurrentRow }}
     >
       {children}
-    </NetworkCategoryContext>
+    </NetworkCategoryContext.Provider>
   )
 }
 
@@ -40,7 +44,7 @@ export const useNetworkCategoryContext = () => {
 
   if (!networkCategoryContext) {
     throw new Error(
-      'useNetworkCategory has to be used within <NetworkCategoryContext>'
+      'useNetworkCategory has to be used within <NetworkCategoryProvider>'
     )
   }
 

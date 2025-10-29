@@ -1,12 +1,11 @@
 import { ColumnDef } from '@tanstack/react-table'
-import { formatDateToLongString } from '@/lib/dateFormatter'
 import { formatPrice } from '@/utils/formatPrice'
 import { Checkbox } from '@/components/ui/checkbox'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@/components/ui/tooltip'
+// import {
+//   Tooltip,
+//   TooltipContent,
+//   TooltipTrigger,
+// } from '@/components/ui/tooltip'
 import { DataTableColumnHeader } from '@/components/table/data-table-column-header'
 import { NetworkSocialSchema } from '../data/schema'
 import { DataTableRowActions } from './data-table-row-actions'
@@ -71,25 +70,7 @@ export const columns: ColumnDef<NetworkSocialSchema>[] = [
     enableHiding: false,
   },
   //   Need to add network type and category
-  {
-    accessorKey: 'link',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Link' />
-    ),
-    cell: ({ row }) => (
-      <div>
-        <a
-          href={row.getValue('link')}
-          target='_blank'
-          className='text-primary hover:underline'
-        >
-          {row.getValue('link')}
-        </a>
-      </div>
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
+
   {
     accessorKey: 'subscriber_count',
     header: ({ column }) => (
@@ -115,7 +96,7 @@ export const columns: ColumnDef<NetworkSocialSchema>[] = [
   {
     accessorKey: 'buy_price',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Buy Price' />
+      <DataTableColumnHeader column={column} title='Buy Price (UZS)' />
     ),
     cell: ({ row }) => <div>{formatPrice(row.getValue('buy_price'))}</div>,
     enableSorting: false,
@@ -124,7 +105,7 @@ export const columns: ColumnDef<NetworkSocialSchema>[] = [
   {
     accessorKey: 'standard_sell_price',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Standard Price' />
+      <DataTableColumnHeader column={column} title='Standard Price (UZS)' />
     ),
     cell: ({ row }) => (
       <div>{formatPrice(row.getValue('standard_sell_price'))}</div>
@@ -135,7 +116,7 @@ export const columns: ColumnDef<NetworkSocialSchema>[] = [
   {
     accessorKey: 'vip_sell_price',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Vip Price' />
+      <DataTableColumnHeader column={column} title='Vip Price (UZS)' />
     ),
     cell: ({ row }) => <div>{formatPrice(row.getValue('vip_sell_price'))}</div>,
     enableSorting: false,
@@ -144,7 +125,7 @@ export const columns: ColumnDef<NetworkSocialSchema>[] = [
   {
     accessorKey: 'no_watermark_sell_price',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='No Watermark Price' />
+      <DataTableColumnHeader column={column} title='No Watermark Price (UZS)' />
     ),
     cell: ({ row }) => (
       <div>{formatPrice(row.getValue('no_watermark_sell_price'))}</div>
@@ -155,7 +136,7 @@ export const columns: ColumnDef<NetworkSocialSchema>[] = [
   {
     accessorKey: 'balance',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Balance' />
+      <DataTableColumnHeader column={column} title='Balance (UZS)' />
     ),
     cell: ({ row }) => <div>{formatPrice(row.getValue('balance'))}</div>,
     enableSorting: false,
@@ -163,47 +144,55 @@ export const columns: ColumnDef<NetworkSocialSchema>[] = [
   },
 
   {
-    accessorKey: 'created_at',
+    accessorKey: 'link',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Creation date' />
+      <DataTableColumnHeader column={column} title='Link' />
     ),
     cell: ({ row }) => (
-      <div>{formatDateToLongString(row.getValue('created_at'))}</div>
+      <div>
+        <a
+          href={row.getValue('link')}
+          target='_blank'
+          className='text-primary hover:underline'
+        >
+          {row.getValue('link')}
+        </a>
+      </div>
     ),
     enableSorting: false,
     enableHiding: false,
   },
-  {
-    accessorKey: 'contact_info',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Contact info' />
-    ),
-    cell: ({ row }) => {
-      const info = row.original.contact_info
-      const contactInfo = info
-        ? info?.length >= 20
-          ? `${info.slice(0, 20)} ...`
-          : info
-        : '-'
+  // {
+  //   accessorKey: 'contact_info',
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader column={column} title='Contact info' />
+  //   ),
+  //   cell: ({ row }) => {
+  //     const info = row.original.contact_info
+  //     const contactInfo = info
+  //       ? info?.length >= 20
+  //         ? `${info.slice(0, 20)} ...`
+  //         : info
+  //       : '-'
 
-      return (
-        <div>
-          {info && info?.length >= 20 ? (
-            <Tooltip>
-              <TooltipTrigger>{contactInfo}</TooltipTrigger>
-              <TooltipContent className='max-w-[350px] md:max-w-[500px]'>
-                {row.getValue('contact_info')}
-              </TooltipContent>
-            </Tooltip>
-          ) : (
-            <p>{info?.length ? info : '-'}</p>
-          )}
-        </div>
-      )
-    },
-    enableSorting: false,
-    enableHiding: false,
-  },
+  //     return (
+  //       <div>
+  //         {info && info?.length >= 20 ? (
+  //           <Tooltip>
+  //             <TooltipTrigger>{contactInfo}</TooltipTrigger>
+  //             <TooltipContent className='max-w-[350px] md:max-w-[500px]'>
+  //               {row.getValue('contact_info')}
+  //             </TooltipContent>
+  //           </Tooltip>
+  //         ) : (
+  //           <p>{info?.length ? info : '-'}</p>
+  //         )}
+  //       </div>
+  //     )
+  //   },
+  //   enableSorting: false,
+  //   enableHiding: false,
+  // },
   {
     id: 'actions',
     cell: ({ row }) => (

@@ -35,6 +35,8 @@ export function NetworkTypesDialogs() {
               }, 500)
             }}
             currentRow={currentRow}
+            setCurrentRow={setCurrentRow}
+            setOpen={setOpen}
           />
 
           <ConfirmDialog

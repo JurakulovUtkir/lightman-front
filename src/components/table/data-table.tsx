@@ -89,7 +89,7 @@ export function DataTable<TData, TValue>({
     <div className='space-y-4'>
       <div className='overflow-hidden rounded-md border'>
         <Table>
-          <TableHeader className='bg-primary-100'>
+          <TableHeader className='bg-primary-foreground'>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {shouldShowExpandColumn && <TableHead className='w-12' />}

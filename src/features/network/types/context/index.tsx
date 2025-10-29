@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import useDialogState from '@/hooks/use-dialog-state'
 import { NetworkTypeSchema } from '../data/schema'
 
-type NetworkTypesDialogType = 'create' | 'update' | 'delete' | 'import'
+export type NetworkTypesDialogType = 'create' | 'update' | 'delete' | 'import'
 
 interface NetworkTypesContextType {
   open: NetworkTypesDialogType | null
@@ -23,9 +23,11 @@ export default function NetworkTypesProvider({ children }: Props) {
   const [open, setOpen] = useDialogState<NetworkTypesDialogType>(null)
   const [currentRow, setCurrentRow] = useState<NetworkTypeSchema | null>(null)
   return (
-    <NetworkTypesContext value={{ open, setOpen, currentRow, setCurrentRow }}>
+    <NetworkTypesContext.Provider
+      value={{ open, setOpen, currentRow, setCurrentRow }}
+    >
       {children}
-    </NetworkTypesContext>
+    </NetworkTypesContext.Provider>
   )
 }
 
@@ -35,7 +37,7 @@ export const useNetworkTypeContext = () => {
 
   if (!networkTypesContext) {
     throw new Error(
-      'useNetworkTypes has to be used within <NetworkTypesContext>'
+      'useNetworkTypes has to be used within <NetworkTypesProvider>'
     )
   }
 

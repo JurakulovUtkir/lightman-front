@@ -21,6 +21,7 @@ import {
   SheetTitle,
 } from '@/components/ui/sheet'
 import { Switch } from '@/components/ui/switch'
+import { NetworkTypesDialogType } from '../context'
 import { useCreateNetworkType, useUpdateNetworkType } from '../data/hooks'
 import { NetworkTypeSchema } from '../data/schema'
 
@@ -28,12 +29,16 @@ interface Props {
   open: boolean
   onOpenChange: (open: boolean) => void
   currentRow?: NetworkTypeSchema
+  setCurrentRow?: React.Dispatch<React.SetStateAction<NetworkTypeSchema | null>>
+  setOpen?: (str: NetworkTypesDialogType | null) => void
 }
 
 export function NetworkTypeMutateDrawer({
   open,
   onOpenChange,
   currentRow,
+  setCurrentRow,
+  setOpen,
 }: Props) {
   const createNetworkType = useCreateNetworkType()
   const updateNetworkType = useUpdateNetworkType()
@@ -48,7 +53,10 @@ export function NetworkTypeMutateDrawer({
 
   const form = useForm<NetworkTypeForm>({
     resolver: zodResolver(formSchema),
-    defaultValues: currentRow,
+    defaultValues: currentRow || {
+      name: '',
+      is_active: true,
+    },
   })
 
   const onSubmit = (values: NetworkTypeForm) => {
@@ -72,6 +80,13 @@ export function NetworkTypeMutateDrawer({
           form.reset()
         },
       })
+    }
+  }
+
+  const handleDelete = () => {
+    if (isUpdate && setCurrentRow && setOpen && currentRow) {
+      setCurrentRow(currentRow)
+      setOpen('delete')
     }
   }
 
@@ -135,6 +150,11 @@ export function NetworkTypeMutateDrawer({
           </Form>
         </div>
         <SheetFooter className='gap-2'>
+          {isUpdate && (
+            <Button onClick={handleDelete} size='sm' variant='destructive'>
+              Delete
+            </Button>
+          )}
           <SheetClose asChild>
             <Button variant='outline'>Close</Button>
           </SheetClose>

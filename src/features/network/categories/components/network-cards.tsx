@@ -1,4 +1,4 @@
-import { IconPencil, IconTrash } from '@tabler/icons-react'
+import { IconPencil } from '@tabler/icons-react'
 import { formatToYearMonthDay } from '@/lib/dateFormatter'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardTitle } from '@/components/ui/card'
@@ -12,10 +12,6 @@ const NetworkCards = ({
 }) => {
   const { setOpen, setCurrentRow } = useNetworkCategoryContext()
 
-  const handleDelete = (payload: NetworkCategorySchema) => {
-    setCurrentRow(payload)
-    setOpen('delete')
-  }
   const handleEdit = (payload: NetworkCategorySchema) => {
     setCurrentRow(payload)
     setOpen('update')
@@ -35,14 +31,6 @@ const NetworkCards = ({
                 className='rounded-full'
               >
                 <IconPencil />
-              </Button>
-              <Button
-                onClick={() => handleDelete(item)}
-                size='sm'
-                variant='ghost'
-                className='rounded-full'
-              >
-                <IconTrash />
               </Button>
             </div>
           </CardContent>

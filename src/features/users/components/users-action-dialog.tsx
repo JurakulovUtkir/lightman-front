@@ -21,6 +21,7 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { Switch } from '@/components/ui/switch'
 import { PasswordInput } from '@/components/password-input'
 import { PhoneInput } from '@/components/phone-inputs'
 import { SelectDropdown } from '@/components/select-dropdown'
@@ -46,26 +47,67 @@ const formSchema = z
 
     password: z
       .string()
-      .min(1, 'Password is required.')
-      .transform((pwd) => pwd.trim()),
-    confirmPassword: z.string().transform((pwd) => pwd.trim()),
+      .transform((pwd) => pwd.trim())
+      .optional(),
+    confirmPassword: z
+      .string()
+      .transform((pwd) => pwd.trim())
+      .optional(),
+    is_verified: z.boolean().optional(),
+    isUpdate: z.boolean().optional(),
   })
-  .refine(({ password }) => password.length >= 6, {
-    message: 'Password must be at least 6 characters long.',
-    path: ['password'],
-  })
-  .refine(({ password }) => /[a-z]/.test(password), {
-    message: 'Password must contain at least one lowercase letter.',
-    path: ['password'],
-  })
-  .refine(({ password }) => /\d/.test(password), {
-    message: 'Password must contain at least one number.',
-    path: ['password'],
-  })
-  .refine(({ password, confirmPassword }) => password === confirmPassword, {
-    message: "Passwords don't match.",
-    path: ['confirmPassword'],
-  })
+  .refine(
+    ({ password, isUpdate }) => {
+      // If updating and password is empty, skip validation
+      if (isUpdate && !password) return true
+      // If creating or password is provided, require it
+      return password && password.length > 0
+    },
+    {
+      message: 'Password is required.',
+      path: ['password'],
+    }
+  )
+  .refine(
+    ({ password, isUpdate }) => {
+      if (isUpdate && !password) return true
+      return password && password.length >= 6
+    },
+    {
+      message: 'Password must be at least 6 characters long.',
+      path: ['password'],
+    }
+  )
+  .refine(
+    ({ password, isUpdate }) => {
+      if (isUpdate && !password) return true
+      return password && /[a-z]/.test(password)
+    },
+    {
+      message: 'Password must contain at least one lowercase letter.',
+      path: ['password'],
+    }
+  )
+  .refine(
+    ({ password, isUpdate }) => {
+      if (isUpdate && !password) return true
+      return password && /\d/.test(password)
+    },
+    {
+      message: 'Password must contain at least one number.',
+      path: ['password'],
+    }
+  )
+  .refine(
+    ({ password, confirmPassword, isUpdate }) => {
+      if (isUpdate && !password) return true
+      return password === confirmPassword
+    },
+    {
+      message: "Passwords don't match.",
+      path: ['confirmPassword'],
+    }
+  )
 
 type UserForm = z.infer<typeof formSchema>
 
@@ -88,25 +130,36 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
       password: '',
       confirmPassword: '',
       role: currentRow?.role || 'user',
+      is_verified: currentRow?.is_verified,
+      isUpdate,
     },
   })
 
   const onSubmit = (data: UserForm) => {
+    // Remove password fields if updating and password is empty
+    const submitData = { ...data }
+    if (isUpdate && !submitData.password) {
+      delete submitData.password
+      delete submitData.confirmPassword
+    }
+    delete submitData.isUpdate
+
     if (isUpdate) {
       updateUser.mutate(
         {
           id: currentRow.id,
-          data,
+          data: submitData,
         },
         {
           onSuccess: () => {
+            toast.success('User updated successfully')
             onOpenChange(false)
             form.reset()
           },
         }
       )
     } else {
-      createUser.mutate(data, {
+      createUser.mutate(submitData, {
         onSuccess: () => {
           toast.success('Account created successfully')
           onOpenChange(false)
@@ -134,13 +187,32 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
             Click save when you&apos;re done.
           </DialogDescription>
         </DialogHeader>
-        <div className='-mr-4 h-105 w-full overflow-y-auto py-1 pr-4'>
+        <div className='w-full overflow-y-auto py-1 pr-4'>
           <Form {...form}>
             <form
               id='user-form'
               onSubmit={form.handleSubmit(onSubmit)}
               className='space-y-4 p-0.5'
             >
+              <FormField
+                control={form.control}
+                name='is_verified'
+                render={({ field }) => (
+                  <FormItem className='grid grid-cols-6 items-center space-y-0 gap-x-4 gap-y-1'>
+                    <FormLabel className='col-span-2 text-right'>
+                      Is verified
+                    </FormLabel>
+                    <FormControl>
+                      <Switch
+                        defaultChecked
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormMessage className='col-span-4 col-start-3' />
+                  </FormItem>
+                )}
+              />
               <FormField
                 control={form.control}
                 name='full_name'
@@ -213,14 +285,24 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
                     <FormLabel className='col-span-2 text-right'>
                       Password
                     </FormLabel>
-                    <FormControl>
-                      <PasswordInput
-                        placeholder='e.g., S3cur3P@ssw0rd'
-                        className='col-span-4'
-                        autoComplete='new-password'
-                        {...field}
-                      />
-                    </FormControl>
+                    <div className='col-span-4 space-y-1'>
+                      <FormControl>
+                        <PasswordInput
+                          placeholder={
+                            isUpdate
+                              ? 'Leave blank to keep current'
+                              : 'e.g., S3cur3P@ssw0rd'
+                          }
+                          autoComplete='new-password'
+                          {...field}
+                        />
+                      </FormControl>
+                      {isUpdate && (
+                        <p className='text-muted-foreground text-xs'>
+                          Leave blank to keep current password
+                        </p>
+                      )}
+                    </div>
                     <FormMessage className='col-span-4 col-start-3' />
                   </FormItem>
                 )}
@@ -236,7 +318,11 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
                     <FormControl>
                       <PasswordInput
                         disabled={!isPasswordTouched}
-                        placeholder='e.g., S3cur3P@ssw0rd'
+                        placeholder={
+                          isUpdate
+                            ? 'Leave blank to keep current'
+                            : 'e.g., S3cur3P@ssw0rd'
+                        }
                         className='col-span-4'
                         autoComplete='new-password'
                         {...field}
@@ -249,7 +335,7 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
             </form>
           </Form>
         </div>
-        <DialogFooter>
+        <DialogFooter className='mt-4'>
           <Button
             disabled={isUpdate ? updateUser.isPending : createUser.isPending}
             form='user-form'
