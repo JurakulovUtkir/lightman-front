@@ -41,7 +41,7 @@ const PhoneInput = React.forwardRef<HTMLInputElement, PhoneInputProps>(
         value={value}
         onChange={handleChange}
         maxLength={13}
-        placeholder='+998991853703'
+        placeholder='Enter phone number'
         className={cn(className)}
         ref={ref}
         {...props}

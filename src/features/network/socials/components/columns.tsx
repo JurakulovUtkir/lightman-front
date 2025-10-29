@@ -38,7 +38,21 @@ export const columns: ColumnDef<NetworkSocialSchema>[] = [
     enableSorting: false,
     enableHiding: false,
   },
-
+  {
+    accessorKey: 'is_active',
+    header: ({ column }) => <DataTableColumnHeader column={column} title='' />,
+    cell: ({ row }) => {
+      return (
+        <div>
+          <div
+            className={`${row.getValue('is_active') ? `bg-green-500` : `bg-destructive`} h-2 w-2 animate-pulse rounded-full`}
+          />
+        </div>
+      )
+    },
+    enableSorting: false,
+    enableHiding: false,
+  },
   {
     accessorKey: 'name',
     header: ({ column }) => (
@@ -47,9 +61,6 @@ export const columns: ColumnDef<NetworkSocialSchema>[] = [
     cell: ({ row }) => {
       return (
         <div className='flex items-center space-x-2'>
-          <span
-            className={`${row.getValue('is_active') ? `bg-green-500` : `bg-destructive`} h-2 w-2 animate-spin rounded-full`}
-          />
           <span className='max-w-32 truncate font-medium sm:max-w-72 md:max-w-124'>
             {row.getValue('name')}
           </span>

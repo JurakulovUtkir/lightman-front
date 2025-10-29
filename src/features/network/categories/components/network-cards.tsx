@@ -46,7 +46,10 @@ const NetworkCards = ({
               </Button>
             </div>
           </CardContent>
-          <CardFooter className='text-muted-foreground flex justify-end text-sm'>
+          <CardFooter className='text-muted-foreground flex items-center justify-between text-sm'>
+            <div
+              className={`${item.is_active ? `bg-green-500` : `bg-destructive`} h-2 w-2 animate-pulse rounded-full`}
+            />
             {formatToYearMonthDay(item.created_at)}
           </CardFooter>
         </Card>

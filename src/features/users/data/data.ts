@@ -22,25 +22,30 @@ export const userTypes = [
     label: 'Superadmin',
     value: 'superadmin',
     icon: IconShield,
+    disabled: true,
   },
   {
     label: 'Admin',
     value: 'admin',
     icon: IconUserShield,
+    disabled: true,
   },
   {
     label: 'Manager',
     value: 'manager',
     icon: IconUsersGroup,
+    disabled: true,
   },
   {
     label: 'Cashier',
     value: 'cashier',
     icon: IconCash,
+    disabled: true,
   },
   {
     label: 'User',
     value: 'user',
     icon: IconUser,
+    disabled: false,
   },
 ] as const

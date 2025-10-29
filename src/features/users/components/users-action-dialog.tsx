@@ -1,9 +1,8 @@
-'use client'
-
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { showSubmittedData } from '@/utils/show-submitted-data'
+import { UZ_PHONE_REGEX } from '@/constants'
+import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -23,74 +22,51 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { PasswordInput } from '@/components/password-input'
+import { PhoneInput } from '@/components/phone-inputs'
 import { SelectDropdown } from '@/components/select-dropdown'
 import { userTypes } from '../data/data'
+import { useCreateUser, useUpdateUser } from '../data/hooks'
 import { User } from '../data/schema'
 
 const formSchema = z
   .object({
-    firstName: z.string().min(1, 'First Name is required.'),
-    lastName: z.string().min(1, 'Last Name is required.'),
-    username: z.string().min(1, 'Username is required.'),
-    phoneNumber: z.string().min(1, 'Phone number is required.'),
-    email: z.email({
-      error: (iss) => (iss.input === '' ? 'Email is required.' : undefined),
-    }),
-    password: z.string().transform((pwd) => pwd.trim()),
-    role: z.string().min(1, 'Role is required.'),
+    full_name: z.string().min(3, 'Please enter full name'),
+    phone_number: z
+      .string()
+      .min(1, 'Please enter your phone number')
+      .regex(UZ_PHONE_REGEX, 'Please enter valid phone number'),
+    role: z
+      .union([
+        z.literal('user'),
+        z.literal('superadmin'),
+        z.literal('admin'),
+        z.literal('manager'),
+      ])
+      .optional(),
+
+    password: z
+      .string()
+      .min(1, 'Password is required.')
+      .transform((pwd) => pwd.trim()),
     confirmPassword: z.string().transform((pwd) => pwd.trim()),
-    isEdit: z.boolean(),
   })
-  .refine(
-    (data) => {
-      if (data.isEdit && !data.password) return true
-      return data.password.length > 0
-    },
-    {
-      message: 'Password is required.',
-      path: ['password'],
-    }
-  )
-  .refine(
-    ({ isEdit, password }) => {
-      if (isEdit && !password) return true
-      return password.length >= 8
-    },
-    {
-      message: 'Password must be at least 8 characters long.',
-      path: ['password'],
-    }
-  )
-  .refine(
-    ({ isEdit, password }) => {
-      if (isEdit && !password) return true
-      return /[a-z]/.test(password)
-    },
-    {
-      message: 'Password must contain at least one lowercase letter.',
-      path: ['password'],
-    }
-  )
-  .refine(
-    ({ isEdit, password }) => {
-      if (isEdit && !password) return true
-      return /\d/.test(password)
-    },
-    {
-      message: 'Password must contain at least one number.',
-      path: ['password'],
-    }
-  )
-  .refine(
-    ({ isEdit, password, confirmPassword }) => {
-      if (isEdit && !password) return true
-      return password === confirmPassword
-    },
-    {
-      message: "Passwords don't match.",
-      path: ['confirmPassword'],
-    }
-  )
+  .refine(({ password }) => password.length >= 6, {
+    message: 'Password must be at least 6 characters long.',
+    path: ['password'],
+  })
+  .refine(({ password }) => /[a-z]/.test(password), {
+    message: 'Password must contain at least one lowercase letter.',
+    path: ['password'],
+  })
+  .refine(({ password }) => /\d/.test(password), {
+    message: 'Password must contain at least one number.',
+    path: ['password'],
+  })
+  .refine(({ password, confirmPassword }) => password === confirmPassword, {
+    message: "Passwords don't match.",
+    path: ['confirmPassword'],
+  })
+
 type UserForm = z.infer<typeof formSchema>
 
 interface Props {
@@ -100,33 +76,44 @@ interface Props {
 }
 
 export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
-  const isEdit = !!currentRow
+  const isUpdate = !!currentRow
+  const createUser = useCreateUser()
+  const updateUser = useUpdateUser()
+
   const form = useForm<UserForm>({
     resolver: zodResolver(formSchema),
-    defaultValues: isEdit
-      ? {
-          ...currentRow,
-          password: '',
-          confirmPassword: '',
-          isEdit,
-        }
-      : {
-          firstName: '',
-          lastName: '',
-          username: '',
-          email: '',
-          role: '',
-          phoneNumber: '',
-          password: '',
-          confirmPassword: '',
-          isEdit,
-        },
+    defaultValues: {
+      full_name: currentRow?.full_name || '',
+      phone_number: currentRow?.phone_number || '+998',
+      password: '',
+      confirmPassword: '',
+      role: currentRow?.role || 'user',
+    },
   })
 
-  const onSubmit = (values: UserForm) => {
-    form.reset()
-    showSubmittedData(values)
-    onOpenChange(false)
+  const onSubmit = (data: UserForm) => {
+    if (isUpdate) {
+      updateUser.mutate(
+        {
+          id: currentRow.id,
+          data,
+        },
+        {
+          onSuccess: () => {
+            onOpenChange(false)
+            form.reset()
+          },
+        }
+      )
+    } else {
+      createUser.mutate(data, {
+        onSuccess: () => {
+          toast.success('Account created successfully')
+          onOpenChange(false)
+          form.reset()
+        },
+      })
+    }
   }
 
   const isPasswordTouched = !!form.formState.dirtyFields.password
@@ -141,13 +128,13 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
     >
       <DialogContent className='sm:max-w-lg'>
         <DialogHeader className='text-left'>
-          <DialogTitle>{isEdit ? 'Edit User' : 'Add New User'}</DialogTitle>
+          <DialogTitle>{isUpdate ? 'Edit User' : 'Add New User'}</DialogTitle>
           <DialogDescription>
-            {isEdit ? 'Update the user here. ' : 'Create new user here. '}
+            {isUpdate ? 'Update the user here. ' : 'Create new user here. '}
             Click save when you&apos;re done.
           </DialogDescription>
         </DialogHeader>
-        <div className='-mr-4 h-[26.25rem] w-full overflow-y-auto py-1 pr-4'>
+        <div className='-mr-4 h-105 w-full overflow-y-auto py-1 pr-4'>
           <Form {...form}>
             <form
               id='user-form'
@@ -156,15 +143,15 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
             >
               <FormField
                 control={form.control}
-                name='firstName'
+                name='full_name'
                 render={({ field }) => (
                   <FormItem className='grid grid-cols-6 items-center space-y-0 gap-x-4 gap-y-1'>
                     <FormLabel className='col-span-2 text-right'>
-                      First Name
+                      Full Name
                     </FormLabel>
                     <FormControl>
                       <Input
-                        placeholder='John'
+                        placeholder='Enter full name'
                         className='col-span-4'
                         autoComplete='off'
                         {...field}
@@ -174,83 +161,27 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
                   </FormItem>
                 )}
               />
+
               <FormField
                 control={form.control}
-                name='lastName'
-                render={({ field }) => (
-                  <FormItem className='grid grid-cols-6 items-center space-y-0 gap-x-4 gap-y-1'>
-                    <FormLabel className='col-span-2 text-right'>
-                      Last Name
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder='Doe'
-                        className='col-span-4'
-                        autoComplete='off'
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage className='col-span-4 col-start-3' />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name='username'
-                render={({ field }) => (
-                  <FormItem className='grid grid-cols-6 items-center space-y-0 gap-x-4 gap-y-1'>
-                    <FormLabel className='col-span-2 text-right'>
-                      Username
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder='john_doe'
-                        className='col-span-4'
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage className='col-span-4 col-start-3' />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name='email'
-                render={({ field }) => (
-                  <FormItem className='grid grid-cols-6 items-center space-y-0 gap-x-4 gap-y-1'>
-                    <FormLabel className='col-span-2 text-right'>
-                      Email
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder='john.doe@gmail.com'
-                        className='col-span-4'
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage className='col-span-4 col-start-3' />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name='phoneNumber'
+                name='phone_number'
                 render={({ field }) => (
                   <FormItem className='grid grid-cols-6 items-center space-y-0 gap-x-4 gap-y-1'>
                     <FormLabel className='col-span-2 text-right'>
                       Phone Number
                     </FormLabel>
                     <FormControl>
-                      <Input
-                        placeholder='+123456789'
-                        className='col-span-4'
+                      <PhoneInput
                         {...field}
+                        className='col-span-4'
+                        autoComplete='new-password'
                       />
                     </FormControl>
                     <FormMessage className='col-span-4 col-start-3' />
                   </FormItem>
                 )}
               />
+
               <FormField
                 control={form.control}
                 name='role'
@@ -264,9 +195,10 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
                       onValueChange={field.onChange}
                       placeholder='Select a role'
                       className='col-span-4'
-                      items={userTypes.map(({ label, value }) => ({
+                      items={userTypes.map(({ label, value, disabled }) => ({
                         label,
                         value,
+                        disabled,
                       }))}
                     />
                     <FormMessage className='col-span-4 col-start-3' />
@@ -285,6 +217,7 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
                       <PasswordInput
                         placeholder='e.g., S3cur3P@ssw0rd'
                         className='col-span-4'
+                        autoComplete='new-password'
                         {...field}
                       />
                     </FormControl>
@@ -305,6 +238,7 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
                         disabled={!isPasswordTouched}
                         placeholder='e.g., S3cur3P@ssw0rd'
                         className='col-span-4'
+                        autoComplete='new-password'
                         {...field}
                       />
                     </FormControl>
@@ -316,8 +250,14 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
           </Form>
         </div>
         <DialogFooter>
-          <Button type='submit' form='user-form'>
-            Save changes
+          <Button
+            disabled={isUpdate ? updateUser.isPending : createUser.isPending}
+            form='user-form'
+            type='submit'
+          >
+            {(isUpdate ? updateUser.isPending : createUser.isPending)
+              ? 'Loading...'
+              : 'Save changes'}
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -41,6 +41,21 @@ export const columns: ColumnDef<User>[] = [
     enableHiding: false,
   },
   {
+    accessorKey: 'is_verified',
+    header: ({ column }) => <DataTableColumnHeader column={column} title='' />,
+    cell: ({ row }) => {
+      return (
+        <div>
+          <div
+            className={`${row.getValue('is_verified') ? `bg-green-500` : `bg-destructive`} h-2 w-2 animate-pulse rounded-full`}
+          />
+        </div>
+      )
+    },
+    enableSorting: false,
+    enableHiding: false,
+  },
+  {
     accessorKey: 'full_name',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='Full name' />
