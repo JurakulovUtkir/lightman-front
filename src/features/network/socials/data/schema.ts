@@ -18,5 +18,13 @@ export const networkSocialSchema = z.object({
   subscriber_count: z.number().optional(),
   average_view_count: z.number().optional(),
   contact_info: z.string().optional().nullable(),
+  category: z.object({
+    id: z.string(),
+    name: z.string(),
+  }),
+  social_network_type: z.object({
+    id: z.string(),
+    name: z.string(),
+  }),
 })
 export type NetworkSocialSchema = z.infer<typeof networkSocialSchema>

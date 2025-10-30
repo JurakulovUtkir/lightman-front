@@ -1,16 +1,23 @@
 import { ColumnDef } from '@tanstack/react-table'
 import { formatPrice } from '@/utils/formatPrice'
 import { Checkbox } from '@/components/ui/checkbox'
+import { DataTableColumnHeader } from '@/components/table/data-table-column-header'
 // import {
 //   Tooltip,
 //   TooltipContent,
 //   TooltipTrigger,
 // } from '@/components/ui/tooltip'
-import { DataTableColumnHeader } from '@/components/table/data-table-column-header'
 import { NetworkSocialSchema } from '../data/schema'
+import { DataTableColumnCategoryHeader } from './data-table-column-category-header'
+import { DataTableColumnTypeHeader } from './data-table-column-type-header'
 import { DataTableRowActions } from './data-table-row-actions'
 
-export const columns: ColumnDef<NetworkSocialSchema>[] = [
+export const columns = (
+  selectedCategoryId: string | undefined,
+  onCategoryFilterChange: (categoryId: string | null) => void,
+  selectedTypeId: string | undefined,
+  onTypeFilterChange: (typeId: string | null) => void
+): ColumnDef<NetworkSocialSchema>[] => [
   {
     id: 'select',
     header: ({ table }) => (
@@ -69,7 +76,55 @@ export const columns: ColumnDef<NetworkSocialSchema>[] = [
     enableSorting: false,
     enableHiding: false,
   },
-  //   Need to add network type and category
+
+  {
+    accessorKey: 'social_network_type',
+    header: ({ column }) => (
+      <DataTableColumnTypeHeader
+        column={column}
+        title='Network type'
+        selectedFilter={selectedTypeId}
+        onFilterChange={onTypeFilterChange}
+        searchable={true}
+        useSearchableTypes={true}
+      />
+    ),
+    cell: ({ row }) => {
+      const type = row.original.social_network_type
+      return (
+        <div className='flex items-center space-x-2'>
+          <span className='max-w-32 truncate font-medium sm:max-w-72 md:max-w-124'>
+            {type?.name}
+          </span>
+        </div>
+      )
+    },
+    enableHiding: false,
+  },
+  {
+    accessorKey: 'category',
+    header: ({ column }) => (
+      <DataTableColumnCategoryHeader
+        column={column}
+        title='Category'
+        selectedFilter={selectedCategoryId}
+        onFilterChange={onCategoryFilterChange}
+        searchable={true}
+        useSearchableCategories={true}
+      />
+    ),
+    cell: ({ row }) => {
+      const category = row.original.category
+      return (
+        <div className='flex items-center space-x-2'>
+          <span className='max-w-32 truncate font-medium sm:max-w-72 md:max-w-124'>
+            {category?.name}
+          </span>
+        </div>
+      )
+    },
+    enableHiding: false,
+  },
 
   {
     accessorKey: 'subscriber_count',

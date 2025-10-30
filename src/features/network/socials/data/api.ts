@@ -5,11 +5,17 @@ import { NetworkSocialResponse } from './types'
 export const getSocials = async ({
   limit,
   offset,
+  category_id,
+  social_network_type_id,
 }: {
   limit?: number
   offset?: number
+  category_id?: string
+  social_network_type_id?: string
 }): Promise<NetworkSocialResponse> => {
-  const response = await api.get(`/socials?limit=${limit}&offset=${offset}`)
+  const response = await api.get(
+    `/socials?limit=${limit}&offset=${offset}${category_id ? `&category_id=${category_id}` : ``}${social_network_type_id ? `&social_network_type_id=${social_network_type_id}` : ``}`
+  )
   return response.data
 }
 export const getSocial = async (id: string): Promise<NetworkSocialSchema> => {

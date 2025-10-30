@@ -12,16 +12,22 @@ import { NetworkSocialSchema } from './schema'
 export const useNetworkSocials = ({
   limit,
   offset,
+  category_id,
+  social_network_type_id,
 }: {
   limit?: number
   offset?: number
+  category_id?: string
+  social_network_type_id?: string
 }) => {
   return useQuery({
-    queryKey: ['socials', limit, offset],
+    queryKey: ['socials', limit, offset, category_id, social_network_type_id],
     queryFn: () =>
       getSocials({
         limit,
         offset,
+        category_id,
+        social_network_type_id,
       }),
   })
 }

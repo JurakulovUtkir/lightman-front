@@ -1,4 +1,4 @@
-import { useSearch } from '@tanstack/react-router'
+import { useSearch, useNavigate } from '@tanstack/react-router'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
@@ -12,7 +12,8 @@ import NetworkSocialProvider from './context'
 import { useNetworkSocials } from './data/hooks'
 
 const NetworkSocials = () => {
-  const { offset, limit } = useSearch({
+  const navigate = useNavigate()
+  const { offset, limit, category_id, social_network_type_id } = useSearch({
     from: '/_authenticated/network/socials',
   })
   const currentOffset = offset ?? 0
@@ -21,7 +22,32 @@ const NetworkSocials = () => {
   const { data } = useNetworkSocials({
     offset: currentOffset,
     limit: currentLimit,
+    category_id,
+    social_network_type_id,
   })
+
+  const handleCategoryFilterChange = (categoryId: string | null) => {
+    navigate({
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore
+      search: (prev) => ({
+        ...prev,
+        category_id: categoryId || undefined,
+        offset: 0,
+      }),
+    })
+  }
+  const handleTypeFilterChange = (typeId: string | null) => {
+    navigate({
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore
+      search: (prev) => ({
+        ...prev,
+        social_network_type_id: typeId || undefined,
+        offset: 0,
+      }),
+    })
+  }
 
   return (
     <NetworkSocialProvider>
@@ -36,10 +62,10 @@ const NetworkSocials = () => {
         <div className='mb-2 flex flex-wrap items-center justify-between space-y-2 gap-x-4'>
           <div>
             <h2 className='text-2xl font-bold tracking-tight'>
-              Network Categories
+              Network Socials
             </h2>
             <p className='text-muted-foreground'>
-              Here&apos;s a list of network categories!
+              Here&apos;s a list of network socials!
             </p>
           </div>
           <NetworkSocialPrimaryButtons />
@@ -47,7 +73,12 @@ const NetworkSocials = () => {
         <div className='-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-y-0 lg:space-x-12'>
           <DataTable
             data={data?.data.items?.length ? data.data.items : []}
-            columns={columns}
+            columns={columns(
+              category_id,
+              handleCategoryFilterChange,
+              social_network_type_id,
+              handleTypeFilterChange
+            )}
             offset={offset}
             limit={limit}
             total={data?.data.total ?? 0}

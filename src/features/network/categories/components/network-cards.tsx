@@ -1,3 +1,4 @@
+import { useNavigate } from '@tanstack/react-router'
 import { IconPencil } from '@tabler/icons-react'
 import { formatToYearMonthDay } from '@/lib/dateFormatter'
 import { Button } from '@/components/ui/button'
@@ -10,22 +11,38 @@ const NetworkCards = ({
 }: {
   data: { items: NetworkCategorySchema[]; total: number } | undefined
 }) => {
+  const navigate = useNavigate()
   const { setOpen, setCurrentRow } = useNetworkCategoryContext()
 
-  const handleEdit = (payload: NetworkCategorySchema) => {
+  const handleEdit = (e: React.MouseEvent, payload: NetworkCategorySchema) => {
+    e.stopPropagation()
     setCurrentRow(payload)
     setOpen('update')
+  }
+
+  const handleCardClick = (categoryId: string) => {
+    navigate({
+      to: '/network/socials',
+      search: {
+        offset: 0,
+        category_id: categoryId,
+      },
+    })
   }
 
   return data?.items.length ? (
     <div className='grid grid-cols-6 gap-4'>
       {data.items.map((item) => (
-        <Card key={item.id}>
+        <Card
+          key={item.id}
+          className='cursor-pointer transition-all hover:shadow-lg'
+          onClick={() => handleCardClick(item.id)}
+        >
           <CardContent className='flex items-center justify-between'>
             <CardTitle>{item.name}</CardTitle>
             <div className='flex items-center'>
               <Button
-                onClick={() => handleEdit(item)}
+                onClick={(e) => handleEdit(e, item)}
                 size='sm'
                 variant='ghost'
                 className='rounded-full'
