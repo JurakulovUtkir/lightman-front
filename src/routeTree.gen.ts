@@ -34,6 +34,9 @@ import { Route as AuthenticatedAppsIndexRouteImport } from './routes/_authentica
 import { Route as ClerkAuthenticatedUserManagementRouteImport } from './routes/clerk/_authenticated/user-management'
 import { Route as ClerkauthSignUpRouteImport } from './routes/clerk/(auth)/sign-up'
 import { Route as ClerkauthSignInRouteImport } from './routes/clerk/(auth)/sign-in'
+import { Route as AuthenticatedStakeholderFoundersRouteImport } from './routes/_authenticated/stakeholder/founders'
+import { Route as AuthenticatedStakeholderDistrubitionsRouteImport } from './routes/_authenticated/stakeholder/distrubitions'
+import { Route as AuthenticatedStakeholderDistributorsRouteImport } from './routes/_authenticated/stakeholder/distributors'
 import { Route as AuthenticatedSettingsNotificationsRouteImport } from './routes/_authenticated/settings/notifications'
 import { Route as AuthenticatedSettingsDisplayRouteImport } from './routes/_authenticated/settings/display'
 import { Route as AuthenticatedSettingsAppearanceRouteImport } from './routes/_authenticated/settings/appearance'
@@ -168,6 +171,24 @@ const ClerkauthSignInRoute = ClerkauthSignInRouteImport.update({
   path: '/sign-in',
   getParentRoute: () => ClerkauthRouteRoute,
 } as any)
+const AuthenticatedStakeholderFoundersRoute =
+  AuthenticatedStakeholderFoundersRouteImport.update({
+    id: '/stakeholder/founders',
+    path: '/stakeholder/founders',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedStakeholderDistrubitionsRoute =
+  AuthenticatedStakeholderDistrubitionsRouteImport.update({
+    id: '/stakeholder/distrubitions',
+    path: '/stakeholder/distrubitions',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedStakeholderDistributorsRoute =
+  AuthenticatedStakeholderDistributorsRouteImport.update({
+    id: '/stakeholder/distributors',
+    path: '/stakeholder/distributors',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedSettingsNotificationsRoute =
   AuthenticatedSettingsNotificationsRouteImport.update({
     id: '/notifications',
@@ -232,6 +253,9 @@ export interface FileRoutesByFullPath {
   '/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
   '/settings/display': typeof AuthenticatedSettingsDisplayRoute
   '/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
+  '/stakeholder/distributors': typeof AuthenticatedStakeholderDistributorsRoute
+  '/stakeholder/distrubitions': typeof AuthenticatedStakeholderDistrubitionsRoute
+  '/stakeholder/founders': typeof AuthenticatedStakeholderFoundersRoute
   '/clerk/sign-in': typeof ClerkauthSignInRoute
   '/clerk/sign-up': typeof ClerkauthSignUpRoute
   '/clerk/user-management': typeof ClerkAuthenticatedUserManagementRoute
@@ -262,6 +286,9 @@ export interface FileRoutesByTo {
   '/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
   '/settings/display': typeof AuthenticatedSettingsDisplayRoute
   '/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
+  '/stakeholder/distributors': typeof AuthenticatedStakeholderDistributorsRoute
+  '/stakeholder/distrubitions': typeof AuthenticatedStakeholderDistrubitionsRoute
+  '/stakeholder/founders': typeof AuthenticatedStakeholderFoundersRoute
   '/clerk/sign-in': typeof ClerkauthSignInRoute
   '/clerk/sign-up': typeof ClerkauthSignUpRoute
   '/clerk/user-management': typeof ClerkAuthenticatedUserManagementRoute
@@ -297,6 +324,9 @@ export interface FileRoutesById {
   '/_authenticated/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
   '/_authenticated/settings/display': typeof AuthenticatedSettingsDisplayRoute
   '/_authenticated/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
+  '/_authenticated/stakeholder/distributors': typeof AuthenticatedStakeholderDistributorsRoute
+  '/_authenticated/stakeholder/distrubitions': typeof AuthenticatedStakeholderDistrubitionsRoute
+  '/_authenticated/stakeholder/founders': typeof AuthenticatedStakeholderFoundersRoute
   '/clerk/(auth)/sign-in': typeof ClerkauthSignInRoute
   '/clerk/(auth)/sign-up': typeof ClerkauthSignUpRoute
   '/clerk/_authenticated/user-management': typeof ClerkAuthenticatedUserManagementRoute
@@ -330,6 +360,9 @@ export interface FileRouteTypes {
     | '/settings/appearance'
     | '/settings/display'
     | '/settings/notifications'
+    | '/stakeholder/distributors'
+    | '/stakeholder/distrubitions'
+    | '/stakeholder/founders'
     | '/clerk/sign-in'
     | '/clerk/sign-up'
     | '/clerk/user-management'
@@ -360,6 +393,9 @@ export interface FileRouteTypes {
     | '/settings/appearance'
     | '/settings/display'
     | '/settings/notifications'
+    | '/stakeholder/distributors'
+    | '/stakeholder/distrubitions'
+    | '/stakeholder/founders'
     | '/clerk/sign-in'
     | '/clerk/sign-up'
     | '/clerk/user-management'
@@ -394,6 +430,9 @@ export interface FileRouteTypes {
     | '/_authenticated/settings/appearance'
     | '/_authenticated/settings/display'
     | '/_authenticated/settings/notifications'
+    | '/_authenticated/stakeholder/distributors'
+    | '/_authenticated/stakeholder/distrubitions'
+    | '/_authenticated/stakeholder/founders'
     | '/clerk/(auth)/sign-in'
     | '/clerk/(auth)/sign-up'
     | '/clerk/_authenticated/user-management'
@@ -597,6 +636,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ClerkauthSignInRouteImport
       parentRoute: typeof ClerkauthRouteRoute
     }
+    '/_authenticated/stakeholder/founders': {
+      id: '/_authenticated/stakeholder/founders'
+      path: '/stakeholder/founders'
+      fullPath: '/stakeholder/founders'
+      preLoaderRoute: typeof AuthenticatedStakeholderFoundersRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/stakeholder/distrubitions': {
+      id: '/_authenticated/stakeholder/distrubitions'
+      path: '/stakeholder/distrubitions'
+      fullPath: '/stakeholder/distrubitions'
+      preLoaderRoute: typeof AuthenticatedStakeholderDistrubitionsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/stakeholder/distributors': {
+      id: '/_authenticated/stakeholder/distributors'
+      path: '/stakeholder/distributors'
+      fullPath: '/stakeholder/distributors'
+      preLoaderRoute: typeof AuthenticatedStakeholderDistributorsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/settings/notifications': {
       id: '/_authenticated/settings/notifications'
       path: '/notifications'
@@ -678,6 +738,9 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedNetworkCategoriesRoute: typeof AuthenticatedNetworkCategoriesRoute
   AuthenticatedNetworkSocialsRoute: typeof AuthenticatedNetworkSocialsRoute
   AuthenticatedNetworkTypesRoute: typeof AuthenticatedNetworkTypesRoute
+  AuthenticatedStakeholderDistributorsRoute: typeof AuthenticatedStakeholderDistributorsRoute
+  AuthenticatedStakeholderDistrubitionsRoute: typeof AuthenticatedStakeholderDistrubitionsRoute
+  AuthenticatedStakeholderFoundersRoute: typeof AuthenticatedStakeholderFoundersRoute
   AuthenticatedAppsIndexRoute: typeof AuthenticatedAppsIndexRoute
   AuthenticatedChatsIndexRoute: typeof AuthenticatedChatsIndexRoute
   AuthenticatedHelpCenterIndexRoute: typeof AuthenticatedHelpCenterIndexRoute
@@ -691,6 +754,11 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedNetworkCategoriesRoute: AuthenticatedNetworkCategoriesRoute,
   AuthenticatedNetworkSocialsRoute: AuthenticatedNetworkSocialsRoute,
   AuthenticatedNetworkTypesRoute: AuthenticatedNetworkTypesRoute,
+  AuthenticatedStakeholderDistributorsRoute:
+    AuthenticatedStakeholderDistributorsRoute,
+  AuthenticatedStakeholderDistrubitionsRoute:
+    AuthenticatedStakeholderDistrubitionsRoute,
+  AuthenticatedStakeholderFoundersRoute: AuthenticatedStakeholderFoundersRoute,
   AuthenticatedAppsIndexRoute: AuthenticatedAppsIndexRoute,
   AuthenticatedChatsIndexRoute: AuthenticatedChatsIndexRoute,
   AuthenticatedHelpCenterIndexRoute: AuthenticatedHelpCenterIndexRoute,

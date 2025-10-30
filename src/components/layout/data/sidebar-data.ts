@@ -19,6 +19,7 @@ import {
   IconUserCog,
   IconUserOff,
   IconUsers,
+  IconUsersGroup,
 } from '@tabler/icons-react'
 import { AudioWaveform, Command, GalleryVerticalEnd } from 'lucide-react'
 import { ClerkLogo } from '@/assets/clerk-logo'
@@ -92,6 +93,24 @@ export const sidebarData: SidebarData = {
             {
               title: 'Socials',
               url: '/network/socials',
+            },
+          ],
+        },
+        {
+          title: 'Stakeholders',
+          icon: IconUsersGroup,
+          items: [
+            {
+              title: 'Founders',
+              url: '/stakeholder/founders',
+            },
+            {
+              title: 'Distrubitions',
+              url: '/stakeholder/distrubitions',
+            },
+            {
+              title: 'Distributors',
+              url: '/stakeholder/distributors',
             },
           ],
         },
