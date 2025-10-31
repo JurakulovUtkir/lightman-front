@@ -37,6 +37,7 @@ interface FormComboboxProps<T extends FieldValues> {
   label: string
   control: Control<T>
   detail?: FounderSchema
+  excludeFounderIds?: string[] // IDs of founders that should be excluded from the list
 }
 
 export const FormComboboxFounders = <T extends FieldValues>({
@@ -44,6 +45,7 @@ export const FormComboboxFounders = <T extends FieldValues>({
   label,
   control,
   detail,
+  excludeFounderIds = [],
 }: FormComboboxProps<T>) => {
   const [open, setOpen] = useState(false)
 
@@ -70,13 +72,20 @@ export const FormComboboxFounders = <T extends FieldValues>({
           )
         }
 
-        let options: ComboboxOption[] =
-          founders?.data?.map((a) => ({
-            value: a.id,
-            label: a.name,
-          })) ?? []
+        // Filter out founders that are already assigned (unless it's the current selection)
+        const availableFounders =
+          founders?.data?.filter(
+            (founder) =>
+              !excludeFounderIds.includes(founder.id) ||
+              founder.id === field.value
+          ) ?? []
 
-        // Handle fallback from detail
+        let options: ComboboxOption[] = availableFounders.map((a) => ({
+          value: a.id,
+          label: a.name,
+        }))
+
+        // Handle fallback from detail (for update case)
         if (
           detail &&
           detail.id &&
@@ -139,7 +148,11 @@ export const FormComboboxFounders = <T extends FieldValues>({
                       </div>
                     ) : (
                       <>
-                        <CommandEmpty>No data found.</CommandEmpty>
+                        <CommandEmpty>
+                          {options.length === 0
+                            ? 'All founders are already assigned.'
+                            : 'No data found.'}
+                        </CommandEmpty>
                         <CommandGroup>
                           {options.map((item) => (
                             <CommandItem

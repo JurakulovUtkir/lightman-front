@@ -73,16 +73,6 @@ export const columns: ColumnDef<DistributorSchema>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: 'percentage',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Percentage' />
-    ),
-    cell: ({ row }) => <div>{row.getValue('percentage')} %</div>,
-
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
     accessorKey: 'created_at',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='Created at' />
