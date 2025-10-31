@@ -11,7 +11,6 @@ import {
 } from '@/components/ui/form'
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetDescription,
   SheetFooter,
@@ -250,9 +249,6 @@ export function NetworkSocialMutateDrawer({
           </Form>
         </div>
         <SheetFooter className='gap-2'>
-          <SheetClose asChild>
-            <Button variant='outline'>Close</Button>
-          </SheetClose>
           <Button
             disabled={
               isUpdate

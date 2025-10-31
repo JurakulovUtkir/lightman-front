@@ -35,8 +35,7 @@ import { Route as ClerkAuthenticatedUserManagementRouteImport } from './routes/c
 import { Route as ClerkauthSignUpRouteImport } from './routes/clerk/(auth)/sign-up'
 import { Route as ClerkauthSignInRouteImport } from './routes/clerk/(auth)/sign-in'
 import { Route as AuthenticatedStakeholderFoundersRouteImport } from './routes/_authenticated/stakeholder/founders'
-import { Route as AuthenticatedStakeholderDistrubitionsRouteImport } from './routes/_authenticated/stakeholder/distrubitions'
-import { Route as AuthenticatedStakeholderDistributorsRouteImport } from './routes/_authenticated/stakeholder/distributors'
+import { Route as AuthenticatedStakeholderDistributionRouteImport } from './routes/_authenticated/stakeholder/distribution'
 import { Route as AuthenticatedSettingsNotificationsRouteImport } from './routes/_authenticated/settings/notifications'
 import { Route as AuthenticatedSettingsDisplayRouteImport } from './routes/_authenticated/settings/display'
 import { Route as AuthenticatedSettingsAppearanceRouteImport } from './routes/_authenticated/settings/appearance'
@@ -44,6 +43,7 @@ import { Route as AuthenticatedSettingsAccountRouteImport } from './routes/_auth
 import { Route as AuthenticatedNetworkTypesRouteImport } from './routes/_authenticated/network/types'
 import { Route as AuthenticatedNetworkSocialsRouteImport } from './routes/_authenticated/network/socials'
 import { Route as AuthenticatedNetworkCategoriesRouteImport } from './routes/_authenticated/network/categories'
+import { Route as AuthenticatedStakeholderDistributorsIdRouteImport } from './routes/_authenticated/stakeholder/distributors/$id'
 
 const ClerkRouteRoute = ClerkRouteRouteImport.update({
   id: '/clerk',
@@ -177,16 +177,10 @@ const AuthenticatedStakeholderFoundersRoute =
     path: '/stakeholder/founders',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
-const AuthenticatedStakeholderDistrubitionsRoute =
-  AuthenticatedStakeholderDistrubitionsRouteImport.update({
-    id: '/stakeholder/distrubitions',
-    path: '/stakeholder/distrubitions',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
-const AuthenticatedStakeholderDistributorsRoute =
-  AuthenticatedStakeholderDistributorsRouteImport.update({
-    id: '/stakeholder/distributors',
-    path: '/stakeholder/distributors',
+const AuthenticatedStakeholderDistributionRoute =
+  AuthenticatedStakeholderDistributionRouteImport.update({
+    id: '/stakeholder/distribution',
+    path: '/stakeholder/distribution',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedSettingsNotificationsRoute =
@@ -231,6 +225,12 @@ const AuthenticatedNetworkCategoriesRoute =
     path: '/network/categories',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedStakeholderDistributorsIdRoute =
+  AuthenticatedStakeholderDistributorsIdRouteImport.update({
+    id: '/stakeholder/distributors/$id',
+    path: '/stakeholder/distributors/$id',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/clerk': typeof ClerkAuthenticatedRouteRouteWithChildren
@@ -253,8 +253,7 @@ export interface FileRoutesByFullPath {
   '/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
   '/settings/display': typeof AuthenticatedSettingsDisplayRoute
   '/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
-  '/stakeholder/distributors': typeof AuthenticatedStakeholderDistributorsRoute
-  '/stakeholder/distrubitions': typeof AuthenticatedStakeholderDistrubitionsRoute
+  '/stakeholder/distribution': typeof AuthenticatedStakeholderDistributionRoute
   '/stakeholder/founders': typeof AuthenticatedStakeholderFoundersRoute
   '/clerk/sign-in': typeof ClerkauthSignInRoute
   '/clerk/sign-up': typeof ClerkauthSignUpRoute
@@ -265,6 +264,7 @@ export interface FileRoutesByFullPath {
   '/settings/': typeof AuthenticatedSettingsIndexRoute
   '/tasks': typeof AuthenticatedTasksIndexRoute
   '/users': typeof AuthenticatedUsersIndexRoute
+  '/stakeholder/distributors/$id': typeof AuthenticatedStakeholderDistributorsIdRoute
 }
 export interface FileRoutesByTo {
   '/clerk': typeof ClerkAuthenticatedRouteRouteWithChildren
@@ -286,8 +286,7 @@ export interface FileRoutesByTo {
   '/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
   '/settings/display': typeof AuthenticatedSettingsDisplayRoute
   '/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
-  '/stakeholder/distributors': typeof AuthenticatedStakeholderDistributorsRoute
-  '/stakeholder/distrubitions': typeof AuthenticatedStakeholderDistrubitionsRoute
+  '/stakeholder/distribution': typeof AuthenticatedStakeholderDistributionRoute
   '/stakeholder/founders': typeof AuthenticatedStakeholderFoundersRoute
   '/clerk/sign-in': typeof ClerkauthSignInRoute
   '/clerk/sign-up': typeof ClerkauthSignUpRoute
@@ -298,6 +297,7 @@ export interface FileRoutesByTo {
   '/settings': typeof AuthenticatedSettingsIndexRoute
   '/tasks': typeof AuthenticatedTasksIndexRoute
   '/users': typeof AuthenticatedUsersIndexRoute
+  '/stakeholder/distributors/$id': typeof AuthenticatedStakeholderDistributorsIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -324,8 +324,7 @@ export interface FileRoutesById {
   '/_authenticated/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
   '/_authenticated/settings/display': typeof AuthenticatedSettingsDisplayRoute
   '/_authenticated/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
-  '/_authenticated/stakeholder/distributors': typeof AuthenticatedStakeholderDistributorsRoute
-  '/_authenticated/stakeholder/distrubitions': typeof AuthenticatedStakeholderDistrubitionsRoute
+  '/_authenticated/stakeholder/distribution': typeof AuthenticatedStakeholderDistributionRoute
   '/_authenticated/stakeholder/founders': typeof AuthenticatedStakeholderFoundersRoute
   '/clerk/(auth)/sign-in': typeof ClerkauthSignInRoute
   '/clerk/(auth)/sign-up': typeof ClerkauthSignUpRoute
@@ -336,6 +335,7 @@ export interface FileRoutesById {
   '/_authenticated/settings/': typeof AuthenticatedSettingsIndexRoute
   '/_authenticated/tasks/': typeof AuthenticatedTasksIndexRoute
   '/_authenticated/users/': typeof AuthenticatedUsersIndexRoute
+  '/_authenticated/stakeholder/distributors/$id': typeof AuthenticatedStakeholderDistributorsIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -360,8 +360,7 @@ export interface FileRouteTypes {
     | '/settings/appearance'
     | '/settings/display'
     | '/settings/notifications'
-    | '/stakeholder/distributors'
-    | '/stakeholder/distrubitions'
+    | '/stakeholder/distribution'
     | '/stakeholder/founders'
     | '/clerk/sign-in'
     | '/clerk/sign-up'
@@ -372,6 +371,7 @@ export interface FileRouteTypes {
     | '/settings/'
     | '/tasks'
     | '/users'
+    | '/stakeholder/distributors/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/clerk'
@@ -393,8 +393,7 @@ export interface FileRouteTypes {
     | '/settings/appearance'
     | '/settings/display'
     | '/settings/notifications'
-    | '/stakeholder/distributors'
-    | '/stakeholder/distrubitions'
+    | '/stakeholder/distribution'
     | '/stakeholder/founders'
     | '/clerk/sign-in'
     | '/clerk/sign-up'
@@ -405,6 +404,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/tasks'
     | '/users'
+    | '/stakeholder/distributors/$id'
   id:
     | '__root__'
     | '/_authenticated'
@@ -430,8 +430,7 @@ export interface FileRouteTypes {
     | '/_authenticated/settings/appearance'
     | '/_authenticated/settings/display'
     | '/_authenticated/settings/notifications'
-    | '/_authenticated/stakeholder/distributors'
-    | '/_authenticated/stakeholder/distrubitions'
+    | '/_authenticated/stakeholder/distribution'
     | '/_authenticated/stakeholder/founders'
     | '/clerk/(auth)/sign-in'
     | '/clerk/(auth)/sign-up'
@@ -442,6 +441,7 @@ export interface FileRouteTypes {
     | '/_authenticated/settings/'
     | '/_authenticated/tasks/'
     | '/_authenticated/users/'
+    | '/_authenticated/stakeholder/distributors/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -643,18 +643,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedStakeholderFoundersRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
-    '/_authenticated/stakeholder/distrubitions': {
-      id: '/_authenticated/stakeholder/distrubitions'
-      path: '/stakeholder/distrubitions'
-      fullPath: '/stakeholder/distrubitions'
-      preLoaderRoute: typeof AuthenticatedStakeholderDistrubitionsRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
-    '/_authenticated/stakeholder/distributors': {
-      id: '/_authenticated/stakeholder/distributors'
-      path: '/stakeholder/distributors'
-      fullPath: '/stakeholder/distributors'
-      preLoaderRoute: typeof AuthenticatedStakeholderDistributorsRouteImport
+    '/_authenticated/stakeholder/distribution': {
+      id: '/_authenticated/stakeholder/distribution'
+      path: '/stakeholder/distribution'
+      fullPath: '/stakeholder/distribution'
+      preLoaderRoute: typeof AuthenticatedStakeholderDistributionRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/settings/notifications': {
@@ -706,6 +699,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedNetworkCategoriesRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/stakeholder/distributors/$id': {
+      id: '/_authenticated/stakeholder/distributors/$id'
+      path: '/stakeholder/distributors/$id'
+      fullPath: '/stakeholder/distributors/$id'
+      preLoaderRoute: typeof AuthenticatedStakeholderDistributorsIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
@@ -738,14 +738,14 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedNetworkCategoriesRoute: typeof AuthenticatedNetworkCategoriesRoute
   AuthenticatedNetworkSocialsRoute: typeof AuthenticatedNetworkSocialsRoute
   AuthenticatedNetworkTypesRoute: typeof AuthenticatedNetworkTypesRoute
-  AuthenticatedStakeholderDistributorsRoute: typeof AuthenticatedStakeholderDistributorsRoute
-  AuthenticatedStakeholderDistrubitionsRoute: typeof AuthenticatedStakeholderDistrubitionsRoute
+  AuthenticatedStakeholderDistributionRoute: typeof AuthenticatedStakeholderDistributionRoute
   AuthenticatedStakeholderFoundersRoute: typeof AuthenticatedStakeholderFoundersRoute
   AuthenticatedAppsIndexRoute: typeof AuthenticatedAppsIndexRoute
   AuthenticatedChatsIndexRoute: typeof AuthenticatedChatsIndexRoute
   AuthenticatedHelpCenterIndexRoute: typeof AuthenticatedHelpCenterIndexRoute
   AuthenticatedTasksIndexRoute: typeof AuthenticatedTasksIndexRoute
   AuthenticatedUsersIndexRoute: typeof AuthenticatedUsersIndexRoute
+  AuthenticatedStakeholderDistributorsIdRoute: typeof AuthenticatedStakeholderDistributorsIdRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -754,16 +754,16 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedNetworkCategoriesRoute: AuthenticatedNetworkCategoriesRoute,
   AuthenticatedNetworkSocialsRoute: AuthenticatedNetworkSocialsRoute,
   AuthenticatedNetworkTypesRoute: AuthenticatedNetworkTypesRoute,
-  AuthenticatedStakeholderDistributorsRoute:
-    AuthenticatedStakeholderDistributorsRoute,
-  AuthenticatedStakeholderDistrubitionsRoute:
-    AuthenticatedStakeholderDistrubitionsRoute,
+  AuthenticatedStakeholderDistributionRoute:
+    AuthenticatedStakeholderDistributionRoute,
   AuthenticatedStakeholderFoundersRoute: AuthenticatedStakeholderFoundersRoute,
   AuthenticatedAppsIndexRoute: AuthenticatedAppsIndexRoute,
   AuthenticatedChatsIndexRoute: AuthenticatedChatsIndexRoute,
   AuthenticatedHelpCenterIndexRoute: AuthenticatedHelpCenterIndexRoute,
   AuthenticatedTasksIndexRoute: AuthenticatedTasksIndexRoute,
   AuthenticatedUsersIndexRoute: AuthenticatedUsersIndexRoute,
+  AuthenticatedStakeholderDistributorsIdRoute:
+    AuthenticatedStakeholderDistributorsIdRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =

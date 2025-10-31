@@ -1,5 +1,5 @@
 import { useNavigate } from '@tanstack/react-router'
-import { IconPencil } from '@tabler/icons-react'
+import { IconEdit } from '@tabler/icons-react'
 import { formatToYearMonthDay } from '@/lib/dateFormatter'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardTitle } from '@/components/ui/card'
@@ -47,7 +47,7 @@ const NetworkCards = ({
                 variant='ghost'
                 className='rounded-full'
               >
-                <IconPencil />
+                <IconEdit />
               </Button>
             </div>
           </CardContent>

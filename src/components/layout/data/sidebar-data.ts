@@ -105,12 +105,8 @@ export const sidebarData: SidebarData = {
               url: '/stakeholder/founders',
             },
             {
-              title: 'Distrubitions',
-              url: '/stakeholder/distrubitions',
-            },
-            {
-              title: 'Distributors',
-              url: '/stakeholder/distributors',
+              title: 'Distribution',
+              url: '/stakeholder/distribution',
             },
           ],
         },

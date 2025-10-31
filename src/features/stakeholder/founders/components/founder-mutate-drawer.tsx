@@ -13,7 +13,6 @@ import {
 import { Input } from '@/components/ui/input'
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetDescription,
   SheetFooter,
@@ -155,9 +154,6 @@ export function FounderMutateDrawer({
               Delete
             </Button>
           )}
-          <SheetClose asChild>
-            <Button variant='outline'>Close</Button>
-          </SheetClose>
           <Button
             disabled={
               isUpdate ? updateFounder.isPending : createFounder.isPending

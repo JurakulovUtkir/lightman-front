@@ -13,7 +13,6 @@ import {
 import { Input } from '@/components/ui/input'
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetDescription,
   SheetFooter,
@@ -159,9 +158,7 @@ export function NetworkCategoryMutateDrawer({
               Delete
             </Button>
           )}
-          <SheetClose asChild>
-            <Button variant='outline'>Close</Button>
-          </SheetClose>
+
           <Button
             disabled={
               isUpdate

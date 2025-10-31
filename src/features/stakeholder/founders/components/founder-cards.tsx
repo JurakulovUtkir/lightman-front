@@ -1,5 +1,6 @@
-import { IconPencil, IconUserFilled } from '@tabler/icons-react'
-import { Card, CardContent, CardTitle } from '@/components/ui/card'
+import { IconEdit, IconUserFilled } from '@tabler/icons-react'
+import { formatToYearMonthDay } from '@/lib/dateFormatter'
+import { Card, CardContent, CardFooter, CardTitle } from '@/components/ui/card'
 import { useFounderContext } from '../context'
 import { FounderSchema } from '../data/schema'
 
@@ -30,12 +31,21 @@ const FounderCards = ({ data }: { data: FounderSchema[] | undefined }) => {
               <CardTitle>{item.name}</CardTitle>
             </div>
 
-            <IconPencil
+            <IconEdit
               size={16}
               onClick={(e) => handleEdit(e, item)}
               className='cursor-pointer'
             />
           </CardContent>
+          <CardFooter className='flex flex-col'>
+            <span>
+              Balance: <b>{item.balance}</b>{' '}
+              <span className='text-xs'> UZS</span>
+            </span>
+            <span className='text-xs'>
+              {formatToYearMonthDay(item.updated_at)}
+            </span>
+          </CardFooter>
         </Card>
       ))}
     </div>

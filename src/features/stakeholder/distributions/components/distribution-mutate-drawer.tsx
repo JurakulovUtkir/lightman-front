@@ -20,47 +20,52 @@ import {
   SheetTitle,
 } from '@/components/ui/sheet'
 import { Switch } from '@/components/ui/switch'
-import { NetworkTypesDialogType } from '../context'
-import { useCreateNetworkType, useUpdateNetworkType } from '../data/hooks'
-import { NetworkTypeSchema } from '../data/schema'
+import { Textarea } from '@/components/ui/textarea'
+import { DistributionDialogType } from '../context'
+import { useCreateDistribution, useUpdateDistribution } from '../data/hooks'
+import { DistributionSchema } from '../data/schema'
 
 interface Props {
   open: boolean
   onOpenChange: (open: boolean) => void
-  currentRow?: NetworkTypeSchema
-  setCurrentRow?: React.Dispatch<React.SetStateAction<NetworkTypeSchema | null>>
-  setOpen?: (str: NetworkTypesDialogType | null) => void
+  currentRow?: DistributionSchema
+  setCurrentRow?: React.Dispatch<
+    React.SetStateAction<DistributionSchema | null>
+  >
+  setOpen?: (str: DistributionDialogType | null) => void
 }
 
-export function NetworkTypeMutateDrawer({
+export function DistributionMutateDrawer({
   open,
   onOpenChange,
   currentRow,
   setCurrentRow,
   setOpen,
 }: Props) {
-  const createNetworkType = useCreateNetworkType()
-  const updateNetworkType = useUpdateNetworkType()
+  const createDistribution = useCreateDistribution()
+  const updateDistribution = useUpdateDistribution()
   const isUpdate = !!currentRow
 
   const formSchema = z.object({
     name: z.string().min(1, 'Name is required.'),
+    description: z.string().optional(),
     is_active: z.boolean().optional(),
   })
 
-  type NetworkTypeForm = z.infer<typeof formSchema>
+  type DistributionForm = z.infer<typeof formSchema>
 
-  const form = useForm<NetworkTypeForm>({
+  const form = useForm<DistributionForm>({
     resolver: zodResolver(formSchema),
     defaultValues: currentRow || {
       name: '',
+      description: '',
       is_active: true,
     },
   })
 
-  const onSubmit = (values: NetworkTypeForm) => {
+  const onSubmit = (values: DistributionForm) => {
     if (isUpdate) {
-      updateNetworkType.mutate(
+      updateDistribution.mutate(
         {
           id: currentRow.id,
           data: values,
@@ -73,7 +78,7 @@ export function NetworkTypeMutateDrawer({
         }
       )
     } else {
-      createNetworkType.mutate(values, {
+      createDistribution.mutate(values, {
         onSuccess: () => {
           onOpenChange(false)
           form.reset()
@@ -99,18 +104,18 @@ export function NetworkTypeMutateDrawer({
     >
       <SheetContent className='flex flex-col'>
         <SheetHeader className='text-left'>
-          <SheetTitle>{isUpdate ? 'Update' : 'Create'} Network type</SheetTitle>
+          <SheetTitle>{isUpdate ? 'Update' : 'Create'} Distribution</SheetTitle>
           <SheetDescription>
             {isUpdate
-              ? 'Update the Network type by providing necessary info.'
-              : 'Add a new Network type by providing necessary info.'}
+              ? 'Update the Distribution by providing necessary info.'
+              : 'Add a new Distribution by providing necessary info.'}
             Click save when you&apos;re done.
           </SheetDescription>
         </SheetHeader>
         <div className='flex-1 overflow-y-auto'>
           <Form {...form}>
             <form
-              id='network-type-form'
+              id='distribution-form'
               onSubmit={form.handleSubmit(onSubmit)}
               className='flex-1 space-y-5 px-4'
             >
@@ -137,9 +142,26 @@ export function NetworkTypeMutateDrawer({
                 name='name'
                 render={({ field }) => (
                   <FormItem className='space-y-1'>
-                    <FormLabel>Network Type</FormLabel>
+                    <FormLabel>Distribution</FormLabel>
                     <FormControl>
                       <Input {...field} placeholder='Enter a name' />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name='description'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Description</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder='Description ...'
+                        className='h-40 resize-none'
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -154,20 +176,19 @@ export function NetworkTypeMutateDrawer({
               Delete
             </Button>
           )}
-
           <Button
             disabled={
               isUpdate
-                ? updateNetworkType.isPending
-                : createNetworkType.isPending
+                ? updateDistribution.isPending
+                : createDistribution.isPending
             }
-            form='network-type-form'
+            form='distribution-form'
             type='submit'
           >
             {(
               isUpdate
-                ? updateNetworkType.isPending
-                : createNetworkType.isPending
+                ? updateDistribution.isPending
+                : createDistribution.isPending
             )
               ? 'Loading...'
               : 'Save changes'}
