@@ -37,7 +37,7 @@ const formSchema = z
     role: z.string().optional(),
   })
   .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords don't match.",
+    error: "Passwords don't match.",
     path: ['confirmPassword'],
   })
 

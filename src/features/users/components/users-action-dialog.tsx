@@ -64,7 +64,7 @@ const formSchema = z
       return password && password.length > 0
     },
     {
-      message: 'Password is required.',
+      error: 'Password is required.',
       path: ['password'],
     }
   )
@@ -74,7 +74,7 @@ const formSchema = z
       return password && password.length >= 6
     },
     {
-      message: 'Password must be at least 6 characters long.',
+      error: 'Password must be at least 6 characters long.',
       path: ['password'],
     }
   )
@@ -84,7 +84,7 @@ const formSchema = z
       return password && /[a-z]/.test(password)
     },
     {
-      message: 'Password must contain at least one lowercase letter.',
+      error: 'Password must contain at least one lowercase letter.',
       path: ['password'],
     }
   )
@@ -94,7 +94,7 @@ const formSchema = z
       return password && /\d/.test(password)
     },
     {
-      message: 'Password must contain at least one number.',
+      error: 'Password must contain at least one number.',
       path: ['password'],
     }
   )
@@ -104,7 +104,7 @@ const formSchema = z
       return password === confirmPassword
     },
     {
-      message: "Passwords don't match.",
+      error: "Passwords don't match.",
       path: ['confirmPassword'],
     }
   )

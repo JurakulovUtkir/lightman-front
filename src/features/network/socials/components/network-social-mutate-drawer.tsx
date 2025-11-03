@@ -41,20 +41,20 @@ export function NetworkSocialMutateDrawer({
   const formSchema = z.object({
     name: z
       .string({
-        message: 'Name is required.',
+        error: 'Name is required.',
       })
       .min(1),
     link: z
       .url({
-        message: 'Link is required.',
+        error: 'Link is required.',
       })
       .min(1),
     social_network_type_id: z.string({
-      message: 'Social network type is required.',
+      error: 'Social network type is required.',
     }),
 
     category_id: z.string({
-      message: 'Social network category is required.',
+      error: 'Social network category is required.',
     }),
 
     subscriber_count: z.number().min(0, 'Invalid value').optional(),

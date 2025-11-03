@@ -54,12 +54,12 @@ const DistributionCards = ({
             </div>
           </CardContent>
           <CardFooter className='text-foreground pt-6 text-sm'>
-            {item.description && item.description?.length >= 80 ? (
+            {item.description && item.description?.length >= 40 ? (
               <Tooltip>
                 <TooltipTrigger className='text-left'>
-                  {item.description.slice(0, 80)} ...
+                  {item.description.slice(0, 40)} ...
                 </TooltipTrigger>
-                <TooltipContent className='max-w-[350px] md:max-w-[500px]'>
+                <TooltipContent className='max-w-[350px] overflow-auto md:max-w-[500px]'>
                   {item.description}
                 </TooltipContent>
               </Tooltip>

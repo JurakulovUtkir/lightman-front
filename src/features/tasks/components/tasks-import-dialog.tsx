@@ -26,7 +26,7 @@ const formSchema = z.object({
   file: z
     .instanceof(FileList)
     .refine((files) => files.length > 0, {
-      message: 'Please upload a file',
+      error: 'Please upload a file',
     })
     .refine(
       (files) => ['text/csv'].includes(files?.[0]?.type),

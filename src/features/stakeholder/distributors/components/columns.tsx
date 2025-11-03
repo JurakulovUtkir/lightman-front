@@ -114,7 +114,7 @@ export const columns: ColumnDef<DistributorSchema>[] = [
           {info && info?.length >= 50 ? (
             <Tooltip>
               <TooltipTrigger>{contactInfo}</TooltipTrigger>
-              <TooltipContent className='max-w-[350px] md:max-w-[500px]'>
+              <TooltipContent className='max-w-[350px] overflow-auto md:max-w-[500px]'>
                 {row.getValue('description')}
               </TooltipContent>
             </Tooltip>

@@ -2,6 +2,7 @@ import {
   IconBarrierBlock,
   IconBrowserCheck,
   IconBug,
+  IconBuildings,
   IconChecklist,
   IconError404,
   IconHelp,
@@ -77,6 +78,11 @@ export const sidebarData: SidebarData = {
           title: 'Users',
           url: '/users',
           icon: IconUsers,
+        },
+        {
+          title: 'Companies',
+          url: '/companies',
+          icon: IconBuildings,
         },
         {
           title: 'Network',

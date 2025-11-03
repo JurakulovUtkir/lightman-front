@@ -16,6 +16,7 @@ interface FormFieldWrapperProps<TFieldValues extends FieldValues> {
   placeholder?: string
   type?: 'text' | 'number' | 'textarea'
   suffix?: string
+  formatting?: boolean // Optional, defaults to true for number types
 }
 
 export function FormFieldWrapper<TFieldValues extends FieldValues>({
@@ -25,6 +26,7 @@ export function FormFieldWrapper<TFieldValues extends FieldValues>({
   placeholder,
   type = 'text',
   suffix,
+  formatting = true,
 }: FormFieldWrapperProps<TFieldValues>) {
   // Format number with spaces for display
   const formatNumber = (value: number | undefined): string => {
@@ -38,6 +40,8 @@ export function FormFieldWrapper<TFieldValues extends FieldValues>({
     const parsed = parseFloat(cleaned)
     return isNaN(parsed) ? undefined : parsed
   }
+
+  const shouldFormat = type === 'number' && formatting
 
   return (
     <FormField
@@ -65,13 +69,15 @@ export function FormFieldWrapper<TFieldValues extends FieldValues>({
                       : ''
                   }
                   value={
-                    type === 'number'
+                    shouldFormat
                       ? formatNumber(field.value as number)
                       : field.value || ''
                   }
                   onChange={(e) => {
                     if (type === 'number') {
-                      const parsedValue = parseNumber(e.target.value)
+                      const parsedValue = shouldFormat
+                        ? parseNumber(e.target.value)
+                        : parseFloat(e.target.value) || undefined
                       field.onChange(parsedValue)
                     } else {
                       field.onChange(e.target.value)

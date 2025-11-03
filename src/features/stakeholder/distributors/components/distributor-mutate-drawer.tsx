@@ -86,7 +86,7 @@ export function DistributorMutateDrawer({
   const formSchema = z.object({
     founder_id: z
       .string({
-        message: 'Founder is required',
+        error: 'Founder is required',
       })
       .refine(
         (value) => {
@@ -98,12 +98,12 @@ export function DistributorMutateDrawer({
           return !usedFounderIds.includes(value)
         },
         {
-          message: 'This founder is already assigned to a distributor',
+          error: 'This founder is already assigned to a distributor',
         }
       ),
     percentage: z
       .number({
-        message: 'Percentage is required',
+        error: 'Percentage is required',
       })
       .min(0.01, 'Percentage must be greater than 0')
       .refine(
@@ -112,7 +112,7 @@ export function DistributorMutateDrawer({
           return value <= remainingPercentage
         },
         {
-          message: `Percentage cannot exceed ${remainingPercentage}% (remaining available)`,
+          error: `Percentage cannot exceed ${remainingPercentage}% (remaining available)`,
         }
       ),
     description: z.string().optional(),
