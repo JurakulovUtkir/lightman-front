@@ -1,5 +1,6 @@
 import {
   IconBarrierBlock,
+  IconBriefcase2,
   IconBrowserCheck,
   IconBug,
   IconBuildings,
@@ -83,6 +84,11 @@ export const sidebarData: SidebarData = {
           title: 'Companies',
           url: '/companies',
           icon: IconBuildings,
+        },
+        {
+          title: 'Projects',
+          url: '/projects',
+          icon: IconBriefcase2,
         },
         {
           title: 'Network',

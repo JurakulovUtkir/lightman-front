@@ -44,7 +44,7 @@ export function CompanyMutateDrawer({
   const formSchema = z.object({
     name: z
       .string({
-        error: 'Name must be a valid string.',
+        error: 'Name is required.',
       })
       .min(1, 'Please enter your name.')
       .max(150, 'Name cannot exceed 150 characters.'),

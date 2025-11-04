@@ -8,9 +8,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
 import {
   Sheet,
   SheetContent,
@@ -20,6 +18,7 @@ import {
   SheetTitle,
 } from '@/components/ui/sheet'
 import { Switch } from '@/components/ui/switch'
+import { FormFieldWrapper } from '@/components/form-field-wrapper'
 import { FounderDialogType } from '../context'
 import { useCreateFounder, useUpdateFounder } from '../data/hooks'
 import { FounderSchema } from '../data/schema'
@@ -46,16 +45,29 @@ export function FounderMutateDrawer({
   const formSchema = z.object({
     name: z.string().min(1, 'Name is required.'),
     is_active: z.boolean().optional(),
+    balance: z.number().min(0, 'Invalid value').optional(),
   })
 
   type FounderForm = z.infer<typeof formSchema>
 
+  const toNumber = (value: string | number | undefined): number | undefined => {
+    if (value === undefined || value === null) return undefined
+    return typeof value === 'string' ? parseFloat(value) : value
+  }
+
   const form = useForm<FounderForm>({
     resolver: zodResolver(formSchema),
-    defaultValues: currentRow || {
-      name: '',
-      is_active: true,
-    },
+    defaultValues: currentRow
+      ? {
+          name: currentRow.name,
+          is_active: currentRow.is_active,
+          balance: toNumber(currentRow.balance),
+        }
+      : {
+          name: '',
+          is_active: true,
+          balance: undefined,
+        },
   })
 
   const onSubmit = (values: FounderForm) => {
@@ -132,19 +144,23 @@ export function FounderMutateDrawer({
                   </FormItem>
                 )}
               />
-              <FormField
+              <FormFieldWrapper
                 control={form.control}
                 name='name'
-                render={({ field }) => (
-                  <FormItem className='space-y-1'>
-                    <FormLabel>Founder</FormLabel>
-                    <FormControl>
-                      <Input {...field} placeholder='Enter a name' />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                label='Founder'
+                placeholder='Enter a name'
               />
+
+              {isUpdate && (
+                <FormFieldWrapper
+                  control={form.control}
+                  name='balance'
+                  label='Balance'
+                  placeholder='Enter a price'
+                  type='number'
+                  suffix='UZS'
+                />
+              )}
             </form>
           </Form>
         </div>

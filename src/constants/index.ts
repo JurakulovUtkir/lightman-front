@@ -9,3 +9,13 @@ export interface ApiResponse<T> {
   data: T
   error: string | null
 }
+
+export const statusOptions = [
+  { value: 'draft', label: 'Draft' },
+  { value: 'active', label: 'Active' },
+  { value: 'on_hold', label: 'On hold' },
+  { value: 'approved', label: 'Approved' },
+  { value: 'requested', label: 'Requested' },
+  { value: 'done', label: 'Done' },
+  { value: 'canceled', label: 'Canceled' },
+]

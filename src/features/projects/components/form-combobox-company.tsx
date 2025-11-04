@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Control, FieldValues, Path } from 'react-hook-form'
 import { IconCheck, IconSelector } from '@tabler/icons-react'
 import { cn } from '@/lib/utils'
+import { useDebounce } from '@/hooks/useDebounce'
 import { Button } from '@/components/ui/button'
 import {
   Command,
@@ -24,8 +25,9 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import { Skeleton } from '@/components/ui/skeleton'
-import { useNetworkTypes } from '../../types/data/hooks'
-import { NetworkTypeSchema } from '../../types/data/schema'
+import { useCompanies } from '@/features/companies/data/hooks'
+
+// Adjust import path
 
 type ComboboxOption = {
   value: string
@@ -36,31 +38,51 @@ interface FormComboboxProps<T extends FieldValues> {
   name: Path<T>
   label: string
   control: Control<T>
-  detail?: Pick<NetworkTypeSchema, 'id' | 'name'>
+  detail?: {
+    id: string
+    name: string
+  }
+  filterActive?: boolean
+  filterOurCompany?: boolean
+  filterVip?: boolean
 }
 
-export const FormComboboxNetwrokTypes = <T extends FieldValues>({
+export const FormComboboxCompany = <T extends FieldValues>({
   name,
   label,
   control,
   detail,
+  filterActive,
+  filterOurCompany,
+  filterVip,
 }: FormComboboxProps<T>) => {
+  const [search, setSearch] = useState('')
   const [open, setOpen] = useState(false)
+  const debouncedSearch = useDebounce(search, 500)
 
   const {
-    data: networkTypes,
-    isLoading: isLoadingNetworkTypes,
-    isFetching: isFetchingNetworkTypes,
-  } = useNetworkTypes()
+    data: companies,
+    isLoading: isLoadingCompanies,
+    isFetching: isFetchingCompanies,
+  } = useCompanies({
+    offset: 0,
+    limit: 20,
+    search: debouncedSearch.length >= 2 ? debouncedSearch : undefined,
+    is_active: filterActive,
+    is_our_company: filterOurCompany,
+    is_vip: filterVip,
+  })
 
-  const isLoading = isLoadingNetworkTypes || isFetchingNetworkTypes
+  // Determine if we're currently loading or fetching
+  const isLoading = isLoadingCompanies || isFetchingCompanies
 
   return (
     <FormField
       control={control}
       name={name}
       render={({ field }) => {
-        if (isLoading && !open) {
+        // Show skeleton only on initial load, not during search
+        if (isLoading && !debouncedSearch && !open) {
           return (
             <FormItem className='flex w-full flex-col'>
               <FormLabel>{label}</FormLabel>
@@ -71,9 +93,9 @@ export const FormComboboxNetwrokTypes = <T extends FieldValues>({
         }
 
         let options: ComboboxOption[] =
-          networkTypes?.data?.map((a) => ({
-            value: a.id,
-            label: a.name,
+          companies?.data?.items?.map((company) => ({
+            value: company.id,
+            label: company.name,
           })) ?? []
 
         // Handle fallback from detail
@@ -122,10 +144,12 @@ export const FormComboboxNetwrokTypes = <T extends FieldValues>({
                 </FormControl>
               </PopoverTrigger>
               <PopoverContent className='p-0'>
-                <Command>
+                <Command shouldFilter={false}>
                   <CommandInput
                     placeholder={`Search ${label.toLowerCase()}...`}
                     className='h-9'
+                    value={search}
+                    onValueChange={setSearch}
                   />
                   <CommandList>
                     {isLoading ? (
@@ -139,12 +163,12 @@ export const FormComboboxNetwrokTypes = <T extends FieldValues>({
                       </div>
                     ) : (
                       <>
-                        <CommandEmpty>No data found.</CommandEmpty>
+                        <CommandEmpty>No companies found.</CommandEmpty>
                         <CommandGroup>
                           {options.map((item) => (
                             <CommandItem
-                              key={item.value}
                               value={item.label}
+                              key={item.value}
                               onSelect={() => {
                                 field.onChange(item.value)
                                 setOpen(false)

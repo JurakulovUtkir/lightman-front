@@ -37,7 +37,7 @@ interface FormComboboxProps<T extends FieldValues> {
   name: Path<T>
   label: string
   control: Control<T>
-  detail?: NetworkCategorySchema
+  detail?: Pick<NetworkCategorySchema, 'id' | 'name'>
 }
 
 export const FormComboboxNetwrokCategory = <T extends FieldValues>({

@@ -19,6 +19,8 @@ import {
 } from '@/components/ui/sheet'
 import { Switch } from '@/components/ui/switch'
 import { FormFieldWrapper } from '@/components/form-field-wrapper'
+import { NetworkCategorySchema } from '../../categories/data/schema'
+import { NetworkTypeSchema } from '../../types/data/schema'
 import { useCreateNetworkSocial, useUpdateNetworkSocial } from '../data/hooks'
 import { NetworkSocialSchema } from '../data/schema'
 import { FormComboboxNetwrokCategory } from './form-combobox-network-category'
@@ -166,13 +168,19 @@ export function NetworkSocialMutateDrawer({
                 control={form.control}
                 name='social_network_type_id'
                 label='Network type'
-                detail={currentRow ?? undefined}
+                detail={
+                  currentRow?.social_network_type as
+                    | NetworkTypeSchema
+                    | undefined
+                }
               />
               <FormComboboxNetwrokCategory
                 control={form.control}
                 name='category_id'
                 label='Network category'
-                detail={currentRow ?? undefined}
+                detail={
+                  currentRow?.category as NetworkCategorySchema | undefined
+                }
               />
               <FormFieldWrapper
                 control={form.control}
