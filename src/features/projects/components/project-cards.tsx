@@ -1,4 +1,5 @@
 // import { useNavigate } from '@tanstack/react-router'
+import { useNavigate } from '@tanstack/react-router'
 import {
   IconEdit,
   IconBuilding,
@@ -25,6 +26,7 @@ const ProjectCards = ({
 }: {
   data: { items: ProjectSchema[]; total: number } | undefined
 }) => {
+  const navigate = useNavigate()
   const { setOpen, setCurrentRow } = useProjectContext()
 
   const handleEdit = (e: React.MouseEvent, payload: ProjectSchema) => {
@@ -33,9 +35,11 @@ const ProjectCards = ({
     setOpen('update')
   }
 
-  const handleCardClick = (projectId: string) => {
-    // eslint-disable-next-line no-console
-    console.log('projectId', projectId)
+  const handleCardClick = (id: string) => {
+    navigate({
+      to: '/projects/socials/$id',
+      params: { id },
+    })
   }
 
   const getStatusColor = (status: string) => {
@@ -82,7 +86,7 @@ const ProjectCards = ({
                 <IconEdit className='h-4 w-4' />
               </Button>
             </div>
-            <CardDescription className='line-clamp-2 min-h-[2.5rem]'>
+            <CardDescription className='line-clamp-2 min-h-10'>
               {item.description || 'No description provided'}
             </CardDescription>
           </CardHeader>
