@@ -73,13 +73,13 @@ const Projects = () => {
         <div className='-mx-4 flex-1 overflow-auto px-4 pt-4 pb-1 lg:flex-row lg:space-y-0 lg:space-x-12'>
           <ProjectCards data={data?.data} />
         </div>
-        {data?.data.total && (
+        {data?.data.total ? (
           <CustomPagination
             offset={currentOffset}
             limit={currentLimit}
             total={data.data.total}
           />
-        )}
+        ) : null}
       </Main>
       <ProjectDialogs />
     </ProjectProvider>

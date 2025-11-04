@@ -224,7 +224,7 @@ export function ProjectMutateDrawer({
                   control={form.control}
                   name='category_id'
                   label='Category'
-                  //   detail={currentRow ?? undefined}
+                  detail={currentRow?.category ?? undefined}
                 />
 
                 {/* customer_company_id combo select */}
@@ -232,7 +232,7 @@ export function ProjectMutateDrawer({
                   control={form.control}
                   name='customer_company_id'
                   label='Customer company'
-                  //   detail={currentRow?.company}
+                  detail={currentRow?.customer_company}
                   filterOurCompany={false}
                 />
 
@@ -241,7 +241,7 @@ export function ProjectMutateDrawer({
                   control={form.control}
                   name='our_company_id'
                   label='Our company'
-                  //   detail={currentRow?.company}
+                  detail={currentRow?.our_company}
                   filterOurCompany={true}
                 />
 

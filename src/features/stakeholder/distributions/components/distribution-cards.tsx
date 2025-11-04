@@ -1,9 +1,24 @@
 import { useNavigate } from '@tanstack/react-router'
-import { IconEdit } from '@tabler/icons-react'
-import { Card, CardContent, CardFooter, CardTitle } from '@/components/ui/card'
+import {
+  IconEdit,
+  IconShare3,
+  IconCircleCheck,
+  IconCircleX,
+  IconFileDescription,
+} from '@tabler/icons-react'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
 import {
   Tooltip,
   TooltipContent,
+  TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
 import { useDistributionContext } from '../context'
@@ -16,6 +31,7 @@ const DistributionCards = ({
 }) => {
   const navigate = useNavigate()
   const { setOpen, setCurrentRow } = useDistributionContext()
+
   const handleEdit = (e: React.MouseEvent, payload: DistributionSchema) => {
     e.stopPropagation()
     setCurrentRow(payload)
@@ -30,50 +46,98 @@ const DistributionCards = ({
   }
 
   return data?.length ? (
-    <div className='grid grid-cols-6 gap-4'>
-      {data.map((item) => (
-        <Card
-          key={item.id}
-          className='cursor-pointer transition-all hover:shadow-lg'
-          onClick={() => handleCardClick(item.id)}
-        >
-          <CardContent className='flex justify-between'>
-            <div className='flex items-center gap-4'>
-              <div
-                className={`${item.is_active ? `bg-green-500` : `bg-destructive`} h-2 w-2 animate-pulse rounded-full`}
-              />
-              <CardTitle>{item.name}</CardTitle>
-            </div>
+    <TooltipProvider>
+      <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6'>
+        {data.map((item) => (
+          <Card
+            key={item.id}
+            className='group hover:border-primary/50 cursor-pointer transition-all hover:shadow-lg'
+            onClick={() => handleCardClick(item.id)}
+          >
+            <CardHeader className='pb-3'>
+              <div className='flex items-start justify-between gap-2'>
+                <div className='flex items-center gap-2'>
+                  <IconShare3 className='text-primary h-5 w-5' />
+                  <Badge
+                    variant={item.is_active ? 'default' : 'secondary'}
+                    className='gap-1'
+                  >
+                    {item.is_active ? (
+                      <>
+                        <IconCircleCheck className='h-3 w-3' />
+                        Active
+                      </>
+                    ) : (
+                      <>
+                        <IconCircleX className='h-3 w-3' />
+                        Inactive
+                      </>
+                    )}
+                  </Badge>
+                </div>
+                <Button
+                  onClick={(e) => handleEdit(e, item)}
+                  size='icon'
+                  variant='ghost'
+                  className='h-7 w-7 shrink-0 opacity-0 transition-opacity group-hover:opacity-100'
+                >
+                  <IconEdit className='h-4 w-4' />
+                </Button>
+              </div>
 
-            <div className='flex items-center gap-4'>
-              <IconEdit
-                size={16}
-                onClick={(e) => handleEdit(e, item)}
-                className='cursor-pointer'
-              />
-            </div>
-          </CardContent>
-          <CardFooter className='text-foreground pt-6 text-sm'>
-            {item.description && item.description?.length >= 40 ? (
-              <Tooltip>
-                <TooltipTrigger className='text-left'>
-                  {item.description.slice(0, 40)} ...
-                </TooltipTrigger>
-                <TooltipContent className='max-w-[350px] overflow-auto md:max-w-[500px]'>
-                  {item.description}
-                </TooltipContent>
-              </Tooltip>
-            ) : (
-              <p>{item.description ? item.description : ''}</p>
-            )}
-          </CardFooter>
-        </Card>
-      ))}
-    </div>
+              <CardTitle className='line-clamp-2 pt-2 text-base leading-tight'>
+                {item.name}
+              </CardTitle>
+            </CardHeader>
+
+            <CardContent>
+              {item.description ? (
+                item.description.length > 80 ? (
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <CardDescription className='line-clamp-3 cursor-help text-sm'>
+                        <span className='flex items-start gap-1.5'>
+                          <IconFileDescription className='text-muted-foreground mt-0.5 h-4 w-4 shrink-0' />
+                          <span>{item.description}</span>
+                        </span>
+                      </CardDescription>
+                    </TooltipTrigger>
+                    <TooltipContent
+                      side='bottom'
+                      className='max-h-[200px] max-w-[350px] overflow-auto md:max-w-[500px]'
+                    >
+                      <p className='whitespace-pre-wrap'>{item.description}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                ) : (
+                  <CardDescription className='text-sm'>
+                    <span className='flex items-start gap-1.5'>
+                      <IconFileDescription className='text-muted-foreground mt-0.5 h-4 w-4 shrink-0' />
+                      <span>{item.description}</span>
+                    </span>
+                  </CardDescription>
+                )
+              ) : (
+                <CardDescription className='text-muted-foreground/60 text-sm italic'>
+                  <span className='flex items-start gap-1.5'>
+                    <IconFileDescription className='mt-0.5 h-4 w-4 shrink-0' />
+                    <span>No description provided</span>
+                  </span>
+                </CardDescription>
+              )}
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    </TooltipProvider>
   ) : (
-    <Card>
-      <CardContent className='py-6'>
-        <CardTitle className='text-center'>No Distributions found</CardTitle>
+    <Card className='border-dashed'>
+      <CardContent className='flex flex-col items-center justify-center py-12'>
+        <IconShare3 className='text-muted-foreground mb-4 h-12 w-12' />
+        <CardTitle className='mb-2 text-xl'>No Distributions Found</CardTitle>
+        <p className='text-muted-foreground text-sm'>
+          Create a distribution to get started
+        </p>
       </CardContent>
     </Card>
   )

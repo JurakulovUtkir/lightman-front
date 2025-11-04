@@ -1,4 +1,7 @@
 import { z } from 'zod'
+import { companySchema } from '@/features/companies/data/schema'
+import { networkCategorySchema } from '@/features/network/categories/data/schema'
+import { distributionSchema } from '@/features/stakeholder/distributions/data/schema'
 
 export const projectSchema = z.object({
   id: z.string(),
@@ -16,5 +19,9 @@ export const projectSchema = z.object({
   our_company_id: z.string(),
   created_at: z.string(),
   updated_at: z.string(),
+  category: networkCategorySchema,
+  customer_company: companySchema,
+  distribution: distributionSchema,
+  our_company: companySchema,
 })
 export type ProjectSchema = z.infer<typeof projectSchema>
