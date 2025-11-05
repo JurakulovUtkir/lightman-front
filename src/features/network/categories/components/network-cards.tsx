@@ -50,7 +50,7 @@ const NetworkCards = ({
               <div className='flex items-center gap-2'>
                 <IconCategory className='text-primary h-5 w-5' />
                 <Badge
-                  variant={item.is_active ? 'default' : 'secondary'}
+                  variant={item.is_active ? 'success' : 'destructive'}
                   className='gap-1'
                 >
                   {item.is_active ? (

@@ -4,6 +4,7 @@ import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
+import { useDistribution } from '../distributions/data/hooks'
 import { columns } from './components/columns'
 import { DataTable } from './components/data-table'
 import { DistributorDialogs } from './components/distributor-dialogs'
@@ -15,6 +16,8 @@ const Distributors = () => {
   const { id } = Route.useLoaderData()
 
   const { data } = useDistributors(id)
+  const { data: distribution, isPending: isDistributionPending } =
+    useDistribution(id)
 
   return (
     <DistributorProvider>
@@ -28,7 +31,13 @@ const Distributors = () => {
       <Main>
         <div className='mb-2 flex flex-wrap items-center justify-between space-y-2 gap-x-4'>
           <div>
-            <h2 className='text-2xl font-bold tracking-tight'>Distributors</h2>
+            <h2 className='text-2xl font-bold tracking-tight'>
+              {isDistributionPending
+                ? ''
+                : distribution?.name
+                  ? distribution.name
+                  : '-'}
+            </h2>
             <p className='text-muted-foreground'>
               Here&apos;s a list of distributors!
             </p>

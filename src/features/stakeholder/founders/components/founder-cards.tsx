@@ -44,7 +44,7 @@ const FounderCards = ({ data }: { data: FounderSchema[] | undefined }) => {
           <CardHeader className='pb-3'>
             <div className='flex items-start justify-between'>
               <Badge
-                variant={item.is_active ? 'default' : 'secondary'}
+                variant={item.is_active ? 'success' : 'destructive'}
                 className='gap-1 text-xs'
               >
                 {item.is_active ? (

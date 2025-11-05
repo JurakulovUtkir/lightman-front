@@ -34,6 +34,10 @@ export const deleteProjectSocial = async (id: string): Promise<void> => {
   await api.delete(`/project-socials/${id}`)
 }
 
+export const paymentStatus = async (id: string): Promise<void> => {
+  await api.patch(`/project-socials/${id}/paid`)
+}
+
 // File CRUD
 
 export const uploadFileApi = async (

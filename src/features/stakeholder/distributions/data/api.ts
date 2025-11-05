@@ -1,3 +1,4 @@
+import { ApiResponse } from '@/constants'
 import api from '@/lib/axios'
 import { DistributionSchema } from './schema'
 import { DistributionResponse } from './types'
@@ -9,8 +10,10 @@ export const getDistributions = async (): Promise<DistributionResponse> => {
 export const getDistribution = async (
   id: string
 ): Promise<DistributionSchema> => {
-  const response = await api.get(`/distribution/${id}`)
-  return response.data
+  const response = await api.get<ApiResponse<DistributionSchema>>(
+    `/distribution/${id}`
+  )
+  return response.data.data
 }
 
 export const createDistribution = async (
