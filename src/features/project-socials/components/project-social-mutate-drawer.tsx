@@ -4,13 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Route } from '@/routes/_authenticated/projects/socials/$id'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-} from '@/components/ui/form'
+import { Form } from '@/components/ui/form'
 import {
   Sheet,
   SheetContent,
@@ -19,12 +13,12 @@ import {
   SheetHeader,
   SheetTitle,
 } from '@/components/ui/sheet'
-import { Switch } from '@/components/ui/switch'
 import { FormFieldWrapper } from '@/components/form-field-wrapper'
 import { ProjectSocialDialogType } from '../context'
 import { useCreateProjectSocial, useUpdateProjectSocial } from '../data/hooks'
 import { ProjectSocialSchema } from '../data/schema'
 import { FormComboboxNetworkSocial } from './form-combobox-network-social'
+import { FormFileUploadField } from './form-file-upload'
 
 interface Props {
   open: boolean
@@ -54,7 +48,7 @@ export function ProjectSocialMutateDrawer({
         error: 'Required field',
       })
       .optional(),
-    is_paid: z.boolean().optional(),
+
     buy_price: z.number().optional(),
     sell_price: z.number().optional(),
     post_link: z
@@ -62,12 +56,12 @@ export function ProjectSocialMutateDrawer({
         message: 'Enter valid url',
       })
       .or(z.literal(''))
-      .optional(),
-    post_views: z.number().optional(),
-    payment: z.string().optional(),
-    post_screenshot: z.string().optional(),
+      .optional()
+      .nullable(),
+    post_views: z.number().optional().nullable(),
+    payment: z.string().nullable().optional(),
+    post_screenshot: z.string().nullable().optional(),
   })
-
   type ProjectSocialForm = z.infer<typeof formSchema>
 
   const form = useForm<ProjectSocialForm>({
@@ -147,23 +141,6 @@ export function ProjectSocialMutateDrawer({
               onSubmit={form.handleSubmit(onSubmit)}
               className='flex-1 space-y-5 px-4'
             >
-              <FormField
-                control={form.control}
-                name='is_paid'
-                render={({ field }) => (
-                  <FormItem className='space-y-1'>
-                    <div className='flex items-center gap-2'>
-                      <FormControl>
-                        <Switch
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                        />
-                      </FormControl>
-                      <FormLabel>Is paid</FormLabel>
-                    </div>
-                  </FormItem>
-                )}
-              />
               <FormComboboxNetworkSocial
                 name='social_id'
                 label='Social Network'
@@ -187,22 +164,38 @@ export function ProjectSocialMutateDrawer({
                 type='number'
                 suffix='UZS'
               />
+              {isUpdate && (
+                <>
+                  <FormFieldWrapper
+                    control={form.control}
+                    name='post_link'
+                    label='Post link'
+                    placeholder='Enter a link'
+                  />
+                  <FormFieldWrapper
+                    control={form.control}
+                    name='post_views'
+                    label='Post views'
+                    placeholder='Enter a count'
+                    type='number'
+                  />
+                  <FormFileUploadField
+                    control={form.control}
+                    name='payment'
+                    label='Payment Document'
+                    fileType='document'
+                    maxSize={10}
+                  />
 
-              <FormFieldWrapper
-                control={form.control}
-                name='post_link'
-                label='Post link'
-                placeholder='Enter a link'
-              />
-              <FormFieldWrapper
-                control={form.control}
-                name='post_views'
-                label='Post views'
-                placeholder='Enter a count'
-                type='number'
-              />
-              {/* payment */}
-              {/* post_screenshot */}
+                  <FormFileUploadField
+                    control={form.control}
+                    name='post_screenshot'
+                    label='Post Screenshot'
+                    fileType='image'
+                    maxSize={5}
+                  />
+                </>
+              )}
             </form>
           </Form>
         </div>

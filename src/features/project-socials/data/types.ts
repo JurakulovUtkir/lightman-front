@@ -2,3 +2,14 @@ import { ApiResponse } from '@/constants'
 import { ProjectSocialSchema } from './schema'
 
 export type ProjectSocialResponse = ApiResponse<ProjectSocialSchema[]>
+
+interface FileData {
+  id: string
+  filename: string
+  originalName: string
+  size: number
+  path: string
+  uploadedAt: string
+}
+
+export type FileResponse = ApiResponse<FileData>

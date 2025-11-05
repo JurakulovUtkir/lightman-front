@@ -1,6 +1,6 @@
 import api from '@/lib/axios'
 import { ProjectSocialSchema } from './schema'
-import { ProjectSocialResponse } from './types'
+import { FileResponse, ProjectSocialResponse } from './types'
 
 export const getProjectSocials = async (
   id: string
@@ -32,4 +32,25 @@ export const updateProjectSocial = async (
 
 export const deleteProjectSocial = async (id: string): Promise<void> => {
   await api.delete(`/project-socials/${id}`)
+}
+
+// File CRUD
+
+export const uploadFileApi = async (
+  formData: FormData
+): Promise<FileResponse> => {
+  const response = await api.post('/files/upload', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  })
+
+  return response.data
+}
+
+export const deleteFileApi = async (filePath: string): Promise<void> => {
+  // Remove /assets/ prefix if it exists
+  const cleanPath = filePath.replace(/^\/assets\//, '')
+
+  await api.delete(`/files/${cleanPath}`)
 }

@@ -4,9 +4,9 @@ import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
+import { columns } from './components/columns'
+import { DataTable } from './components/data-table'
 import { ProjectSocialDialogs } from './components/project-social-dialogs'
-// import { columns } from './components/columns'
-// import { DataTable } from './components/data-table'
 import { ProjectSocialPrimaryButtons } from './components/project-social-primary-buttons'
 import ProjectSocialProvider from './context'
 import { useProjectSocials } from './data/hooks'
@@ -40,10 +40,10 @@ const ProjectSocials = () => {
           <ProjectSocialPrimaryButtons />
         </div>
         <div className='-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-y-0 lg:space-x-12'>
-          {/* <DataTable
+          <DataTable
             data={data?.data?.length ? data.data : []}
             columns={columns}
-          /> */}
+          />
         </div>
       </Main>
       <ProjectSocialDialogs />

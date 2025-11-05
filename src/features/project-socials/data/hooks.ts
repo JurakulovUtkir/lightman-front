@@ -6,6 +6,8 @@ import {
   createProjectSocial,
   updateProjectSocial,
   deleteProjectSocial,
+  uploadFileApi,
+  deleteFileApi,
 } from './api'
 import { ProjectSocialSchema } from './schema'
 
@@ -59,5 +61,18 @@ export const useDeleteProjectSocial = () => {
       queryClient.invalidateQueries({ queryKey: ['project-socials'] })
       toast.success('Project social deleted successfully!')
     },
+  })
+}
+
+// File CRUD:
+export const useUploadFile = () => {
+  return useMutation({
+    mutationFn: uploadFileApi,
+  })
+}
+
+export const useDeleteFile = () => {
+  return useMutation({
+    mutationFn: deleteFileApi,
   })
 }
