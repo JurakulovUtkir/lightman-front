@@ -6,8 +6,16 @@ import {
   IconUsers,
   IconCalendar,
   IconFolderOpen,
+  IconCreditCard,
+  IconTag,
 } from '@tabler/icons-react'
 import { formatToYearMonthDay } from '@/lib/dateFormatter'
+import {
+  formatPriceType,
+  getPaymentStatusColor,
+  getPriceTypeColor,
+  getStatusColor,
+} from '@/lib/statusHelpers'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -40,22 +48,6 @@ const ProjectCards = ({
       to: '/projects/socials/$id',
       params: { id },
     })
-  }
-
-  const getStatusColor = (status: string) => {
-    const colors: Record<string, string> = {
-      draft: 'bg-gray-100 text-gray-800 border-gray-200',
-      active: 'bg-green-100 text-green-800 border-green-200',
-      on_hold: 'bg-yellow-100 text-yellow-800 border-yellow-200',
-      approved: 'bg-blue-100 text-blue-800 border-blue-200',
-      requested: 'bg-purple-100 text-purple-800 border-purple-200',
-      done: 'bg-emerald-100 text-emerald-800 border-emerald-200',
-      canceled: 'bg-red-100 text-red-800 border-red-200',
-    }
-    return (
-      colors[status.toLowerCase()] ||
-      'bg-gray-100 text-gray-800 border-gray-200'
-    )
   }
 
   return data?.items.length ? (
@@ -92,17 +84,32 @@ const ProjectCards = ({
           </CardHeader>
 
           <CardContent className='space-y-3'>
-            <div className='flex items-center justify-between'>
+            <div className='flex flex-wrap items-center gap-2'>
               <Badge
                 variant='outline'
                 className={`${getStatusColor(item.status)} font-medium capitalize`}
               >
                 {item.status}
               </Badge>
-              <div className='text-muted-foreground flex items-center gap-1.5 text-sm'>
-                <IconCalendar className='h-3.5 w-3.5' />
-                <span>{formatToYearMonthDay(item.created_at)}</span>
-              </div>
+              <Badge
+                variant='outline'
+                className={`${getPriceTypeColor(item.price_type)} font-medium`}
+              >
+                <IconTag className='mr-1 h-3 w-3' />
+                {formatPriceType(item.price_type)}
+              </Badge>
+              <Badge
+                variant='outline'
+                className={`${getPaymentStatusColor(item.payment_status)} font-medium capitalize`}
+              >
+                <IconCreditCard className='mr-1 h-3 w-3' />
+                {item.payment_status}
+              </Badge>
+            </div>
+
+            <div className='text-muted-foreground flex items-center gap-1.5 text-sm'>
+              <IconCalendar className='h-3.5 w-3.5' />
+              <span>{formatToYearMonthDay(item.created_at)}</span>
             </div>
 
             <Separator />

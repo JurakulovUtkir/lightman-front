@@ -21,9 +21,9 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { useProjectSocialContext } from '../context'
+import { ProjectSocialSchema } from '../data/schema'
 import { DataTablePagination } from './data-table-pagination'
-
-// import { DataTableToolbar } from '../components/data-table-toolbar'
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -34,6 +34,7 @@ export function DataTable<TData, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
+  const { setOpen, setCurrentRow } = useProjectSocialContext()
   const [rowSelection, setRowSelection] = React.useState({})
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({})
@@ -66,7 +67,6 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className='space-y-4'>
-      {/* <DataTableToolbar table={table} /> */}
       <div className='overflow-hidden rounded-md border'>
         <Table>
           <TableHeader>
@@ -93,6 +93,11 @@ export function DataTable<TData, TValue>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && 'selected'}
+                  onDoubleClick={() => {
+                    setCurrentRow(row.original as ProjectSocialSchema)
+                    setOpen('update')
+                  }}
+                  className='cursor-pointer'
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>

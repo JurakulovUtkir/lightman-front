@@ -19,3 +19,26 @@ export const statusOptions = [
   { value: 'done', label: 'Done' },
   { value: 'canceled', label: 'Canceled' },
 ]
+
+export enum PriceType {
+  STANDARD = 'standard',
+  VIP = 'vip',
+  NO_WATERMARK = 'no_watermark',
+}
+
+export enum PaymentStatus {
+  PENDING = 'pending',
+  PAID = 'paid',
+  CANCELLED = 'cancelled',
+  UNPAID = 'unpaid',
+}
+
+export enum ProjectStatus {
+  DRAFT = 'draft',
+  ACTIVE = 'active',
+  ON_HOLD = 'on_hold',
+  APPROVED = 'approved',
+  REQUESTED = 'requested',
+  DONE = 'done',
+  CANCELED = 'canceled',
+}

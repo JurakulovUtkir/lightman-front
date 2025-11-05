@@ -2,11 +2,12 @@ import { ColumnDef } from '@tanstack/react-table'
 import { Download, Eye } from 'lucide-react'
 import { toast } from 'sonner'
 import { formatDateToLongString } from '@/lib/dateFormatter'
+import { formatPrice } from '@/utils/formatPrice'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { ProjectSocialSchema } from '../data/schema'
 import { DataTableColumnHeader } from './data-table-column-header'
-import { DataTableRowActions } from './data-table-row-actions'
+// import { DataTableRowActions } from './data-table-row-actions'
 import PaymentStatus from './payment-status'
 
 // Helper function to download file
@@ -70,7 +71,7 @@ export const columns: ColumnDef<ProjectSocialSchema>[] = [
     ),
     cell: ({ row }) => {
       const buyPrice = row.original.buy_price ?? 0
-      return <div>{buyPrice.toLocaleString()} UZS</div>
+      return <div>{formatPrice(buyPrice)} UZS</div>
     },
     enableSorting: true,
     enableHiding: false,
@@ -82,7 +83,7 @@ export const columns: ColumnDef<ProjectSocialSchema>[] = [
     ),
     cell: ({ row }) => {
       const sellPrice = row.original.sell_price ?? 0
-      return <div>{sellPrice.toLocaleString()} UZS</div>
+      return <div>{formatPrice(sellPrice)} UZS</div>
     },
     enableSorting: true,
     enableHiding: false,
@@ -248,8 +249,8 @@ export const columns: ColumnDef<ProjectSocialSchema>[] = [
     enableSorting: true,
     enableHiding: false,
   },
-  {
-    id: 'actions',
-    cell: ({ row }) => <DataTableRowActions row={row} />,
-  },
+  // {
+  //   id: 'actions',
+  //   cell: ({ row }) => <DataTableRowActions row={row} />,
+  // },
 ]

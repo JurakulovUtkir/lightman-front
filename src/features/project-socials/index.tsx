@@ -6,6 +6,7 @@ import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
 import { columns } from './components/columns'
 import { DataTable } from './components/data-table'
+import PriceCards from './components/price-cards'
 import { ProjectSocialDialogs } from './components/project-social-dialogs'
 import { ProjectSocialPrimaryButtons } from './components/project-social-primary-buttons'
 import ProjectSocialProvider from './context'
@@ -13,10 +14,7 @@ import { useProjectSocials } from './data/hooks'
 
 const ProjectSocials = () => {
   const { id } = Route.useLoaderData()
-
   const { data } = useProjectSocials(id)
-  // eslint-disable-next-line no-console
-  console.log('data', data)
 
   return (
     <ProjectSocialProvider>
@@ -39,6 +37,8 @@ const ProjectSocials = () => {
           </div>
           <ProjectSocialPrimaryButtons />
         </div>
+        {data && data?.data?.length > 0 && <PriceCards data={data} />}
+
         <div className='-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-y-0 lg:space-x-12'>
           <DataTable
             data={data?.data?.length ? data.data : []}

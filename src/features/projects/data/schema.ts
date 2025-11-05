@@ -23,5 +23,6 @@ export const projectSchema = z.object({
   customer_company: companySchema,
   distribution: distributionSchema,
   our_company: companySchema,
+  payment_status: z.string(),
 })
 export type ProjectSchema = z.infer<typeof projectSchema>
