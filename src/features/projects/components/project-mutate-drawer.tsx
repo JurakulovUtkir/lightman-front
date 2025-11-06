@@ -71,7 +71,7 @@ export function ProjectMutateDrawer({
       .min(0, 'Invalid value'),
     // status: z.string().optional(),
     distribution_id: z.string().optional(),
-    price_type: z.string().optional(),
+    price_type: z.enum(['standard', 'vip', 'no_watermark']).optional(),
     category_id: z.string().optional(),
     customer_company_id: z.string({
       error: 'Required field',

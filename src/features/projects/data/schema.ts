@@ -13,7 +13,7 @@ export const projectSchema = z.object({
   status: z.string(),
   is_active: z.boolean(),
   distribution_id: z.string(),
-  price_type: z.string(),
+  price_type: z.enum(['standard', 'vip', 'no_watermark']),
   category_id: z.string(),
   customer_company_id: z.string(),
   our_company_id: z.string(),

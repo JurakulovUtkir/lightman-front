@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Control, FieldValues, Path } from 'react-hook-form'
+import { Control, FieldValues, Path, UseFormSetValue } from 'react-hook-form'
 import { IconCheck, IconSelector } from '@tabler/icons-react'
 import { cn } from '@/lib/utils'
 import { useDebounce } from '@/hooks/useDebounce'
@@ -33,6 +33,10 @@ type ComboboxOption = {
   label: string
   category?: string
   type?: string
+  buy_price?: string | number
+  standard_sell_price?: string | number
+  vip_sell_price?: string | number
+  no_watermark_sell_price?: string | number
 }
 
 interface FormComboboxProps<T extends FieldValues> {
@@ -42,6 +46,9 @@ interface FormComboboxProps<T extends FieldValues> {
   detail?: Pick<NetworkSocialSchema, 'id' | 'name'>
   categoryId?: string
   socialNetworkTypeId?: string
+  disabled?: boolean
+  setValue?: UseFormSetValue<T>
+  priceType?: 'standard' | 'vip' | 'no_watermark'
 }
 
 export const FormComboboxNetworkSocial = <T extends FieldValues>({
@@ -51,6 +58,9 @@ export const FormComboboxNetworkSocial = <T extends FieldValues>({
   detail,
   categoryId,
   socialNetworkTypeId,
+  disabled = false,
+  setValue,
+  priceType = 'standard',
 }: FormComboboxProps<T>) => {
   const [search, setSearch] = useState('')
   const [open, setOpen] = useState(false)
@@ -68,7 +78,6 @@ export const FormComboboxNetworkSocial = <T extends FieldValues>({
     social_network_type_id: socialNetworkTypeId,
   })
 
-  // Determine if we're currently loading or fetching
   const isLoading = isLoadingNetworkSocials || isFetchingNetworkSocials
 
   return (
@@ -76,7 +85,6 @@ export const FormComboboxNetworkSocial = <T extends FieldValues>({
       control={control}
       name={name}
       render={({ field }) => {
-        // Show skeleton only on initial load, not during search
         if (isLoading && !debouncedSearch && !open) {
           return (
             <FormItem className='flex w-full flex-col'>
@@ -93,33 +101,40 @@ export const FormComboboxNetworkSocial = <T extends FieldValues>({
             label: social.name,
             category: social.category?.name,
             type: social.social_network_type?.name,
+            buy_price: social.buy_price,
+            standard_sell_price: social.standard_sell_price,
+            vip_sell_price: social.vip_sell_price,
+            no_watermark_sell_price: social.no_watermark_sell_price,
           })) ?? []
 
-        // Handle fallback from detail
+        // Only add detail as fallback if:
+        // 1. Detail exists
+        // 2. Field has a value
+        // 3. The value matches the detail id (prevents stale detail from being used)
+        // 4. It's not already in options
         if (
           detail &&
           detail.id &&
           field.value &&
+          field.value === detail.id &&
           !options.some((item) => item.value === field.value)
         ) {
-          const fallbackOption: ComboboxOption = {
-            value: detail.id,
-            label: detail.name,
-          }
-
-          if (!options.some((opt) => opt.value === fallbackOption.value)) {
-            options = [...options, fallbackOption]
-          }
+          options = [
+            ...options,
+            {
+              value: detail.id,
+              label: detail.name,
+            },
+          ]
         }
 
         const selectedOption = options.find(
           (item) => item.value === field.value
         )
 
-        // Need to fix while searching
+        // If there's a value but no matching option, show placeholder instead of ID
         const displayLabel =
-          selectedOption?.label ??
-          (field.value ? `Selected ID: ${field.value}` : '')
+          field.value && selectedOption ? selectedOption.label : ''
 
         return (
           <FormItem className='flex w-full flex-col'>
@@ -130,14 +145,15 @@ export const FormComboboxNetworkSocial = <T extends FieldValues>({
                   <Button
                     variant='outline'
                     role='combobox'
+                    disabled={disabled}
                     className={cn(
                       'justify-between',
-                      !field.value && 'text-muted-foreground'
+                      !displayLabel && 'text-muted-foreground'
                     )}
                   >
-                    {field.value
-                      ? displayLabel
-                      : `Select ${label.toLowerCase()}`}
+                    {disabled
+                      ? 'Select network type first'
+                      : displayLabel || `Select ${label.toLowerCase()}`}
                     <IconSelector className='opacity-50' />
                   </Button>
                 </FormControl>
@@ -170,6 +186,60 @@ export const FormComboboxNetworkSocial = <T extends FieldValues>({
                               key={item.value}
                               onSelect={() => {
                                 field.onChange(item.value)
+
+                                if (setValue) {
+                                  // Set buy_price if it exists
+                                  if (item.buy_price) {
+                                    const buyPrice =
+                                      typeof item.buy_price === 'string'
+                                        ? parseFloat(item.buy_price)
+                                        : item.buy_price
+                                    setValue(
+                                      'buy_price' as Path<T>,
+                                      buyPrice as T[Path<T>]
+                                    )
+                                  }
+
+                                  // Set sell_price based on price_type
+                                  let sellPrice: number | undefined
+                                  if (
+                                    priceType === 'standard' &&
+                                    item.standard_sell_price
+                                  ) {
+                                    sellPrice =
+                                      typeof item.standard_sell_price ===
+                                      'string'
+                                        ? parseFloat(item.standard_sell_price)
+                                        : item.standard_sell_price
+                                  } else if (
+                                    priceType === 'vip' &&
+                                    item.vip_sell_price
+                                  ) {
+                                    sellPrice =
+                                      typeof item.vip_sell_price === 'string'
+                                        ? parseFloat(item.vip_sell_price)
+                                        : item.vip_sell_price
+                                  } else if (
+                                    priceType === 'no_watermark' &&
+                                    item.no_watermark_sell_price
+                                  ) {
+                                    sellPrice =
+                                      typeof item.no_watermark_sell_price ===
+                                      'string'
+                                        ? parseFloat(
+                                            item.no_watermark_sell_price
+                                          )
+                                        : item.no_watermark_sell_price
+                                  }
+
+                                  if (sellPrice !== undefined) {
+                                    setValue(
+                                      'sell_price' as Path<T>,
+                                      sellPrice as T[Path<T>]
+                                    )
+                                  }
+                                }
+
                                 setOpen(false)
                               }}
                             >

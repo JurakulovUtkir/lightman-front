@@ -35,6 +35,7 @@ export const useProject = (id: string) => {
   return useQuery<ProjectSchema>({
     queryKey: ['project', id],
     queryFn: () => getProject(id),
+    enabled: !!id,
   })
 }
 

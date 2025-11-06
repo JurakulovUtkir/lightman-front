@@ -21,7 +21,9 @@ const PaymentStatus = ({
     setOpen('paid')
   }
   return isPaid ? (
-    <Badge variant='success'>Paid</Badge>
+    <Badge variant='success' className='px-5.5'>
+      Paid
+    </Badge>
   ) : (
     <Button variant='destructive' size='sm' onClick={hadleClick}>
       Unpaid

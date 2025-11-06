@@ -39,7 +39,7 @@ interface FormComboboxProps<T extends FieldValues> {
   detail?: Pick<NetworkTypeSchema, 'id' | 'name'>
 }
 
-export const FormComboboxNetwrokTypes = <T extends FieldValues>({
+export const FormComboboxNetworkTypes = <T extends FieldValues>({
   name,
   label,
   control,

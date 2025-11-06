@@ -1,12 +1,12 @@
 import { ConfirmDialog } from '@/components/confirm-dialog'
 import { useProjectSocialContext } from '../context'
-import { useDeleteProjectSocial, usePaymentStatus } from '../data/hooks'
+import { useDeleteProjectSocial, useUpdateProjectSocial } from '../data/hooks'
 import { ProjectSocialMutateDrawer } from './project-social-mutate-drawer'
 
 export function ProjectSocialDialogs() {
   const { open, setOpen, currentRow, setCurrentRow } = useProjectSocialContext()
   const { mutate, isPending } = useDeleteProjectSocial()
-  const payment = usePaymentStatus()
+  const payment = useUpdateProjectSocial()
 
   const handleDelete = (id: string) => {
     mutate(id, {
@@ -19,12 +19,20 @@ export function ProjectSocialDialogs() {
 
   const handlePay = () => {
     if (currentRow?.id) {
-      payment.mutate(currentRow.id, {
-        onSuccess: () => {
-          setOpen(null)
-          setCurrentRow(null)
+      payment.mutate(
+        {
+          id: currentRow.id,
+          data: {
+            is_paid: true,
+          },
         },
-      })
+        {
+          onSuccess: () => {
+            setOpen(null)
+            setCurrentRow(null)
+          },
+        }
+      )
     }
   }
   return (

@@ -1,3 +1,4 @@
+import { ApiResponse } from '@/constants'
 import api from '@/lib/axios'
 import { ProjectSchema } from './schema'
 import { ProjectSchemaResponse } from './types'
@@ -24,8 +25,8 @@ export const getProjects = async ({
   return response.data
 }
 export const getProject = async (id: string): Promise<ProjectSchema> => {
-  const response = await api.get(`/projects/${id}`)
-  return response.data
+  const response = await api.get<ApiResponse<ProjectSchema>>(`/projects/${id}`)
+  return response.data.data
 }
 
 export const createProject = async (

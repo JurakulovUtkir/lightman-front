@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -14,6 +15,8 @@ import {
   SheetTitle,
 } from '@/components/ui/sheet'
 import { FormFieldWrapper } from '@/components/form-field-wrapper'
+import { FormComboboxNetworkTypes } from '@/features/network/socials/components/form-combobox-network-types'
+import { useProject } from '@/features/projects/data/hooks'
 import { ProjectSocialDialogType } from '../context'
 import { useCreateProjectSocial, useUpdateProjectSocial } from '../data/hooks'
 import { ProjectSocialSchema } from '../data/schema'
@@ -41,14 +44,14 @@ export function ProjectSocialMutateDrawer({
   const createProjectSocial = useCreateProjectSocial()
   const updateProjectSocial = useUpdateProjectSocial()
   const isUpdate = !!currentRow
+  const { data: project } = useProject(id)
 
   const formSchema = z.object({
     social_id: z
       .string({
         error: 'Required field',
       })
-      .optional(),
-
+      .min(1, 'Social network is required'),
     buy_price: z.number().optional(),
     sell_price: z.number().optional(),
     post_link: z
@@ -61,6 +64,8 @@ export function ProjectSocialMutateDrawer({
     post_views: z.number().optional().nullable(),
     payment: z.string().nullable().optional(),
     post_screenshot: z.string().nullable().optional(),
+
+    network_type_id: z.string().optional(),
   })
   type ProjectSocialForm = z.infer<typeof formSchema>
 
@@ -69,18 +74,33 @@ export function ProjectSocialMutateDrawer({
     defaultValues: currentRow,
   })
 
+  const selectedNetworkTypeId = form.watch('network_type_id')
+
+  useEffect(() => {
+    const subscription = form.watch((value, { name }) => {
+      if (name === 'network_type_id' && value.social_id) {
+        form.setValue('social_id', '')
+        form.setValue('buy_price', undefined)
+        form.setValue('sell_price', undefined)
+      }
+    })
+    return () => subscription.unsubscribe()
+  }, [form])
+
   const onSubmit = (data: ProjectSocialForm) => {
     if (!id) {
       toast.warning('Unable to find Project ID')
       return
     }
 
+    const { network_type_id, ...apiData } = data
+
     if (isUpdate) {
       updateProjectSocial.mutate(
         {
           id: currentRow.id,
           data: {
-            ...data,
+            ...apiData,
             project_id: id,
           },
         },
@@ -94,7 +114,7 @@ export function ProjectSocialMutateDrawer({
     } else {
       createProjectSocial.mutate(
         {
-          ...data,
+          ...apiData,
           project_id: id,
         },
         {
@@ -141,11 +161,26 @@ export function ProjectSocialMutateDrawer({
               onSubmit={form.handleSubmit(onSubmit)}
               className='flex-1 space-y-5 px-4'
             >
+              <FormComboboxNetworkTypes
+                name='network_type_id'
+                label='Network type'
+                control={form.control}
+              />
               <FormComboboxNetworkSocial
                 name='social_id'
                 label='Social Network'
                 control={form.control}
-                // detail={currentRow?.social_network}
+                detail={currentRow?.social ?? undefined}
+                socialNetworkTypeId={selectedNetworkTypeId}
+                disabled={!selectedNetworkTypeId}
+                setValue={form.setValue}
+                priceType={
+                  project?.price_type as
+                    | 'standard'
+                    | 'vip'
+                    | 'no_watermark'
+                    | undefined
+                }
               />
 
               <FormFieldWrapper

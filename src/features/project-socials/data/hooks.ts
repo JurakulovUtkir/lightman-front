@@ -8,7 +8,6 @@ import {
   deleteProjectSocial,
   uploadFileApi,
   deleteFileApi,
-  paymentStatus,
 } from './api'
 import { ProjectSocialSchema } from './schema'
 
@@ -61,20 +60,6 @@ export const useDeleteProjectSocial = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['project-socials'] })
       toast.success('Project social deleted successfully!')
-    },
-  })
-}
-
-export const usePaymentStatus = () => {
-  const queryClient = useQueryClient()
-  return useMutation({
-    mutationFn: paymentStatus,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['project-socials'] })
-      toast.success('Status successfully changed')
-    },
-    onError: (err) => {
-      toast.error(err.message || 'Failed to change status')
     },
   })
 }

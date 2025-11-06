@@ -24,7 +24,7 @@ import { NetworkTypeSchema } from '../../types/data/schema'
 import { useCreateNetworkSocial, useUpdateNetworkSocial } from '../data/hooks'
 import { NetworkSocialSchema } from '../data/schema'
 import { FormComboboxNetwrokCategory } from './form-combobox-network-category'
-import { FormComboboxNetwrokTypes } from './form-combobox-network-types'
+import { FormComboboxNetworkTypes } from './form-combobox-network-types'
 
 interface Props {
   open: boolean
@@ -164,7 +164,7 @@ export function NetworkSocialMutateDrawer({
                 label='Name'
                 placeholder='Enter a name'
               />
-              <FormComboboxNetwrokTypes
+              <FormComboboxNetworkTypes
                 control={form.control}
                 name='social_network_type_id'
                 label='Network type'
