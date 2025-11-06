@@ -207,26 +207,15 @@ export function ProjectMutateDrawer({
                   placeholder='Select a distribution'
                 />
 
-                {/* price_type select */}
-                <FormFieldSelect
-                  control={form.control}
-                  name='price_type'
-                  label='Price type'
-                  placeholder='Select a price type'
-                  options={[
-                    { value: 'standard', label: 'Standard' },
-                    { value: 'no_watermark', label: 'No watermark' },
-                    { value: 'vip', label: 'Vip' },
-                  ]}
-                />
-
                 {/* category_id combo select */}
-                <FormComboboxNetwrokCategory
-                  control={form.control}
-                  name='category_id'
-                  label='Category'
-                  detail={currentRow?.category ?? undefined}
-                />
+                <div className='col-span-2'>
+                  <FormComboboxNetwrokCategory
+                    control={form.control}
+                    name='category_id'
+                    label='Category'
+                    detail={currentRow?.category ?? undefined}
+                  />
+                </div>
 
                 {/* customer_company_id combo select */}
                 <FormComboboxCompany
@@ -244,6 +233,18 @@ export function ProjectMutateDrawer({
                   label='Our company'
                   detail={currentRow?.our_company}
                   filterOurCompany={true}
+                />
+                {/* price_type select */}
+                <FormFieldSelect
+                  control={form.control}
+                  name='price_type'
+                  label='Price type'
+                  placeholder='Select a price type'
+                  options={[
+                    { value: 'standard', label: 'Standard' },
+                    { value: 'no_watermark', label: 'No watermark' },
+                    { value: 'vip', label: 'Vip' },
+                  ]}
                 />
 
                 <FormFieldSelect
