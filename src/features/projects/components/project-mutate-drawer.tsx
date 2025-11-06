@@ -79,6 +79,7 @@ export function ProjectMutateDrawer({
     our_company_id: z.string({
       error: 'Required field',
     }),
+    payment_type: z.enum(['cash', 'card', 'bank_transfer']).optional(),
     is_active: z.boolean().optional(),
   })
 
@@ -243,6 +244,18 @@ export function ProjectMutateDrawer({
                   label='Our company'
                   detail={currentRow?.our_company}
                   filterOurCompany={true}
+                />
+
+                <FormFieldSelect
+                  control={form.control}
+                  name='payment_type'
+                  label='Payment type'
+                  placeholder='Select a payment type'
+                  options={[
+                    { value: 'cash', label: 'Cash' },
+                    { value: 'card', label: 'Card' },
+                    { value: 'bank_transfer', label: 'Bank Transfer' },
+                  ]}
                 />
 
                 <FormFieldWrapper

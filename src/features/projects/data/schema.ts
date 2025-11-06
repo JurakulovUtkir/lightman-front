@@ -24,5 +24,6 @@ export const projectSchema = z.object({
   distribution: distributionSchema,
   our_company: companySchema,
   payment_status: z.string(),
+  payment_type: z.enum(['cash', 'card', 'bank_transfer']),
 })
 export type ProjectSchema = z.infer<typeof projectSchema>

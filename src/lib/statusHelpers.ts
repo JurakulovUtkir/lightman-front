@@ -46,3 +46,29 @@ export const formatPriceType = (priceType: string): string => {
   }
   return formatted[priceType.toLowerCase()] || priceType
 }
+
+export const getPaymentTypeColor = (paymentType: string): string => {
+  switch (paymentType) {
+    case 'cash':
+      return 'border-green-200 bg-green-50 text-green-700 dark:border-green-800 dark:bg-green-950 dark:text-green-300'
+    case 'card':
+      return 'border-blue-200 bg-blue-50 text-blue-700 dark:border-blue-800 dark:bg-blue-950 dark:text-blue-300'
+    case 'bank_transfer':
+      return 'border-purple-200 bg-purple-50 text-purple-700 dark:border-purple-800 dark:bg-purple-950 dark:text-purple-300'
+    default:
+      return 'border-gray-200 bg-gray-50 text-gray-700 dark:border-gray-800 dark:bg-gray-950 dark:text-gray-300'
+  }
+}
+
+export const formatPaymentType = (paymentType: string): string => {
+  switch (paymentType) {
+    case 'cash':
+      return 'Cash'
+    case 'card':
+      return 'Card'
+    case 'bank_transfer':
+      return 'Bank Transfer'
+    default:
+      return paymentType
+  }
+}

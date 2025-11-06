@@ -8,6 +8,7 @@ import {
   IconFolderOpen,
   IconCreditCard,
   IconTag,
+  IconWallet,
 } from '@tabler/icons-react'
 import { formatToYearMonthDay } from '@/lib/dateFormatter'
 import {
@@ -15,6 +16,8 @@ import {
   getPaymentStatusColor,
   getPriceTypeColor,
   getStatusColor,
+  getPaymentTypeColor,
+  formatPaymentType,
 } from '@/lib/statusHelpers'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -104,6 +107,13 @@ const ProjectCards = ({
               >
                 <IconCreditCard className='mr-1 h-3 w-3' />
                 {item.payment_status}
+              </Badge>
+              <Badge
+                variant='outline'
+                className={`${getPaymentTypeColor(item.payment_type)} font-medium`}
+              >
+                <IconWallet className='mr-1 h-3 w-3' />
+                {formatPaymentType(item.payment_type)}
               </Badge>
             </div>
 
