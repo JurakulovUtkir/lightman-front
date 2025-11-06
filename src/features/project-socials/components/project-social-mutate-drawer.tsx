@@ -16,6 +16,7 @@ import {
 } from '@/components/ui/sheet'
 import { FormFieldWrapper } from '@/components/form-field-wrapper'
 import { FormComboboxNetworkTypes } from '@/features/network/socials/components/form-combobox-network-types'
+import { NetworkTypeSchema } from '@/features/network/types/data/schema'
 import { useProject } from '@/features/projects/data/hooks'
 import { ProjectSocialDialogType } from '../context'
 import { useCreateProjectSocial, useUpdateProjectSocial } from '../data/hooks'
@@ -71,7 +72,10 @@ export function ProjectSocialMutateDrawer({
 
   const form = useForm<ProjectSocialForm>({
     resolver: zodResolver(formSchema),
-    defaultValues: currentRow,
+    defaultValues: {
+      ...currentRow,
+      network_type_id: currentRow?.social?.social_network_type_id,
+    },
   })
 
   const selectedNetworkTypeId = form.watch('network_type_id')
@@ -165,6 +169,11 @@ export function ProjectSocialMutateDrawer({
                 name='network_type_id'
                 label='Network type'
                 control={form.control}
+                detail={
+                  currentRow?.social.social_network_type as
+                    | NetworkTypeSchema
+                    | undefined
+                }
               />
               <FormComboboxNetworkSocial
                 name='social_id'
