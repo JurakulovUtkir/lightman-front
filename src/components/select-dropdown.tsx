@@ -35,7 +35,7 @@ export function SelectDropdown({
     : { defaultValue, onValueChange }
   return (
     <Select {...defaultState}>
-      <FormControl>
+      <FormControl className='w-full'>
         <SelectTrigger disabled={disabled} className={cn(className)}>
           <SelectValue placeholder={placeholder ?? 'Select'} />
         </SelectTrigger>

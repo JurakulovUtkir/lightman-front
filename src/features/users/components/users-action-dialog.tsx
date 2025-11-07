@@ -179,7 +179,7 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
         onOpenChange(state)
       }}
     >
-      <DialogContent className='sm:max-w-lg'>
+      <DialogContent className='max-h-[90vh] max-w-full overflow-y-auto sm:max-w-lg'>
         <DialogHeader className='text-left'>
           <DialogTitle>{isUpdate ? 'Edit User' : 'Add New User'}</DialogTitle>
           <DialogDescription>
@@ -187,7 +187,7 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
             Click save when you&apos;re done.
           </DialogDescription>
         </DialogHeader>
-        <div className='w-full overflow-y-auto py-1 pr-4'>
+        <div className='w-full py-1 pr-2 sm:pr-4'>
           <Form {...form}>
             <form
               id='user-form'
@@ -198,8 +198,8 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
                 control={form.control}
                 name='is_verified'
                 render={({ field }) => (
-                  <FormItem className='grid grid-cols-6 items-center space-y-0 gap-x-4 gap-y-1'>
-                    <FormLabel className='col-span-2 text-right'>
+                  <FormItem className='flex flex-col space-y-2 sm:grid sm:grid-cols-6 sm:items-center sm:space-y-0 sm:gap-x-4 sm:gap-y-1'>
+                    <FormLabel className='sm:col-span-2 sm:text-right'>
                       Is verified
                     </FormLabel>
                     <FormControl>
@@ -209,7 +209,7 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
                         onCheckedChange={field.onChange}
                       />
                     </FormControl>
-                    <FormMessage className='col-span-4 col-start-3' />
+                    <FormMessage className='sm:col-span-4 sm:col-start-3' />
                   </FormItem>
                 )}
               />
@@ -217,19 +217,19 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
                 control={form.control}
                 name='full_name'
                 render={({ field }) => (
-                  <FormItem className='grid grid-cols-6 items-center space-y-0 gap-x-4 gap-y-1'>
-                    <FormLabel className='col-span-2 text-right'>
+                  <FormItem className='flex flex-col space-y-2 sm:grid sm:grid-cols-6 sm:items-center sm:space-y-0 sm:gap-x-4 sm:gap-y-1'>
+                    <FormLabel className='sm:col-span-2 sm:text-right'>
                       Full Name
                     </FormLabel>
                     <FormControl>
                       <Input
                         placeholder='Enter full name'
-                        className='col-span-4'
+                        className='sm:col-span-4'
                         autoComplete='off'
                         {...field}
                       />
                     </FormControl>
-                    <FormMessage className='col-span-4 col-start-3' />
+                    <FormMessage className='sm:col-span-4 sm:col-start-3' />
                   </FormItem>
                 )}
               />
@@ -238,18 +238,18 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
                 control={form.control}
                 name='phone_number'
                 render={({ field }) => (
-                  <FormItem className='grid grid-cols-6 items-center space-y-0 gap-x-4 gap-y-1'>
-                    <FormLabel className='col-span-2 text-right'>
+                  <FormItem className='flex flex-col space-y-2 sm:grid sm:grid-cols-6 sm:items-center sm:space-y-0 sm:gap-x-4 sm:gap-y-1'>
+                    <FormLabel className='sm:col-span-2 sm:text-right'>
                       Phone Number
                     </FormLabel>
                     <FormControl>
                       <PhoneInput
                         {...field}
-                        className='col-span-4'
+                        className='sm:col-span-4'
                         autoComplete='new-password'
                       />
                     </FormControl>
-                    <FormMessage className='col-span-4 col-start-3' />
+                    <FormMessage className='sm:col-span-4 sm:col-start-3' />
                   </FormItem>
                 )}
               />
@@ -258,22 +258,22 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
                 control={form.control}
                 name='role'
                 render={({ field }) => (
-                  <FormItem className='grid grid-cols-6 items-center space-y-0 gap-x-4 gap-y-1'>
-                    <FormLabel className='col-span-2 text-right'>
+                  <FormItem className='flex flex-col space-y-2 sm:grid sm:grid-cols-6 sm:items-center sm:space-y-0 sm:gap-x-4 sm:gap-y-1'>
+                    <FormLabel className='sm:col-span-2 sm:text-right'>
                       Role
                     </FormLabel>
                     <SelectDropdown
                       defaultValue={field.value}
                       onValueChange={field.onChange}
                       placeholder='Select a role'
-                      className='col-span-4'
+                      className='sm:col-span-4'
                       items={userTypes.map(({ label, value, disabled }) => ({
                         label,
                         value,
                         disabled,
                       }))}
                     />
-                    <FormMessage className='col-span-4 col-start-3' />
+                    <FormMessage className='sm:col-span-4 sm:col-start-3' />
                   </FormItem>
                 )}
               />
@@ -281,11 +281,11 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
                 control={form.control}
                 name='password'
                 render={({ field }) => (
-                  <FormItem className='grid grid-cols-6 items-center space-y-0 gap-x-4 gap-y-1'>
-                    <FormLabel className='col-span-2 text-right'>
+                  <FormItem className='flex flex-col space-y-2 sm:grid sm:grid-cols-6 sm:items-center sm:space-y-0 sm:gap-x-4 sm:gap-y-1'>
+                    <FormLabel className='sm:col-span-2 sm:text-right'>
                       Password
                     </FormLabel>
-                    <div className='col-span-4 space-y-1'>
+                    <div className='space-y-1 sm:col-span-4'>
                       <FormControl>
                         <PasswordInput
                           placeholder={
@@ -303,7 +303,7 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
                         </p>
                       )}
                     </div>
-                    <FormMessage className='col-span-4 col-start-3' />
+                    <FormMessage className='sm:col-span-4 sm:col-start-3' />
                   </FormItem>
                 )}
               />
@@ -311,8 +311,8 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
                 control={form.control}
                 name='confirmPassword'
                 render={({ field }) => (
-                  <FormItem className='grid grid-cols-6 items-center space-y-0 gap-x-4 gap-y-1'>
-                    <FormLabel className='col-span-2 text-right'>
+                  <FormItem className='flex flex-col space-y-2 sm:grid sm:grid-cols-6 sm:items-center sm:space-y-0 sm:gap-x-4 sm:gap-y-1'>
+                    <FormLabel className='sm:col-span-2 sm:text-right'>
                       Confirm Password
                     </FormLabel>
                     <FormControl>
@@ -323,12 +323,12 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
                             ? 'Leave blank to keep current'
                             : 'e.g., S3cur3P@ssw0rd'
                         }
-                        className='col-span-4'
+                        className='sm:col-span-4'
                         autoComplete='new-password'
                         {...field}
                       />
                     </FormControl>
-                    <FormMessage className='col-span-4 col-start-3' />
+                    <FormMessage className='sm:col-span-4 sm:col-start-3' />
                   </FormItem>
                 )}
               />
@@ -340,6 +340,7 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
             disabled={isUpdate ? updateUser.isPending : createUser.isPending}
             form='user-form'
             type='submit'
+            className='w-full sm:w-auto'
           >
             {(isUpdate ? updateUser.isPending : createUser.isPending)
               ? 'Loading...'

@@ -31,40 +31,44 @@ const PriceCards = ({ data }: { data: ProjectSocialResponse }) => {
   }, [data?.data])
 
   return (
-    <div className='mb-6 flex items-center gap-6'>
+    <div className='mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:flex lg:items-center lg:gap-6'>
       <div className='flex items-center gap-3'>
-        <div className='flex h-10 w-10 items-center justify-center rounded-lg bg-blue-100'>
+        <div className='flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-blue-100'>
           <IconCurrencyDollar className='h-5 w-5 text-blue-600' stroke={2} />
         </div>
-        <div>
+        <div className='min-w-0'>
           <p className='text-muted-foreground text-xs'>Project Price</p>
-          <p className='text-lg font-bold'>{formatPrice(totalPrice)} UZS</p>
+          <p className='truncate text-lg font-bold'>
+            {formatPrice(totalPrice)} UZS
+          </p>
         </div>
       </div>
 
-      <div className='bg-border h-10 w-px' />
+      <div className='bg-border hidden h-10 w-px lg:block' />
 
       <div className='flex items-center gap-3'>
-        <div className='flex h-10 w-10 items-center justify-center rounded-lg bg-green-100'>
+        <div className='flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-green-100'>
           <IconCalculator className='h-5 w-5 text-green-600' stroke={2} />
         </div>
-        <div>
+        <div className='min-w-0'>
           <p className='text-muted-foreground text-xs'>Price with QQS (12%)</p>
-          <p className='text-lg font-bold'>
+          <p className='truncate text-lg font-bold'>
             {formatPrice(totalPriceWithQQS)} UZS
           </p>
         </div>
       </div>
 
-      <div className='bg-border h-10 w-px' />
+      <div className='bg-border hidden h-10 w-px lg:block' />
 
       <div className='flex items-center gap-3'>
-        <div className='flex h-10 w-10 items-center justify-center rounded-lg bg-purple-100'>
+        <div className='flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-purple-100'>
           <IconTrendingUp className='h-5 w-5 text-purple-600' stroke={2} />
         </div>
-        <div>
+        <div className='min-w-0'>
           <p className='text-muted-foreground text-xs'>Total Profit</p>
-          <p className='text-lg font-bold'>{formatPrice(totalProfit)} UZS</p>
+          <p className='truncate text-lg font-bold'>
+            {formatPrice(totalProfit)} UZS
+          </p>
         </div>
       </div>
     </div>

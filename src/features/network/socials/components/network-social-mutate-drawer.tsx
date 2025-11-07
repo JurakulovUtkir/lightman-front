@@ -121,7 +121,7 @@ export function NetworkSocialMutateDrawer({
         form.reset()
       }}
     >
-      <SheetContent className='flex max-w-2xl flex-col md:max-w-[540px]!'>
+      <SheetContent className='flex max-w-full flex-col sm:max-w-[540px]'>
         <SheetHeader className='text-left'>
           <SheetTitle>
             {isUpdate ? 'Update' : 'Create'} Network social
@@ -153,7 +153,7 @@ export function NetworkSocialMutateDrawer({
                           onCheckedChange={field.onChange}
                         />
                       </FormControl>
-                      <FormLabel>Is Active</FormLabel>
+                      <FormLabel className='text-sm'>Is Active</FormLabel>
                     </div>
                   </FormItem>
                 )}
@@ -188,7 +188,7 @@ export function NetworkSocialMutateDrawer({
                 label='Link'
                 placeholder='Enter a link'
               />
-              <div className='flex items-baseline justify-between gap-4'>
+              <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
                 <FormFieldWrapper
                   control={form.control}
                   name='subscriber_count'
@@ -204,7 +204,7 @@ export function NetworkSocialMutateDrawer({
                   type='number'
                 />
               </div>
-              <div className='grid grid-cols-2 items-baseline gap-4'>
+              <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
                 <FormFieldWrapper
                   control={form.control}
                   name='buy_price'
@@ -265,6 +265,7 @@ export function NetworkSocialMutateDrawer({
             }
             form='network-social-form'
             type='submit'
+            className='w-full sm:w-auto'
           >
             {(
               isUpdate

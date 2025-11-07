@@ -35,17 +35,17 @@ const FounderCards = ({ data }: { data: FounderSchema[] | undefined }) => {
   }
 
   return data?.length ? (
-    <div className='grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7'>
+    <div className='flex flex-wrap items-center justify-center gap-4 sm:justify-start'>
       {data.map((item) => (
         <Card
           key={item.id}
-          className='group hover:border-primary/50 transition-all hover:shadow-md'
+          className='group hover:border-primary/50 flex min-w-[310px] flex-col transition-all hover:shadow-md'
         >
           <CardHeader className='pb-3'>
-            <div className='flex items-start justify-between'>
+            <div className='flex items-start justify-between gap-2'>
               <Badge
                 variant={item.is_active ? 'success' : 'destructive'}
-                className='gap-1 text-xs'
+                className='shrink-0 gap-1 text-xs'
               >
                 {item.is_active ? (
                   <>
@@ -63,19 +63,19 @@ const FounderCards = ({ data }: { data: FounderSchema[] | undefined }) => {
                 onClick={(e) => handleEdit(e, item)}
                 size='icon'
                 variant='ghost'
-                className='h-7 w-7 opacity-0 transition-opacity group-hover:opacity-100'
+                className='h-7 w-7 shrink-0 opacity-0 transition-opacity group-hover:opacity-100'
               >
                 <IconEdit className='h-4 w-4' />
               </Button>
             </div>
           </CardHeader>
 
-          <CardContent className='space-y-4'>
+          <CardContent className='flex-1 space-y-4'>
             <div className='flex flex-col items-center gap-3'>
               <div className='bg-primary/10 rounded-full p-3'>
                 <IconUserCircle className='text-primary h-10 w-10' />
               </div>
-              <CardTitle className='line-clamp-2 text-center text-base leading-tight'>
+              <CardTitle className='line-clamp-2 min-w-0 text-center text-base leading-tight wrap-break-word'>
                 {item.name}
               </CardTitle>
             </div>
@@ -84,10 +84,10 @@ const FounderCards = ({ data }: { data: FounderSchema[] | undefined }) => {
 
             <div className='space-y-2'>
               <div className='bg-muted/50 flex items-center gap-2 rounded-md p-2'>
-                <IconWallet className='text-muted-foreground h-4 w-4' />
-                <div className='flex-1'>
+                <IconWallet className='text-muted-foreground h-4 w-4 shrink-0' />
+                <div className='min-w-0 flex-1'>
                   <p className='text-muted-foreground text-xs'>Balance</p>
-                  <p className='text-sm font-semibold'>
+                  <p className='truncate text-sm font-semibold'>
                     {formatBalance(item.balance)}{' '}
                     <span className='text-muted-foreground text-xs font-normal'>
                       UZS
@@ -100,8 +100,10 @@ const FounderCards = ({ data }: { data: FounderSchema[] | undefined }) => {
 
           <CardFooter className='pt-3'>
             <div className='text-muted-foreground flex w-full items-center justify-center gap-1.5 text-xs'>
-              <IconCalendar className='h-3.5 w-3.5' />
-              <span>{formatToYearMonthDay(item.updated_at)}</span>
+              <IconCalendar className='h-3.5 w-3.5 shrink-0' />
+              <span className='truncate'>
+                {formatToYearMonthDay(item.updated_at)}
+              </span>
             </div>
           </CardFooter>
         </Card>

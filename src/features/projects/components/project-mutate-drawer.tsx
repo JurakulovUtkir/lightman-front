@@ -139,7 +139,7 @@ export function ProjectMutateDrawer({
         form.reset()
       }}
     >
-      <SheetContent className='flex max-w-2xl flex-col md:max-w-[540px]!'>
+      <SheetContent className='flex max-w-full flex-col sm:max-w-[540px]'>
         <SheetHeader className='text-left'>
           <SheetTitle>{isUpdate ? 'Update' : 'Create'} Project</SheetTitle>
           <SheetDescription>
@@ -169,7 +169,7 @@ export function ProjectMutateDrawer({
                           onCheckedChange={field.onChange}
                         />
                       </FormControl>
-                      <FormLabel>Is active</FormLabel>
+                      <FormLabel className='text-sm'>Is active</FormLabel>
                     </div>
                   </FormItem>
                 )}
@@ -188,7 +188,7 @@ export function ProjectMutateDrawer({
                 label='Description'
                 placeholder='Enter a description'
               />
-              <div className='grid grid-cols-2 gap-4'>
+              <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
                 {/* ! contract_id combo select */}
                 <FormFieldSelect
                   control={form.control}
@@ -208,7 +208,7 @@ export function ProjectMutateDrawer({
                 />
 
                 {/* category_id combo select */}
-                <div className='col-span-2'>
+                <div className='sm:col-span-2'>
                   <FormComboboxNetwrokCategory
                     control={form.control}
                     name='category_id'
@@ -279,9 +279,14 @@ export function ProjectMutateDrawer({
             </form>
           </Form>
         </div>
-        <SheetFooter className='gap-2'>
+        <SheetFooter className='flex-col gap-2 sm:flex-row'>
           {isUpdate && (
-            <Button onClick={handleDelete} size='sm' variant='destructive'>
+            <Button
+              onClick={handleDelete}
+              size='sm'
+              variant='destructive'
+              className='w-full sm:w-auto'
+            >
               Delete
             </Button>
           )}
@@ -291,6 +296,7 @@ export function ProjectMutateDrawer({
             }
             form='project-form'
             type='submit'
+            className='w-full sm:w-auto'
           >
             {(isUpdate ? updateProject.isPending : createProject.isPending)
               ? 'Loading...'

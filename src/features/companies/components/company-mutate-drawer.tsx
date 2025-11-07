@@ -154,7 +154,7 @@ export function CompanyMutateDrawer({
         form.reset()
       }}
     >
-      <SheetContent className='flex max-w-2xl flex-col md:max-w-[540px]!'>
+      <SheetContent className='flex max-w-full flex-col sm:max-w-[540px]'>
         <SheetHeader className='text-left'>
           <SheetTitle>{isUpdate ? 'Update' : 'Create'} Company</SheetTitle>
           <SheetDescription>
@@ -171,7 +171,7 @@ export function CompanyMutateDrawer({
               onSubmit={form.handleSubmit(onSubmit)}
               className='flex-1 space-y-5 px-4'
             >
-              <div className='grid grid-cols-3 gap-4'>
+              <div className='grid grid-cols-1 gap-4 sm:grid-cols-3'>
                 {switchFields.map((item) => (
                   <FormField
                     key={item.name}
@@ -187,7 +187,9 @@ export function CompanyMutateDrawer({
                               onCheckedChange={field.onChange}
                             />
                           </FormControl>
-                          <FormLabel>{item.label}</FormLabel>
+                          <FormLabel className='text-sm'>
+                            {item.label}
+                          </FormLabel>
                         </div>
                       </FormItem>
                     )}
@@ -214,7 +216,7 @@ export function CompanyMutateDrawer({
                 placeholder='Enter a bank name'
               />
 
-              <div className='flex items-baseline justify-between gap-4'>
+              <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
                 <FormFieldWrapper
                   control={form.control}
                   name='stir'
@@ -248,9 +250,14 @@ export function CompanyMutateDrawer({
             </form>
           </Form>
         </div>
-        <SheetFooter className='gap-2'>
+        <SheetFooter className='flex-col gap-2 sm:flex-row'>
           {isUpdate && (
-            <Button onClick={handleDelete} size='sm' variant='destructive'>
+            <Button
+              onClick={handleDelete}
+              size='sm'
+              variant='destructive'
+              className='w-full sm:w-auto'
+            >
               Delete
             </Button>
           )}
@@ -260,6 +267,7 @@ export function CompanyMutateDrawer({
             }
             form='company-form'
             type='submit'
+            className='w-full sm:w-auto'
           >
             {(isUpdate ? updateCompany.isPending : createCompany.isPending)
               ? 'Loading...'

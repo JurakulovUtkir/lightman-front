@@ -61,14 +61,14 @@ export function CustomPagination({
 
   return (
     <div
-      className='flex items-center justify-between overflow-clip px-2 py-4'
+      className='flex flex-col justify-between gap-4 overflow-clip px-2 py-4 lg:flex-row lg:items-center'
       style={{ overflowClipMargin: 1 }}
     >
       <div className='text-muted-foreground hidden flex-1 text-sm sm:block'>
         Showing {offset + 1} to {Math.min(offset + limit, total)} of {total}{' '}
         results
       </div>
-      <div className='flex items-center sm:space-x-6 lg:space-x-8'>
+      <div className='flex w-full items-center justify-between sm:space-x-6 lg:w-auto lg:space-x-8'>
         <div className='flex items-center space-x-2'>
           <p className='hidden text-sm font-medium sm:block'>Items per page</p>
           <Select
