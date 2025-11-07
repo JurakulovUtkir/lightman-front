@@ -51,12 +51,11 @@ export function DistributorDialogs() {
             }}
             handleConfirm={() => handleDelete(currentRow.id)}
             className='max-w-md'
-            title={`Delete this Distributor with the id: ${currentRow.id} ?`}
+            title={`Delete this Distributor?`}
             desc={
               <>
-                You are about to delete a Distributor with the ID{' '}
-                <strong>{currentRow.id}</strong>. <br />
-                This action cannot be undone.
+                You are about to delete a Distributor. This action cannot be
+                undone.
               </>
             }
             isLoading={isPending}

@@ -51,11 +51,11 @@ export function DistributionDialogs() {
             }}
             handleConfirm={() => handleDelete(currentRow.id)}
             className='max-w-md'
-            title={`Delete this Distribution with the id: ${currentRow.id} ?`}
+            title={`Delete this Distribution with the name: ${currentRow.name} ?`}
             desc={
               <>
-                You are about to delete a Distribution with the ID{' '}
-                <strong>{currentRow.id}</strong>. <br />
+                You are about to delete a Distribution with the name{' '}
+                <strong>{currentRow.name}</strong>. <br />
                 This action cannot be undone.
               </>
             }

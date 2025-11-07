@@ -71,12 +71,11 @@ export function ProjectSocialDialogs() {
             }}
             handleConfirm={() => handleDelete(currentRow.id)}
             className='max-w-md'
-            title={`Delete this Project social with the id: ${currentRow.id} ?`}
+            title={`Delete this Project social?`}
             desc={
               <>
-                You are about to delete a Project social with the ID{' '}
-                <strong>{currentRow.id}</strong>. <br />
-                This action cannot be undone.
+                You are about to delete a Project social. This action cannot be
+                undone.
               </>
             }
             isLoading={isPending}

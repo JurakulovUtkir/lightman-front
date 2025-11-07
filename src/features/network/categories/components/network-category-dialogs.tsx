@@ -52,11 +52,11 @@ export function NetworkCategoryDialogs() {
             }}
             handleConfirm={() => handleDelete(currentRow.id)}
             className='max-w-md'
-            title={`Delete this Network category with the id: ${currentRow.id} ?`}
+            title={`Delete this Network category with the name: ${currentRow.name} ?`}
             desc={
               <>
-                You are about to delete a Network category with the ID{' '}
-                <strong>{currentRow.id}</strong>. <br />
+                You are about to delete a Network category with the name{' '}
+                <strong>{currentRow.name}</strong>. <br />
                 This action cannot be undone.
               </>
             }

@@ -227,7 +227,6 @@ export function ProjectSocialMutateDrawer({
                     control={form.control}
                     name='payment'
                     label='Payment Document'
-                    fileType='document'
                     maxSize={10}
                   />
 
@@ -235,7 +234,6 @@ export function ProjectSocialMutateDrawer({
                     control={form.control}
                     name='post_screenshot'
                     label='Post Screenshot'
-                    fileType='image'
                     maxSize={5}
                   />
                 </>

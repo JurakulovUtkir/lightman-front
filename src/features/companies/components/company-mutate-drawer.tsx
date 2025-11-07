@@ -250,14 +250,9 @@ export function CompanyMutateDrawer({
             </form>
           </Form>
         </div>
-        <SheetFooter className='flex-col gap-2 sm:flex-row'>
+        <SheetFooter>
           {isUpdate && (
-            <Button
-              onClick={handleDelete}
-              size='sm'
-              variant='destructive'
-              className='w-full sm:w-auto'
-            >
+            <Button onClick={handleDelete} size='sm' variant='destructive'>
               Delete
             </Button>
           )}
@@ -267,7 +262,6 @@ export function CompanyMutateDrawer({
             }
             form='company-form'
             type='submit'
-            className='w-full sm:w-auto'
           >
             {(isUpdate ? updateCompany.isPending : createCompany.isPending)
               ? 'Loading...'

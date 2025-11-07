@@ -51,11 +51,11 @@ export function FounderDialogs() {
             }}
             handleConfirm={() => handleDelete(currentRow.id)}
             className='max-w-md'
-            title={`Delete this Founder with the id: ${currentRow.id} ?`}
+            title={`Delete this Founder with the name: ${currentRow.name} ?`}
             desc={
               <>
-                You are about to delete a Founder with the ID{' '}
-                <strong>{currentRow.id}</strong>. <br />
+                You are about to delete a Founder with the name{' '}
+                <strong>{currentRow.name}</strong>. <br />
                 This action cannot be undone.
               </>
             }

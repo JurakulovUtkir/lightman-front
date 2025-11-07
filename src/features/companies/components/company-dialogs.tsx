@@ -51,11 +51,11 @@ export function CompanyDialogs() {
             }}
             handleConfirm={() => handleDelete(currentRow.id)}
             className='max-w-md'
-            title={`Delete this Company with the id: ${currentRow.id} ?`}
+            title={`Delete this Company with the name: ${currentRow.name} ?`}
             desc={
               <>
-                You are about to delete a Company with the ID{' '}
-                <strong>{currentRow.id}</strong>. <br />
+                You are about to delete a Company with the name{' '}
+                <strong>{currentRow.name}</strong>. <br />
                 This action cannot be undone.
               </>
             }

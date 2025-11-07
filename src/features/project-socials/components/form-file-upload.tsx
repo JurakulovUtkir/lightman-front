@@ -12,13 +12,10 @@ import {
 } from '@/components/ui/form'
 import { useDeleteFile, useUploadFile } from '../data/hooks'
 
-type FileType = 'document' | 'image'
-
 interface FileUploadFieldProps<TFieldValues extends FieldValues> {
   control: Control<TFieldValues>
   name: FieldPath<TFieldValues>
   label: string
-  fileType: FileType
   maxSize?: number // in MB
   required?: boolean
 }
@@ -27,30 +24,30 @@ export function FormFileUploadField<TFieldValues extends FieldValues>({
   control,
   name,
   label,
-  fileType,
   maxSize = 5,
   required = false,
 }: FileUploadFieldProps<TFieldValues>) {
   const [preview, setPreview] = useState<string | null>(null)
+  const [fileType, setFileType] = useState<'document' | 'image' | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const uploadFile = useUploadFile()
   const deleteFile = useDeleteFile()
 
+  // Accept both documents and images
   const acceptedTypes = {
-    document: {
-      'application/pdf': ['.pdf'],
-      'application/msword': ['.doc'],
-      'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
-        ['.docx'],
-    },
-    image: {
-      'image/jpeg': ['.jpg', '.jpeg'],
-      'image/png': ['.png'],
-      'image/webp': ['.webp'],
-    },
+    'application/pdf': ['.pdf'],
+    'application/msword': ['.doc'],
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document': [
+      '.docx',
+    ],
+    'image/jpeg': ['.jpg', '.jpeg'],
+    'image/png': ['.png'],
+    'image/webp': ['.webp'],
   }
 
-  const accept = acceptedTypes[fileType]
+  const isImageFile = (file: File): boolean => {
+    return file.type.startsWith('image/')
+  }
 
   const handleFileSelect = async (
     file: File | null,
@@ -75,6 +72,9 @@ export function FormFileUploadField<TFieldValues extends FieldValues>({
         await deleteFile.mutateAsync(currentValue)
       }
 
+      const isImage = isImageFile(file)
+      setFileType(isImage ? 'image' : 'document')
+
       // Create FormData and upload
       const formData = new FormData()
       formData.append('file', file, file.name)
@@ -91,18 +91,19 @@ export function FormFileUploadField<TFieldValues extends FieldValues>({
       onChange(filePath)
 
       // Set preview for images
-      if (fileType === 'image') {
+      if (isImage) {
         const reader = new FileReader()
         reader.onloadend = () => {
           setPreview(reader.result as string)
         }
         reader.readAsDataURL(file)
+      } else {
+        setPreview(null)
       }
 
       toast.success('File uploaded successfully')
     } catch (_error) {
       toast.error('Failed to upload file')
-      //   console.error('Upload error:', error)
       // Reset file input on error
       if (fileInputRef.current) {
         fileInputRef.current.value = ''
@@ -119,10 +120,10 @@ export function FormFileUploadField<TFieldValues extends FieldValues>({
         await deleteFile.mutateAsync(currentValue)
         onChange('')
         setPreview(null)
+        setFileType(null)
         toast.success('File removed successfully')
       } catch (_error) {
         toast.error('Failed to remove file')
-        // console.error('Delete error:', error)
       }
     }
   }
@@ -186,10 +187,10 @@ export function FormFileUploadField<TFieldValues extends FieldValues>({
                       <>
                         <Upload className='text-muted-foreground mb-2 h-8 w-8' />
                         <p className='text-muted-foreground text-sm'>
-                          Click to upload {fileType}
+                          Click to upload file
                         </p>
                         <p className='text-muted-foreground mt-1 text-xs'>
-                          Max size: {maxSize}MB
+                          Images or Documents (Max: {maxSize}MB)
                         </p>
                       </>
                     )}
@@ -198,7 +199,7 @@ export function FormFileUploadField<TFieldValues extends FieldValues>({
                       id={`file-upload-${name}`}
                       type='file'
                       className='hidden'
-                      accept={Object.values(accept).flat().join(',')}
+                      accept={Object.values(acceptedTypes).flat().join(',')}
                       onChange={(e) =>
                         handleFileSelect(
                           e.target.files?.[0] || null,

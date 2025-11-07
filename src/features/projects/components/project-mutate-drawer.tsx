@@ -279,7 +279,7 @@ export function ProjectMutateDrawer({
             </form>
           </Form>
         </div>
-        <SheetFooter className='flex-col gap-2 sm:flex-row'>
+        <SheetFooter>
           {isUpdate && (
             <Button
               onClick={handleDelete}
