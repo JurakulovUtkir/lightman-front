@@ -5,6 +5,7 @@ import {
   IconBug,
   IconBuildings,
   IconChecklist,
+  IconContract,
   IconError404,
   IconHelp,
   IconLayoutDashboard,
@@ -89,6 +90,11 @@ export const sidebarData: SidebarData = {
           title: 'Projects',
           url: '/projects',
           icon: IconBriefcase2,
+        },
+        {
+          title: 'Contracts',
+          url: '/contracts',
+          icon: IconContract,
         },
         {
           title: 'Network',

@@ -2,9 +2,9 @@ import { ColumnDef } from '@tanstack/react-table'
 import { formatDateToLongString } from '@/lib/dateFormatter'
 import { cn } from '@/lib/utils'
 import { Checkbox } from '@/components/ui/checkbox'
+import { CopyButton } from '@/components/copy-button'
 import { DataTableColumnHeader } from '@/components/table/data-table-column-header'
 import { CompanySchema } from '../data/schema'
-import { CopyButton } from './copy-button'
 import { DataTableRowActions } from './data-table-row-actions'
 
 export const columns: ColumnDef<CompanySchema>[] = [

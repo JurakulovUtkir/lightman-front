@@ -57,7 +57,8 @@ export function ProjectMutateDrawer({
         error: 'Description is required.',
       })
       .min(1)
-      .max(150, 'Description cannot exceed 150 characters.'),
+      .max(150, 'Description cannot exceed 150 characters.')
+      .optional(),
     contract_id: z.string().optional().nullable(),
     price: z
       .number({
