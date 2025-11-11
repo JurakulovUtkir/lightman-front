@@ -246,21 +246,19 @@ export function ContractMutateDrawer({
                   options={[{ value: 'pending', label: 'Pending' }]}
                   emptyMessage='No Contracts found'
                 />
-
-                <FormComboboxCompany
-                  control={form.control}
-                  name='customer_company_id'
-                  label='Customer company'
-                  // detail={currentRow?.customer_company}
-                  filterOurCompany={false}
-                />
-
                 <FormComboboxCompany
                   control={form.control}
                   name='our_company_id'
                   label='Our company'
-                  // detail={currentRow?.our_company}
+                  detail={currentRow?.our_company}
                   filterOurCompany={true}
+                />
+                <FormComboboxCompany
+                  control={form.control}
+                  name='customer_company_id'
+                  label='Customer company'
+                  detail={currentRow?.customer_company}
+                  filterOurCompany={false}
                 />
               </div>
               <FormFileUploadField

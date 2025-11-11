@@ -217,7 +217,14 @@ export function ProjectMutateDrawer({
                     detail={currentRow?.category ?? undefined}
                   />
                 </div>
-
+                {/* our_company_id combo select */}
+                <FormComboboxCompany
+                  control={form.control}
+                  name='our_company_id'
+                  label='Our company'
+                  detail={currentRow?.our_company}
+                  filterOurCompany={true}
+                />
                 {/* customer_company_id combo select */}
                 <FormComboboxCompany
                   control={form.control}
@@ -227,14 +234,6 @@ export function ProjectMutateDrawer({
                   filterOurCompany={false}
                 />
 
-                {/* our_company_id combo select */}
-                <FormComboboxCompany
-                  control={form.control}
-                  name='our_company_id'
-                  label='Our company'
-                  detail={currentRow?.our_company}
-                  filterOurCompany={true}
-                />
                 {/* price_type select */}
                 <FormFieldSelect
                   control={form.control}

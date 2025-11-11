@@ -97,7 +97,7 @@ export const columns: ColumnDef<ProjectSocialSchema>[] = [
       const isPaid = row.original.is_paid
       return <PaymentStatus isPaid={isPaid} item={row.original} />
     },
-    enableSorting: true,
+    enableSorting: false,
     enableHiding: false,
   },
   {
@@ -230,7 +230,7 @@ export const columns: ColumnDef<ProjectSocialSchema>[] = [
         </div>
       )
     },
-    enableSorting: true,
+    enableSorting: false,
     enableHiding: false,
   },
   {
@@ -246,7 +246,7 @@ export const columns: ColumnDef<ProjectSocialSchema>[] = [
         </div>
       )
     },
-    enableSorting: true,
+    enableSorting: false,
     enableHiding: false,
   },
   // {

@@ -1,6 +1,7 @@
 import { ColumnDef } from '@tanstack/react-table'
 import { Download, Eye } from 'lucide-react'
 import { toast } from 'sonner'
+import { formatDateToLongString } from '@/lib/dateFormatter'
 import { formatPrice } from '@/utils/formatPrice'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -91,6 +92,22 @@ export const columns: ColumnDef<ContractSchema>[] = [
 
     enableSorting: false,
     enableHiding: false,
+  },
+  {
+    accessorKey: 'our_company',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Our company' />
+    ),
+    cell: ({ row }) => <div>{row.original.our_company.name ?? '-'}</div>,
+    enableSorting: false,
+  },
+  {
+    accessorKey: 'customer_company',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Customer company' />
+    ),
+    cell: ({ row }) => <div>{row.original.customer_company.name ?? '-'}</div>,
+    enableSorting: false,
   },
   {
     accessorKey: 'price',
@@ -188,22 +205,22 @@ export const columns: ColumnDef<ContractSchema>[] = [
     enableHiding: false,
   },
 
-  //   {
-  //     accessorKey: 'created_at',
-  //     header: ({ column }) => (
-  //       <DataTableColumnHeader column={column} title='Created at' />
-  //     ),
-  //     cell: ({ row }) => {
-  //       const createdAt = row.original.created_at
-  //       return (
-  //         <div className='whitespace-nowrap'>
-  //           {formatDateToLongString(createdAt)}
-  //         </div>
-  //       )
-  //     },
-  //     enableSorting: true,
-  //     enableHiding: false,
-  //   },
+  {
+    accessorKey: 'created_at',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Created at' />
+    ),
+    cell: ({ row }) => {
+      const createdAt = row.original.created_at
+      return (
+        <div className='whitespace-nowrap'>
+          {formatDateToLongString(createdAt)}
+        </div>
+      )
+    },
+    enableSorting: false,
+    enableHiding: false,
+  },
   //   {
   //     accessorKey: 'updated_at',
   //     header: ({ column }) => (
