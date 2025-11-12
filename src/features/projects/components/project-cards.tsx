@@ -144,6 +144,18 @@ const ProjectCards = ({
                   </p>
                 </div>
               </div>
+
+              {item.contract && (
+                <div className='flex items-start gap-2'>
+                  <IconFolderOpen className='text-muted-foreground mt-0.5 h-4 w-4 shrink-0' />
+                  <div className='min-w-0 flex-1'>
+                    <p className='text-muted-foreground text-xs'>Contract</p>
+                    <p className='truncate text-sm font-medium'>
+                      {item.contract.name}
+                    </p>
+                  </div>
+                </div>
+              )}
             </div>
           </CardContent>
         </Card>

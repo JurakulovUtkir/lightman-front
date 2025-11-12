@@ -195,7 +195,7 @@ export function ProjectMutateDrawer({
                   control={form.control}
                   name='contract_id'
                   label='Contract'
-                  // detail={currentRow?.contract}
+                  detail={currentRow?.contract ?? undefined}
                 />
 
                 <FormDistribution

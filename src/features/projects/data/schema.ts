@@ -1,5 +1,6 @@
 import { z } from 'zod'
 import { companySchema } from '@/features/companies/data/schema'
+import { contractSchema } from '@/features/contracts/data/schema'
 import { networkCategorySchema } from '@/features/network/categories/data/schema'
 import { distributionSchema } from '@/features/stakeholder/distributions/data/schema'
 
@@ -25,5 +26,6 @@ export const projectSchema = z.object({
   our_company: companySchema,
   payment_status: z.string(),
   payment_type: z.enum(['cash', 'card', 'bank_transfer']),
+  contract: contractSchema,
 })
 export type ProjectSchema = z.infer<typeof projectSchema>
