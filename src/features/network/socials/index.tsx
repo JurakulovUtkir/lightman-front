@@ -1,4 +1,8 @@
+import { useState } from 'react'
 import { useSearch, useNavigate } from '@tanstack/react-router'
+import { IconSearch } from '@tabler/icons-react'
+import { useDebounce } from '@/hooks/useDebounce'
+import { Input } from '@/components/ui/input'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
@@ -7,6 +11,7 @@ import { DataTable } from '@/components/table/data-table'
 import { ThemeSwitch } from '@/components/theme-switch'
 import { columns } from './components/columns'
 import { NetworkSocialDialogs } from './components/network-social-dialogs'
+import NetworkSocialFilter from './components/network-social-filter'
 import { NetworkSocialPrimaryButtons } from './components/network-social-primary-buttons'
 import NetworkSocialProvider from './context'
 import { useNetworkSocials } from './data/hooks'
@@ -18,12 +23,15 @@ const NetworkSocials = () => {
   })
   const currentOffset = offset ?? 0
   const currentLimit = limit ?? 20
+  const [search, setSearch] = useState('')
+  const debouncedSearch = useDebounce(search, 500)
 
   const { data } = useNetworkSocials({
     offset: currentOffset,
     limit: currentLimit,
     category_id,
     social_network_type_id,
+    search: debouncedSearch.length >= 2 ? debouncedSearch : undefined,
   })
 
   const handleCategoryFilterChange = (categoryId: string | null) => {
@@ -70,15 +78,36 @@ const NetworkSocials = () => {
           </div>
           <NetworkSocialPrimaryButtons />
         </div>
-        <div className='-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-y-0 lg:space-x-12'>
+        <div className='flex flex-col gap-4 lg:flex-row lg:items-center'>
+          <div className='relative'>
+            <Input
+              type='search'
+              placeholder='Search by projects'
+              className='h-8 pl-8 sm:max-w-80'
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            <span className='absolute top-1/2 left-2 -translate-y-1/2'>
+              <IconSearch className='text-muted-foreground' size={16} />
+            </span>
+          </div>
+          <NetworkSocialFilter
+            selectedTypeId={social_network_type_id}
+            onTypeFilterChange={handleTypeFilterChange}
+            selectedCategoryId={category_id}
+            onCategoryFilterChange={handleCategoryFilterChange}
+          />
+        </div>
+
+        <div className='-mx-4 flex-1 overflow-auto px-4 py-2 sm:mt-0 lg:flex-row lg:space-y-0 lg:space-x-12'>
           <DataTable
             data={data?.data.items?.length ? data.data.items : []}
-            columns={columns(
-              category_id,
-              handleCategoryFilterChange,
-              social_network_type_id,
-              handleTypeFilterChange
-            )}
+            columns={
+              columns()
+              // category_id,
+              // handleCategoryFilterChange,
+              // social_network_type_id,
+              // handleTypeFilterChange
+            }
             offset={offset}
             limit={limit}
             total={data?.data.total ?? 0}

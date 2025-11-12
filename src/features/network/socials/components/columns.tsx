@@ -8,16 +8,15 @@ import { DataTableColumnHeader } from '@/components/table/data-table-column-head
 //   TooltipTrigger,
 // } from '@/components/ui/tooltip'
 import { NetworkSocialSchema } from '../data/schema'
-import { DataTableColumnCategoryHeader } from './data-table-column-category-header'
-import { DataTableColumnTypeHeader } from './data-table-column-type-header'
+// import { DataTableColumnCategoryHeader } from './data-table-column-category-header'
+// import { DataTableColumnTypeHeader } from './data-table-column-type-header'
 import { DataTableRowActions } from './data-table-row-actions'
 
-export const columns = (
-  selectedCategoryId: string | undefined,
-  onCategoryFilterChange: (categoryId: string | null) => void,
-  selectedTypeId: string | undefined,
-  onTypeFilterChange: (typeId: string | null) => void
-): ColumnDef<NetworkSocialSchema>[] => [
+export const columns = () // selectedCategoryId: string | undefined,
+// onCategoryFilterChange: (categoryId: string | null) => void,
+// selectedTypeId: string | undefined,
+// onTypeFilterChange: (typeId: string | null) => void
+: ColumnDef<NetworkSocialSchema>[] => [
   {
     id: 'select',
     header: ({ table }) => (
@@ -80,14 +79,15 @@ export const columns = (
   {
     accessorKey: 'social_network_type',
     header: ({ column }) => (
-      <DataTableColumnTypeHeader
-        column={column}
-        title='Network type'
-        selectedFilter={selectedTypeId}
-        onFilterChange={onTypeFilterChange}
-        searchable={true}
-        useSearchableTypes={true}
-      />
+      // <DataTableColumnTypeHeader
+      //   column={column}
+      //   title='Network type'
+      //   selectedFilter={selectedTypeId}
+      //   onFilterChange={onTypeFilterChange}
+      //   searchable={true}
+      //   useSearchableTypes={true}
+      // />
+      <DataTableColumnHeader column={column} title='Network type' />
     ),
     cell: ({ row }) => {
       const type = row.original.social_network_type
@@ -99,19 +99,21 @@ export const columns = (
         </div>
       )
     },
+    enableSorting: false,
     enableHiding: false,
   },
   {
     accessorKey: 'category',
     header: ({ column }) => (
-      <DataTableColumnCategoryHeader
-        column={column}
-        title='Category'
-        selectedFilter={selectedCategoryId}
-        onFilterChange={onCategoryFilterChange}
-        searchable={true}
-        useSearchableCategories={true}
-      />
+      // <DataTableColumnCategoryHeader
+      //   column={column}
+      //   title='Category'
+      //   selectedFilter={selectedCategoryId}
+      //   onFilterChange={onCategoryFilterChange}
+      //   searchable={true}
+      //   useSearchableCategories={true}
+      // />
+      <DataTableColumnHeader column={column} title='Category' />
     ),
     cell: ({ row }) => {
       const category = row.original.category
@@ -123,6 +125,7 @@ export const columns = (
         </div>
       )
     },
+    enableSorting: false,
     enableHiding: false,
   },
 

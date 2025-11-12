@@ -20,6 +20,7 @@ import {
 import { Switch } from '@/components/ui/switch'
 import { FormFieldSelect } from '@/components/form-field-select'
 import { FormFieldWrapper } from '@/components/form-field-wrapper'
+import { FormComboboxContract } from '@/features/contracts/components/form-combobox-contracts'
 import { FormComboboxNetwrokCategory } from '@/features/network/socials/components/form-combobox-network-category'
 import { ProjectDialogType } from '../context'
 import { useCreateProject, useUpdateProject } from '../data/hooks'
@@ -190,17 +191,13 @@ export function ProjectMutateDrawer({
                 placeholder='Enter a description'
               />
               <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
-                {/* ! contract_id combo select */}
-                <FormFieldSelect
+                <FormComboboxContract
                   control={form.control}
                   name='contract_id'
                   label='Contract'
-                  placeholder='Select a contract'
-                  options={[]}
-                  emptyMessage='No Contracts found'
+                  // detail={currentRow?.contract}
                 />
 
-                {/* distribution_id select */}
                 <FormDistribution
                   control={form.control}
                   name='distribution_id'
@@ -208,7 +205,6 @@ export function ProjectMutateDrawer({
                   placeholder='Select a distribution'
                 />
 
-                {/* category_id combo select */}
                 <div className='sm:col-span-2'>
                   <FormComboboxNetwrokCategory
                     control={form.control}
@@ -217,7 +213,6 @@ export function ProjectMutateDrawer({
                     detail={currentRow?.category ?? undefined}
                   />
                 </div>
-                {/* our_company_id combo select */}
                 <FormComboboxCompany
                   control={form.control}
                   name='our_company_id'
@@ -225,7 +220,6 @@ export function ProjectMutateDrawer({
                   detail={currentRow?.our_company}
                   filterOurCompany={true}
                 />
-                {/* customer_company_id combo select */}
                 <FormComboboxCompany
                   control={form.control}
                   name='customer_company_id'
@@ -234,7 +228,6 @@ export function ProjectMutateDrawer({
                   filterOurCompany={false}
                 />
 
-                {/* price_type select */}
                 <FormFieldSelect
                   control={form.control}
                   name='price_type'

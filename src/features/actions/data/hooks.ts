@@ -8,7 +8,7 @@ export const useActions = ({
   from,
   to,
 }: {
-  tag?: number
+  tag?: string
   success?: boolean
   user_id?: string
   from?: string
