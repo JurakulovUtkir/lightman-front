@@ -6,6 +6,7 @@ import {
   IconBuildings,
   IconChecklist,
   IconContract,
+  IconDeviceImacSearch,
   IconError404,
   IconHelp,
   IconLayoutDashboard,
@@ -96,6 +97,7 @@ export const sidebarData: SidebarData = {
           url: '/contracts',
           icon: IconContract,
         },
+
         {
           title: 'Network',
           icon: IconSocial,
@@ -145,6 +147,11 @@ export const sidebarData: SidebarData = {
               url: '/clerk/user-management',
             },
           ],
+        },
+        {
+          title: 'User Actions',
+          url: '/actions',
+          icon: IconDeviceImacSearch,
         },
       ],
     },

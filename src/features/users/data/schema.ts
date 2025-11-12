@@ -14,7 +14,7 @@ const userRoleSchema = z.union([
   z.literal('manager'),
 ])
 
-const userSchema = z.object({
+export const userSchema = z.object({
   chat_id: z.any().optional().nullable(),
   created_at: z.string(),
   full_name: z.string(),
@@ -24,6 +24,7 @@ const userSchema = z.object({
   phone_number: z.string(),
   role: userRoleSchema,
   status: userStatusSchema,
+  salary: z.number().optional().nullable(),
 })
 
 export type User = z.infer<typeof userSchema>
