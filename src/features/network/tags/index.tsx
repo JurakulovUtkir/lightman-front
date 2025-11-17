@@ -9,36 +9,31 @@ import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
-import ProjectCards from './components/project-cards'
-import { ProjectDialogs } from './components/project-dialogs'
-// import { ProjectFilter } from './components/project-filter'
-import { ProjectPrimaryButtons } from './components/project-primary-buttons'
-import ProjectProvider from './context'
-import { useProjects } from './data/hooks'
+import { NetworkTagCards } from './components/network-tag-cards'
+import { NetworkTagDialogs } from './components/network-tag-dialogs'
+import { NetworkTagPrimaryButtons } from './components/network-tag-primary-buttons'
+// import NetworkTagFilter from './components/network-tag-filter'
+import NetworkTagProvider from './context'
+import { useNetworkTags } from './data/hooks'
 
-const Projects = () => {
+const NetworkTags = () => {
   const { offset, limit } = useSearch({
-    from: '/_authenticated/projects/',
+    from: '/_authenticated/network/tags',
   })
+  const currentOffset = offset ?? 1
+  const currentLimit = limit ?? 20
   const [search, setSearch] = useState('')
-  //   const [filters, setFilters] = useState<{
-  //     is_active?: boolean
-  //   }>({})
-
   const debouncedSearch = useDebounce(search, 500)
 
-  const currentOffset = offset ?? 0
-  const currentLimit = limit ?? 20
-
-  const { data } = useProjects({
+  const { data } = useNetworkTags({
     offset: currentOffset,
     limit: currentLimit,
+
     search: debouncedSearch.length >= 2 ? debouncedSearch : undefined,
-    // is_active: filters.is_active,
   })
 
   return (
-    <ProjectProvider>
+    <NetworkTagProvider>
       <Header fixed>
         <Search />
         <div className='ml-auto flex items-center space-x-4'>
@@ -49,30 +44,37 @@ const Projects = () => {
       <Main>
         <div className='mb-2 flex flex-wrap items-center justify-between space-y-2 gap-x-4'>
           <div>
-            <h2 className='text-2xl font-bold tracking-tight'>Projects</h2>
+            <h2 className='text-2xl font-bold tracking-tight'>Network Tags</h2>
             <p className='text-muted-foreground'>
-              Here&apos;s a list of projects!
+              Here&apos;s a list of network tags!
             </p>
           </div>
-          <ProjectPrimaryButtons />
+          <NetworkTagPrimaryButtons />
         </div>
-        <div className='flex items-center gap-4'>
+        <div className='flex flex-col gap-4 lg:flex-row lg:items-center'>
           <div className='relative'>
             <Input
               type='search'
-              placeholder='Search by projects'
-              className='h-8 max-w-80 pl-8'
+              placeholder='Search by tags'
+              className='h-8 pl-8 sm:max-w-80'
               onChange={(e) => setSearch(e.target.value)}
             />
             <span className='absolute top-1/2 left-2 -translate-y-1/2'>
               <IconSearch className='text-muted-foreground' size={16} />
             </span>
           </div>
-          {/* <ProjectFilter onFilterChange={setFilters} /> */}
+          {/* <NetworkTagFilter
+            selectedTypeId={social_network_type_id}
+            onTypeFilterChange={handleTypeFilterChange}
+            selectedCategoryId={category_id}
+            onCategoryFilterChange={handleCategoryFilterChange}
+          /> */}
         </div>
-        <div className='-mx-4 flex-1 overflow-auto px-4 pt-4 pb-1 lg:flex-row lg:space-y-0 lg:space-x-12'>
-          <ProjectCards data={data?.data} />
+
+        <div className='-mx-4 flex-1 overflow-auto px-4 py-2 sm:mt-0 lg:flex-row lg:space-y-0 lg:space-x-12'>
+          <NetworkTagCards data={data?.data.items} />
         </div>
+
         {data?.data.total ? (
           <CustomPagination
             offset={currentOffset}
@@ -81,9 +83,9 @@ const Projects = () => {
           />
         ) : null}
       </Main>
-      <ProjectDialogs />
-    </ProjectProvider>
+      <NetworkTagDialogs />
+    </NetworkTagProvider>
   )
 }
 
-export default Projects
+export default NetworkTags

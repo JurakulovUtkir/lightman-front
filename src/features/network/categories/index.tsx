@@ -1,10 +1,10 @@
 import { useSearch } from '@tanstack/react-router'
+import { CustomPagination } from '@/components/custom-pagination'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
-import { CustomPagination } from './components/custom-pagination'
 import NetworkCards from './components/network-cards'
 import { NetworkCategoryDialogs } from './components/network-category-dialogs'
 import { NetworkCategoryPrimaryButtons } from './components/network-category-primary-buttons'
@@ -47,13 +47,13 @@ const NetworkCategories = () => {
         <div className='-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-y-0 lg:space-x-12'>
           <NetworkCards data={data?.data} />
         </div>
-        {data?.data.total && (
+        {data?.data.total ? (
           <CustomPagination
             offset={currentOffset}
             limit={currentLimit}
             total={data.data.total}
           />
-        )}
+        ) : null}
       </Main>
       <NetworkCategoryDialogs />
     </NetworkCategoryProvider>

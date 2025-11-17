@@ -80,6 +80,7 @@ export function CompanyMutateDrawer({
     is_active: z.boolean().optional(),
     is_our_company: z.boolean().optional(),
     is_vip: z.boolean().optional(),
+    is_qqs: z.boolean().optional(),
   })
 
   type CompanyForm = z.infer<typeof formSchema>
@@ -137,6 +138,10 @@ export function CompanyMutateDrawer({
       name: 'is_vip',
       label: 'Is vip',
     },
+    {
+      name: 'is_qqs',
+      label: 'Is QQS',
+    },
   ] as const
 
   const handleDelete = () => {
@@ -171,7 +176,7 @@ export function CompanyMutateDrawer({
               onSubmit={form.handleSubmit(onSubmit)}
               className='flex-1 space-y-5 px-4'
             >
-              <div className='grid grid-cols-1 gap-4 sm:grid-cols-3'>
+              <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
                 {switchFields.map((item) => (
                   <FormField
                     key={item.name}
@@ -216,7 +221,7 @@ export function CompanyMutateDrawer({
                 placeholder='Enter a bank name'
               />
 
-              <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
+              <div className='grid grid-cols-1 items-baseline gap-4 sm:grid-cols-2'>
                 <FormFieldWrapper
                   control={form.control}
                   name='stir'

@@ -114,6 +114,10 @@ export const sidebarData: SidebarData = {
               title: 'Socials',
               url: '/network/socials',
             },
+            {
+              title: 'Tags',
+              url: '/network/tags',
+            },
           ],
         },
         {

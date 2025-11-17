@@ -45,6 +45,7 @@ import { Route as AuthenticatedSettingsDisplayRouteImport } from './routes/_auth
 import { Route as AuthenticatedSettingsAppearanceRouteImport } from './routes/_authenticated/settings/appearance'
 import { Route as AuthenticatedSettingsAccountRouteImport } from './routes/_authenticated/settings/account'
 import { Route as AuthenticatedNetworkTypesRouteImport } from './routes/_authenticated/network/types'
+import { Route as AuthenticatedNetworkTagsRouteImport } from './routes/_authenticated/network/tags'
 import { Route as AuthenticatedNetworkSocialsRouteImport } from './routes/_authenticated/network/socials'
 import { Route as AuthenticatedNetworkCategoriesRouteImport } from './routes/_authenticated/network/categories'
 import { Route as AuthenticatedStakeholderDistributorsIdRouteImport } from './routes/_authenticated/stakeholder/distributors/$id'
@@ -242,6 +243,12 @@ const AuthenticatedNetworkTypesRoute =
     path: '/network/types',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedNetworkTagsRoute =
+  AuthenticatedNetworkTagsRouteImport.update({
+    id: '/network/tags',
+    path: '/network/tags',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedNetworkSocialsRoute =
   AuthenticatedNetworkSocialsRouteImport.update({
     id: '/network/socials',
@@ -283,6 +290,7 @@ export interface FileRoutesByFullPath {
   '/': typeof AuthenticatedIndexRoute
   '/network/categories': typeof AuthenticatedNetworkCategoriesRoute
   '/network/socials': typeof AuthenticatedNetworkSocialsRoute
+  '/network/tags': typeof AuthenticatedNetworkTagsRoute
   '/network/types': typeof AuthenticatedNetworkTypesRoute
   '/settings/account': typeof AuthenticatedSettingsAccountRoute
   '/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
@@ -321,6 +329,7 @@ export interface FileRoutesByTo {
   '/': typeof AuthenticatedIndexRoute
   '/network/categories': typeof AuthenticatedNetworkCategoriesRoute
   '/network/socials': typeof AuthenticatedNetworkSocialsRoute
+  '/network/tags': typeof AuthenticatedNetworkTagsRoute
   '/network/types': typeof AuthenticatedNetworkTypesRoute
   '/settings/account': typeof AuthenticatedSettingsAccountRoute
   '/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
@@ -364,6 +373,7 @@ export interface FileRoutesById {
   '/_authenticated/': typeof AuthenticatedIndexRoute
   '/_authenticated/network/categories': typeof AuthenticatedNetworkCategoriesRoute
   '/_authenticated/network/socials': typeof AuthenticatedNetworkSocialsRoute
+  '/_authenticated/network/tags': typeof AuthenticatedNetworkTagsRoute
   '/_authenticated/network/types': typeof AuthenticatedNetworkTypesRoute
   '/_authenticated/settings/account': typeof AuthenticatedSettingsAccountRoute
   '/_authenticated/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
@@ -405,6 +415,7 @@ export interface FileRouteTypes {
     | '/'
     | '/network/categories'
     | '/network/socials'
+    | '/network/tags'
     | '/network/types'
     | '/settings/account'
     | '/settings/appearance'
@@ -443,6 +454,7 @@ export interface FileRouteTypes {
     | '/'
     | '/network/categories'
     | '/network/socials'
+    | '/network/tags'
     | '/network/types'
     | '/settings/account'
     | '/settings/appearance'
@@ -485,6 +497,7 @@ export interface FileRouteTypes {
     | '/_authenticated/'
     | '/_authenticated/network/categories'
     | '/_authenticated/network/socials'
+    | '/_authenticated/network/tags'
     | '/_authenticated/network/types'
     | '/_authenticated/settings/account'
     | '/_authenticated/settings/appearance'
@@ -778,6 +791,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedNetworkTypesRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/network/tags': {
+      id: '/_authenticated/network/tags'
+      path: '/network/tags'
+      fullPath: '/network/tags'
+      preLoaderRoute: typeof AuthenticatedNetworkTagsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/network/socials': {
       id: '/_authenticated/network/socials'
       path: '/network/socials'
@@ -837,6 +857,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedIndexRoute: typeof AuthenticatedIndexRoute
   AuthenticatedNetworkCategoriesRoute: typeof AuthenticatedNetworkCategoriesRoute
   AuthenticatedNetworkSocialsRoute: typeof AuthenticatedNetworkSocialsRoute
+  AuthenticatedNetworkTagsRoute: typeof AuthenticatedNetworkTagsRoute
   AuthenticatedNetworkTypesRoute: typeof AuthenticatedNetworkTypesRoute
   AuthenticatedStakeholderDistributionRoute: typeof AuthenticatedStakeholderDistributionRoute
   AuthenticatedStakeholderFoundersRoute: typeof AuthenticatedStakeholderFoundersRoute
@@ -858,6 +879,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedIndexRoute: AuthenticatedIndexRoute,
   AuthenticatedNetworkCategoriesRoute: AuthenticatedNetworkCategoriesRoute,
   AuthenticatedNetworkSocialsRoute: AuthenticatedNetworkSocialsRoute,
+  AuthenticatedNetworkTagsRoute: AuthenticatedNetworkTagsRoute,
   AuthenticatedNetworkTypesRoute: AuthenticatedNetworkTypesRoute,
   AuthenticatedStakeholderDistributionRoute:
     AuthenticatedStakeholderDistributionRoute,
