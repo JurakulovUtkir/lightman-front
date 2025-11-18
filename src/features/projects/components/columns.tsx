@@ -1,4 +1,5 @@
 import { ColumnDef } from '@tanstack/react-table'
+import { IconTag } from '@tabler/icons-react'
 import { formatDateToLongString } from '@/lib/dateFormatter'
 import {
   getStatusColor,
@@ -9,7 +10,13 @@ import {
   formatPriceType,
 } from '@/lib/statusHelpers'
 import { cn } from '@/lib/utils'
+import { Badge } from '@/components/ui/badge'
 import { Checkbox } from '@/components/ui/checkbox'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
 import { DataTableColumnHeader } from '@/components/table/data-table-column-header'
 import { ProjectSchema } from '../data/schema'
 import { DataTableRowActions } from './data-table-row-actions'
@@ -108,6 +115,68 @@ export const columns: ColumnDef<ProjectSchema>[] = [
       )
     },
     enableSorting: false,
+  },
+  {
+    accessorKey: 'tags',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Tags' />
+    ),
+    cell: ({ row }) => {
+      const tags = row.original.tags || []
+
+      if (tags.length === 0) {
+        return (
+          <div className='text-muted-foreground flex items-center gap-1'>
+            <IconTag className='h-4 w-4' />
+            <span className='text-sm'>No tags</span>
+          </div>
+        )
+      }
+
+      const firstTag = tags[0]
+      const remainingTags = tags.slice(1)
+
+      if (tags.length === 1) {
+        return (
+          <Badge variant='secondary' className='gap-1 text-xs'>
+            <IconTag className='h-3 w-3' />
+            {firstTag}
+          </Badge>
+        )
+      }
+
+      return (
+        <div className='flex items-center gap-1'>
+          <Badge variant='secondary' className='gap-1 text-xs'>
+            <IconTag className='h-3 w-3' />
+            {firstTag}
+          </Badge>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Badge variant='outline' className='cursor-help text-xs'>
+                +{remainingTags.length}
+              </Badge>
+            </TooltipTrigger>
+            <TooltipContent className='max-w-xs'>
+              <div className='flex flex-wrap gap-1'>
+                {remainingTags.map((tag) => (
+                  <Badge
+                    key={tag}
+                    variant='secondary'
+                    className='gap-1 text-xs'
+                  >
+                    <IconTag className='h-3 w-3' />
+                    {tag}
+                  </Badge>
+                ))}
+              </div>
+            </TooltipContent>
+          </Tooltip>
+        </div>
+      )
+    },
+    enableSorting: false,
+    enableHiding: false,
   },
   {
     accessorKey: 'contract',

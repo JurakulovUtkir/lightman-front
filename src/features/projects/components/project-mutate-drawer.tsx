@@ -23,6 +23,7 @@ import { FormFieldSelect } from '@/components/form-field-select'
 import { FormFieldWrapper } from '@/components/form-field-wrapper'
 import { FormComboboxContract } from '@/features/contracts/components/form-combobox-contracts'
 import { FormComboboxNetwrokCategory } from '@/features/network/socials/components/form-combobox-network-category'
+import { FormComboboxNetworkTags } from '@/features/network/socials/components/form-combobox-network-tags'
 import { ProjectDialogType } from '../context'
 import { useCreateProject, useUpdateProject, useProjects } from '../data/hooks'
 import { ProjectSchema } from '../data/schema'
@@ -86,6 +87,7 @@ export function ProjectMutateDrawer({
     payment_type: z.enum(['cash', 'card', 'bank_transfer']).optional(),
     is_active: z.boolean().optional(),
     is_qqs: z.boolean().optional(),
+    tags: z.array(z.string()).optional(),
     clone_project_id: z.string().optional().nullable(),
   })
 
@@ -112,6 +114,7 @@ export function ProjectMutateDrawer({
     is_active: true,
     is_qqs: false,
     clone_project_id: undefined,
+    tags: undefined,
   }
 
   const form = useForm<ProjectForm>({
@@ -151,6 +154,7 @@ export function ProjectMutateDrawer({
           payment_type: selectedProject.payment_type,
           is_active: selectedProject.is_active,
           is_qqs: selectedProject.is_qqs,
+          tags: selectedProject?.tags || [],
         })
       }
     }
@@ -174,6 +178,7 @@ export function ProjectMutateDrawer({
         is_active: currentRow.is_active,
         is_qqs: currentRow.is_qqs,
         clone_project_id: undefined,
+        tags: currentRow?.tags || [],
       })
     } else if (!isUpdate && open) {
       // Reset to empty values when creating new project
@@ -314,12 +319,17 @@ export function ProjectMutateDrawer({
                   detail={currentRow?.distribution ?? undefined}
                 />
 
-                <div className='sm:col-span-2'>
+                <div className='flex flex-col gap-4 sm:col-span-2'>
                   <FormComboboxNetwrokCategory
                     control={form.control}
                     name='category_id'
                     label='Category'
                     detail={currentRow?.category ?? undefined}
+                  />
+                  <FormComboboxNetworkTags
+                    control={form.control}
+                    name='tags'
+                    label='Tags'
                   />
                 </div>
                 <FormComboboxCompany
