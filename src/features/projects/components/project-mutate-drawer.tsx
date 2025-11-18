@@ -213,17 +213,6 @@ export function ProjectMutateDrawer({
     }
   }
 
-  const switchFields = [
-    {
-      name: 'is_active',
-      label: 'Is active',
-    },
-    {
-      name: 'is_qqs',
-      label: 'Is QQS',
-    },
-  ] as const
-
   return (
     <Sheet
       open={open}
@@ -252,6 +241,24 @@ export function ProjectMutateDrawer({
               onSubmit={form.handleSubmit(onSubmit)}
               className='flex-1 space-y-5 px-4'
             >
+              <FormField
+                control={form.control}
+                name='is_active'
+                render={({ field }) => (
+                  <FormItem className='space-y-1'>
+                    <div className='flex items-center gap-2'>
+                      <FormControl>
+                        <Switch
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                      <FormLabel className='text-sm'>Is active</FormLabel>
+                    </div>
+                  </FormItem>
+                )}
+              />
+
               {!isUpdate && (
                 <FormComboboxProject
                   control={form.control}
@@ -261,30 +268,6 @@ export function ProjectMutateDrawer({
                 />
               )}
 
-              <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
-                {switchFields.map((item) => (
-                  <FormField
-                    key={item.name}
-                    control={form.control}
-                    name={item.name}
-                    render={({ field }) => (
-                      <FormItem className='space-y-1'>
-                        <div className='flex items-center gap-2'>
-                          <FormControl>
-                            <Switch
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                            />
-                          </FormControl>
-                          <FormLabel className='text-sm'>
-                            {item.label}
-                          </FormLabel>
-                        </div>
-                      </FormItem>
-                    )}
-                  />
-                ))}
-              </div>
               <FormFieldWrapper
                 control={form.control}
                 name='name'
