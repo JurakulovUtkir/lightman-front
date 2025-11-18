@@ -96,14 +96,27 @@ export function ProjectMutateDrawer({
     return typeof value === 'string' ? parseFloat(value) : value
   }
 
+  // Define empty default values
+  const emptyFormValues: Partial<ProjectForm> = {
+    name: '',
+    description: '',
+    contract_id: undefined,
+    price: 0,
+    price_with_qqs: 0,
+    distribution_id: undefined,
+    price_type: undefined,
+    category_id: undefined,
+    customer_company_id: undefined,
+    our_company_id: undefined,
+    payment_type: undefined,
+    is_active: true,
+    is_qqs: false,
+    clone_project_id: undefined,
+  }
+
   const form = useForm<ProjectForm>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      ...currentRow,
-      contract_id: currentRow?.contract_id ?? undefined,
-      price: toNumber(currentRow?.price) ?? 0,
-      price_with_qqs: toNumber(currentRow?.price_with_qqs) ?? 0,
-    },
+    defaultValues: emptyFormValues,
   })
 
   // Watch for clone_project_id changes
@@ -112,7 +125,7 @@ export function ProjectMutateDrawer({
   // Fetch projects to get the selected project data
   const { data: projectsData } = useProjects({
     offset: 0,
-    limit: 100, // Fetch more to ensure we have the selected project
+    limit: 100,
   })
 
   // Handle cloning project data
@@ -123,7 +136,6 @@ export function ProjectMutateDrawer({
       )
 
       if (selectedProject) {
-        // Reset form with cloned project data, but keep clone_project_id
         form.reset({
           clone_project_id: cloneProjectId,
           name: selectedProject.name,
@@ -144,8 +156,9 @@ export function ProjectMutateDrawer({
     }
   }, [cloneProjectId, projectsData, isUpdate, form])
 
+  // Handle editing project data
   useEffect(() => {
-    if (isUpdate && currentRow) {
+    if (isUpdate && currentRow && open) {
       form.reset({
         name: currentRow.name,
         description: currentRow.description,
@@ -162,8 +175,11 @@ export function ProjectMutateDrawer({
         is_qqs: currentRow.is_qqs,
         clone_project_id: undefined,
       })
+    } else if (!isUpdate && open) {
+      // Reset to empty values when creating new project
+      form.reset(emptyFormValues)
     }
-  }, [isUpdate, currentRow, form])
+  }, [isUpdate, currentRow, open, form])
 
   const onSubmit = (values: ProjectForm) => {
     if (isUpdate) {
@@ -175,7 +191,7 @@ export function ProjectMutateDrawer({
         {
           onSuccess: () => {
             onOpenChange(false)
-            form.reset()
+            form.reset(emptyFormValues)
           },
         }
       )
@@ -184,7 +200,7 @@ export function ProjectMutateDrawer({
       createProject.mutate(createData, {
         onSuccess: () => {
           onOpenChange(false)
-          form.reset()
+          form.reset(emptyFormValues)
         },
       })
     }
@@ -213,7 +229,10 @@ export function ProjectMutateDrawer({
       open={open}
       onOpenChange={(v) => {
         onOpenChange(v)
-        form.reset()
+        if (!v) {
+          // Reset to empty values when closing
+          form.reset(emptyFormValues)
+        }
       }}
     >
       <SheetContent className='flex max-w-full flex-col sm:max-w-[540px]'>
@@ -253,7 +272,6 @@ export function ProjectMutateDrawer({
                         <div className='flex items-center gap-2'>
                           <FormControl>
                             <Switch
-                              defaultChecked={item.name === 'is_active'}
                               checked={field.value}
                               onCheckedChange={field.onChange}
                             />
