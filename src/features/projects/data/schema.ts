@@ -13,6 +13,7 @@ export const projectSchema = z.object({
   price_with_qqs: z.union([z.string(), z.number()]).optional(),
   status: z.string(),
   is_active: z.boolean(),
+  is_qqs: z.boolean(),
   distribution_id: z.string(),
   price_type: z.enum(['standard', 'vip', 'no_watermark']),
   category_id: z.string(),

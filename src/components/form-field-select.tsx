@@ -49,7 +49,7 @@ export function FormFieldSelect<TFieldValues extends FieldValues>({
           <FormLabel>{label}</FormLabel>
           <Select
             onValueChange={field.onChange}
-            defaultValue={field.value}
+            value={field.value} // Changed from defaultValue to value
             disabled={disabled || isEmpty}
           >
             <FormControl>

@@ -47,7 +47,7 @@ export const columns: ColumnDef<CompanySchema>[] = [
       <div className='flex items-center gap-2'>
         {' '}
         <div
-          className={`${row.getValue('is_active') ? `bg-green-500` : `bg-destructive`} h-2 w-2 animate-pulse rounded-full`}
+          className={`${row.original.is_active ? `bg-green-500` : `bg-destructive`} h-2 w-2 animate-pulse rounded-full`}
         />
         {row.getValue('name')}
       </div>

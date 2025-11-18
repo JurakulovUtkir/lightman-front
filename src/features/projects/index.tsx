@@ -1,22 +1,25 @@
 import { useState } from 'react'
-import { useSearch } from '@tanstack/react-router'
+import { useNavigate, useSearch } from '@tanstack/react-router'
 import { IconSearch } from '@tabler/icons-react'
 import { useDebounce } from '@/hooks/useDebounce'
 import { Input } from '@/components/ui/input'
-import { CustomPagination } from '@/components/custom-pagination'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
+import { DataTable } from '@/components/table/data-table'
 import { ThemeSwitch } from '@/components/theme-switch'
-import ProjectCards from './components/project-cards'
+import { columns } from './components/columns'
+// import ProjectCards from './components/project-cards'
 import { ProjectDialogs } from './components/project-dialogs'
 // import { ProjectFilter } from './components/project-filter'
 import { ProjectPrimaryButtons } from './components/project-primary-buttons'
 import ProjectProvider from './context'
 import { useProjects } from './data/hooks'
+import { ProjectSchema } from './data/schema'
 
 const Projects = () => {
+  const navigate = useNavigate()
   const { offset, limit } = useSearch({
     from: '/_authenticated/projects/',
   })
@@ -36,7 +39,12 @@ const Projects = () => {
     search: debouncedSearch.length >= 2 ? debouncedSearch : undefined,
     // is_active: filters.is_active,
   })
-
+  const handleDobleClick = (payload: ProjectSchema) => {
+    navigate({
+      to: '/projects/socials/$id',
+      params: { id: payload.id },
+    })
+  }
   return (
     <ProjectProvider>
       <Header fixed>
@@ -71,15 +79,23 @@ const Projects = () => {
           {/* <ProjectFilter onFilterChange={setFilters} /> */}
         </div>
         <div className='-mx-4 flex-1 overflow-auto px-4 pt-4 pb-1 lg:flex-row lg:space-y-0 lg:space-x-12'>
-          <ProjectCards data={data?.data} />
+          {/* <ProjectCards data={data?.data} /> */}
+          <DataTable
+            data={data?.data.items?.length ? data.data.items : []}
+            columns={columns}
+            offset={offset}
+            limit={limit}
+            total={data?.data.total ?? 0}
+            onRowDoubleClick={handleDobleClick}
+          />
         </div>
-        {data?.data.total ? (
+        {/* {data?.data.total ? (
           <CustomPagination
             offset={currentOffset}
             limit={currentLimit}
             total={data.data.total}
           />
-        ) : null}
+        ) : null} */}
       </Main>
       <ProjectDialogs />
     </ProjectProvider>

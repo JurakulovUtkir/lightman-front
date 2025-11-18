@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Control, FieldValues, Path, UseFormSetValue } from 'react-hook-form'
+import { Control, FieldValues, Path } from 'react-hook-form'
 import { IconCheck, IconSelector } from '@tabler/icons-react'
 import { cn } from '@/lib/utils'
 import { useDebounce } from '@/hooks/useDebounce'
@@ -25,66 +25,50 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import { Skeleton } from '@/components/ui/skeleton'
-import { useCompanies } from '@/features/companies/data/hooks'
+import { useProjects } from '../../projects/data/hooks'
+import { ProjectSchema } from '../../projects/data/schema'
 
 type ComboboxOption = {
   value: string
   label: string
-  is_qqs?: boolean
 }
 
 interface FormComboboxProps<T extends FieldValues> {
   name: Path<T>
   label: string
   control: Control<T>
-  detail?: {
-    id: string
-    name: string
-  }
-  filterActive?: boolean
-  filterOurCompany?: boolean
-  filterVip?: boolean
-  setValue?: UseFormSetValue<T>
-  shouldUpdateIsQqs?: boolean
-  onCompanySelect?: (isQqs: boolean) => void
+  detail?: Pick<ProjectSchema, 'id' | 'name'>
 }
 
-export const FormComboboxCompany = <T extends FieldValues>({
+export const FormComboboxProject = <T extends FieldValues>({
   name,
   label,
   control,
   detail,
-  filterActive,
-  filterOurCompany,
-  filterVip,
-  setValue,
-  shouldUpdateIsQqs = false,
-  onCompanySelect,
 }: FormComboboxProps<T>) => {
   const [search, setSearch] = useState('')
   const [open, setOpen] = useState(false)
   const debouncedSearch = useDebounce(search, 500)
 
   const {
-    data: companies,
-    isLoading: isLoadingCompanies,
-    isFetching: isFetchingCompanies,
-  } = useCompanies({
+    data: projects,
+    isLoading: isLoadingProjects,
+    isFetching: isFetchingProjects,
+  } = useProjects({
     offset: 0,
     limit: 20,
-    search: debouncedSearch.length >= 2 ? debouncedSearch : undefined,
-    is_active: filterActive,
-    is_our_company: filterOurCompany,
-    is_vip: filterVip,
+    search: debouncedSearch,
   })
 
-  const isLoading = isLoadingCompanies || isFetchingCompanies
+  // Determine if we're currently loading or fetching
+  const isLoading = isLoadingProjects || isFetchingProjects
 
   return (
     <FormField
       control={control}
       name={name}
       render={({ field }) => {
+        // Show skeleton only on initial load, not during search
         if (isLoading && !debouncedSearch && !open) {
           return (
             <FormItem className='flex w-full flex-col'>
@@ -96,12 +80,12 @@ export const FormComboboxCompany = <T extends FieldValues>({
         }
 
         let options: ComboboxOption[] =
-          companies?.data?.items?.map((company) => ({
-            value: company.id,
-            label: company.name,
-            is_qqs: company.is_qqs,
+          projects?.data?.items?.map((project) => ({
+            value: project.id,
+            label: project.name,
           })) ?? []
 
+        // Handle fallback from detail
         if (
           detail &&
           detail.id &&
@@ -146,7 +130,7 @@ export const FormComboboxCompany = <T extends FieldValues>({
                   </Button>
                 </FormControl>
               </PopoverTrigger>
-              <PopoverContent className='p-0'>
+              <PopoverContent className='max-w-[400px] p-0'>
                 <Command shouldFilter={false}>
                   <CommandInput
                     placeholder={`Search ${label.toLowerCase()}...`}
@@ -166,7 +150,7 @@ export const FormComboboxCompany = <T extends FieldValues>({
                       </div>
                     ) : (
                       <>
-                        <CommandEmpty>No companies found.</CommandEmpty>
+                        <CommandEmpty>No project found.</CommandEmpty>
                         <CommandGroup>
                           {options.map((item) => (
                             <CommandItem
@@ -174,27 +158,6 @@ export const FormComboboxCompany = <T extends FieldValues>({
                               key={item.value}
                               onSelect={() => {
                                 field.onChange(item.value)
-
-                                // Update is_qqs field only if shouldUpdateIsQqs is true (for our company)
-                                if (
-                                  shouldUpdateIsQqs &&
-                                  setValue &&
-                                  item.is_qqs !== undefined
-                                ) {
-                                  setValue(
-                                    'is_qqs' as Path<T>,
-                                    item.is_qqs as T[Path<T>]
-                                  )
-                                }
-
-                                // Call callback if provided
-                                if (
-                                  onCompanySelect &&
-                                  item.is_qqs !== undefined
-                                ) {
-                                  onCompanySelect(item.is_qqs)
-                                }
-
                                 setOpen(false)
                               }}
                             >

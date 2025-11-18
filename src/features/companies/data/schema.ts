@@ -12,6 +12,7 @@ export const companySchema = z.object({
   is_active: z.boolean(),
   is_our_company: z.boolean(),
   is_vip: z.boolean(),
+  is_qqs: z.boolean(),
   created_at: z.string(),
   updated_at: z.string(),
 })

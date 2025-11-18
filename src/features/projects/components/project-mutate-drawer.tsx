@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -23,9 +24,10 @@ import { FormFieldWrapper } from '@/components/form-field-wrapper'
 import { FormComboboxContract } from '@/features/contracts/components/form-combobox-contracts'
 import { FormComboboxNetwrokCategory } from '@/features/network/socials/components/form-combobox-network-category'
 import { ProjectDialogType } from '../context'
-import { useCreateProject, useUpdateProject } from '../data/hooks'
+import { useCreateProject, useUpdateProject, useProjects } from '../data/hooks'
 import { ProjectSchema } from '../data/schema'
 import { FormComboboxCompany } from './form-combobox-company'
+import { FormComboboxProject } from './form-combobox-projects'
 import { FormDistribution } from './form-distribution'
 
 interface Props {
@@ -46,6 +48,7 @@ export function ProjectMutateDrawer({
   const createProject = useCreateProject()
   const updateProject = useUpdateProject()
   const isUpdate = !!currentRow
+
   const formSchema = z.object({
     name: z
       .string({
@@ -71,7 +74,6 @@ export function ProjectMutateDrawer({
         error: 'Required field',
       })
       .min(0, 'Invalid value'),
-    // status: z.string().optional(),
     distribution_id: z.string().optional(),
     price_type: z.enum(['standard', 'vip', 'no_watermark']).optional(),
     category_id: z.string().optional(),
@@ -83,6 +85,8 @@ export function ProjectMutateDrawer({
     }),
     payment_type: z.enum(['cash', 'card', 'bank_transfer']).optional(),
     is_active: z.boolean().optional(),
+    is_qqs: z.boolean().optional(),
+    clone_project_id: z.string().optional().nullable(),
   })
 
   type ProjectForm = z.infer<typeof formSchema>
@@ -102,6 +106,65 @@ export function ProjectMutateDrawer({
     },
   })
 
+  // Watch for clone_project_id changes
+  const cloneProjectId = form.watch('clone_project_id')
+
+  // Fetch projects to get the selected project data
+  const { data: projectsData } = useProjects({
+    offset: 0,
+    limit: 100, // Fetch more to ensure we have the selected project
+  })
+
+  // Handle cloning project data
+  useEffect(() => {
+    if (!isUpdate && cloneProjectId && projectsData?.data?.items) {
+      const selectedProject = projectsData.data.items.find(
+        (project) => project.id === cloneProjectId
+      )
+
+      if (selectedProject) {
+        // Reset form with cloned project data, but keep clone_project_id
+        form.reset({
+          clone_project_id: cloneProjectId,
+          name: selectedProject.name,
+          description: selectedProject.description,
+          contract_id: selectedProject.contract_id,
+          price: toNumber(selectedProject.price) ?? 0,
+          price_with_qqs: toNumber(selectedProject.price_with_qqs) ?? 0,
+          distribution_id: selectedProject.distribution_id,
+          price_type: selectedProject.price_type,
+          category_id: selectedProject.category_id,
+          customer_company_id: selectedProject.customer_company_id,
+          our_company_id: selectedProject.our_company_id,
+          payment_type: selectedProject.payment_type,
+          is_active: selectedProject.is_active,
+          is_qqs: selectedProject.is_qqs,
+        })
+      }
+    }
+  }, [cloneProjectId, projectsData, isUpdate, form])
+
+  useEffect(() => {
+    if (isUpdate && currentRow) {
+      form.reset({
+        name: currentRow.name,
+        description: currentRow.description,
+        contract_id: currentRow.contract_id ?? undefined,
+        price: toNumber(currentRow.price) ?? 0,
+        price_with_qqs: toNumber(currentRow.price_with_qqs) ?? 0,
+        distribution_id: currentRow.distribution_id,
+        price_type: currentRow.price_type,
+        category_id: currentRow.category_id,
+        customer_company_id: currentRow.customer_company_id,
+        our_company_id: currentRow.our_company_id,
+        payment_type: currentRow.payment_type,
+        is_active: currentRow.is_active,
+        is_qqs: currentRow.is_qqs,
+        clone_project_id: undefined,
+      })
+    }
+  }, [isUpdate, currentRow, form])
+
   const onSubmit = (values: ProjectForm) => {
     if (isUpdate) {
       updateProject.mutate(
@@ -117,7 +180,8 @@ export function ProjectMutateDrawer({
         }
       )
     } else {
-      createProject.mutate(values, {
+      const { clone_project_id, ...createData } = values
+      createProject.mutate(createData, {
         onSuccess: () => {
           onOpenChange(false)
           form.reset()
@@ -132,6 +196,17 @@ export function ProjectMutateDrawer({
       setOpen('delete')
     }
   }
+
+  const switchFields = [
+    {
+      name: 'is_active',
+      label: 'Is active',
+    },
+    {
+      name: 'is_qqs',
+      label: 'Is QQS',
+    },
+  ] as const
 
   return (
     <Sheet
@@ -158,25 +233,40 @@ export function ProjectMutateDrawer({
               onSubmit={form.handleSubmit(onSubmit)}
               className='flex-1 space-y-5 px-4'
             >
-              <FormField
-                control={form.control}
-                name='is_active'
-                render={({ field }) => (
-                  <FormItem className='space-y-1'>
-                    <div className='flex items-center gap-2'>
-                      <FormControl>
-                        <Switch
-                          defaultChecked
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                        />
-                      </FormControl>
-                      <FormLabel className='text-sm'>Is active</FormLabel>
-                    </div>
-                  </FormItem>
-                )}
-              />
+              {!isUpdate && (
+                <FormComboboxProject
+                  control={form.control}
+                  name='clone_project_id'
+                  label='Clone project'
+                  detail={undefined}
+                />
+              )}
 
+              <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
+                {switchFields.map((item) => (
+                  <FormField
+                    key={item.name}
+                    control={form.control}
+                    name={item.name}
+                    render={({ field }) => (
+                      <FormItem className='space-y-1'>
+                        <div className='flex items-center gap-2'>
+                          <FormControl>
+                            <Switch
+                              defaultChecked={item.name === 'is_active'}
+                              checked={field.value}
+                              onCheckedChange={field.onChange}
+                            />
+                          </FormControl>
+                          <FormLabel className='text-sm'>
+                            {item.label}
+                          </FormLabel>
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                ))}
+              </div>
               <FormFieldWrapper
                 control={form.control}
                 name='name'
@@ -203,6 +293,7 @@ export function ProjectMutateDrawer({
                   name='distribution_id'
                   label='Distribution'
                   placeholder='Select a distribution'
+                  detail={currentRow?.distribution ?? undefined}
                 />
 
                 <div className='sm:col-span-2'>
@@ -219,6 +310,8 @@ export function ProjectMutateDrawer({
                   label='Our company'
                   detail={currentRow?.our_company}
                   filterOurCompany={true}
+                  setValue={form.setValue}
+                  shouldUpdateIsQqs={true}
                 />
                 <FormComboboxCompany
                   control={form.control}
