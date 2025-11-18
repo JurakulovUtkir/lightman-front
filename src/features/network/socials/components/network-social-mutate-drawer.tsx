@@ -1,6 +1,7 @@
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { toNumber } from '@/lib/helpers'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -71,11 +72,6 @@ export function NetworkSocialMutateDrawer({
   })
 
   type NetworkSocialForm = z.infer<typeof formSchema>
-
-  const toNumber = (value: string | number | undefined): number | undefined => {
-    if (value === undefined || value === null) return undefined
-    return typeof value === 'string' ? parseFloat(value) : value
-  }
 
   const form = useForm<NetworkSocialForm>({
     resolver: zodResolver(formSchema),

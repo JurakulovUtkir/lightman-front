@@ -48,6 +48,9 @@ export function ProjectSocialMutateDrawer({
   const { data: project } = useProject(id)
 
   const formSchema = z.object({
+    network_type_id: z.string({
+      error: 'Required field',
+    }),
     social_id: z
       .string({
         error: 'Required field',
@@ -66,7 +69,7 @@ export function ProjectSocialMutateDrawer({
     payment: z.string().nullable().optional(),
     post_screenshot: z.string().nullable().optional(),
 
-    network_type_id: z.string().optional(),
+    post_count: z.number().optional(),
   })
   type ProjectSocialForm = z.infer<typeof formSchema>
 
@@ -191,7 +194,15 @@ export function ProjectSocialMutateDrawer({
                     | undefined
                 }
               />
-
+              {!isUpdate && (
+                <FormFieldWrapper
+                  control={form.control}
+                  name='post_count'
+                  label='Post count'
+                  placeholder='Enter a count'
+                  type='number'
+                />
+              )}
               <FormFieldWrapper
                 control={form.control}
                 name='buy_price'
@@ -220,9 +231,10 @@ export function ProjectSocialMutateDrawer({
                     control={form.control}
                     name='post_views'
                     label='Post views'
-                    placeholder='Enter a count'
+                    placeholder='Enter a views'
                     type='number'
                   />
+
                   <FormFileUploadField
                     control={form.control}
                     name='payment'

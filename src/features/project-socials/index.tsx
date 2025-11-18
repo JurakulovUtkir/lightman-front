@@ -6,6 +6,7 @@ import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
+import { useProject } from '../projects/data/hooks'
 import { columns } from './components/columns'
 import { DataTable } from './components/data-table'
 import PriceCards from './components/price-cards'
@@ -17,8 +18,9 @@ import { useProjectSocials } from './data/hooks'
 const ProjectSocials = () => {
   const { id } = Route.useLoaderData()
   const { data } = useProjectSocials(id)
-
+  const { data: project, isPending: isPendingProject } = useProject(id)
   // Group data by social network type
+
   const groupedData = useMemo(() => {
     if (!data?.data?.length) return {}
 
@@ -56,7 +58,7 @@ const ProjectSocials = () => {
         <div className='mb-2 flex flex-wrap items-center justify-between space-y-2 gap-x-4'>
           <div>
             <h2 className='text-2xl font-bold tracking-tight'>
-              Project Socials
+              {isPendingProject ? '' : project?.name ? project.name : '-'}
             </h2>
             <p className='text-muted-foreground'>
               Here&apos;s a list of Project socials!

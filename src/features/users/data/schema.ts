@@ -20,6 +20,7 @@ export const userSchema = z.object({
   full_name: z.string(),
   id: z.string(),
   is_verified: z.boolean(),
+  is_our_employee: z.boolean(),
   password: z.string(),
   phone_number: z.string(),
   role: userRoleSchema,

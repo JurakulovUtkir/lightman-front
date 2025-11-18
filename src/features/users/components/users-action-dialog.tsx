@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { UZ_PHONE_REGEX } from '@/constants'
 import { toast } from 'sonner'
+import { toNumber } from '@/lib/helpers'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -22,6 +23,7 @@ import {
 } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { Switch } from '@/components/ui/switch'
+import { FormFieldWrapper } from '@/components/form-field-wrapper'
 import { PasswordInput } from '@/components/password-input'
 import { PhoneInput } from '@/components/phone-inputs'
 import { SelectDropdown } from '@/components/select-dropdown'
@@ -54,7 +56,9 @@ const formSchema = z
       .transform((pwd) => pwd.trim())
       .optional(),
     is_verified: z.boolean().optional(),
+    is_our_employee: z.boolean().optional(),
     isUpdate: z.boolean().optional(),
+    salary: z.number().min(0, 'Invalid value').optional().nullable(),
   })
   .refine(
     ({ password, isUpdate }) => {
@@ -131,9 +135,14 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
       confirmPassword: '',
       role: currentRow?.role || 'user',
       is_verified: currentRow?.is_verified,
+      is_our_employee: currentRow?.is_our_employee,
       isUpdate,
+      salary: toNumber(currentRow?.salary ?? 0),
     },
   })
+
+  // Watch is_our_employee field to conditionally show salary
+  const isOurEmployee = form.watch('is_our_employee')
 
   const onSubmit = (data: UserForm) => {
     // Remove password fields if updating and password is empty
@@ -194,25 +203,42 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
               onSubmit={form.handleSubmit(onSubmit)}
               className='space-y-4 p-0.5'
             >
-              <FormField
-                control={form.control}
-                name='is_verified'
-                render={({ field }) => (
-                  <FormItem className='flex flex-col space-y-2 sm:grid sm:grid-cols-6 sm:items-center sm:space-y-0 sm:gap-x-4 sm:gap-y-1'>
-                    <FormLabel className='sm:col-span-2 sm:text-right'>
-                      Is verified
-                    </FormLabel>
-                    <FormControl>
-                      <Switch
-                        defaultChecked
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                      />
-                    </FormControl>
-                    <FormMessage className='sm:col-span-4 sm:col-start-3' />
-                  </FormItem>
-                )}
-              />
+              <div className='grid sm:grid-cols-2'>
+                <FormField
+                  control={form.control}
+                  name='is_verified'
+                  render={({ field }) => (
+                    <FormItem className='flex items-center'>
+                      <FormLabel>Is verified</FormLabel>
+                      <FormControl>
+                        <Switch
+                          defaultChecked
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name='is_our_employee'
+                  render={({ field }) => (
+                    <FormItem className='flex items-center'>
+                      <FormLabel>Our employee</FormLabel>
+                      <FormControl>
+                        <Switch
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
               <FormField
                 control={form.control}
                 name='full_name'
@@ -277,6 +303,27 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
                   </FormItem>
                 )}
               />
+
+              {/* Conditionally render salary field */}
+              {isOurEmployee && (
+                <div className='flex flex-col items-center space-y-2 sm:grid sm:grid-cols-6 sm:space-y-0 sm:gap-x-4 sm:gap-y-1'>
+                  <div className='sm:col-span-2 sm:pt-2 sm:text-right'>
+                    <FormLabel>Salary</FormLabel>
+                  </div>
+                  <div className='sm:col-span-4'>
+                    <FormFieldWrapper
+                      control={form.control}
+                      name='salary'
+                      label=''
+                      placeholder='Enter salary'
+                      type='number'
+                      suffix='UZS'
+                      formatting={true}
+                    />
+                  </div>
+                </div>
+              )}
+
               <FormField
                 control={form.control}
                 name='password'

@@ -131,6 +131,42 @@ export const columns: ColumnDef<User>[] = [
     enableSorting: false,
   },
   {
+    accessorKey: 'is_our_employee',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Our employee' />
+    ),
+    cell: ({ row }) => (
+      <div
+        className={`${row.getValue('is_our_employee') ? `bg-green-500` : `bg-destructive`} h-2 w-2 animate-pulse rounded-full`}
+      />
+    ),
+    enableSorting: false,
+  },
+  {
+    accessorKey: 'salary',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Salary' />
+    ),
+    cell: ({ row }) => {
+      const salary = row.getValue('salary') as number | null | undefined
+
+      if (!salary && salary !== 0) {
+        return <div className='text-muted-foreground'>-</div>
+      }
+
+      // Format number with spaces for thousands
+      const formattedSalary = salary.toLocaleString('en-US').replace(/,/g, ' ')
+
+      return (
+        <div className='font-medium'>
+          {formattedSalary}{' '}
+          <span className='text-muted-foreground text-xs'>UZS</span>
+        </div>
+      )
+    },
+    enableSorting: false,
+  },
+  {
     accessorKey: 'created_at',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='Created at' />
