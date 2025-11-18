@@ -3,7 +3,6 @@ import { useSearch } from '@tanstack/react-router'
 import { IconSearch } from '@tabler/icons-react'
 import { useDebounce } from '@/hooks/useDebounce'
 import { Input } from '@/components/ui/input'
-import { CustomPagination } from '@/components/custom-pagination'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
@@ -82,14 +81,6 @@ const NetworkTags = () => {
             total={data?.data.total ?? 0}
           />
         </div>
-
-        {data?.data.total ? (
-          <CustomPagination
-            offset={currentOffset}
-            limit={currentLimit}
-            total={data.data.total}
-          />
-        ) : null}
       </Main>
       <NetworkTagDialogs />
     </NetworkTagProvider>

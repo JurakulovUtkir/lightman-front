@@ -78,18 +78,20 @@ export function FormFieldWrapper<TFieldValues extends FieldValues>({
                   onChange={(e) => {
                     const raw = e.target.value
 
-                    if (raw.trim() === '') {
-                      field.onChange(0)
-                      return
-                    }
-
                     if (type === 'number') {
+                      // Handle empty input for number type
+                      if (raw.trim() === '') {
+                        field.onChange(undefined) // or null, or 0 depending on your schema
+                        return
+                      }
+
                       const parsedValue = shouldFormat
                         ? parseNumber(raw)
-                        : parseFloat(raw) || 0
+                        : parseFloat(raw)
 
                       field.onChange(parsedValue)
                     } else {
+                      // For text type, just pass the raw value
                       field.onChange(raw)
                     }
                   }}
