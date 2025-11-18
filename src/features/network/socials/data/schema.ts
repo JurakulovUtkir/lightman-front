@@ -26,5 +26,6 @@ export const networkSocialSchema = z.object({
     id: z.string(),
     name: z.string(),
   }),
+  tags: z.array(z.string()).optional(),
 })
 export type NetworkSocialSchema = z.infer<typeof networkSocialSchema>

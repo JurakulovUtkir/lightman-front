@@ -8,8 +8,10 @@ import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
+import { DataTable } from '@/components/table/data-table'
 import { ThemeSwitch } from '@/components/theme-switch'
-import { NetworkTagCards } from './components/network-tag-cards'
+import { columns } from './components/columns'
+// import { NetworkTagCards } from './components/network-tag-cards'
 import { NetworkTagDialogs } from './components/network-tag-dialogs'
 import { NetworkTagPrimaryButtons } from './components/network-tag-primary-buttons'
 // import NetworkTagFilter from './components/network-tag-filter'
@@ -28,7 +30,6 @@ const NetworkTags = () => {
   const { data } = useNetworkTags({
     offset: currentOffset,
     limit: currentLimit,
-
     search: debouncedSearch.length >= 2 ? debouncedSearch : undefined,
   })
 
@@ -72,7 +73,14 @@ const NetworkTags = () => {
         </div>
 
         <div className='-mx-4 flex-1 overflow-auto px-4 py-2 sm:mt-0 lg:flex-row lg:space-y-0 lg:space-x-12'>
-          <NetworkTagCards data={data?.data.items} />
+          {/* <NetworkTagCards data={data?.data.items} /> */}
+          <DataTable
+            data={data?.data.items?.length ? data.data.items : []}
+            columns={columns}
+            offset={offset}
+            limit={limit}
+            total={data?.data.total ?? 0}
+          />
         </div>
 
         {data?.data.total ? (

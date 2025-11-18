@@ -43,7 +43,15 @@ export const columns: ColumnDef<CompanySchema>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='Company name' />
     ),
-    cell: ({ row }) => <div>{row.getValue('name')}</div>,
+    cell: ({ row }) => (
+      <div className='flex items-center gap-2'>
+        {' '}
+        <div
+          className={`${row.getValue('is_active') ? `bg-green-500` : `bg-destructive`} h-2 w-2 animate-pulse rounded-full`}
+        />
+        {row.getValue('name')}
+      </div>
+    ),
     enableSorting: false,
   },
   {
@@ -101,18 +109,7 @@ export const columns: ColumnDef<CompanySchema>[] = [
     ),
     enableSorting: false,
   },
-  {
-    accessorKey: 'is_active',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Is Active' />
-    ),
-    cell: ({ row }) => (
-      <div
-        className={`${row.getValue('is_active') ? `bg-green-500` : `bg-destructive`} h-2 w-2 animate-pulse rounded-full`}
-      />
-    ),
-    enableSorting: false,
-  },
+
   {
     accessorKey: 'is_our_company',
     header: ({ column }) => (
@@ -133,6 +130,18 @@ export const columns: ColumnDef<CompanySchema>[] = [
     cell: ({ row }) => (
       <div
         className={`${row.getValue('is_vip') ? `bg-green-500` : `bg-destructive`} h-2 w-2 animate-pulse rounded-full`}
+      />
+    ),
+    enableSorting: false,
+  },
+  {
+    accessorKey: 'is_qqs',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Is QQS' />
+    ),
+    cell: ({ row }) => (
+      <div
+        className={`${row.getValue('is_qqs') ? `bg-green-500` : `bg-destructive`} h-2 w-2 animate-pulse rounded-full`}
       />
     ),
     enableSorting: false,

@@ -1,3 +1,4 @@
+import { ApiResponse } from '@/constants'
 import api from '@/lib/axios'
 import { NetworkTagSchema } from './schema'
 import { NetworkTagResponse } from './types'
@@ -28,7 +29,7 @@ export const getNetworkTag = async (id: string): Promise<NetworkTagSchema> => {
 
 export const createNetworkTag = async (
   data: Partial<NetworkTagSchema>
-): Promise<NetworkTagSchema> => {
+): Promise<ApiResponse<NetworkTagSchema>> => {
   const response = await api.post('/tags', data)
   return response.data
 }

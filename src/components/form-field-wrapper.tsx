@@ -69,18 +69,28 @@ export function FormFieldWrapper<TFieldValues extends FieldValues>({
                       : ''
                   }
                   value={
-                    shouldFormat
-                      ? formatNumber(field.value as number)
-                      : field.value || ''
+                    field.value === ''
+                      ? ''
+                      : shouldFormat
+                        ? formatNumber(field.value as number)
+                        : (field.value ?? '')
                   }
                   onChange={(e) => {
+                    const raw = e.target.value
+
+                    if (raw.trim() === '') {
+                      field.onChange(0)
+                      return
+                    }
+
                     if (type === 'number') {
                       const parsedValue = shouldFormat
-                        ? parseNumber(e.target.value)
-                        : parseFloat(e.target.value) || undefined
+                        ? parseNumber(raw)
+                        : parseFloat(raw) || 0
+
                       field.onChange(parsedValue)
                     } else {
-                      field.onChange(e.target.value)
+                      field.onChange(raw)
                     }
                   }}
                   onBlur={field.onBlur}

@@ -24,6 +24,7 @@ import { NetworkTypeSchema } from '../../types/data/schema'
 import { useCreateNetworkSocial, useUpdateNetworkSocial } from '../data/hooks'
 import { NetworkSocialSchema } from '../data/schema'
 import { FormComboboxNetwrokCategory } from './form-combobox-network-category'
+import { FormComboboxNetworkTags } from './form-combobox-network-tags'
 import { FormComboboxNetworkTypes } from './form-combobox-network-types'
 
 interface Props {
@@ -55,9 +56,8 @@ export function NetworkSocialMutateDrawer({
       error: 'Social network type is required.',
     }),
 
-    category_id: z.string({
-      error: 'Social network category is required.',
-    }),
+    category_id: z.string().optional(),
+    tags: z.array(z.string()).optional(),
 
     subscriber_count: z.number().min(0, 'Invalid value').optional(),
     average_view_count: z.number().min(0, 'Invalid value').optional(),
@@ -86,6 +86,7 @@ export function NetworkSocialMutateDrawer({
       standard_sell_price: toNumber(currentRow?.standard_sell_price),
       vip_sell_price: toNumber(currentRow?.vip_sell_price),
       no_watermark_sell_price: toNumber(currentRow?.no_watermark_sell_price),
+      tags: currentRow?.tags || [],
     },
   })
 
@@ -181,6 +182,11 @@ export function NetworkSocialMutateDrawer({
                 detail={
                   currentRow?.category as NetworkCategorySchema | undefined
                 }
+              />
+              <FormComboboxNetworkTags
+                control={form.control}
+                name='tags'
+                label='Tags'
               />
               <FormFieldWrapper
                 control={form.control}
