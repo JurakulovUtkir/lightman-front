@@ -51,7 +51,7 @@ export const FormComboboxNetworkTags = <T extends FieldValues>({
     isLoading: isLoadingTags,
     isFetching: isFetchingTags,
   } = useNetworkTags({
-    offset: 1,
+    offset: 0,
     limit: 100,
     search: search.length >= 2 ? search : undefined,
   })

@@ -21,8 +21,9 @@ const NetworkTags = () => {
   const { offset, limit } = useSearch({
     from: '/_authenticated/network/tags',
   })
-  const currentOffset = offset ?? 1
+  const currentOffset = offset ?? 0
   const currentLimit = limit ?? 20
+
   const [search, setSearch] = useState('')
   const debouncedSearch = useDebounce(search, 500)
 
