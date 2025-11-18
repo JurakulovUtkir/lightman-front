@@ -29,5 +29,6 @@ export const projectSchema = z.object({
   payment_type: z.enum(['cash', 'card', 'bank_transfer']),
   contract: contractSchema,
   tags: z.array(z.string()).optional(),
+  clone_project_id: z.string().optional().nullable(),
 })
 export type ProjectSchema = z.infer<typeof projectSchema>

@@ -201,8 +201,7 @@ export function ProjectMutateDrawer({
         }
       )
     } else {
-      const { clone_project_id, ...createData } = values
-      createProject.mutate(createData, {
+      createProject.mutate(values, {
         onSuccess: () => {
           onOpenChange(false)
           form.reset(emptyFormValues)
