@@ -15,78 +15,66 @@ import { ProjectSocialDialogs } from './components/project-social-dialogs'
 import { ProjectSocialPrimaryButtons } from './components/project-social-primary-buttons'
 import ProjectSocialProvider from './context'
 import { useProjectSocials } from './data/hooks'
-import { ProjectSocialSchema } from './data/schema'
+
+// import { ProjectSocialSchema } from './data/schema'
 
 const ProjectSocials = () => {
   const { id } = Route.useLoaderData()
   const { data } = useProjectSocials(id)
   const { data: project, isPending: isPendingProject } = useProject(id)
 
-  // Group data by social network type, then by project_id
+  // Group data by social network type, then by social_id
   const groupedData = useMemo(() => {
     if (!data?.data?.length) return {}
 
     const groups: Record<
       string,
-      { name: string; data: typeof data.data; groupedByProject: GroupedRow[] }
+      {
+        name: string
+        groupedBySocial: GroupedRow[]
+      }
     > = {}
 
     data.data.forEach((item) => {
       const networkTypeId = item.social.social_network_type.id
       const networkTypeName = item.social.social_network_type.name
+      const socialId = item.social.id
 
       if (!groups[networkTypeId]) {
         groups[networkTypeId] = {
           name: networkTypeName,
-          data: [],
-          groupedByProject: [],
+          groupedBySocial: [],
         }
       }
 
-      groups[networkTypeId].data.push(item)
-    })
+      // Find existing group for this social_id
+      const existingGroup = groups[networkTypeId].groupedBySocial.find(
+        (g) => g.socialId === socialId
+      )
 
-    // Now group each network type's data by project_id
-    Object.keys(groups).forEach((networkTypeId) => {
-      const projectGroups: Record<string, ProjectSocialSchema[]> = {}
+      if (existingGroup) {
+        existingGroup.items.push(item)
+        existingGroup.count += 1
+        existingGroup.totalBuyPrice += item.buy_price || 0
+        existingGroup.totalSellPrice += item.sell_price || 0
 
-      groups[networkTypeId].data.forEach((item) => {
-        const projectId = item.project_id
-        if (!projectGroups[projectId]) {
-          projectGroups[projectId] = []
+        // Update payment status - if any unpaid, mark as Unpaid
+        if (!item.is_paid) {
+          existingGroup.paymentStatus = 'Unpaid'
         }
-        projectGroups[projectId].push(item)
-      })
-
-      // Convert to GroupedRow format
-      groups[networkTypeId].groupedByProject = Object.entries(
-        projectGroups
-      ).map(([projectId, items]) => {
-        const totalBuyPrice = items.reduce(
-          (sum, item) => sum + (item.buy_price ?? 0),
-          0
-        )
-        const totalSellPrice = items.reduce(
-          (sum, item) => sum + (item.sell_price ?? 0),
-          0
-        )
-        const allPaid = items.every((item) => item.is_paid)
-        const somePaid = items.some((item) => item.is_paid)
-
-        return {
-          projectId,
-          projectName: project?.name || 'Unknown Project',
-          count: items.length,
-          totalBuyPrice,
-          totalSellPrice,
-          paymentStatus: allPaid
-            ? ('Paid' as const)
-            : somePaid
-              ? ('Partial' as const)
-              : ('Unpaid' as const),
-          items,
-        }
-      })
+      } else {
+        groups[networkTypeId].groupedBySocial.push({
+          socialId: socialId,
+          socialName: item.social.name,
+          socialLink: item.social.link,
+          subscriberCount: item.social.subscriber_count || 0,
+          count: 1,
+          totalBuyPrice: item.buy_price || 0,
+          totalSellPrice: item.sell_price || 0,
+          paymentStatus: item.is_paid ? 'Paid' : 'Unpaid',
+          items: [item],
+        })
+      }
     })
 
     return groups
@@ -127,17 +115,14 @@ const ProjectSocials = () => {
                   </TabsTrigger>
                 ))}
               </TabsList>
-              {networkTypes.map(([typeId, { groupedByProject }]) => (
+              {networkTypes.map(([typeId, { groupedBySocial }]) => (
                 <TabsContent key={typeId} value={typeId}>
                   <DataTable
-                    data={groupedByProject}
+                    data={groupedBySocial}
                     columns={groupedColumns}
                     enableExpanding={true}
                     renderSubComponent={(row) => (
                       <div className='bg-gray-50 p-4 dark:bg-gray-900'>
-                        <h4 className='mb-3 text-sm font-semibold'>
-                          Project Details ({row.items.length} items)
-                        </h4>
                         <DataTable
                           data={row.items}
                           columns={columns}

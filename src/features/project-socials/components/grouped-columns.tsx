@@ -3,57 +3,96 @@ import { formatPrice } from '@/utils/formatPrice'
 import { ProjectSocialSchema } from '../data/schema'
 
 export interface GroupedRow {
-  projectId: string
-  projectName: string
+  socialId: string
+  socialName: string
+  socialLink: string
+  subscriberCount: number
   count: number
   totalBuyPrice: number
   totalSellPrice: number
-  paymentStatus: 'Paid' | 'Unpaid' | 'Partial'
+  paymentStatus: 'Paid' | 'Unpaid'
   items: ProjectSocialSchema[]
 }
 
 export const groupedColumns: ColumnDef<GroupedRow>[] = [
   {
-    accessorKey: 'projectId',
-    header: 'Project name',
-    cell: ({ row }) => <div>{row.original.projectName}</div>,
+    accessorKey: 'socialName',
+    header: 'Social Name',
+    cell: ({ row }) => (
+      <div className='flex flex-col'>
+        <span className='font-semibold'>{row.original.socialName}</span>
+        <a
+          href={row.original.socialLink}
+          target='_blank'
+          rel='noopener noreferrer'
+          className='text-xs text-blue-500 hover:underline'
+          onClick={(e) => e.stopPropagation()}
+        >
+          {row.original.socialLink}
+        </a>
+      </div>
+    ),
+  },
+  {
+    accessorKey: 'subscriberCount',
+    header: 'Subscribers',
+    cell: ({ row }) => (
+      <div className='font-medium'>
+        {row.original.subscriberCount.toLocaleString()}
+      </div>
+    ),
   },
   {
     accessorKey: 'count',
-    header: 'Items Count',
+    header: 'Posts Count',
     cell: ({ row }) => (
-      <div className='font-semibold'>{row.original.count}</div>
+      <div className='text-center font-semibold'>{row.original.count}</div>
     ),
   },
   {
     accessorKey: 'totalBuyPrice',
     header: 'Total Buy Price',
-    cell: ({ row }) => <div>{formatPrice(row.original.totalBuyPrice)} UZS</div>,
+    cell: ({ row }) => (
+      <div className='font-medium'>
+        {formatPrice(row.original.totalBuyPrice)} UZS
+      </div>
+    ),
   },
   {
     accessorKey: 'totalSellPrice',
     header: 'Total Sell Price',
     cell: ({ row }) => (
-      <div>{formatPrice(row.original.totalSellPrice)} UZS</div>
+      <div className='font-medium'>
+        {formatPrice(row.original.totalSellPrice)} UZS
+      </div>
     ),
   },
   {
     accessorKey: 'paymentStatus',
     header: 'Payment Status',
     cell: ({ row }) => {
-      const status = row.original.paymentStatus
-      const styles = {
-        Paid: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
-        Unpaid:
-          'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
-        Partial:
-          'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
+      const allPaid = row.original.items.every((item) => item.is_paid)
+      const somePaid = row.original.items.some((item) => item.is_paid)
+
+      let displayStatus = 'Unpaid'
+      let colorClass =
+        'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
+
+      if (allPaid) {
+        displayStatus = 'Paid'
+        colorClass =
+          'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+      } else if (somePaid) {
+        displayStatus = 'Partially Paid'
+        colorClass =
+          'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
       }
+
       return (
         <span
-          className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${styles[status]}`}
+          className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${colorClass}`}
         >
-          {status}
+          {displayStatus}
         </span>
       )
     },
