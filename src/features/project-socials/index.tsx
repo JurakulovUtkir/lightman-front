@@ -9,22 +9,27 @@ import { ThemeSwitch } from '@/components/theme-switch'
 import { useProject } from '../projects/data/hooks'
 import { columns } from './components/columns'
 import { DataTable } from './components/data-table'
+import { groupedColumns, GroupedRow } from './components/grouped-columns'
 import PriceCards from './components/price-cards'
 import { ProjectSocialDialogs } from './components/project-social-dialogs'
 import { ProjectSocialPrimaryButtons } from './components/project-social-primary-buttons'
 import ProjectSocialProvider from './context'
 import { useProjectSocials } from './data/hooks'
+import { ProjectSocialSchema } from './data/schema'
 
 const ProjectSocials = () => {
   const { id } = Route.useLoaderData()
   const { data } = useProjectSocials(id)
   const { data: project, isPending: isPendingProject } = useProject(id)
-  // Group data by social network type
 
+  // Group data by social network type, then by project_id
   const groupedData = useMemo(() => {
     if (!data?.data?.length) return {}
 
-    const groups: Record<string, { name: string; data: typeof data.data }> = {}
+    const groups: Record<
+      string,
+      { name: string; data: typeof data.data; groupedByProject: GroupedRow[] }
+    > = {}
 
     data.data.forEach((item) => {
       const networkTypeId = item.social.social_network_type.id
@@ -34,10 +39,54 @@ const ProjectSocials = () => {
         groups[networkTypeId] = {
           name: networkTypeName,
           data: [],
+          groupedByProject: [],
         }
       }
 
       groups[networkTypeId].data.push(item)
+    })
+
+    // Now group each network type's data by project_id
+    Object.keys(groups).forEach((networkTypeId) => {
+      const projectGroups: Record<string, ProjectSocialSchema[]> = {}
+
+      groups[networkTypeId].data.forEach((item) => {
+        const projectId = item.project_id
+        if (!projectGroups[projectId]) {
+          projectGroups[projectId] = []
+        }
+        projectGroups[projectId].push(item)
+      })
+
+      // Convert to GroupedRow format
+      groups[networkTypeId].groupedByProject = Object.entries(
+        projectGroups
+      ).map(([projectId, items]) => {
+        const totalBuyPrice = items.reduce(
+          (sum, item) => sum + (item.buy_price ?? 0),
+          0
+        )
+        const totalSellPrice = items.reduce(
+          (sum, item) => sum + (item.sell_price ?? 0),
+          0
+        )
+        const allPaid = items.every((item) => item.is_paid)
+        const somePaid = items.some((item) => item.is_paid)
+
+        return {
+          projectId,
+          projectName: project?.name || 'Unknown Project',
+          count: items.length,
+          totalBuyPrice,
+          totalSellPrice,
+          paymentStatus: allPaid
+            ? ('Paid' as const)
+            : somePaid
+              ? ('Partial' as const)
+              : ('Unpaid' as const),
+          items,
+        }
+      })
     })
 
     return groups
@@ -78,14 +127,30 @@ const ProjectSocials = () => {
                   </TabsTrigger>
                 ))}
               </TabsList>
-              {networkTypes.map(([typeId, { data: tabData }]) => (
+              {networkTypes.map(([typeId, { groupedByProject }]) => (
                 <TabsContent key={typeId} value={typeId}>
-                  <DataTable data={tabData} columns={columns} />
+                  <DataTable
+                    data={groupedByProject}
+                    columns={groupedColumns}
+                    enableExpanding={true}
+                    renderSubComponent={(row) => (
+                      <div className='bg-gray-50 p-4 dark:bg-gray-900'>
+                        <h4 className='mb-3 text-sm font-semibold'>
+                          Project Details ({row.items.length} items)
+                        </h4>
+                        <DataTable
+                          data={row.items}
+                          columns={columns}
+                          enableExpanding={false}
+                        />
+                      </div>
+                    )}
+                  />
                 </TabsContent>
               ))}
             </Tabs>
           ) : (
-            <DataTable data={[]} columns={columns} />
+            <DataTable data={[]} columns={groupedColumns} />
           )}
         </div>
       </Main>

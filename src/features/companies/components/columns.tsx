@@ -1,6 +1,6 @@
 import { ColumnDef } from '@tanstack/react-table'
-import { formatDateToLongString } from '@/lib/dateFormatter'
 import { cn } from '@/lib/utils'
+import { formatPrice } from '@/utils/formatPrice'
 import { Checkbox } from '@/components/ui/checkbox'
 import { CopyButton } from '@/components/copy-button'
 import { DataTableColumnHeader } from '@/components/table/data-table-column-header'
@@ -47,7 +47,7 @@ export const columns: ColumnDef<CompanySchema>[] = [
       <div className='flex items-center gap-2'>
         {' '}
         <div
-          className={`${row.original.is_active ? `bg-green-500` : `bg-destructive`} h-2 w-2 animate-pulse rounded-full`}
+          className={`${row.original.is_our_company ? `bg-green-500` : `bg-destructive`} h-2 w-2 animate-pulse rounded-full`}
         />
         {row.getValue('name')}
       </div>
@@ -109,19 +109,26 @@ export const columns: ColumnDef<CompanySchema>[] = [
     ),
     enableSorting: false,
   },
-
   {
-    accessorKey: 'is_our_company',
+    accessorKey: 'balance',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Is our company' />
+      <DataTableColumnHeader column={column} title='Balance' />
     ),
-    cell: ({ row }) => (
-      <div
-        className={`${row.getValue('is_our_company') ? `bg-green-500` : `bg-destructive`} h-2 w-2 animate-pulse rounded-full`}
-      />
-    ),
+    cell: ({ row }) => <div>{formatPrice(row.getValue('balance'))} UZS</div>,
     enableSorting: false,
   },
+  // {
+  //   accessorKey: 'is_our_company',
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader column={column} title='Is our company' />
+  //   ),
+  //   cell: ({ row }) => (
+  //     <div
+  //       className={`${row.getValue('is_our_company') ? `bg-green-500` : `bg-destructive`} h-2 w-2 animate-pulse rounded-full`}
+  //     />
+  //   ),
+  //   enableSorting: false,
+  // },
   {
     accessorKey: 'is_vip',
     header: ({ column }) => (
@@ -143,16 +150,6 @@ export const columns: ColumnDef<CompanySchema>[] = [
       <div
         className={`${row.getValue('is_qqs') ? `bg-green-500` : `bg-destructive`} h-2 w-2 animate-pulse rounded-full`}
       />
-    ),
-    enableSorting: false,
-  },
-  {
-    accessorKey: 'created_at',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Created at' />
-    ),
-    cell: ({ row }) => (
-      <div>{formatDateToLongString(row.getValue('created_at'))}</div>
     ),
     enableSorting: false,
   },
