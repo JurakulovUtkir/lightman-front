@@ -33,6 +33,7 @@ interface DataTableProps<TData, TValue> {
   data: TData[]
   renderSubComponent?: (row: TData) => React.ReactNode
   enableExpanding?: boolean
+  onRowDoubleClick?: boolean
 }
 
 export function DataTable<TData, TValue>({
@@ -40,6 +41,7 @@ export function DataTable<TData, TValue>({
   data,
   renderSubComponent,
   enableExpanding = false,
+  onRowDoubleClick = false,
 }: DataTableProps<TData, TValue>) {
   const { setOpen, setCurrentRow } = useProjectSocialContext()
   const [rowSelection, setRowSelection] = React.useState({})
@@ -78,6 +80,21 @@ export function DataTable<TData, TValue>({
     ...(enableExpanding && { getExpandedRowModel: getExpandedRowModel() }),
   })
 
+  const handleRowClick = (row: any) => {
+    // If onRowDoubleClick is false and expanding is enabled, toggle expand on single click
+    if (!onRowDoubleClick && enableExpanding) {
+      row.toggleExpanded()
+    }
+  }
+
+  const handleRowDoubleClick = (row: any) => {
+    // If onRowDoubleClick is true, open edit dialog on double click
+    if (onRowDoubleClick) {
+      setCurrentRow(row.original as ProjectSocialSchema)
+      setOpen('update')
+    }
+  }
+
   return (
     <div className='space-y-4'>
       <div className='overflow-hidden rounded-md border'>
@@ -107,10 +124,8 @@ export function DataTable<TData, TValue>({
                 <React.Fragment key={row.id}>
                   <TableRow
                     data-state={row.getIsSelected() && 'selected'}
-                    onDoubleClick={() => {
-                      setCurrentRow(row.original as ProjectSocialSchema)
-                      setOpen('update')
-                    }}
+                    onClick={() => handleRowClick(row)}
+                    onDoubleClick={() => handleRowDoubleClick(row)}
                     className='cursor-pointer'
                   >
                     {shouldShowExpandColumn && (

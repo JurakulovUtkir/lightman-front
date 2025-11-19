@@ -121,12 +121,14 @@ const ProjectSocials = () => {
                     data={groupedBySocial}
                     columns={groupedColumns}
                     enableExpanding={true}
+                    onRowDoubleClick={false}
                     renderSubComponent={(row) => (
                       <div className='bg-gray-50 p-4 dark:bg-gray-900'>
                         <DataTable
                           data={row.items}
                           columns={columns}
                           enableExpanding={false}
+                          onRowDoubleClick={true}
                         />
                       </div>
                     )}
