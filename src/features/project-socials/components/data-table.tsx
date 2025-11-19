@@ -14,6 +14,7 @@ import {
   useReactTable,
   ExpandedState,
   getExpandedRowModel,
+  Row,
 } from '@tanstack/react-table'
 import { ChevronDown, ChevronRight } from 'lucide-react'
 import {
@@ -80,19 +81,13 @@ export function DataTable<TData, TValue>({
     ...(enableExpanding && { getExpandedRowModel: getExpandedRowModel() }),
   })
 
-  const handleRowClick = (
-    row: ReturnType<typeof table.getRowModel>['rows'][0]
-  ) => {
-    // If onRowDoubleClick is false and expanding is enabled, toggle expand on single click
+  const handleRowClick = (row: Row<TData>) => {
     if (!onRowDoubleClick && enableExpanding) {
       row.toggleExpanded()
     }
   }
 
-  const handleRowDoubleClick = (
-    row: ReturnType<typeof table.getRowModel>['rows'][0]
-  ) => {
-    // If onRowDoubleClick is true, open edit dialog on double click
+  const handleRowDoubleClick = (row: Row<TData>) => {
     if (onRowDoubleClick) {
       setCurrentRow(row.original as ProjectSocialSchema)
       setOpen('update')
