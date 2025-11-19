@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { companySchema } from '@/features/companies/data/schema'
 
 const userStatusSchema = z.union([
   z.literal('web-user'),
@@ -26,6 +27,8 @@ export const userSchema = z.object({
   role: userRoleSchema,
   status: userStatusSchema,
   salary: z.number().optional().nullable(),
+  employee_company_id: z.string().optional().nullable(),
+  employee_company: companySchema,
 })
 
 export type User = z.infer<typeof userSchema>

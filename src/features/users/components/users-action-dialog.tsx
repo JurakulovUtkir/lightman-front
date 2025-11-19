@@ -30,6 +30,7 @@ import { SelectDropdown } from '@/components/select-dropdown'
 import { userTypes } from '../data/data'
 import { useCreateUser, useUpdateUser } from '../data/hooks'
 import { User } from '../data/schema'
+import { FormComboboxCompany } from './form-combobox-company'
 
 const formSchema = z
   .object({
@@ -59,6 +60,7 @@ const formSchema = z
     is_our_employee: z.boolean().optional(),
     isUpdate: z.boolean().optional(),
     salary: z.number().min(0, 'Invalid value').optional().nullable(),
+    employee_company_id: z.string().optional().nullable(),
   })
   .refine(
     ({ password, isUpdate }) => {
@@ -68,7 +70,7 @@ const formSchema = z
       return password && password.length > 0
     },
     {
-      error: 'Password is required.',
+      message: 'Password is required.',
       path: ['password'],
     }
   )
@@ -78,7 +80,7 @@ const formSchema = z
       return password && password.length >= 6
     },
     {
-      error: 'Password must be at least 6 characters long.',
+      message: 'Password must be at least 6 characters long.',
       path: ['password'],
     }
   )
@@ -88,7 +90,7 @@ const formSchema = z
       return password && /[a-z]/.test(password)
     },
     {
-      error: 'Password must contain at least one lowercase letter.',
+      message: 'Password must contain at least one lowercase letter.',
       path: ['password'],
     }
   )
@@ -98,7 +100,7 @@ const formSchema = z
       return password && /\d/.test(password)
     },
     {
-      error: 'Password must contain at least one number.',
+      message: 'Password must contain at least one number.',
       path: ['password'],
     }
   )
@@ -108,8 +110,21 @@ const formSchema = z
       return password === confirmPassword
     },
     {
-      error: "Passwords don't match.",
+      message: "Passwords don't match.",
       path: ['confirmPassword'],
+    }
+  )
+  .refine(
+    ({ is_our_employee, employee_company_id }) => {
+      // If is_our_employee is false or undefined (not explicitly true), employee_company_id is required
+      if (is_our_employee !== true) {
+        return !!employee_company_id
+      }
+      return true
+    },
+    {
+      message: 'Employee company is required.',
+      path: ['employee_company_id'],
     }
   )
 
@@ -134,10 +149,11 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
       password: '',
       confirmPassword: '',
       role: currentRow?.role || 'user',
-      is_verified: currentRow?.is_verified,
-      is_our_employee: currentRow?.is_our_employee,
+      is_verified: currentRow?.is_verified ?? true,
+      is_our_employee: currentRow?.is_our_employee ?? false,
       isUpdate,
       salary: toNumber(currentRow?.salary ?? 0),
+      employee_company_id: currentRow?.employee_company_id || null,
     },
   })
 
@@ -170,7 +186,6 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
     } else {
       createUser.mutate(submitData, {
         onSuccess: () => {
-          toast.success('Account created successfully')
           onOpenChange(false)
           form.reset()
         },
@@ -305,7 +320,7 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
               />
 
               {/* Conditionally render salary field */}
-              {isOurEmployee && (
+              {isOurEmployee ? (
                 <div className='flex flex-col items-center space-y-2 sm:grid sm:grid-cols-6 sm:space-y-0 sm:gap-x-4 sm:gap-y-1'>
                   <div className='sm:col-span-2 sm:pt-2 sm:text-right'>
                     <FormLabel>Salary</FormLabel>
@@ -322,6 +337,14 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
                     />
                   </div>
                 </div>
+              ) : (
+                <FormComboboxCompany
+                  control={form.control}
+                  name='employee_company_id'
+                  label='Employee company'
+                  // detail={currentRow?.our_company}
+                  filterOurCompany={false}
+                />
               )}
 
               <FormField

@@ -131,15 +131,28 @@ export const columns: ColumnDef<User>[] = [
     enableSorting: false,
   },
   {
-    accessorKey: 'is_our_employee',
+    accessorKey: 'employee_company',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Our employee' />
+      <DataTableColumnHeader column={column} title='Company' />
     ),
-    cell: ({ row }) => (
-      <div
-        className={`${row.getValue('is_our_employee') ? `bg-green-500` : `bg-destructive`} h-2 w-2 animate-pulse rounded-full`}
-      />
-    ),
+    cell: ({ row }) => {
+      const { is_our_employee, employee_company } = row.original
+
+      return (
+        <div className='flex items-center gap-2'>
+          <div
+            className={`${is_our_employee ? `bg-green-500` : `bg-destructive`} h-2 w-2 flex-shrink-0 animate-pulse rounded-full`}
+          />
+          {is_our_employee ? (
+            <span className='text-sm font-medium'>Our Employee</span>
+          ) : (
+            <LongText className='max-w-36 text-sm'>
+              {employee_company?.name || '-'}
+            </LongText>
+          )}
+        </div>
+      )
+    },
     enableSorting: false,
   },
   {
