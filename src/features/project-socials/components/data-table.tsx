@@ -80,14 +80,18 @@ export function DataTable<TData, TValue>({
     ...(enableExpanding && { getExpandedRowModel: getExpandedRowModel() }),
   })
 
-  const handleRowClick = (row: any) => {
+  const handleRowClick = (
+    row: ReturnType<typeof table.getRowModel>['rows'][0]
+  ) => {
     // If onRowDoubleClick is false and expanding is enabled, toggle expand on single click
     if (!onRowDoubleClick && enableExpanding) {
       row.toggleExpanded()
     }
   }
 
-  const handleRowDoubleClick = (row: any) => {
+  const handleRowDoubleClick = (
+    row: ReturnType<typeof table.getRowModel>['rows'][0]
+  ) => {
     // If onRowDoubleClick is true, open edit dialog on double click
     if (onRowDoubleClick) {
       setCurrentRow(row.original as ProjectSocialSchema)
