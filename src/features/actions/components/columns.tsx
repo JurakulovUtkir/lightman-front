@@ -1,5 +1,5 @@
 import { ColumnDef } from '@tanstack/react-table'
-import { formatDateToLongString } from '@/lib/dateFormatter'
+import { formatDateToCustomString } from '@/lib/dateFormatter'
 import { Badge } from '@/components/ui/badge'
 import { Checkbox } from '@/components/ui/checkbox'
 import { ActionSchema } from '../data/schema'
@@ -258,7 +258,7 @@ export const columns: ColumnDef<ActionSchema>[] = [
       const createdAt = row.original.created_at
       return (
         <div className='text-sm whitespace-nowrap'>
-          {formatDateToLongString(createdAt)}
+          {formatDateToCustomString(createdAt)}
         </div>
       )
     },
