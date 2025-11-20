@@ -198,6 +198,7 @@ export function NetworkSocialMutateDrawer({
                 control={form.control}
                 name='tags'
                 label='Tags'
+                enableCreate
               />
               <FormFieldWrapper
                 control={form.control}

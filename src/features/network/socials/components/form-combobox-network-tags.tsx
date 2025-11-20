@@ -111,7 +111,7 @@ export const FormComboboxNetworkTags = <T extends FieldValues>({
 
         return (
           <FormItem className='flex w-full flex-col space-y-1'>
-            <FormLabel>{label}</FormLabel>
+            <FormLabel className='max-w-20'>{label}</FormLabel>
             <Popover open={open} onOpenChange={setOpen}>
               <PopoverTrigger asChild>
                 <FormControl>

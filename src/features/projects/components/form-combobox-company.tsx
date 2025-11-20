@@ -89,7 +89,7 @@ export const FormComboboxCompany = <T extends FieldValues>({
         if (isLoading && !debouncedSearch && !open) {
           return (
             <FormItem className='flex w-full flex-col space-y-1'>
-              <FormLabel>{label}</FormLabel>
+              <FormLabel className='max-w-24'>{label}</FormLabel>
               <Skeleton className='h-10 w-full' />
               <FormMessage />
             </FormItem>
@@ -128,7 +128,7 @@ export const FormComboboxCompany = <T extends FieldValues>({
 
         return (
           <FormItem className='flex w-full flex-col space-y-1'>
-            <FormLabel>{label}</FormLabel>
+            <FormLabel className='max-w-40'>{label}</FormLabel>
             <Popover open={open} onOpenChange={setOpen}>
               <PopoverTrigger asChild>
                 <FormControl>
@@ -208,7 +208,13 @@ export const FormComboboxCompany = <T extends FieldValues>({
                                 setOpen(false)
                               }}
                             >
-                              {item.label}
+                              {item.label.length >= 50 ? (
+                                <LongText className='max-w-36'>
+                                  {item.label}
+                                </LongText>
+                              ) : (
+                                item.label
+                              )}
                               <IconCheck
                                 className={cn(
                                   'ml-auto',
