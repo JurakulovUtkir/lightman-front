@@ -16,7 +16,7 @@ interface FormFieldWrapperProps<TFieldValues extends FieldValues> {
   placeholder?: string
   type?: 'text' | 'number' | 'textarea'
   suffix?: string
-  formatting?: boolean // Optional, defaults to true for number types
+  formatting?: boolean
 }
 
 export function FormFieldWrapper<TFieldValues extends FieldValues>({
@@ -28,15 +28,14 @@ export function FormFieldWrapper<TFieldValues extends FieldValues>({
   suffix,
   formatting = true,
 }: FormFieldWrapperProps<TFieldValues>) {
-  // Format number with spaces for display
   const formatNumber = (value: number | undefined): string => {
     if (value === undefined || value === null || isNaN(value)) return ''
     return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
   }
 
-  // Parse formatted string back to number
   const parseNumber = (value: string): number | undefined => {
     const cleaned = value.replace(/\s/g, '')
+    if (cleaned === '') return undefined
     const parsed = parseFloat(cleaned)
     return isNaN(parsed) ? undefined : parsed
   }
@@ -69,19 +68,17 @@ export function FormFieldWrapper<TFieldValues extends FieldValues>({
                       : ''
                   }
                   value={
-                    field.value === ''
-                      ? ''
-                      : shouldFormat
-                        ? formatNumber(field.value as number)
-                        : (field.value ?? '')
+                    shouldFormat
+                      ? formatNumber(field.value as number)
+                      : (field.value ?? '')
                   }
                   onChange={(e) => {
                     const raw = e.target.value
 
                     if (type === 'number') {
-                      // Handle empty input for number type
                       if (raw.trim() === '') {
-                        field.onChange(undefined) // or null, or 0 depending on your schema
+                        // Use empty string instead of undefined to prevent reset
+                        field.onChange('')
                         return
                       }
 
@@ -89,13 +86,21 @@ export function FormFieldWrapper<TFieldValues extends FieldValues>({
                         ? parseNumber(raw)
                         : parseFloat(raw)
 
-                      field.onChange(parsedValue)
+                      // Only update if we have a valid number
+                      if (parsedValue !== undefined && !isNaN(parsedValue)) {
+                        field.onChange(parsedValue)
+                      }
                     } else {
-                      // For text type, just pass the raw value
                       field.onChange(raw)
                     }
                   }}
-                  onBlur={field.onBlur}
+                  onBlur={(e) => {
+                    // On blur, if empty, set to undefined for validation
+                    if (type === 'number' && e.target.value.trim() === '') {
+                      field.onChange(undefined)
+                    }
+                    field.onBlur()
+                  }}
                   name={field.name}
                   ref={field.ref}
                 />
