@@ -25,6 +25,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import { Skeleton } from '@/components/ui/skeleton'
+import LongText from '@/components/long-text'
 import { useCompanies } from '@/features/companies/data/hooks'
 
 type ComboboxOption = {
@@ -87,7 +88,7 @@ export const FormComboboxCompany = <T extends FieldValues>({
       render={({ field }) => {
         if (isLoading && !debouncedSearch && !open) {
           return (
-            <FormItem className='flex w-full flex-col'>
+            <FormItem className='flex w-full flex-col space-y-1'>
               <FormLabel>{label}</FormLabel>
               <Skeleton className='h-10 w-full' />
               <FormMessage />
@@ -126,7 +127,7 @@ export const FormComboboxCompany = <T extends FieldValues>({
           (field.value ? `Selected ID: ${field.value}` : '')
 
         return (
-          <FormItem className='flex w-full flex-col'>
+          <FormItem className='flex w-full flex-col space-y-1'>
             <FormLabel>{label}</FormLabel>
             <Popover open={open} onOpenChange={setOpen}>
               <PopoverTrigger asChild>
@@ -139,9 +140,18 @@ export const FormComboboxCompany = <T extends FieldValues>({
                       !field.value && 'text-muted-foreground'
                     )}
                   >
-                    {field.value
-                      ? displayLabel
-                      : `Select ${label.toLowerCase()}`}
+                    {field.value?.length >= 50 || displayLabel?.length >= 50 ? (
+                      <LongText className='max-w-36'>
+                        {field.value
+                          ? displayLabel
+                          : `Select ${label.toLowerCase()}`}
+                      </LongText>
+                    ) : field.value ? (
+                      displayLabel
+                    ) : (
+                      `Select ${label.toLowerCase()}`
+                    )}
+
                     <IconSelector className='opacity-50' />
                   </Button>
                 </FormControl>

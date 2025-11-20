@@ -76,7 +76,7 @@ export const FormComboboxContract = <T extends FieldValues>({
         // Show skeleton only on initial load, not during search
         if (isLoading && !debouncedSearch && !open) {
           return (
-            <FormItem className='flex w-full flex-col'>
+            <FormItem className='flex w-full flex-col space-y-1'>
               <FormLabel>{label}</FormLabel>
               <Skeleton className='h-10 w-full' />
               <FormMessage />
@@ -115,7 +115,7 @@ export const FormComboboxContract = <T extends FieldValues>({
           (field.value ? `Selected ID: ${field.value}` : '')
 
         return (
-          <FormItem className='flex w-full flex-col'>
+          <FormItem className='flex w-full flex-col space-y-1'>
             <FormLabel>{label}</FormLabel>
             <Popover open={open} onOpenChange={setOpen}>
               <PopoverTrigger asChild>

@@ -107,7 +107,7 @@ export const FormComboboxNetworkTags = <T extends FieldValues>({
           search.length >= 2 && !hasExactMatch && !isLoading
 
         return (
-          <FormItem className='flex w-full flex-col'>
+          <FormItem className='flex w-full flex-col space-y-1'>
             <FormLabel>{label}</FormLabel>
             <Popover open={open} onOpenChange={setOpen}>
               <PopoverTrigger asChild>

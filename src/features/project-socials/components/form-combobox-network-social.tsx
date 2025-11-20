@@ -87,7 +87,7 @@ export const FormComboboxNetworkSocial = <T extends FieldValues>({
       render={({ field }) => {
         if (isLoading && !debouncedSearch && !open) {
           return (
-            <FormItem className='flex w-full flex-col'>
+            <FormItem className='flex w-full flex-col space-y-1'>
               <FormLabel>{label}</FormLabel>
               <Skeleton className='h-10 w-full' />
               <FormMessage />
@@ -137,7 +137,7 @@ export const FormComboboxNetworkSocial = <T extends FieldValues>({
           field.value && selectedOption ? selectedOption.label : ''
 
         return (
-          <FormItem className='flex w-full flex-col'>
+          <FormItem className='flex w-full flex-col space-y-1'>
             <FormLabel>{label}</FormLabel>
             <Popover open={open} onOpenChange={setOpen}>
               <PopoverTrigger asChild>

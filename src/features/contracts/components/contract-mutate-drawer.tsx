@@ -73,9 +73,9 @@ export function ContractMutateDrawer({
     payment_type: z.enum(['card', 'bank_transfer', 'cash'], {
       error: 'Required field',
     }),
-    payment_status: z.enum(['pending'], {
-      error: 'Required field',
-    }),
+    // payment_status: z.enum(['pending'], {
+    //   error: 'Required field',
+    // }),
     our_company_id: z.string({
       error: 'Required field',
     }),
@@ -213,15 +213,22 @@ export function ContractMutateDrawer({
                 placeholder='Enter a description'
               />
 
-              <FormFieldWrapper
-                control={form.control}
-                name='price'
-                label='Price'
-                placeholder='Enter a price'
-                type='number'
-                suffix='UZS'
-              />
               <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
+                <FormFieldWrapper
+                  control={form.control}
+                  name='price'
+                  label='Price'
+                  placeholder='Enter a price'
+                  type='number'
+                  suffix='UZS'
+                />
+                <FormComboboxCompany
+                  control={form.control}
+                  name='our_company_id'
+                  label='Our company'
+                  detail={currentRow?.our_company}
+                  filterOurCompany={true}
+                />
                 <FormFieldSelect
                   control={form.control}
                   name='payment_type'
@@ -233,22 +240,6 @@ export function ContractMutateDrawer({
                     { value: 'bank_transfer', label: 'Bank Transfer' },
                   ]}
                 />
-
-                <FormFieldSelect
-                  control={form.control}
-                  name='payment_status'
-                  label='Payment status'
-                  placeholder='Select a payment status'
-                  options={[{ value: 'pending', label: 'Pending' }]}
-                  emptyMessage='No Contracts found'
-                />
-                <FormComboboxCompany
-                  control={form.control}
-                  name='our_company_id'
-                  label='Our company'
-                  detail={currentRow?.our_company}
-                  filterOurCompany={true}
-                />
                 <FormComboboxCompany
                   control={form.control}
                   name='customer_company_id'
@@ -256,7 +247,16 @@ export function ContractMutateDrawer({
                   detail={currentRow?.customer_company}
                   filterOurCompany={false}
                 />
+                {/* <FormFieldSelect
+                  control={form.control}
+                  name='payment_status'
+                  label='Payment status'
+                  placeholder='Select a payment status'
+                  options={[{ value: 'pending', label: 'Pending' }]}
+                  emptyMessage='No Contracts found'
+                /> */}
               </div>
+
               <FormFileUploadField
                 control={form.control}
                 name='file'
