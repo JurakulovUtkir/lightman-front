@@ -49,7 +49,7 @@ interface FormComboboxProps<T extends FieldValues> {
   onCompanySelect?: (isQqs: boolean) => void
 }
 
-export const FormComboboxCompany = <T extends FieldValues>({
+export const UsersComboboxCompany = <T extends FieldValues>({
   name,
   label,
   control,
@@ -85,18 +85,7 @@ export const FormComboboxCompany = <T extends FieldValues>({
       control={control}
       name={name}
       render={({ field }) => {
-        if (isLoading && !debouncedSearch && !open) {
-          return (
-            <FormItem className='flex flex-col space-y-2 sm:grid sm:grid-cols-6 sm:items-center sm:space-y-0 sm:gap-x-4 sm:gap-y-1'>
-              <FormLabel className='sm:col-span-2 sm:text-right'>
-                {label}
-              </FormLabel>
-              <Skeleton className='h-10 sm:col-span-4' />
-              <FormMessage className='sm:col-span-4 sm:col-start-3' />
-            </FormItem>
-          )
-        }
-
+        // Build options array
         let options: ComboboxOption[] =
           companies?.data?.items?.map((company) => ({
             value: company.id,
@@ -104,6 +93,7 @@ export const FormComboboxCompany = <T extends FieldValues>({
             is_qqs: company.is_qqs,
           })) ?? []
 
+        // Add detail/fallback option if it exists and not already in list
         if (
           detail &&
           detail.id &&
@@ -116,7 +106,7 @@ export const FormComboboxCompany = <T extends FieldValues>({
           }
 
           if (!options.some((opt) => opt.value === fallbackOption.value)) {
-            options = [...options, fallbackOption]
+            options = [fallbackOption, ...options]
           }
         }
 
@@ -126,6 +116,19 @@ export const FormComboboxCompany = <T extends FieldValues>({
         const displayLabel =
           selectedOption?.label ??
           (field.value ? `Selected ID: ${field.value}` : '')
+
+        // Show skeleton only on initial load without existing value
+        if (isLoading && !debouncedSearch && !open && !field.value) {
+          return (
+            <FormItem className='flex flex-col space-y-2 sm:grid sm:grid-cols-6 sm:items-center sm:space-y-0 sm:gap-x-4 sm:gap-y-1'>
+              <FormLabel className='sm:col-span-2 sm:text-right'>
+                {label}
+              </FormLabel>
+              <Skeleton className='h-10 sm:col-span-4' />
+              <FormMessage className='sm:col-span-4 sm:col-start-3' />
+            </FormItem>
+          )
+        }
 
         return (
           <FormItem className='flex flex-col space-y-2 sm:grid sm:grid-cols-6 sm:items-center sm:space-y-0 sm:gap-x-4 sm:gap-y-1'>

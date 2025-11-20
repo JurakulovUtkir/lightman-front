@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -30,7 +31,7 @@ import { SelectDropdown } from '@/components/select-dropdown'
 import { userTypes } from '../data/data'
 import { useCreateUser, useUpdateUser } from '../data/hooks'
 import { User } from '../data/schema'
-import { FormComboboxCompany } from './form-combobox-company'
+import { UsersComboboxCompany } from './users-combobox-company'
 
 const formSchema = z
   .object({
@@ -60,7 +61,7 @@ const formSchema = z
     is_our_employee: z.boolean().optional(),
     isUpdate: z.boolean().optional(),
     salary: z.number().min(0, 'Invalid value').optional().nullable(),
-    employee_company_id: z.string().optional().nullable(),
+    employee_company_id: z.string().min(1, 'Employee company is required'),
   })
   .refine(
     ({ password, isUpdate }) => {
@@ -114,19 +115,6 @@ const formSchema = z
       path: ['confirmPassword'],
     }
   )
-  .refine(
-    ({ is_our_employee, employee_company_id }) => {
-      // If is_our_employee is false or undefined (not explicitly true), employee_company_id is required
-      if (is_our_employee !== true) {
-        return !!employee_company_id
-      }
-      return true
-    },
-    {
-      message: 'Employee company is required.',
-      path: ['employee_company_id'],
-    }
-  )
 
 type UserForm = z.infer<typeof formSchema>
 
@@ -153,9 +141,40 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
       is_our_employee: currentRow?.is_our_employee ?? false,
       isUpdate,
       salary: toNumber(currentRow?.salary ?? 0),
-      employee_company_id: currentRow?.employee_company_id || null,
+      employee_company_id: currentRow?.employee_company.id || '',
     },
   })
+
+  // Reset form when currentRow changes (when opening edit dialog)
+  useEffect(() => {
+    if (open && currentRow) {
+      form.reset({
+        full_name: currentRow.full_name || '',
+        phone_number: currentRow.phone_number || '+998',
+        password: '',
+        confirmPassword: '',
+        role: currentRow.role || 'user',
+        is_verified: currentRow.is_verified ?? true,
+        is_our_employee: currentRow.is_our_employee ?? false,
+        isUpdate: true,
+        salary: toNumber(currentRow.salary ?? 0),
+        employee_company_id: currentRow.employee_company.id || '',
+      })
+    } else if (open && !currentRow) {
+      form.reset({
+        full_name: '',
+        phone_number: '+998',
+        password: '',
+        confirmPassword: '',
+        role: 'user',
+        is_verified: true,
+        is_our_employee: false,
+        isUpdate: false,
+        salary: 0,
+        employee_company_id: '',
+      })
+    }
+  }, [open, currentRow, form])
 
   // Watch is_our_employee field to conditionally show salary
   const isOurEmployee = form.watch('is_our_employee')
@@ -245,7 +264,11 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
                       <FormControl>
                         <Switch
                           checked={field.value}
-                          onCheckedChange={field.onChange}
+                          onCheckedChange={(checked) => {
+                            field.onChange(checked)
+                            // Clear employee_company_id when toggling
+                            form.setValue('employee_company_id', '')
+                          }}
                         />
                       </FormControl>
                       <FormMessage />
@@ -319,8 +342,14 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
                 )}
               />
 
-              {/* Conditionally render salary field */}
-              {isOurEmployee ? (
+              <UsersComboboxCompany
+                control={form.control}
+                name='employee_company_id'
+                label='Employee company'
+                detail={currentRow?.employee_company ?? undefined}
+                filterOurCompany={isOurEmployee ? true : false}
+              />
+              {isOurEmployee && (
                 <div className='flex flex-col items-center space-y-2 sm:grid sm:grid-cols-6 sm:space-y-0 sm:gap-x-4 sm:gap-y-1'>
                   <div className='sm:col-span-2 sm:pt-2 sm:text-right'>
                     <FormLabel>Salary</FormLabel>
@@ -337,16 +366,7 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
                     />
                   </div>
                 </div>
-              ) : (
-                <FormComboboxCompany
-                  control={form.control}
-                  name='employee_company_id'
-                  label='Employee company'
-                  // detail={currentRow?.our_company}
-                  filterOurCompany={false}
-                />
               )}
-
               <FormField
                 control={form.control}
                 name='password'
