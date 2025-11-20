@@ -17,6 +17,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
+import LongText from '@/components/long-text'
 import { DataTableColumnHeader } from '@/components/table/data-table-column-header'
 import { ProjectSchema } from '../data/schema'
 import { DataTableRowActions } from './data-table-row-actions'
@@ -62,7 +63,9 @@ export const columns: ColumnDef<ProjectSchema>[] = [
         <div
           className={`${row.original.is_active ? `bg-green-500` : `bg-destructive`} h-2 w-2 animate-pulse rounded-full`}
         />
-        <span className='font-medium'>{row.getValue('name')}</span>
+        <LongText className='max-w-36 font-medium'>
+          {row.getValue('name')}
+        </LongText>
       </div>
     ),
     enableSorting: false,
@@ -73,21 +76,8 @@ export const columns: ColumnDef<ProjectSchema>[] = [
       <DataTableColumnHeader column={column} title='Description' />
     ),
     cell: ({ row }) => (
-      <div className='max-w-[300px] truncate'>
-        {row.getValue('description') || '-'}
-      </div>
+      <LongText className='max-w-36'>{row.getValue('description')}</LongText>
     ),
-    enableSorting: false,
-  },
-  {
-    accessorKey: 'customer_company',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Customer' />
-    ),
-    cell: ({ row }) => {
-      const customer = row.getValue('customer_company') as { name: string }
-      return <div>{customer?.name || '-'}</div>
-    },
     enableSorting: false,
   },
   {
@@ -97,10 +87,22 @@ export const columns: ColumnDef<ProjectSchema>[] = [
     ),
     cell: ({ row }) => {
       const company = row.getValue('our_company') as { name: string }
-      return <div>{company?.name || '-'}</div>
+      return <LongText className='max-w-36'>{company?.name}</LongText>
     },
     enableSorting: false,
   },
+  {
+    accessorKey: 'customer_company',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Customer' />
+    ),
+    cell: ({ row }) => {
+      const customer = row.getValue('customer_company') as { name: string }
+      return <LongText className='max-w-36'>{customer?.name}</LongText>
+    },
+    enableSorting: false,
+  },
+
   {
     accessorKey: 'category',
     header: ({ column }) => (
@@ -191,7 +193,9 @@ export const columns: ColumnDef<ProjectSchema>[] = [
       return (
         <div className='flex flex-col gap-0.5'>
           <span className='text-sm font-medium'>
-            {contract?.contract_number || '-'}
+            <LongText className='max-w-36'>
+              {contract?.contract_number}
+            </LongText>
           </span>
           <span className='text-muted-foreground text-xs'>
             {contract?.name || ''}

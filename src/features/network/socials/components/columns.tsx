@@ -8,6 +8,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
+import LongText from '@/components/long-text'
 import { DataTableColumnHeader } from '@/components/table/data-table-column-header'
 // import {
 //   Tooltip,
@@ -51,31 +52,18 @@ export const columns = () // selectedCategoryId: string | undefined,
     enableHiding: false,
   },
   {
-    accessorKey: 'is_active',
-    header: ({ column }) => <DataTableColumnHeader column={column} title='' />,
-    cell: ({ row }) => {
-      return (
-        <div>
-          <div
-            className={`${row.getValue('is_active') ? `bg-green-500` : `bg-destructive`} h-2 w-2 animate-pulse rounded-full`}
-          />
-        </div>
-      )
-    },
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
     accessorKey: 'name',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='Name' />
     ),
     cell: ({ row }) => {
       return (
-        <div className='flex items-center space-x-2'>
-          <span className='max-w-32 truncate font-medium sm:max-w-72 md:max-w-124'>
-            {row.getValue('name')}
-          </span>
+        <div className='flex items-center gap-2'>
+          {' '}
+          <div
+            className={`${row.original.is_active ? `bg-green-500` : `bg-destructive`} h-2 w-2 animate-pulse rounded-full`}
+          />
+          <LongText className='max-w-36'>{row.getValue('name')}</LongText>
         </div>
       )
     },
@@ -101,7 +89,7 @@ export const columns = () // selectedCategoryId: string | undefined,
       return (
         <div className='flex items-center space-x-2'>
           <span className='max-w-32 truncate font-medium sm:max-w-72 md:max-w-124'>
-            {type?.name}
+            <LongText className='max-w-36'>{type?.name}</LongText>
           </span>
         </div>
       )
@@ -127,7 +115,7 @@ export const columns = () // selectedCategoryId: string | undefined,
       return (
         <div className='flex items-center space-x-2'>
           <span className='max-w-32 truncate font-medium sm:max-w-72 md:max-w-124'>
-            {category?.name}
+            <LongText className='max-w-36'>{category?.name}</LongText>
           </span>
         </div>
       )
@@ -281,7 +269,7 @@ export const columns = () // selectedCategoryId: string | undefined,
           target='_blank'
           className='text-primary hover:underline'
         >
-          {row.getValue('link')}
+          <LongText className='max-w-36'>{row.getValue('link')}</LongText>
         </a>
       </div>
     ),

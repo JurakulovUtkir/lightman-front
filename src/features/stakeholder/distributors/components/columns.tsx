@@ -6,6 +6,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
+import LongText from '@/components/long-text'
 import { DistributorSchema } from '../data/schema'
 import { DataTableColumnHeader } from './data-table-column-header'
 import { DataTableRowActions } from './data-table-row-actions'
@@ -36,28 +37,21 @@ export const columns: ColumnDef<DistributorSchema>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: 'is_active',
-    header: ({ column }) => <DataTableColumnHeader column={column} title='' />,
-    cell: ({ row }) => {
-      return (
-        <div>
-          <div
-            className={`${row.getValue('is_active') ? `bg-green-500` : `bg-destructive`} h-2 w-2 animate-pulse rounded-full`}
-          />
-        </div>
-      )
-    },
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
     accessorKey: 'founder',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='Distributor' />
     ),
     cell: ({ row }) => {
       const founder = row.original.founder.name
-      return <div>{founder}</div>
+      return (
+        <div className='flex items-center gap-4'>
+          {' '}
+          <div
+            className={`${row.original.is_active ? `bg-green-500` : `bg-destructive`} h-2 w-2 animate-pulse rounded-full`}
+          />
+          <LongText className='max-w-36'>{founder}</LongText>
+        </div>
+      )
     },
     enableSorting: false,
     enableHiding: false,

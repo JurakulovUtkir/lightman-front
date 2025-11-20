@@ -3,6 +3,7 @@ import { cn } from '@/lib/utils'
 import { formatPrice } from '@/utils/formatPrice'
 import { Checkbox } from '@/components/ui/checkbox'
 import { CopyButton } from '@/components/copy-button'
+import LongText from '@/components/long-text'
 import { DataTableColumnHeader } from '@/components/table/data-table-column-header'
 import { CompanySchema } from '../data/schema'
 import { DataTableRowActions } from './data-table-row-actions'
@@ -49,7 +50,7 @@ export const columns: ColumnDef<CompanySchema>[] = [
         <div
           className={`${row.original.is_our_company ? `bg-green-500` : `bg-destructive`} h-2 w-2 animate-pulse rounded-full`}
         />
-        {row.getValue('name')}
+        <LongText className='max-w-36'>{row.getValue('name')}</LongText>
       </div>
     ),
     enableSorting: false,
@@ -59,7 +60,9 @@ export const columns: ColumnDef<CompanySchema>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='Address' />
     ),
-    cell: ({ row }) => <div>{row.getValue('address')}</div>,
+    cell: ({ row }) => (
+      <LongText className='max-w-36'>{row.getValue('address')}</LongText>
+    ),
     enableSorting: false,
   },
   {
@@ -67,7 +70,9 @@ export const columns: ColumnDef<CompanySchema>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='Bank' />
     ),
-    cell: ({ row }) => <div>{row.getValue('bank')}</div>,
+    cell: ({ row }) => (
+      <LongText className='max-w-36'>{row.getValue('bank')}</LongText>
+    ),
     enableSorting: false,
   },
   {

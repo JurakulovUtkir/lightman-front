@@ -5,12 +5,8 @@ import { formatDateToLongString } from '@/lib/dateFormatter'
 import { formatPrice } from '@/utils/formatPrice'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@/components/ui/tooltip'
 import { CopyButton } from '@/components/copy-button'
+import LongText from '@/components/long-text'
 import { ContractSchema } from '../data/schema'
 import { DataTableColumnHeader } from './data-table-column-header'
 
@@ -59,14 +55,18 @@ export const columns: ColumnDef<ContractSchema>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: 'is_active',
+    accessorKey: 'name',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Is Active' />
+      <DataTableColumnHeader column={column} title='Company name' />
     ),
     cell: ({ row }) => (
-      <div
-        className={`${row.getValue('is_active') ? `bg-green-500` : `bg-destructive`} h-2 w-2 animate-pulse rounded-full`}
-      />
+      <div className='flex items-center gap-2'>
+        {' '}
+        <div
+          className={`${row.original.is_active ? `bg-green-500` : `bg-destructive`} h-2 w-2 animate-pulse rounded-full`}
+        />
+        <LongText className='max-w-36'>{row.getValue('name')}</LongText>
+      </div>
     ),
     enableSorting: false,
   },
@@ -84,29 +84,25 @@ export const columns: ColumnDef<ContractSchema>[] = [
     enableSorting: false,
   },
   {
-    accessorKey: 'name',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Name' />
-    ),
-    cell: ({ row }) => <div>{row.getValue('name')}</div>,
-
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
     accessorKey: 'our_company',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Our company' />
+      <DataTableColumnHeader column={column} title='Our Company' />
     ),
-    cell: ({ row }) => <div>{row.original.our_company.name ?? '-'}</div>,
+    cell: ({ row }) => {
+      const company = row.getValue('our_company') as { name: string }
+      return <LongText className='max-w-36'>{company?.name}</LongText>
+    },
     enableSorting: false,
   },
   {
     accessorKey: 'customer_company',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Customer company' />
+      <DataTableColumnHeader column={column} title='Customer' />
     ),
-    cell: ({ row }) => <div>{row.original.customer_company.name ?? '-'}</div>,
+    cell: ({ row }) => {
+      const customer = row.getValue('customer_company') as { name: string }
+      return <LongText className='max-w-36'>{customer?.name}</LongText>
+    },
     enableSorting: false,
   },
   {
@@ -179,26 +175,8 @@ export const columns: ColumnDef<ContractSchema>[] = [
       <DataTableColumnHeader column={column} title='Description' />
     ),
     cell: ({ row }) => {
-      const info = row.original.description
-      const contactInfo = info
-        ? info?.length >= 50
-          ? `${info.slice(0, 50)} ...`
-          : info
-        : '-'
-
       return (
-        <div>
-          {info && info?.length >= 50 ? (
-            <Tooltip>
-              <TooltipTrigger>{contactInfo}</TooltipTrigger>
-              <TooltipContent className='max-w-[350px] overflow-auto md:max-w-[500px]'>
-                {row.getValue('description')}
-              </TooltipContent>
-            </Tooltip>
-          ) : (
-            <p>{info?.length ? info : '-'}</p>
-          )}
-        </div>
+        <LongText className='max-w-36'>{row.getValue('description')}</LongText>
       )
     },
     enableSorting: false,

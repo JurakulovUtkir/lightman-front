@@ -1,5 +1,6 @@
 import { ColumnDef } from '@tanstack/react-table'
 import { formatPrice } from '@/utils/formatPrice'
+import LongText from '@/components/long-text'
 import { ProjectSocialSchema } from '../data/schema'
 
 export interface GroupedRow {
@@ -20,7 +21,9 @@ export const groupedColumns: ColumnDef<GroupedRow>[] = [
     header: 'Social Name',
     cell: ({ row }) => (
       <div className='flex flex-col'>
-        <span className='font-semibold'>{row.original.socialName}</span>
+        <LongText className='max-w-36 font-semibold'>
+          {row.original.socialName}
+        </LongText>
         <a
           href={row.original.socialLink}
           target='_blank'
@@ -28,7 +31,13 @@ export const groupedColumns: ColumnDef<GroupedRow>[] = [
           className='text-xs text-blue-500 hover:underline'
           onClick={(e) => e.stopPropagation()}
         >
-          {row.original.socialLink}
+          {row.original.socialLink?.length >= 50 ? (
+            <LongText className='max-w-36 font-semibold'>
+              {row.original.socialLink}
+            </LongText>
+          ) : (
+            row.original.socialLink
+          )}
         </a>
       </div>
     ),

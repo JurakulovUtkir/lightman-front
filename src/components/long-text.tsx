@@ -52,7 +52,7 @@ export default function LongText({
                 {children}
               </div>
             </TooltipTrigger>
-            <TooltipContent>
+            <TooltipContent className='max-w-[350px] overflow-auto md:max-w-[500px]'>
               <p className={contentClassName}>{children}</p>
             </TooltipContent>
           </Tooltip>

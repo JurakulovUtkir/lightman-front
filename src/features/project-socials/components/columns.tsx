@@ -5,6 +5,7 @@ import { formatDateToLongString } from '@/lib/dateFormatter'
 import { formatPrice } from '@/utils/formatPrice'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
+import LongText from '@/components/long-text'
 import { ProjectSocialSchema } from '../data/schema'
 import { DataTableColumnHeader } from './data-table-column-header'
 // import { DataTableRowActions } from './data-table-row-actions'
@@ -59,7 +60,7 @@ export const columns: ColumnDef<ProjectSocialSchema>[] = [
     ),
     cell: ({ row }) => {
       const social = row.original.social
-      return <div>{social?.name ?? '-'}</div>
+      return <LongText className='max-w-36'>{social?.name}</LongText>
     },
     enableSorting: false,
     enableHiding: false,
