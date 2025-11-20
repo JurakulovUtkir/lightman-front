@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import useDialogState from '@/hooks/use-dialog-state'
 import { NetworkSocialSchema } from '../data/schema'
 
-type NetworkSocialDialogType = 'create' | 'update' | 'delete' | 'import'
+export type NetworkSocialDialogType = 'create' | 'update' | 'delete' | 'import'
 
 interface NetworkSocialContextType {
   open: NetworkSocialDialogType | null

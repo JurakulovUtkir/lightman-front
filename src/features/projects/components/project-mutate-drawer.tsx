@@ -23,7 +23,7 @@ import { Switch } from '@/components/ui/switch'
 import { FormFieldSelect } from '@/components/form-field-select'
 import { FormFieldWrapper } from '@/components/form-field-wrapper'
 import { FormComboboxContract } from '@/features/contracts/components/form-combobox-contracts'
-import { FormComboboxNetwrokCategory } from '@/features/network/socials/components/form-combobox-network-category'
+import { FormComboboxNetworkCategory } from '@/features/network/socials/components/form-combobox-network-category'
 import { FormComboboxNetworkTags } from '@/features/network/socials/components/form-combobox-network-tags'
 import { ProjectDialogType } from '../context'
 import { useCreateProject, useUpdateProject, useProjects } from '../data/hooks'
@@ -298,7 +298,7 @@ export function ProjectMutateDrawer({
                 />
 
                 <div className='flex flex-col gap-4 sm:col-span-2'>
-                  <FormComboboxNetwrokCategory
+                  <FormComboboxNetworkCategory
                     control={form.control}
                     name='category_id'
                     label='Category'
@@ -308,6 +308,7 @@ export function ProjectMutateDrawer({
                     control={form.control}
                     name='tags'
                     label='Tags'
+                    enableCreate
                   />
                 </div>
                 <FormComboboxCompany

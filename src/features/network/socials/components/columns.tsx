@@ -16,9 +16,9 @@ import { DataTableColumnHeader } from '@/components/table/data-table-column-head
 //   TooltipTrigger,
 // } from '@/components/ui/tooltip'
 import { NetworkSocialSchema } from '../data/schema'
+
 // import { DataTableColumnCategoryHeader } from './data-table-column-category-header'
 // import { DataTableColumnTypeHeader } from './data-table-column-type-header'
-import { DataTableRowActions } from './data-table-row-actions'
 
 export const columns = () // selectedCategoryId: string | undefined,
 // onCategoryFilterChange: (categoryId: string | null) => void,
@@ -307,12 +307,12 @@ export const columns = () // selectedCategoryId: string | undefined,
   //   enableSorting: false,
   //   enableHiding: false,
   // },
-  {
-    id: 'actions',
-    cell: ({ row }) => (
-      <div onDoubleClick={(e) => e.stopPropagation()}>
-        <DataTableRowActions row={row} />
-      </div>
-    ),
-  },
+  // {
+  //   id: 'actions',
+  //   cell: ({ row }) => (
+  //     <div onDoubleClick={(e) => e.stopPropagation()}>
+  //       <DataTableRowActions row={row} />
+  //     </div>
+  //   ),
+  // },
 ]

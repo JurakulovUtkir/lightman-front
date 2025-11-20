@@ -35,6 +35,8 @@ export function NetworkSocialDialogs() {
               }, 500)
             }}
             currentRow={currentRow}
+            setCurrentRow={setCurrentRow}
+            setOpen={setOpen}
           />
 
           <ConfirmDialog

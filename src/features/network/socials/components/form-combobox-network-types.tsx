@@ -1,5 +1,10 @@
 import { useState } from 'react'
-import { Control, FieldValues, Path } from 'react-hook-form'
+import {
+  Control,
+  ControllerRenderProps,
+  FieldValues,
+  Path,
+} from 'react-hook-form'
 import { IconCheck, IconSelector } from '@tabler/icons-react'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
@@ -24,7 +29,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import { Skeleton } from '@/components/ui/skeleton'
-import { useNetworkTypes } from '../../types/data/hooks'
+import { useNetworkTypes, useCreateNetworkType } from '../../types/data/hooks'
 import { NetworkTypeSchema } from '../../types/data/schema'
 
 type ComboboxOption = {
@@ -37,6 +42,7 @@ interface FormComboboxProps<T extends FieldValues> {
   label: string
   control: Control<T>
   detail?: Pick<NetworkTypeSchema, 'id' | 'name'>
+  enableCreate?: boolean
 }
 
 export const FormComboboxNetworkTypes = <T extends FieldValues>({
@@ -44,8 +50,11 @@ export const FormComboboxNetworkTypes = <T extends FieldValues>({
   label,
   control,
   detail,
+  enableCreate = false,
 }: FormComboboxProps<T>) => {
   const [open, setOpen] = useState(false)
+  const [search, setSearch] = useState('')
+  const [isCreating, setIsCreating] = useState(false)
 
   const {
     data: networkTypes,
@@ -53,7 +62,36 @@ export const FormComboboxNetworkTypes = <T extends FieldValues>({
     isFetching: isFetchingNetworkTypes,
   } = useNetworkTypes()
 
+  const createNetworkType = useCreateNetworkType()
+
   const isLoading = isLoadingNetworkTypes || isFetchingNetworkTypes
+
+  const handleCreateType = async (
+    typeName: string,
+    field: ControllerRenderProps<T, Path<T>>
+  ) => {
+    if (!enableCreate) return
+
+    setIsCreating(true)
+    try {
+      const response = await createNetworkType.mutateAsync({
+        name: typeName,
+        is_active: true,
+      })
+
+      // Extract the type from the nested response
+      const newType = response.data
+
+      // Set the new type ID as the selected value
+      field.onChange(newType.id)
+      setSearch('')
+      setOpen(false)
+    } catch (error) {
+      return error
+    } finally {
+      setIsCreating(false)
+    }
+  }
 
   return (
     <FormField
@@ -100,6 +138,20 @@ export const FormComboboxNetworkTypes = <T extends FieldValues>({
           selectedOption?.label ??
           (field.value ? `Selected ID: ${field.value}` : '')
 
+        // Filter options based on search
+        const filteredOptions = search
+          ? options.filter((option) =>
+              option.label.toLowerCase().includes(search.toLowerCase())
+            )
+          : options
+
+        const hasExactMatch = options.some(
+          (option) => option.label.toLowerCase() === search.toLowerCase()
+        )
+
+        const showCreateOption =
+          enableCreate && search.length >= 2 && !hasExactMatch && !isLoading
+
         return (
           <FormItem className='flex w-full flex-col space-y-1'>
             <FormLabel>{label}</FormLabel>
@@ -122,10 +174,12 @@ export const FormComboboxNetworkTypes = <T extends FieldValues>({
                 </FormControl>
               </PopoverTrigger>
               <PopoverContent className='p-0'>
-                <Command>
+                <Command shouldFilter={false}>
                   <CommandInput
                     placeholder={`Search ${label.toLowerCase()}...`}
                     className='h-9'
+                    value={search}
+                    onValueChange={setSearch}
                   />
                   <CommandList>
                     {isLoading ? (
@@ -139,29 +193,55 @@ export const FormComboboxNetworkTypes = <T extends FieldValues>({
                       </div>
                     ) : (
                       <>
-                        <CommandEmpty>No data found.</CommandEmpty>
-                        <CommandGroup>
-                          {options.map((item) => (
+                        {filteredOptions.length === 0 && !showCreateOption && (
+                          <CommandEmpty>
+                            {enableCreate && search.length < 2
+                              ? 'Type at least 2 characters to search'
+                              : 'No network types found.'}
+                          </CommandEmpty>
+                        )}
+                        {showCreateOption && (
+                          <CommandGroup>
                             <CommandItem
-                              key={item.value}
-                              value={item.label}
                               onSelect={() => {
-                                field.onChange(item.value)
-                                setOpen(false)
+                                handleCreateType(search, field)
                               }}
+                              disabled={isCreating}
+                              className='bg-muted/50'
                             >
-                              {item.label}
-                              <IconCheck
-                                className={cn(
-                                  'ml-auto',
-                                  item.value === field.value
-                                    ? 'opacity-100'
-                                    : 'opacity-0'
-                                )}
-                              />
+                              <span className='font-medium'>
+                                {isCreating
+                                  ? 'Creating...'
+                                  : `Create "${search}"`}
+                              </span>
                             </CommandItem>
-                          ))}
-                        </CommandGroup>
+                          </CommandGroup>
+                        )}
+                        {filteredOptions.length > 0 && (
+                          <CommandGroup>
+                            {filteredOptions.map((item) => (
+                              <CommandItem
+                                key={item.value}
+                                value={item.label}
+                                onSelect={() => {
+                                  field.onChange(item.value)
+                                  setSearch('')
+                                  setOpen(false)
+                                }}
+                              >
+                                {item.label}
+                                <IconCheck
+                                  className={cn(
+                                    'ml-auto',
+                                    item.value === field.value
+                                      ? 'opacity-100'
+                                      : 'opacity-0'
+                                  )}
+                                />
+                              </CommandItem>
+                            ))}
+                          </CommandGroup>
+                        )}
                       </>
                     )}
                   </CommandList>

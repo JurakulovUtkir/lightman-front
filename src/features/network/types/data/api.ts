@@ -1,3 +1,4 @@
+import { ApiResponse } from '@/constants'
 import api from '@/lib/axios'
 import { NetworkTypeSchema } from './schema'
 import { NetworkTypeResponse } from './types'
@@ -15,7 +16,7 @@ export const getNetworkType = async (
 
 export const createNetworkType = async (
   data: Partial<NetworkTypeSchema>
-): Promise<NetworkTypeSchema> => {
+): Promise<ApiResponse<NetworkTypeSchema>> => {
   const response = await api.post('/network-types', data)
   return response.data
 }

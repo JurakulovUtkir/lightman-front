@@ -1,5 +1,10 @@
 import { useState } from 'react'
-import { Control, FieldValues, Path } from 'react-hook-form'
+import {
+  Control,
+  ControllerRenderProps,
+  FieldValues,
+  Path,
+} from 'react-hook-form'
 import { IconCheck, IconSelector } from '@tabler/icons-react'
 import { cn } from '@/lib/utils'
 import { useDebounce } from '@/hooks/useDebounce'
@@ -25,7 +30,10 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import { Skeleton } from '@/components/ui/skeleton'
-import { useNetworkCategories } from '../../categories/data/hooks'
+import {
+  useNetworkCategories,
+  useCreateNetworkCategory,
+} from '../../categories/data/hooks'
 import { NetworkCategorySchema } from '../../categories/data/schema'
 
 type ComboboxOption = {
@@ -38,16 +46,19 @@ interface FormComboboxProps<T extends FieldValues> {
   label: string
   control: Control<T>
   detail?: Pick<NetworkCategorySchema, 'id' | 'name'>
+  enableCreate?: boolean
 }
 
-export const FormComboboxNetwrokCategory = <T extends FieldValues>({
+export const FormComboboxNetworkCategory = <T extends FieldValues>({
   name,
   label,
   control,
   detail,
+  enableCreate = false,
 }: FormComboboxProps<T>) => {
   const [search, setSearch] = useState('')
   const [open, setOpen] = useState(false)
+  const [isCreating, setIsCreating] = useState(false)
   const debouncedSearch = useDebounce(search, 500)
 
   const {
@@ -60,8 +71,36 @@ export const FormComboboxNetwrokCategory = <T extends FieldValues>({
     search: debouncedSearch,
   })
 
-  // Determine if we're currently loading or fetching
+  const createNetworkCategory = useCreateNetworkCategory()
+
   const isLoading = isLoadingNetworkCategories || isFetchingNetworkCategories
+
+  const handleCreateCategory = async (
+    categoryName: string,
+    field: ControllerRenderProps<T, Path<T>>
+  ) => {
+    if (!enableCreate) return
+
+    setIsCreating(true)
+    try {
+      const response = await createNetworkCategory.mutateAsync({
+        name: categoryName,
+        is_active: true,
+      })
+
+      // Extract the category from the nested response
+      const newCategory = response.data
+
+      // Set the new category ID as the selected value
+      field.onChange(newCategory.id)
+      setSearch('')
+      setOpen(false)
+    } catch (error) {
+      return error
+    } finally {
+      setIsCreating(false)
+    }
+  }
 
   return (
     <FormField
@@ -109,6 +148,13 @@ export const FormComboboxNetwrokCategory = <T extends FieldValues>({
           selectedOption?.label ??
           (field.value ? `Selected ID: ${field.value}` : '')
 
+        const hasExactMatch = options.some(
+          (option) => option.label.toLowerCase() === search.toLowerCase()
+        )
+
+        const showCreateOption =
+          enableCreate && search.length >= 2 && !hasExactMatch && !isLoading
+
         return (
           <FormItem className='flex w-full flex-col space-y-1'>
             <FormLabel>{label}</FormLabel>
@@ -150,29 +196,55 @@ export const FormComboboxNetwrokCategory = <T extends FieldValues>({
                       </div>
                     ) : (
                       <>
-                        <CommandEmpty>No data found.</CommandEmpty>
-                        <CommandGroup>
-                          {options.map((item) => (
+                        {options.length === 0 && !showCreateOption && (
+                          <CommandEmpty>
+                            {enableCreate && search.length < 2
+                              ? 'Type at least 2 characters to search'
+                              : 'No categories found.'}
+                          </CommandEmpty>
+                        )}
+                        {showCreateOption && (
+                          <CommandGroup>
                             <CommandItem
-                              value={item.label}
-                              key={item.value}
                               onSelect={() => {
-                                field.onChange(item.value)
-                                setOpen(false)
+                                handleCreateCategory(search, field)
                               }}
+                              disabled={isCreating}
+                              className='bg-muted/50'
                             >
-                              {item.label}
-                              <IconCheck
-                                className={cn(
-                                  'ml-auto',
-                                  item.value === field.value
-                                    ? 'opacity-100'
-                                    : 'opacity-0'
-                                )}
-                              />
+                              <span className='font-medium'>
+                                {isCreating
+                                  ? 'Creating...'
+                                  : `Create "${search}"`}
+                              </span>
                             </CommandItem>
-                          ))}
-                        </CommandGroup>
+                          </CommandGroup>
+                        )}
+                        {options.length > 0 && (
+                          <CommandGroup>
+                            {options.map((item) => (
+                              <CommandItem
+                                value={item.label}
+                                key={item.value}
+                                onSelect={() => {
+                                  field.onChange(item.value)
+                                  setSearch('')
+                                  setOpen(false)
+                                }}
+                              >
+                                {item.label}
+                                <IconCheck
+                                  className={cn(
+                                    'ml-auto',
+                                    item.value === field.value
+                                      ? 'opacity-100'
+                                      : 'opacity-0'
+                                  )}
+                                />
+                              </CommandItem>
+                            ))}
+                          </CommandGroup>
+                        )}
                       </>
                     )}
                   </CommandList>

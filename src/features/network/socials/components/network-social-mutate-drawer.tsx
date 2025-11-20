@@ -22,9 +22,10 @@ import { Switch } from '@/components/ui/switch'
 import { FormFieldWrapper } from '@/components/form-field-wrapper'
 import { NetworkCategorySchema } from '../../categories/data/schema'
 import { NetworkTypeSchema } from '../../types/data/schema'
+import { NetworkSocialDialogType } from '../context'
 import { useCreateNetworkSocial, useUpdateNetworkSocial } from '../data/hooks'
 import { NetworkSocialSchema } from '../data/schema'
-import { FormComboboxNetwrokCategory } from './form-combobox-network-category'
+import { FormComboboxNetworkCategory } from './form-combobox-network-category'
 import { FormComboboxNetworkTags } from './form-combobox-network-tags'
 import { FormComboboxNetworkTypes } from './form-combobox-network-types'
 
@@ -32,12 +33,18 @@ interface Props {
   open: boolean
   onOpenChange: (open: boolean) => void
   currentRow?: NetworkSocialSchema
+  setCurrentRow?: React.Dispatch<
+    React.SetStateAction<NetworkSocialSchema | null>
+  >
+  setOpen?: (str: NetworkSocialDialogType | null) => void
 }
 
 export function NetworkSocialMutateDrawer({
   open,
   onOpenChange,
   currentRow,
+  setCurrentRow,
+  setOpen,
 }: Props) {
   const createNetworkSocial = useCreateNetworkSocial()
   const updateNetworkSocial = useUpdateNetworkSocial()
@@ -109,6 +116,12 @@ export function NetworkSocialMutateDrawer({
       })
     }
   }
+  const handleDelete = () => {
+    if (isUpdate && setCurrentRow && setOpen && currentRow) {
+      setCurrentRow(currentRow)
+      setOpen('delete')
+    }
+  }
 
   return (
     <Sheet
@@ -165,16 +178,18 @@ export function NetworkSocialMutateDrawer({
                 control={form.control}
                 name='social_network_type_id'
                 label='Network type'
+                enableCreate
                 detail={
                   currentRow?.social_network_type as
                     | NetworkTypeSchema
                     | undefined
                 }
               />
-              <FormComboboxNetwrokCategory
+              <FormComboboxNetworkCategory
                 control={form.control}
                 name='category_id'
                 label='Network category'
+                enableCreate
                 detail={
                   currentRow?.category as NetworkCategorySchema | undefined
                 }
@@ -259,6 +274,11 @@ export function NetworkSocialMutateDrawer({
           </Form>
         </div>
         <SheetFooter className='gap-2'>
+          {isUpdate && (
+            <Button onClick={handleDelete} size='sm' variant='destructive'>
+              Delete
+            </Button>
+          )}
           <Button
             disabled={
               isUpdate

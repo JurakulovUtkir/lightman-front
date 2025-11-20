@@ -13,10 +13,12 @@ import { columns } from './components/columns'
 import { NetworkSocialDialogs } from './components/network-social-dialogs'
 import NetworkSocialFilter from './components/network-social-filter'
 import { NetworkSocialPrimaryButtons } from './components/network-social-primary-buttons'
-import NetworkSocialProvider from './context'
+import NetworkSocialProvider, { useNetworkSocialContext } from './context'
 import { useNetworkSocials } from './data/hooks'
+import { NetworkSocialSchema } from './data/schema'
 
-const NetworkSocials = () => {
+const NetworkSocialsContent = () => {
+  const { setOpen, setCurrentRow } = useNetworkSocialContext()
   const navigate = useNavigate()
   const { offset, limit, category_id, social_network_type_id } = useSearch({
     from: '/_authenticated/network/socials',
@@ -45,6 +47,7 @@ const NetworkSocials = () => {
       }),
     })
   }
+
   const handleTypeFilterChange = (typeId: string | null) => {
     navigate({
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -57,8 +60,13 @@ const NetworkSocials = () => {
     })
   }
 
+  const handleDoubleClick = (payload: NetworkSocialSchema) => {
+    setCurrentRow(payload)
+    setOpen('update')
+  }
+
   return (
-    <NetworkSocialProvider>
+    <>
       <Header fixed>
         <Search />
         <div className='ml-auto flex items-center space-x-4'>
@@ -101,20 +109,22 @@ const NetworkSocials = () => {
         <div className='-mx-4 flex-1 overflow-auto px-4 py-2 sm:mt-0 lg:flex-row lg:space-y-0 lg:space-x-12'>
           <DataTable
             data={data?.data.items?.length ? data.data.items : []}
-            columns={
-              columns()
-              // category_id,
-              // handleCategoryFilterChange,
-              // social_network_type_id,
-              // handleTypeFilterChange
-            }
+            columns={columns()}
             offset={offset}
             limit={limit}
             total={data?.data.total ?? 0}
+            onRowDoubleClick={handleDoubleClick}
           />
         </div>
       </Main>
       <NetworkSocialDialogs />
+    </>
+  )
+}
+const NetworkSocials = () => {
+  return (
+    <NetworkSocialProvider>
+      <NetworkSocialsContent />
     </NetworkSocialProvider>
   )
 }

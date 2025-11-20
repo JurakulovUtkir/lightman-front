@@ -35,12 +35,14 @@ interface FormComboboxProps<T extends FieldValues> {
   name: Path<T>
   label: string
   control: Control<T>
+  enableCreate?: boolean
 }
 
 export const FormComboboxNetworkTags = <T extends FieldValues>({
   name,
   label,
   control,
+  enableCreate = false,
 }: FormComboboxProps<T>) => {
   const [open, setOpen] = useState(false)
   const [search, setSearch] = useState('')
@@ -64,6 +66,8 @@ export const FormComboboxNetworkTags = <T extends FieldValues>({
     tagName: string,
     field: ControllerRenderProps<T, Path<T>>
   ) => {
+    if (!enableCreate) return
+
     setIsCreating(true)
     try {
       const response = await createNetworkTag.mutateAsync({
@@ -93,7 +97,6 @@ export const FormComboboxNetworkTags = <T extends FieldValues>({
       render={({ field }) => {
         const tags = tagsResponse?.data?.items || []
         const selectedTags = (field.value || []) as string[]
-        //  const selectedTags: string[] = field.value || []
 
         const availableTags = tags.filter(
           (tag) => !selectedTags.includes(tag.name)
@@ -104,7 +107,7 @@ export const FormComboboxNetworkTags = <T extends FieldValues>({
         )
 
         const showCreateOption =
-          search.length >= 2 && !hasExactMatch && !isLoading
+          enableCreate && search.length >= 2 && !hasExactMatch && !isLoading
 
         return (
           <FormItem className='flex w-full flex-col space-y-1'>
@@ -169,7 +172,7 @@ export const FormComboboxNetworkTags = <T extends FieldValues>({
                       <>
                         {availableTags.length === 0 && !showCreateOption && (
                           <CommandEmpty>
-                            {search.length < 2
+                            {enableCreate && search.length < 2
                               ? 'Type at least 2 characters to search'
                               : 'No tags found.'}
                           </CommandEmpty>

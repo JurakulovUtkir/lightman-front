@@ -1,3 +1,4 @@
+import { ApiResponse } from '@/constants'
 import api from '@/lib/axios'
 import { NetworkCategorySchema } from './schema'
 import { NetworkCategoryResponse } from './types'
@@ -25,7 +26,7 @@ export const getCategory = async (
 
 export const createCategory = async (
   data: Partial<NetworkCategorySchema>
-): Promise<NetworkCategorySchema> => {
+): Promise<ApiResponse<NetworkCategorySchema>> => {
   const response = await api.post('/categories', data)
   return response.data
 }
