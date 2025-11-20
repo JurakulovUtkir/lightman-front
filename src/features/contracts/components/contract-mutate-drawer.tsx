@@ -1,6 +1,8 @@
+import { useState } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { toast } from 'sonner'
 import { toNumber } from '@/lib/helpers'
 import { Button } from '@/components/ui/button'
 import {
@@ -22,6 +24,7 @@ import { Switch } from '@/components/ui/switch'
 import { FormFieldSelect } from '@/components/form-field-select'
 import { FormFieldWrapper } from '@/components/form-field-wrapper'
 import { FormFileUploadField } from '@/features/project-socials/components/form-file-upload'
+import { useDeleteFile } from '@/features/project-socials/data/hooks'
 import { FormComboboxCompany } from '@/features/projects/components/form-combobox-company'
 import { ContractDialogType } from '../context'
 import { useCreateContract, useUpdateContract } from '../data/hooks'
@@ -44,7 +47,13 @@ export function ContractMutateDrawer({
 }: Props) {
   const createContract = useCreateContract()
   const updateContract = useUpdateContract()
+  const deleteFile = useDeleteFile()
   const isUpdate = !!currentRow
+
+  const [pendingDeleteFile, setPendingDeleteFile] = useState<string | null>(
+    null
+  )
+
   const formSchema = z.object({
     contract_number: z
       .string({
@@ -73,9 +82,6 @@ export function ContractMutateDrawer({
     payment_type: z.enum(['card', 'bank_transfer', 'cash'], {
       error: 'Required field',
     }),
-    // payment_status: z.enum(['pending'], {
-    //   error: 'Required field',
-    // }),
     our_company_id: z.string({
       error: 'Required field',
     }),
@@ -99,7 +105,23 @@ export function ContractMutateDrawer({
     },
   })
 
-  const onSubmit = (values: ProjectForm) => {
+  const handlePendingDelete = (filePath: string | null) => {
+    setPendingDeleteFile(filePath)
+  }
+
+  const onSubmit = async (values: ProjectForm) => {
+    // If updating and there's a pending file deletion, delete it first
+    if (isUpdate && pendingDeleteFile) {
+      try {
+        await deleteFile.mutateAsync(pendingDeleteFile)
+        setPendingDeleteFile(null)
+      } catch (_error) {
+        toast.error('Unable to delete previous file')
+        // Handle error if needed
+        // console.error('Failed to delete old file:', error)
+      }
+    }
+
     if (isUpdate) {
       updateContract.mutate(
         {
@@ -110,6 +132,7 @@ export function ContractMutateDrawer({
           onSuccess: () => {
             onOpenChange(false)
             form.reset()
+            setPendingDeleteFile(null)
           },
         }
       )
@@ -118,6 +141,7 @@ export function ContractMutateDrawer({
         onSuccess: () => {
           onOpenChange(false)
           form.reset()
+          setPendingDeleteFile(null)
         },
       })
     }
@@ -127,6 +151,15 @@ export function ContractMutateDrawer({
     if (isUpdate && setCurrentRow && setOpen && currentRow) {
       setCurrentRow(currentRow)
       setOpen('delete')
+    }
+  }
+
+  const handleSheetChange = (isOpen: boolean) => {
+    onOpenChange(isOpen)
+    if (!isOpen) {
+      // Reset everything when closing
+      form.reset()
+      setPendingDeleteFile(null)
     }
   }
 
@@ -142,13 +175,7 @@ export function ContractMutateDrawer({
   ] as const
 
   return (
-    <Sheet
-      open={open}
-      onOpenChange={(v) => {
-        onOpenChange(v)
-        form.reset()
-      }}
-    >
+    <Sheet open={open} onOpenChange={handleSheetChange}>
       <SheetContent className='flex max-w-full flex-col sm:max-w-[540px]'>
         <SheetHeader className='text-left'>
           <SheetTitle>{isUpdate ? 'Update' : 'Create'} Contract</SheetTitle>
@@ -247,14 +274,6 @@ export function ContractMutateDrawer({
                   detail={currentRow?.customer_company}
                   filterOurCompany={false}
                 />
-                {/* <FormFieldSelect
-                  control={form.control}
-                  name='payment_status'
-                  label='Payment status'
-                  placeholder='Select a payment status'
-                  options={[{ value: 'pending', label: 'Pending' }]}
-                  emptyMessage='No Contracts found'
-                /> */}
               </div>
 
               <FormFileUploadField
@@ -262,6 +281,8 @@ export function ContractMutateDrawer({
                 name='file'
                 label='File'
                 maxSize={5}
+                isUpdateMode={isUpdate}
+                onPendingDelete={handlePendingDelete}
               />
             </form>
           </Form>

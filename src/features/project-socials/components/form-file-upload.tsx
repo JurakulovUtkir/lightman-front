@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import { Control, FieldPath, FieldValues } from 'react-hook-form'
 import { Upload, X, FileText, Image as ImageIcon, Loader2 } from 'lucide-react'
 import { toast } from 'sonner'
@@ -16,8 +16,10 @@ interface FileUploadFieldProps<TFieldValues extends FieldValues> {
   control: Control<TFieldValues>
   name: FieldPath<TFieldValues>
   label: string
-  maxSize?: number // in MB
+  maxSize?: number
   required?: boolean
+  isUpdateMode?: boolean
+  onPendingDelete?: (filePath: string | null) => void
 }
 
 export function FormFileUploadField<TFieldValues extends FieldValues>({
@@ -26,6 +28,8 @@ export function FormFileUploadField<TFieldValues extends FieldValues>({
   label,
   maxSize = 5,
   required = false,
+  isUpdateMode = false,
+  onPendingDelete,
 }: FileUploadFieldProps<TFieldValues>) {
   const [preview, setPreview] = useState<string | null>(null)
   const [fileType, setFileType] = useState<'document' | 'image' | null>(null)
@@ -33,7 +37,6 @@ export function FormFileUploadField<TFieldValues extends FieldValues>({
   const uploadFile = useUploadFile()
   const deleteFile = useDeleteFile()
 
-  // Accept both documents and images
   const acceptedTypes = {
     'application/pdf': ['.pdf'],
     'application/msword': ['.doc'],
@@ -49,6 +52,13 @@ export function FormFileUploadField<TFieldValues extends FieldValues>({
     return file.type.startsWith('image/')
   }
 
+  useEffect(() => {
+    return () => {
+      setPreview(null)
+      setFileType(null)
+    }
+  }, [])
+
   const handleFileSelect = async (
     file: File | null,
     onChange: (value: string) => void,
@@ -59,7 +69,6 @@ export function FormFileUploadField<TFieldValues extends FieldValues>({
     // Validate file size
     if (file.size > maxSize * 1024 * 1024) {
       toast.error(`File size must be less than ${maxSize}MB`)
-      // Reset file input
       if (fileInputRef.current) {
         fileInputRef.current.value = ''
       }
@@ -67,21 +76,27 @@ export function FormFileUploadField<TFieldValues extends FieldValues>({
     }
 
     try {
-      // Delete old file if exists
-      if (currentValue) {
+      // IMPORTANT: In update mode, mark current file for deletion BEFORE uploading new one
+      if (isUpdateMode && currentValue) {
+        // Notify parent to mark this file for deletion
+        if (onPendingDelete) {
+          onPendingDelete(currentValue)
+        }
+      }
+
+      // In create mode: delete old file immediately
+      if (!isUpdateMode && currentValue) {
         await deleteFile.mutateAsync(currentValue)
       }
 
       const isImage = isImageFile(file)
       setFileType(isImage ? 'image' : 'document')
 
-      // Create FormData and upload
+      // Upload new file
       const formData = new FormData()
       formData.append('file', file, file.name)
 
       const response = await uploadFile.mutateAsync(formData)
-
-      // Extract path from nested data structure
       const filePath = response.data?.path
 
       if (!filePath) {
@@ -104,7 +119,6 @@ export function FormFileUploadField<TFieldValues extends FieldValues>({
       toast.success('File uploaded successfully')
     } catch (_error) {
       toast.error('Failed to upload file')
-      // Reset file input on error
       if (fileInputRef.current) {
         fileInputRef.current.value = ''
       }
@@ -116,14 +130,31 @@ export function FormFileUploadField<TFieldValues extends FieldValues>({
     currentValue?: string
   ) => {
     if (currentValue) {
-      try {
-        await deleteFile.mutateAsync(currentValue)
+      if (isUpdateMode) {
+        // In update mode: mark for deletion via parent callback
+        if (onPendingDelete) {
+          onPendingDelete(currentValue)
+        }
         onChange('')
         setPreview(null)
         setFileType(null)
-        toast.success('File removed successfully')
-      } catch (_error) {
-        toast.error('Failed to remove file')
+        if (fileInputRef.current) {
+          fileInputRef.current.value = ''
+        }
+      } else {
+        // In create mode: delete immediately
+        try {
+          await deleteFile.mutateAsync(currentValue)
+          onChange('')
+          setPreview(null)
+          setFileType(null)
+          if (fileInputRef.current) {
+            fileInputRef.current.value = ''
+          }
+          toast.success('File removed successfully')
+        } catch (_error) {
+          toast.error('Failed to remove file')
+        }
       }
     }
   }
