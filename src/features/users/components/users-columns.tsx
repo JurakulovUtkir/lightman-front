@@ -141,15 +141,11 @@ export const columns: ColumnDef<User>[] = [
       return (
         <div className='flex items-center gap-2'>
           <div
-            className={`${is_our_employee ? `bg-green-500` : `bg-destructive`} h-2 w-2 flex-shrink-0 animate-pulse rounded-full`}
+            className={`${is_our_employee ? `bg-green-500` : `bg-destructive`} h-2 w-2 shrink-0 animate-pulse rounded-full`}
           />
-          {is_our_employee ? (
-            <span className='text-sm font-medium'>Our Employee</span>
-          ) : (
-            <LongText className='max-w-36 text-sm'>
-              {employee_company?.name || '-'}
-            </LongText>
-          )}
+          <LongText className='max-w-36 text-sm'>
+            {employee_company?.name || '-'}
+          </LongText>
         </div>
       )
     },
