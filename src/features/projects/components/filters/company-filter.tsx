@@ -17,59 +17,51 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
-import { useNetworkCategories } from '../../categories/data/hooks'
+import LongText from '@/components/long-text'
+import { useCompanies } from '@/features/companies/data/hooks'
 
-interface FilterOption {
-  label: string
-  value: string
-}
-
-interface NetworkCategoryFilterProps {
+interface CompanyFilterProps {
   placeholder?: string
-  filterOptions?: FilterOption[]
   selectedFilter?: string
   onFilterChange?: (value: string | null) => void
   searchable?: boolean
-  useSearchableCategories?: boolean
+  useSearchableCompanies?: boolean
+  filterOurCompany?: boolean
   className?: string
-  fieldsWidth?: number
 }
 
-export function NetworkCategoryFilter({
+export const CompanyFilter = ({
   placeholder = 'Search...',
-  filterOptions: externalFilterOptions,
   selectedFilter,
   onFilterChange,
   searchable = false,
-  useSearchableCategories = false,
+  useSearchableCompanies = false,
+  filterOurCompany,
   className,
-  fieldsWidth = 235,
-}: NetworkCategoryFilterProps) {
+}: CompanyFilterProps) => {
   const [search, setSearch] = useState('')
   const [open, setOpen] = useState(false)
   const debouncedSearch = useDebounce(search, 500)
 
-  // Conditionally fetch categories if searchable categories is enabled
-  const shouldFetchCategories = useSearchableCategories && open
-  const categoriesQuery = useNetworkCategories({
+  // Conditionally fetch companies if searchable companies is enabled
+  const shouldFetchCompanies = useSearchableCompanies && open
+  const companiesQuery = useCompanies({
     offset: 0,
     limit: 20,
-    search: shouldFetchCategories ? debouncedSearch : '',
+    search: shouldFetchCompanies ? debouncedSearch : '',
+    is_our_company: filterOurCompany,
   })
 
   // Determine filter options source
-  const filterOptions = useSearchableCategories
-    ? (categoriesQuery.data?.data?.items?.map((cat) => ({
-        label: cat.name,
-        value: cat.id,
-      })) ?? [])
-    : (externalFilterOptions ?? [])
+  const filterOptions =
+    companiesQuery.data?.data?.items?.map((company) => ({
+      label: company.name,
+      value: company.id,
+    })) ?? []
 
-  const isLoadingOptions = useSearchableCategories
-    ? categoriesQuery.isFetching
+  const isLoadingOptions = useSearchableCompanies
+    ? companiesQuery.isFetching
     : false
-
-  //   const hasFilters = filterOptions && filterOptions.length > 0
 
   // Find selected option label
   const selectedLabel = filterOptions.find(
@@ -91,16 +83,21 @@ export function NetworkCategoryFilter({
             variant='outline'
             role='combobox'
             aria-expanded={open}
-            style={{ width: fieldsWidth }}
-            className='w-full justify-between'
+            className='w-full justify-between sm:w-[365px]'
           >
-            {selectedLabel || (
-              <span className='text-muted-foreground'>Filter by category</span>
+            {selectedLabel ? (
+              selectedLabel.length >= 50 ? (
+                <LongText className='max-w-36'>{selectedLabel}</LongText>
+              ) : (
+                selectedLabel
+              )
+            ) : (
+              <span className='text-muted-foreground'>Filter by company</span>
             )}
             <CaretSortIcon className='ml-2 h-4 w-4 shrink-0 opacity-50' />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className='w-full p-0' align='start'>
+        <PopoverContent className='w-full p-0 sm:w-[365px]' align='start'>
           {searchable ? (
             <Command shouldFilter={false}>
               <CommandInput
@@ -133,7 +130,13 @@ export function NetworkCategoryFilter({
                           }}
                           className='justify-between'
                         >
-                          {option.label}
+                          {option.label.length >= 50 ? (
+                            <LongText className='max-w-36'>
+                              {option.label}
+                            </LongText>
+                          ) : (
+                            option.label
+                          )}
                           {selectedFilter === option.value && (
                             <CheckIcon className='text-primary h-4 w-4' />
                           )}
@@ -175,7 +178,11 @@ export function NetworkCategoryFilter({
                       }}
                       className='justify-between'
                     >
-                      {option.label}
+                      {option.label.length >= 50 ? (
+                        <LongText className='max-w-36'>{option.label}</LongText>
+                      ) : (
+                        option.label
+                      )}
                       {selectedFilter === option.value && (
                         <CheckIcon className='text-primary h-4 w-4' />
                       )}

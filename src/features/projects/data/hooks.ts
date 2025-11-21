@@ -13,21 +13,62 @@ export const useProjects = ({
   limit,
   offset,
   search,
-  is_active,
+  status,
+  price_type,
+  customer_company_id,
+  our_company_id,
+  category_id,
+  distribution_id,
+  min_price,
+  max_price,
 }: {
   limit?: number
   offset?: number
   search?: string
-  is_active?: boolean
+  status?:
+    | 'draft'
+    | 'active'
+    | 'on_hold'
+    | 'approved'
+    | 'requested'
+    | 'done'
+    | 'canceled'
+  price_type?: 'standard' | 'vip' | 'no_watermark'
+  customer_company_id?: string
+  our_company_id?: string
+  category_id?: string
+  distribution_id?: string
+  min_price?: number
+  max_price?: number
 }) => {
   return useQuery({
-    queryKey: ['projects', limit, offset, search, is_active],
+    queryKey: [
+      'projects',
+      limit,
+      offset,
+      search,
+      status,
+      price_type,
+      customer_company_id,
+      our_company_id,
+      category_id,
+      distribution_id,
+      min_price,
+      max_price,
+    ],
     queryFn: () =>
       getProjects({
         limit,
         offset,
         search,
-        is_active,
+        status,
+        price_type,
+        customer_company_id,
+        our_company_id,
+        category_id,
+        distribution_id,
+        min_price,
+        max_price,
       }),
   })
 }

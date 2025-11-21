@@ -19,6 +19,23 @@ export const statusOptions = [
   { value: 'done', label: 'Done' },
   { value: 'canceled', label: 'Canceled' },
 ]
+export const priceTypeOptions = [
+  { value: 'standard', label: 'Standard' },
+  { value: 'vip', label: 'VIP' },
+  { value: 'no_watermark', label: 'No Watermark' },
+]
+export const paymentStatusOptions = [
+  { value: 'pending', label: 'Pending' },
+  { value: 'paid', label: 'Paid' },
+  { value: 'cancelled', label: 'Cancelled' },
+  { value: 'unpaid', label: 'Unpaid' },
+]
+export const paymentTypeOptions = [
+  { value: 'card', label: 'Card' },
+  { value: 'bank_transfer', label: 'Bank transfer' },
+  { value: 'cash', label: 'Cash' },
+  { value: 'deposit', label: 'Deposit' },
+]
 
 export enum PriceType {
   STANDARD = 'standard',

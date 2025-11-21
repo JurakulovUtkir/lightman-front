@@ -8,11 +8,19 @@ export const getContracts = async ({
   offset,
   search,
   is_active,
+  our_company_id,
+  customer_company_id,
+  payment_status,
+  payment_type,
 }: {
   limit?: number
   offset?: number
   search?: string
   is_active?: boolean
+  our_company_id?: string
+  customer_company_id?: string
+  payment_status?: string
+  payment_type?: string
 }): Promise<ContractSchemaResponse> => {
   const params = new URLSearchParams()
 
@@ -20,6 +28,11 @@ export const getContracts = async ({
   if (offset !== undefined) params.append('offset', offset.toString())
   if (search) params.append('search', search)
   if (is_active !== undefined) params.append('is_active', is_active.toString())
+  if (our_company_id) params.append('our_company_id', our_company_id)
+  if (customer_company_id)
+    params.append('customer_company_id', customer_company_id)
+  if (payment_status) params.append('payment_status', payment_status)
+  if (payment_type) params.append('payment_type', payment_type)
 
   const response = await api.get(`/contracts?${params.toString()}`)
   return response.data

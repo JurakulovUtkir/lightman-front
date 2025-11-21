@@ -14,23 +14,46 @@ export const useContracts = ({
   offset,
   search,
   is_active,
+  our_company_id,
+  customer_company_id,
+  payment_status,
+  payment_type,
 }: {
   limit?: number
   offset?: number
   search?: string
   is_active?: boolean
+  our_company_id?: string
+  customer_company_id?: string
+  payment_status?: string
+  payment_type?: string
 }) => {
   return useQuery({
-    queryKey: ['contracts', limit, offset, search, is_active],
+    queryKey: [
+      'contracts',
+      limit,
+      offset,
+      search,
+      is_active,
+      our_company_id,
+      customer_company_id,
+      payment_status,
+      payment_type,
+    ],
     queryFn: () =>
       getContracts({
         limit,
         offset,
         search,
         is_active,
+        our_company_id,
+        customer_company_id,
+        payment_status,
+        payment_type,
       }),
   })
 }
+
 export const useContract = (id: string) => {
   return useQuery<ContractSchema>({
     queryKey: ['contract', id],

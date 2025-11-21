@@ -38,8 +38,7 @@ const NetworkSocialsContent = () => {
 
   const handleCategoryFilterChange = (categoryId: string | null) => {
     navigate({
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      //@ts-ignore
+      to: '/network/socials',
       search: (prev) => ({
         ...prev,
         category_id: categoryId || undefined,
@@ -50,8 +49,7 @@ const NetworkSocialsContent = () => {
 
   const handleTypeFilterChange = (typeId: string | null) => {
     navigate({
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      //@ts-ignore
+      to: '/network/socials',
       search: (prev) => ({
         ...prev,
         social_network_type_id: typeId || undefined,

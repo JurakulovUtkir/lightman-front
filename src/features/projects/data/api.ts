@@ -7,23 +7,53 @@ export const getProjects = async ({
   limit,
   offset,
   search,
-  is_active,
+  status,
+  price_type,
+  customer_company_id,
+  our_company_id,
+  category_id,
+  distribution_id,
+  min_price,
+  max_price,
 }: {
   limit?: number
   offset?: number
   search?: string
-  is_active?: boolean
+  status?:
+    | 'draft'
+    | 'active'
+    | 'on_hold'
+    | 'approved'
+    | 'requested'
+    | 'done'
+    | 'canceled'
+  price_type?: 'standard' | 'vip' | 'no_watermark'
+  customer_company_id?: string
+  our_company_id?: string
+  category_id?: string
+  distribution_id?: string
+  min_price?: number
+  max_price?: number
 }): Promise<ProjectSchemaResponse> => {
   const params = new URLSearchParams()
 
   if (limit !== undefined) params.append('limit', limit.toString())
   if (offset !== undefined) params.append('offset', offset.toString())
   if (search) params.append('search', search)
-  if (is_active !== undefined) params.append('is_active', is_active.toString())
+  if (status) params.append('status', status)
+  if (price_type) params.append('price_type', price_type)
+  if (customer_company_id)
+    params.append('customer_company_id', customer_company_id)
+  if (our_company_id) params.append('our_company_id', our_company_id)
+  if (category_id) params.append('category_id', category_id)
+  if (distribution_id) params.append('distribution_id', distribution_id)
+  if (min_price !== undefined) params.append('min_price', min_price.toString())
+  if (max_price !== undefined) params.append('max_price', max_price.toString())
 
   const response = await api.get(`/projects?${params.toString()}`)
   return response.data
 }
+
 export const getProject = async (id: string): Promise<ProjectSchema> => {
   const response = await api.get<ApiResponse<ProjectSchema>>(`/projects/${id}`)
   return response.data.data

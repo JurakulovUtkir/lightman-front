@@ -10,9 +10,8 @@ import { Search } from '@/components/search'
 import { DataTable } from '@/components/table/data-table'
 import { ThemeSwitch } from '@/components/theme-switch'
 import { columns } from './components/columns'
-// import ProjectCards from './components/project-cards'
+import ProjectFilter from './components/filters/project-filter'
 import { ProjectDialogs } from './components/project-dialogs'
-// import { ProjectFilter } from './components/project-filter'
 import { ProjectPrimaryButtons } from './components/project-primary-buttons'
 import ProjectProvider from './context'
 import { useProjects } from './data/hooks'
@@ -20,13 +19,21 @@ import { ProjectSchema } from './data/schema'
 
 const Projects = () => {
   const navigate = useNavigate()
-  const { offset, limit } = useSearch({
+  const {
+    offset,
+    limit,
+    category_id,
+    status,
+    our_company_id,
+    customer_company_id,
+    distribution_id,
+    price_type,
+    max_price,
+    min_price,
+  } = useSearch({
     from: '/_authenticated/projects/',
   })
   const [search, setSearch] = useState('')
-  //   const [filters, setFilters] = useState<{
-  //     is_active?: boolean
-  //   }>({})
 
   const debouncedSearch = useDebounce(search, 500)
 
@@ -37,8 +44,117 @@ const Projects = () => {
     offset: currentOffset,
     limit: currentLimit,
     search: debouncedSearch.length >= 2 ? debouncedSearch : undefined,
-    // is_active: filters.is_active,
+    category_id: category_id || undefined,
+    status,
+    our_company_id,
+    customer_company_id,
+    distribution_id,
+    price_type,
+    max_price,
+    min_price,
   })
+
+  const handleCategoryFilterChange = (categoryId: string | null) => {
+    navigate({
+      to: '/projects',
+      search: (prev) => ({
+        ...prev,
+        category_id: categoryId || undefined,
+        offset: 0,
+      }),
+    })
+  }
+
+  const handleStatusFilterChange = (status: string | null) => {
+    navigate({
+      to: '/projects',
+      search: (prev) => ({
+        ...prev,
+        status: status as
+          | 'draft'
+          | 'active'
+          | 'on_hold'
+          | 'approved'
+          | 'requested'
+          | 'done'
+          | 'canceled'
+          | undefined,
+        offset: 0,
+      }),
+    })
+  }
+  const handleOurCompanyFilterChange = (ourCompanyId: string | null) => {
+    navigate({
+      to: '/projects',
+      search: (prev) => ({
+        ...prev,
+        our_company_id: ourCompanyId || undefined,
+        offset: 0,
+      }),
+    })
+  }
+
+  const handleCustomerCompanyFilterChange = (
+    customerCompanyId: string | null
+  ) => {
+    navigate({
+      to: '/projects',
+      search: (prev) => ({
+        ...prev,
+        customer_company_id: customerCompanyId || undefined,
+        offset: 0,
+      }),
+    })
+  }
+
+  const handleDistiburionFilterChange = (distributionId: string | null) => {
+    navigate({
+      to: '/projects',
+      search: (prev) => ({
+        ...prev,
+        distribution_id: distributionId || undefined,
+        offset: 0,
+      }),
+    })
+  }
+
+  const handlePriceTypeFilterChange = (priceType: string | null) => {
+    navigate({
+      to: '/projects',
+      search: (prev) => ({
+        ...prev,
+        price_type: priceType as
+          | 'standard'
+          | 'vip'
+          | 'no_watermark'
+          | undefined,
+        offset: 0,
+      }),
+    })
+  }
+
+  const handleMaxPriceFilterChange = (maxPrice: number | null) => {
+    navigate({
+      to: '/projects',
+      search: (prev) => ({
+        ...prev,
+        max_price: maxPrice || undefined,
+        offset: 0,
+      }),
+    })
+  }
+
+  const handleMinPriceFilterChange = (minPrice: number | null) => {
+    navigate({
+      to: '/projects',
+      search: (prev) => ({
+        ...prev,
+        min_price: minPrice || undefined,
+        offset: 0,
+      }),
+    })
+  }
+
   const handleDobleClick = (payload: ProjectSchema) => {
     navigate({
       to: '/projects/socials/$id',
@@ -64,7 +180,7 @@ const Projects = () => {
           </div>
           <ProjectPrimaryButtons />
         </div>
-        <div className='flex items-center gap-4'>
+        <div className='flex flex-col gap-4 md:flex-row md:items-center'>
           <div className='relative'>
             <Input
               type='search'
@@ -76,10 +192,26 @@ const Projects = () => {
               <IconSearch className='text-muted-foreground' size={16} />
             </span>
           </div>
-          {/* <ProjectFilter onFilterChange={setFilters} /> */}
+          <ProjectFilter
+            selectedCategoryId={category_id}
+            selectedStatus={status}
+            selectedOurCompanyId={our_company_id}
+            selectedCustomerCompanyId={customer_company_id}
+            selectedDistributionId={distribution_id}
+            selectedPriceType={price_type}
+            selectedMaxPrice={max_price}
+            selectedMinPrice={min_price}
+            onCategoryFilterChange={handleCategoryFilterChange}
+            onStatusFilterChange={handleStatusFilterChange}
+            onOurCompanyFilterChange={handleOurCompanyFilterChange}
+            onCustomerCompanyFilterChange={handleCustomerCompanyFilterChange}
+            onDistiburionFilterChange={handleDistiburionFilterChange}
+            onPriceTypeFilterChange={handlePriceTypeFilterChange}
+            onMaxPriceFilterChange={handleMaxPriceFilterChange}
+            onMinPriceFilterChange={handleMinPriceFilterChange}
+          />
         </div>
         <div className='-mx-4 flex-1 overflow-auto px-4 pt-4 pb-1 lg:flex-row lg:space-y-0 lg:space-x-12'>
-          {/* <ProjectCards data={data?.data} /> */}
           <DataTable
             data={data?.data.items?.length ? data.data.items : []}
             columns={columns}
@@ -89,13 +221,6 @@ const Projects = () => {
             onRowDoubleClick={handleDobleClick}
           />
         </div>
-        {/* {data?.data.total ? (
-          <CustomPagination
-            offset={currentOffset}
-            limit={currentLimit}
-            total={data.data.total}
-          />
-        ) : null} */}
       </Main>
       <ProjectDialogs />
     </ProjectProvider>
