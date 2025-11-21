@@ -36,6 +36,18 @@ export const paymentTypeOptions = [
   { value: 'cash', label: 'Cash' },
   { value: 'deposit', label: 'Deposit' },
 ]
+export const expenceTypeOptions = [
+  { value: 'salary', label: 'Salary' },
+  { value: 'avans', label: 'Avans' },
+  { value: 'project', label: 'Project' },
+  { value: 'deposit', label: 'Deposit' },
+  { value: 'other', label: 'Other' },
+]
+export const expenceOriginTypeOptions = [
+  { value: 'expence', label: 'Expence' },
+  { value: 'income', label: 'Income' },
+  { value: 'deposit', label: 'Deposit' },
+]
 
 export enum PriceType {
   STANDARD = 'standard',

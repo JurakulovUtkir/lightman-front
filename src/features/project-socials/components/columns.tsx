@@ -1,32 +1,14 @@
 import { ColumnDef } from '@tanstack/react-table'
 import { Download, Eye } from 'lucide-react'
-import { toast } from 'sonner'
 import { formatDateToLongString } from '@/lib/dateFormatter'
+import { downloadFile } from '@/lib/helpers'
 import { formatPrice } from '@/utils/formatPrice'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import LongText from '@/components/long-text'
 import { ProjectSocialSchema } from '../data/schema'
 import { DataTableColumnHeader } from './data-table-column-header'
-// import { DataTableRowActions } from './data-table-row-actions'
 import PaymentStatus from './payment-status'
-
-// Helper function to download file
-const downloadFile = async (url: string, filename: string) => {
-  try {
-    const response = await fetch(url)
-    const blob = await response.blob()
-    const link = document.createElement('a')
-    link.href = window.URL.createObjectURL(blob)
-    link.download = filename
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
-    window.URL.revokeObjectURL(link.href)
-  } catch (_error) {
-    toast.error('Failed to download file!')
-  }
-}
 
 export const columns: ColumnDef<ProjectSocialSchema>[] = [
   {

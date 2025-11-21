@@ -85,7 +85,9 @@ export function ProjectMutateDrawer({
     our_company_id: z.string({
       error: 'Required field',
     }),
-    payment_type: z.enum(['cash', 'card', 'bank_transfer']).optional(),
+    payment_type: z
+      .enum(['cash', 'card', 'bank_transfer', 'deposit'])
+      .optional(),
     is_active: z.boolean().optional(),
     is_qqs: z.boolean().optional(),
     tags: z.array(z.string()).optional(),

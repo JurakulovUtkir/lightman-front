@@ -14,6 +14,7 @@ import {
   IconUserCog,
   IconUsers,
   IconUsersGroup,
+  IconCoins,
   // IconBarrierBlock,
   // IconBug,
   // IconChecklist,
@@ -75,6 +76,11 @@ export const sidebarData: SidebarData = {
           title: 'Companies',
           url: '/companies',
           icon: IconBuildings,
+        },
+        {
+          title: 'Expenses',
+          url: '/expences',
+          icon: IconCoins,
         },
         {
           title: 'Stakeholders',

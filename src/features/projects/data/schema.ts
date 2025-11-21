@@ -26,7 +26,7 @@ export const projectSchema = z.object({
   distribution: distributionSchema,
   our_company: companySchema,
   payment_status: z.string(),
-  payment_type: z.enum(['cash', 'card', 'bank_transfer']),
+  payment_type: z.enum(['cash', 'card', 'bank_transfer', 'deposit']),
   contract: contractSchema,
   tags: z.array(z.string()).optional(),
   clone_project_id: z.string().optional().nullable(),

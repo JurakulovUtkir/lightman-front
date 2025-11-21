@@ -72,3 +72,25 @@ export const formatPaymentType = (paymentType: string): string => {
       return paymentType
   }
 }
+
+export const getExpenceTypeColor = (type: string): string => {
+  const colors: Record<string, string> = {
+    salary: 'bg-blue-100 text-blue-800 border-blue-200',
+    office: 'bg-purple-100 text-purple-800 border-purple-200',
+    equipment: 'bg-amber-100 text-amber-800 border-amber-200',
+    other: 'bg-gray-100 text-gray-800 border-gray-200',
+  }
+  return (
+    colors[type.toLowerCase()] || 'bg-gray-100 text-gray-800 border-gray-200'
+  )
+}
+
+export const formatExpenceType = (type: string): string => {
+  const formatted: Record<string, string> = {
+    salary: 'Salary',
+    office: 'Office',
+    equipment: 'Equipment',
+    other: 'Other',
+  }
+  return formatted[type.toLowerCase()] || type
+}

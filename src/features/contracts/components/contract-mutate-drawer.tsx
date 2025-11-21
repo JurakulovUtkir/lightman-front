@@ -79,7 +79,7 @@ export function ContractMutateDrawer({
         error: 'Required field',
       })
       .min(0, 'Invalid value'),
-    payment_type: z.enum(['card', 'bank_transfer', 'cash'], {
+    payment_type: z.enum(['card', 'bank_transfer', 'cash', 'deposit'], {
       error: 'Required field',
     }),
     our_company_id: z.string({
