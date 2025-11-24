@@ -1,3 +1,4 @@
+import { useNavigate } from '@tanstack/react-router'
 import {
   IconEdit,
   IconUserCircle,
@@ -23,7 +24,7 @@ import { FounderSchema } from '../data/schema'
 
 const FounderCards = ({ data }: { data: FounderSchema[] | undefined }) => {
   const { setOpen, setCurrentRow } = useFounderContext()
-
+  const navigate = useNavigate()
   const handleEdit = (e: React.MouseEvent, payload: FounderSchema) => {
     e.stopPropagation()
     setCurrentRow(payload)
@@ -34,12 +35,20 @@ const FounderCards = ({ data }: { data: FounderSchema[] | undefined }) => {
     return new Intl.NumberFormat('uz-UZ').format(balance)
   }
 
+  const handleDoubleClick = (id: string) => {
+    navigate({
+      to: '/stakeholder/founders/expence/$id',
+      params: { id },
+    })
+  }
+
   return data?.length ? (
     <div className='flex flex-wrap items-center justify-center gap-4 sm:justify-start'>
       {data.map((item) => (
         <Card
           key={item.id}
           className='group hover:border-primary/50 flex min-w-[310px] flex-col transition-all hover:shadow-md'
+          onDoubleClick={() => handleDoubleClick(item.id)}
         >
           <CardHeader className='pb-3'>
             <div className='flex items-start justify-between gap-2'>

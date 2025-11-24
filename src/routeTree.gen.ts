@@ -39,7 +39,6 @@ import { Route as AuthenticatedActionsIndexRouteImport } from './routes/_authent
 import { Route as ClerkAuthenticatedUserManagementRouteImport } from './routes/clerk/_authenticated/user-management'
 import { Route as ClerkauthSignUpRouteImport } from './routes/clerk/(auth)/sign-up'
 import { Route as ClerkauthSignInRouteImport } from './routes/clerk/(auth)/sign-in'
-import { Route as AuthenticatedStakeholderFoundersRouteImport } from './routes/_authenticated/stakeholder/founders'
 import { Route as AuthenticatedStakeholderDistributionRouteImport } from './routes/_authenticated/stakeholder/distribution'
 import { Route as AuthenticatedSettingsNotificationsRouteImport } from './routes/_authenticated/settings/notifications'
 import { Route as AuthenticatedSettingsDisplayRouteImport } from './routes/_authenticated/settings/display'
@@ -49,8 +48,10 @@ import { Route as AuthenticatedNetworkTypesRouteImport } from './routes/_authent
 import { Route as AuthenticatedNetworkTagsRouteImport } from './routes/_authenticated/network/tags'
 import { Route as AuthenticatedNetworkSocialsRouteImport } from './routes/_authenticated/network/socials'
 import { Route as AuthenticatedNetworkCategoriesRouteImport } from './routes/_authenticated/network/categories'
+import { Route as AuthenticatedStakeholderFoundersIndexRouteImport } from './routes/_authenticated/stakeholder/founders/index'
 import { Route as AuthenticatedStakeholderDistributorsIdRouteImport } from './routes/_authenticated/stakeholder/distributors/$id'
 import { Route as AuthenticatedProjectsSocialsIdRouteImport } from './routes/_authenticated/projects/socials/$id'
+import { Route as AuthenticatedStakeholderFoundersExpenceIdRouteImport } from './routes/_authenticated/stakeholder/founders/expence/$id'
 
 const ClerkRouteRoute = ClerkRouteRouteImport.update({
   id: '/clerk',
@@ -208,12 +209,6 @@ const ClerkauthSignInRoute = ClerkauthSignInRouteImport.update({
   path: '/sign-in',
   getParentRoute: () => ClerkauthRouteRoute,
 } as any)
-const AuthenticatedStakeholderFoundersRoute =
-  AuthenticatedStakeholderFoundersRouteImport.update({
-    id: '/stakeholder/founders',
-    path: '/stakeholder/founders',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any)
 const AuthenticatedStakeholderDistributionRoute =
   AuthenticatedStakeholderDistributionRouteImport.update({
     id: '/stakeholder/distribution',
@@ -268,6 +263,12 @@ const AuthenticatedNetworkCategoriesRoute =
     path: '/network/categories',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedStakeholderFoundersIndexRoute =
+  AuthenticatedStakeholderFoundersIndexRouteImport.update({
+    id: '/stakeholder/founders/',
+    path: '/stakeholder/founders/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedStakeholderDistributorsIdRoute =
   AuthenticatedStakeholderDistributorsIdRouteImport.update({
     id: '/stakeholder/distributors/$id',
@@ -278,6 +279,12 @@ const AuthenticatedProjectsSocialsIdRoute =
   AuthenticatedProjectsSocialsIdRouteImport.update({
     id: '/projects/socials/$id',
     path: '/projects/socials/$id',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedStakeholderFoundersExpenceIdRoute =
+  AuthenticatedStakeholderFoundersExpenceIdRouteImport.update({
+    id: '/stakeholder/founders/expence/$id',
+    path: '/stakeholder/founders/expence/$id',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 
@@ -304,7 +311,6 @@ export interface FileRoutesByFullPath {
   '/settings/display': typeof AuthenticatedSettingsDisplayRoute
   '/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
   '/stakeholder/distribution': typeof AuthenticatedStakeholderDistributionRoute
-  '/stakeholder/founders': typeof AuthenticatedStakeholderFoundersRoute
   '/clerk/sign-in': typeof ClerkauthSignInRoute
   '/clerk/sign-up': typeof ClerkauthSignUpRoute
   '/clerk/user-management': typeof ClerkAuthenticatedUserManagementRoute
@@ -321,6 +327,8 @@ export interface FileRoutesByFullPath {
   '/users': typeof AuthenticatedUsersIndexRoute
   '/projects/socials/$id': typeof AuthenticatedProjectsSocialsIdRoute
   '/stakeholder/distributors/$id': typeof AuthenticatedStakeholderDistributorsIdRoute
+  '/stakeholder/founders': typeof AuthenticatedStakeholderFoundersIndexRoute
+  '/stakeholder/founders/expence/$id': typeof AuthenticatedStakeholderFoundersExpenceIdRoute
 }
 export interface FileRoutesByTo {
   '/clerk': typeof ClerkAuthenticatedRouteRouteWithChildren
@@ -344,7 +352,6 @@ export interface FileRoutesByTo {
   '/settings/display': typeof AuthenticatedSettingsDisplayRoute
   '/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
   '/stakeholder/distribution': typeof AuthenticatedStakeholderDistributionRoute
-  '/stakeholder/founders': typeof AuthenticatedStakeholderFoundersRoute
   '/clerk/sign-in': typeof ClerkauthSignInRoute
   '/clerk/sign-up': typeof ClerkauthSignUpRoute
   '/clerk/user-management': typeof ClerkAuthenticatedUserManagementRoute
@@ -361,6 +368,8 @@ export interface FileRoutesByTo {
   '/users': typeof AuthenticatedUsersIndexRoute
   '/projects/socials/$id': typeof AuthenticatedProjectsSocialsIdRoute
   '/stakeholder/distributors/$id': typeof AuthenticatedStakeholderDistributorsIdRoute
+  '/stakeholder/founders': typeof AuthenticatedStakeholderFoundersIndexRoute
+  '/stakeholder/founders/expence/$id': typeof AuthenticatedStakeholderFoundersExpenceIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -389,7 +398,6 @@ export interface FileRoutesById {
   '/_authenticated/settings/display': typeof AuthenticatedSettingsDisplayRoute
   '/_authenticated/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
   '/_authenticated/stakeholder/distribution': typeof AuthenticatedStakeholderDistributionRoute
-  '/_authenticated/stakeholder/founders': typeof AuthenticatedStakeholderFoundersRoute
   '/clerk/(auth)/sign-in': typeof ClerkauthSignInRoute
   '/clerk/(auth)/sign-up': typeof ClerkauthSignUpRoute
   '/clerk/_authenticated/user-management': typeof ClerkAuthenticatedUserManagementRoute
@@ -406,6 +414,8 @@ export interface FileRoutesById {
   '/_authenticated/users/': typeof AuthenticatedUsersIndexRoute
   '/_authenticated/projects/socials/$id': typeof AuthenticatedProjectsSocialsIdRoute
   '/_authenticated/stakeholder/distributors/$id': typeof AuthenticatedStakeholderDistributorsIdRoute
+  '/_authenticated/stakeholder/founders/': typeof AuthenticatedStakeholderFoundersIndexRoute
+  '/_authenticated/stakeholder/founders/expence/$id': typeof AuthenticatedStakeholderFoundersExpenceIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -432,7 +442,6 @@ export interface FileRouteTypes {
     | '/settings/display'
     | '/settings/notifications'
     | '/stakeholder/distribution'
-    | '/stakeholder/founders'
     | '/clerk/sign-in'
     | '/clerk/sign-up'
     | '/clerk/user-management'
@@ -449,6 +458,8 @@ export interface FileRouteTypes {
     | '/users'
     | '/projects/socials/$id'
     | '/stakeholder/distributors/$id'
+    | '/stakeholder/founders'
+    | '/stakeholder/founders/expence/$id'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/clerk'
@@ -472,7 +483,6 @@ export interface FileRouteTypes {
     | '/settings/display'
     | '/settings/notifications'
     | '/stakeholder/distribution'
-    | '/stakeholder/founders'
     | '/clerk/sign-in'
     | '/clerk/sign-up'
     | '/clerk/user-management'
@@ -489,6 +499,8 @@ export interface FileRouteTypes {
     | '/users'
     | '/projects/socials/$id'
     | '/stakeholder/distributors/$id'
+    | '/stakeholder/founders'
+    | '/stakeholder/founders/expence/$id'
   id:
     | '__root__'
     | '/_authenticated'
@@ -516,7 +528,6 @@ export interface FileRouteTypes {
     | '/_authenticated/settings/display'
     | '/_authenticated/settings/notifications'
     | '/_authenticated/stakeholder/distribution'
-    | '/_authenticated/stakeholder/founders'
     | '/clerk/(auth)/sign-in'
     | '/clerk/(auth)/sign-up'
     | '/clerk/_authenticated/user-management'
@@ -533,6 +544,8 @@ export interface FileRouteTypes {
     | '/_authenticated/users/'
     | '/_authenticated/projects/socials/$id'
     | '/_authenticated/stakeholder/distributors/$id'
+    | '/_authenticated/stakeholder/founders/'
+    | '/_authenticated/stakeholder/founders/expence/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -762,13 +775,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ClerkauthSignInRouteImport
       parentRoute: typeof ClerkauthRouteRoute
     }
-    '/_authenticated/stakeholder/founders': {
-      id: '/_authenticated/stakeholder/founders'
-      path: '/stakeholder/founders'
-      fullPath: '/stakeholder/founders'
-      preLoaderRoute: typeof AuthenticatedStakeholderFoundersRouteImport
-      parentRoute: typeof AuthenticatedRouteRoute
-    }
     '/_authenticated/stakeholder/distribution': {
       id: '/_authenticated/stakeholder/distribution'
       path: '/stakeholder/distribution'
@@ -832,6 +838,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedNetworkCategoriesRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/stakeholder/founders/': {
+      id: '/_authenticated/stakeholder/founders/'
+      path: '/stakeholder/founders'
+      fullPath: '/stakeholder/founders'
+      preLoaderRoute: typeof AuthenticatedStakeholderFoundersIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/stakeholder/distributors/$id': {
       id: '/_authenticated/stakeholder/distributors/$id'
       path: '/stakeholder/distributors/$id'
@@ -844,6 +857,13 @@ declare module '@tanstack/react-router' {
       path: '/projects/socials/$id'
       fullPath: '/projects/socials/$id'
       preLoaderRoute: typeof AuthenticatedProjectsSocialsIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/stakeholder/founders/expence/$id': {
+      id: '/_authenticated/stakeholder/founders/expence/$id'
+      path: '/stakeholder/founders/expence/$id'
+      fullPath: '/stakeholder/founders/expence/$id'
+      preLoaderRoute: typeof AuthenticatedStakeholderFoundersExpenceIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
   }
@@ -880,7 +900,6 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedNetworkTagsRoute: typeof AuthenticatedNetworkTagsRoute
   AuthenticatedNetworkTypesRoute: typeof AuthenticatedNetworkTypesRoute
   AuthenticatedStakeholderDistributionRoute: typeof AuthenticatedStakeholderDistributionRoute
-  AuthenticatedStakeholderFoundersRoute: typeof AuthenticatedStakeholderFoundersRoute
   AuthenticatedActionsIndexRoute: typeof AuthenticatedActionsIndexRoute
   AuthenticatedAppsIndexRoute: typeof AuthenticatedAppsIndexRoute
   AuthenticatedChatsIndexRoute: typeof AuthenticatedChatsIndexRoute
@@ -893,6 +912,8 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedUsersIndexRoute: typeof AuthenticatedUsersIndexRoute
   AuthenticatedProjectsSocialsIdRoute: typeof AuthenticatedProjectsSocialsIdRoute
   AuthenticatedStakeholderDistributorsIdRoute: typeof AuthenticatedStakeholderDistributorsIdRoute
+  AuthenticatedStakeholderFoundersIndexRoute: typeof AuthenticatedStakeholderFoundersIndexRoute
+  AuthenticatedStakeholderFoundersExpenceIdRoute: typeof AuthenticatedStakeholderFoundersExpenceIdRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -904,7 +925,6 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedNetworkTypesRoute: AuthenticatedNetworkTypesRoute,
   AuthenticatedStakeholderDistributionRoute:
     AuthenticatedStakeholderDistributionRoute,
-  AuthenticatedStakeholderFoundersRoute: AuthenticatedStakeholderFoundersRoute,
   AuthenticatedActionsIndexRoute: AuthenticatedActionsIndexRoute,
   AuthenticatedAppsIndexRoute: AuthenticatedAppsIndexRoute,
   AuthenticatedChatsIndexRoute: AuthenticatedChatsIndexRoute,
@@ -918,6 +938,10 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedProjectsSocialsIdRoute: AuthenticatedProjectsSocialsIdRoute,
   AuthenticatedStakeholderDistributorsIdRoute:
     AuthenticatedStakeholderDistributorsIdRoute,
+  AuthenticatedStakeholderFoundersIndexRoute:
+    AuthenticatedStakeholderFoundersIndexRoute,
+  AuthenticatedStakeholderFoundersExpenceIdRoute:
+    AuthenticatedStakeholderFoundersExpenceIdRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =

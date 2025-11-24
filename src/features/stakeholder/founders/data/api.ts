@@ -1,3 +1,4 @@
+import { ApiResponse } from '@/constants'
 import api from '@/lib/axios'
 import { FounderSchema } from './schema'
 import { FounderResponse } from './types'
@@ -7,8 +8,8 @@ export const getFounders = async (): Promise<FounderResponse> => {
   return response.data
 }
 export const getFounder = async (id: string): Promise<FounderSchema> => {
-  const response = await api.get(`/founders/${id}`)
-  return response.data
+  const response = await api.get<ApiResponse<FounderSchema>>(`/founders/${id}`)
+  return response.data.data
 }
 
 export const createFounder = async (
