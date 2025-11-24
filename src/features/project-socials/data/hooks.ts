@@ -8,6 +8,7 @@ import {
   deleteProjectSocial,
   uploadFileApi,
   deleteFileApi,
+  getProjectSocialStatistics,
 } from './api'
 import { ProjectSocialSchema } from './schema'
 
@@ -61,6 +62,14 @@ export const useDeleteProjectSocial = () => {
       queryClient.invalidateQueries({ queryKey: ['project-socials'] })
       toast.success('Project social deleted successfully!')
     },
+  })
+}
+
+export const useProjectSocialStatistics = (id: string) => {
+  return useQuery({
+    queryKey: ['project-socials-statistics', id],
+    queryFn: () => getProjectSocialStatistics(id),
+    enabled: !!id,
   })
 }
 

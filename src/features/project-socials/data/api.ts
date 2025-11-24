@@ -1,6 +1,10 @@
 import api from '@/lib/axios'
 import { ProjectSocialSchema } from './schema'
-import { FileResponse, ProjectSocialResponse } from './types'
+import {
+  FileResponse,
+  ProjectSocialResponse,
+  ProjectSocialStatistics,
+} from './types'
 
 export const getProjectSocials = async (
   id: string
@@ -32,6 +36,13 @@ export const updateProjectSocial = async (
 
 export const deleteProjectSocial = async (id: string): Promise<void> => {
   await api.delete(`/project-socials/${id}`)
+}
+
+export const getProjectSocialStatistics = async (
+  id: string
+): Promise<ProjectSocialStatistics> => {
+  const response = await api.get(`/project-socials/${id}/views`)
+  return response.data
 }
 
 // File CRUD

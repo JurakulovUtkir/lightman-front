@@ -76,6 +76,7 @@ export function ProjectMutateDrawer({
         error: 'Required field',
       })
       .min(0, 'Invalid value'),
+    planned_views_count: z.number().min(0, 'Invalid value').optional(),
     distribution_id: z.string().optional(),
     price_type: z.enum(['standard', 'vip', 'no_watermark']).optional(),
     category_id: z.string().optional(),
@@ -102,6 +103,7 @@ export function ProjectMutateDrawer({
     description: '',
     contract_id: undefined,
     price: 0,
+    planned_views_count: 0,
     price_with_qqs: 0,
     distribution_id: undefined,
     price_type: undefined,
@@ -144,6 +146,8 @@ export function ProjectMutateDrawer({
           contract_id: selectedProject.contract_id,
           price: toNumber(selectedProject.price) ?? 0,
           price_with_qqs: toNumber(selectedProject.price_with_qqs) ?? 0,
+          planned_views_count:
+            toNumber(selectedProject.planned_views_count) ?? 0,
           distribution_id: selectedProject.distribution_id,
           price_type: selectedProject.price_type,
           category_id: selectedProject.category_id,
@@ -167,6 +171,7 @@ export function ProjectMutateDrawer({
         contract_id: currentRow.contract_id ?? undefined,
         price: toNumber(currentRow.price) ?? 0,
         price_with_qqs: toNumber(currentRow.price_with_qqs) ?? 0,
+        planned_views_count: toNumber(currentRow.planned_views_count) ?? 0,
         distribution_id: currentRow.distribution_id,
         price_type: currentRow.price_type,
         category_id: currentRow.category_id,
@@ -284,13 +289,14 @@ export function ProjectMutateDrawer({
                 placeholder='Enter a description'
               />
               <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
-                <FormComboboxContract
-                  control={form.control}
-                  name='contract_id'
-                  label='Contract'
-                  detail={currentRow?.contract ?? undefined}
-                />
-
+                <div className='flex flex-col gap-4 sm:col-span-2'>
+                  <FormComboboxNetworkTags
+                    control={form.control}
+                    name='tags'
+                    label='Tags'
+                    enableCreate
+                  />
+                </div>
                 <FormDistribution
                   control={form.control}
                   name='distribution_id'
@@ -299,20 +305,20 @@ export function ProjectMutateDrawer({
                   detail={currentRow?.distribution ?? undefined}
                 />
 
-                <div className='flex flex-col gap-4 sm:col-span-2'>
-                  <FormComboboxNetworkCategory
-                    control={form.control}
-                    name='category_id'
-                    label='Category'
-                    detail={currentRow?.category ?? undefined}
-                  />
-                  <FormComboboxNetworkTags
-                    control={form.control}
-                    name='tags'
-                    label='Tags'
-                    enableCreate
-                  />
-                </div>
+                <FormComboboxContract
+                  control={form.control}
+                  name='contract_id'
+                  label='Contract'
+                  detail={currentRow?.contract ?? undefined}
+                />
+
+                <FormComboboxNetworkCategory
+                  control={form.control}
+                  name='category_id'
+                  label='Category'
+                  detail={currentRow?.category ?? undefined}
+                />
+
                 <FormComboboxCompany
                   control={form.control}
                   name='our_company_id'
@@ -353,7 +359,13 @@ export function ProjectMutateDrawer({
                     { value: 'bank_transfer', label: 'Bank Transfer' },
                   ]}
                 />
-
+                <FormFieldWrapper
+                  control={form.control}
+                  name='planned_views_count'
+                  label='Planned views count'
+                  placeholder='Enter a count'
+                  type='number'
+                />
                 <FormFieldWrapper
                   control={form.control}
                   name='price'

@@ -13,3 +13,8 @@ interface FileData {
 }
 
 export type FileResponse = ApiResponse<FileData>
+
+export type ProjectSocialStatistics = ApiResponse<{
+  planned_views_count: number
+  actual_views_count: number
+}>

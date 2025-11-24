@@ -11,6 +11,7 @@ export const projectSchema = z.object({
   contract_id: z.string().optional().nullable(),
   price: z.union([z.string(), z.number()]).optional(),
   price_with_qqs: z.union([z.string(), z.number()]).optional(),
+  planned_views_count: z.union([z.string(), z.number()]).optional(),
   status: z.string(),
   is_active: z.boolean(),
   is_qqs: z.boolean(),
