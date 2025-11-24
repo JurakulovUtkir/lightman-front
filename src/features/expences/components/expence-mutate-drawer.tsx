@@ -9,8 +9,16 @@ import {
 } from '@/constants'
 import { toast } from 'sonner'
 import { toNumber } from '@/lib/helpers'
+import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
-import { Form } from '@/components/ui/form'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
 import {
   Sheet,
   SheetContent,
@@ -173,11 +181,39 @@ export function ExpenceMutateDrawer({
               onSubmit={form.handleSubmit(onSubmit)}
               className='flex-1 space-y-5 px-4'
             >
-              <FormComboboxProject
+              <FormField
                 control={form.control}
-                name='project_id'
-                label='Select Project'
-                // detail={undefined}
+                name='type'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Type</FormLabel>
+                    <FormControl>
+                      <div className='grid grid-cols-3 gap-2'>
+                        {expenceOriginTypeOptions.map((option) => (
+                          <Button
+                            key={option.value}
+                            type='button'
+                            variant={
+                              field.value === option.value
+                                ? 'default'
+                                : 'outline'
+                            }
+                            size='sm'
+                            className={cn(
+                              'w-full',
+                              field.value === option.value &&
+                                'ring-primary ring-2'
+                            )}
+                            onClick={() => field.onChange(option.value)}
+                          >
+                            {option.label}
+                          </Button>
+                        ))}
+                      </div>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
 
               <FormFieldSelect
@@ -187,14 +223,6 @@ export function ExpenceMutateDrawer({
                 placeholder='Select a type'
                 options={expenceTypeOptions}
               />
-              <FormFieldSelect
-                control={form.control}
-                name='type'
-                label='Type'
-                placeholder='Select a type'
-                options={expenceOriginTypeOptions}
-              />
-
               <FormFieldSelect
                 control={form.control}
                 name='distribution_id'
@@ -207,6 +235,13 @@ export function ExpenceMutateDrawer({
                   })) ?? []
                 }
               />
+              <FormComboboxProject
+                control={form.control}
+                name='project_id'
+                label='Select Project'
+                // detail={undefined}
+              />
+
               <FormComboboxCompany
                 control={form.control}
                 name='company_id'
