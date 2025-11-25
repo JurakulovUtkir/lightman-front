@@ -32,6 +32,9 @@ export const useCreateProjectSocial = () => {
     mutationFn: createProjectSocial,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['project-socials'] })
+      queryClient.invalidateQueries({
+        queryKey: ['project-socials-statistics'],
+      })
       toast.success('Project social created successfully!')
     },
   })
@@ -49,6 +52,9 @@ export const useUpdateProjectSocial = () => {
     }) => updateProjectSocial(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['project-socials'] })
+      queryClient.invalidateQueries({
+        queryKey: ['project-socials-statistics'],
+      })
       toast.success('Project social updated successfully!')
     },
   })
@@ -60,6 +66,9 @@ export const useDeleteProjectSocial = () => {
     mutationFn: deleteProjectSocial,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['project-socials'] })
+      queryClient.invalidateQueries({
+        queryKey: ['project-socials-statistics'],
+      })
       toast.success('Project social deleted successfully!')
     },
   })

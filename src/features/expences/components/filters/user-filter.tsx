@@ -18,52 +18,50 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import LongText from '@/components/long-text'
-import { useCompanies } from '@/features/companies/data/hooks'
+import { useGetUsers } from '@/features/users/data/hooks'
 
-interface CompanyFilterProps {
+interface UserFilterProps {
   placeholder?: string
   selectedFilter?: string
   onFilterChange?: (value: string | null) => void
   searchable?: boolean
-  useSearchableCompanies?: boolean
-  filterOurCompany?: boolean
+  useSearchableUsers?: boolean
+  filterByEmployee?: boolean
   className?: string
   fieldsWidth?: number
 }
 
-export const CompanyFilter = ({
+export const UserFilter = ({
   placeholder = 'Search...',
   selectedFilter,
   onFilterChange,
   searchable = false,
-  useSearchableCompanies = false,
-  filterOurCompany,
+  useSearchableUsers = false,
   className,
   fieldsWidth = 365,
-}: CompanyFilterProps) => {
+  //   filterByEmployee,
+}: UserFilterProps) => {
   const [search, setSearch] = useState('')
   const [open, setOpen] = useState(false)
   const debouncedSearch = useDebounce(search, 500)
 
-  // Conditionally fetch companies if searchable companies is enabled
-  const shouldFetchCompanies = useSearchableCompanies && open
-  const companiesQuery = useCompanies({
+  // Conditionally fetch users if searchable users is enabled
+  const shouldFetchUsers = useSearchableUsers && open
+  const usersQuery = useGetUsers({
     offset: 0,
     limit: 20,
-    search: shouldFetchCompanies ? debouncedSearch : '',
-    is_our_company: filterOurCompany,
+    search: shouldFetchUsers ? debouncedSearch : '',
+    // is_our_employee: filterByEmployee,
   })
 
   // Determine filter options source
   const filterOptions =
-    companiesQuery.data?.data?.items?.map((company) => ({
-      label: company.name,
-      value: company.id,
+    usersQuery.data?.data?.items?.map((user) => ({
+      label: user.full_name,
+      value: user.id,
     })) ?? []
 
-  const isLoadingOptions = useSearchableCompanies
-    ? companiesQuery.isFetching
-    : false
+  const isLoadingOptions = useSearchableUsers ? usersQuery.isFetching : false
 
   // Find selected option label
   const selectedLabel = filterOptions.find(
@@ -85,8 +83,8 @@ export const CompanyFilter = ({
             variant='outline'
             role='combobox'
             aria-expanded={open}
-            style={{ width: fieldsWidth }}
             className='w-full justify-between'
+            style={{ width: fieldsWidth }}
           >
             {selectedLabel ? (
               selectedLabel.length >= 50 ? (
@@ -95,14 +93,14 @@ export const CompanyFilter = ({
                 selectedLabel
               )
             ) : (
-              <span className='text-muted-foreground'>Filter by company</span>
+              <span className='text-muted-foreground'>Filter by user</span>
             )}
             <CaretSortIcon className='ml-2 h-4 w-4 shrink-0 opacity-50' />
           </Button>
         </PopoverTrigger>
         <PopoverContent
-          style={{ width: fieldsWidth }}
           className='w-full p-0'
+          style={{ width: fieldsWidth }}
           align='start'
         >
           {searchable ? (

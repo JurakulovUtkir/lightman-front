@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate, useSearch } from '@tanstack/react-router'
+import { useSearch } from '@tanstack/react-router'
 import { IconSearch } from '@tabler/icons-react'
 import { useDebounce } from '@/hooks/useDebounce'
 import { Input } from '@/components/ui/input'
@@ -27,7 +27,6 @@ const Contracts = () => {
   } = useSearch({
     from: '/_authenticated/contracts/',
   })
-  const navigate = useNavigate()
   const [search, setSearch] = useState('')
 
   const debouncedSearch = useDebounce(search, 500)
@@ -44,59 +43,7 @@ const Contracts = () => {
     payment_status,
     payment_type,
   })
-  const handleOurCompanyFilterChange = (ourCompanyId: string | null) => {
-    navigate({
-      to: '/contracts',
-      search: (prev) => ({
-        ...prev,
-        our_company_id: ourCompanyId || undefined,
-        offset: 0,
-      }),
-    })
-  }
 
-  const handleCustomerCompanyFilterChange = (
-    customerCompanyId: string | null
-  ) => {
-    navigate({
-      to: '/contracts',
-      search: (prev) => ({
-        ...prev,
-        customer_company_id: customerCompanyId || undefined,
-        offset: 0,
-      }),
-    })
-  }
-  const handlePaymentStatusFilterChange = (paymentStatus: string | null) => {
-    navigate({
-      to: '/contracts',
-      search: (prev) => ({
-        ...prev,
-        payment_status: paymentStatus as
-          | 'pending'
-          | 'paid'
-          | 'cancelled'
-          | 'unpaid'
-          | undefined,
-        offset: 0,
-      }),
-    })
-  }
-  const handlePaymentTypeFilterChange = (paymentType: string | null) => {
-    navigate({
-      to: '/contracts',
-      search: (prev) => ({
-        ...prev,
-        payment_type: paymentType as
-          | 'card'
-          | 'bank_transfer'
-          | 'cash'
-          | 'deposit'
-          | undefined,
-        offset: 0,
-      }),
-    })
-  }
   return (
     <ContractProvider>
       <Header fixed>
@@ -128,16 +75,7 @@ const Contracts = () => {
               <IconSearch className='text-muted-foreground' size={16} />
             </span>
           </div>
-          <ContractFilter
-            selectedOurCompanyId={our_company_id}
-            selectedCustomerCompanyId={customer_company_id}
-            selectedPaymentStatus={payment_status}
-            selectedPaymentType={payment_type}
-            onOurCompanyFilterChange={handleOurCompanyFilterChange}
-            onCustomerCompanyFilterChange={handleCustomerCompanyFilterChange}
-            onPaymentStatusFilterChange={handlePaymentStatusFilterChange}
-            onPaymentTypeFilterChange={handlePaymentTypeFilterChange}
-          />
+          <ContractFilter />
         </div>
         <div className='-mx-4 flex-1 overflow-auto px-4 pt-4 pb-1 lg:flex-row lg:space-y-0 lg:space-x-12'>
           <DataTable

@@ -1,6 +1,4 @@
 import { ColumnDef } from '@tanstack/react-table'
-import { IconTag } from '@tabler/icons-react'
-import { formatDateToLongString } from '@/lib/dateFormatter'
 import {
   getStatusColor,
   getPriceTypeColor,
@@ -10,13 +8,7 @@ import {
   formatPriceType,
 } from '@/lib/statusHelpers'
 import { cn } from '@/lib/utils'
-import { Badge } from '@/components/ui/badge'
 import { Checkbox } from '@/components/ui/checkbox'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@/components/ui/tooltip'
 import LongText from '@/components/long-text'
 import { DataTableColumnHeader } from '@/components/table/data-table-column-header'
 import { ProjectSchema } from '../data/schema'
@@ -70,16 +62,16 @@ export const columns: ColumnDef<ProjectSchema>[] = [
     ),
     enableSorting: false,
   },
-  {
-    accessorKey: 'description',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Description' />
-    ),
-    cell: ({ row }) => (
-      <LongText className='max-w-36'>{row.getValue('description')}</LongText>
-    ),
-    enableSorting: false,
-  },
+  // {
+  //   accessorKey: 'description',
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader column={column} title='Description' />
+  //   ),
+  //   cell: ({ row }) => (
+  //     <LongText className='max-w-36'>{row.getValue('description')}</LongText>
+  //   ),
+  //   enableSorting: false,
+  // },
   {
     accessorKey: 'our_company',
     header: ({ column }) => (
@@ -103,108 +95,108 @@ export const columns: ColumnDef<ProjectSchema>[] = [
     enableSorting: false,
   },
 
-  {
-    accessorKey: 'category',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Category' />
-    ),
-    cell: ({ row }) => {
-      const category = row.getValue('category') as { name: string }
-      return (
-        <div className='bg-secondary inline-flex items-center rounded-md px-2 py-1 text-xs'>
-          {category?.name || '-'}
-        </div>
-      )
-    },
-    enableSorting: false,
-  },
-  {
-    accessorKey: 'tags',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Tags' />
-    ),
-    cell: ({ row }) => {
-      const tags = row.original.tags || []
+  // {
+  //   accessorKey: 'category',
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader column={column} title='Category' />
+  //   ),
+  //   cell: ({ row }) => {
+  //     const category = row.getValue('category') as { name: string }
+  //     return (
+  //       <div className='bg-secondary inline-flex items-center rounded-md px-2 py-1 text-xs'>
+  //         {category?.name || '-'}
+  //       </div>
+  //     )
+  //   },
+  //   enableSorting: false,
+  // },
+  // {
+  //   accessorKey: 'tags',
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader column={column} title='Tags' />
+  //   ),
+  //   cell: ({ row }) => {
+  //     const tags = row.original.tags || []
 
-      if (tags.length === 0) {
-        return (
-          <div className='text-muted-foreground flex items-center gap-1'>
-            <IconTag className='h-4 w-4' />
-            <span className='text-sm'>No tags</span>
-          </div>
-        )
-      }
+  //     if (tags.length === 0) {
+  //       return (
+  //         <div className='text-muted-foreground flex items-center gap-1'>
+  //           <IconTag className='h-4 w-4' />
+  //           <span className='text-sm'>No tags</span>
+  //         </div>
+  //       )
+  //     }
 
-      const firstTag = tags[0]
-      const remainingTags = tags.slice(1)
+  //     const firstTag = tags[0]
+  //     const remainingTags = tags.slice(1)
 
-      if (tags.length === 1) {
-        return (
-          <Badge variant='secondary' className='gap-1 text-xs'>
-            <IconTag className='h-3 w-3' />
-            {firstTag}
-          </Badge>
-        )
-      }
+  //     if (tags.length === 1) {
+  //       return (
+  //         <Badge variant='secondary' className='gap-1 text-xs'>
+  //           <IconTag className='h-3 w-3' />
+  //           {firstTag}
+  //         </Badge>
+  //       )
+  //     }
 
-      return (
-        <div className='flex items-center gap-1'>
-          <Badge variant='secondary' className='gap-1 text-xs'>
-            <IconTag className='h-3 w-3' />
-            {firstTag}
-          </Badge>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Badge variant='outline' className='cursor-help text-xs'>
-                +{remainingTags.length}
-              </Badge>
-            </TooltipTrigger>
-            <TooltipContent className='max-w-xs'>
-              <div className='flex flex-wrap gap-1'>
-                {remainingTags.map((tag) => (
-                  <Badge
-                    key={tag}
-                    variant='secondary'
-                    className='gap-1 text-xs'
-                  >
-                    <IconTag className='h-3 w-3' />
-                    {tag}
-                  </Badge>
-                ))}
-              </div>
-            </TooltipContent>
-          </Tooltip>
-        </div>
-      )
-    },
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    accessorKey: 'contract',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Contract' />
-    ),
-    cell: ({ row }) => {
-      const contract = row.getValue('contract') as {
-        contract_number: string
-        name: string
-      }
-      return (
-        <div className='flex flex-col gap-0.5'>
-          <span className='text-sm font-medium'>
-            <LongText className='max-w-36'>
-              {contract?.contract_number}
-            </LongText>
-          </span>
-          <span className='text-muted-foreground text-xs'>
-            {contract?.name || ''}
-          </span>
-        </div>
-      )
-    },
-    enableSorting: false,
-  },
+  //     return (
+  //       <div className='flex items-center gap-1'>
+  //         <Badge variant='secondary' className='gap-1 text-xs'>
+  //           <IconTag className='h-3 w-3' />
+  //           {firstTag}
+  //         </Badge>
+  //         <Tooltip>
+  //           <TooltipTrigger asChild>
+  //             <Badge variant='outline' className='cursor-help text-xs'>
+  //               +{remainingTags.length}
+  //             </Badge>
+  //           </TooltipTrigger>
+  //           <TooltipContent className='max-w-xs'>
+  //             <div className='flex flex-wrap gap-1'>
+  //               {remainingTags.map((tag) => (
+  //                 <Badge
+  //                   key={tag}
+  //                   variant='secondary'
+  //                   className='gap-1 text-xs'
+  //                 >
+  //                   <IconTag className='h-3 w-3' />
+  //                   {tag}
+  //                 </Badge>
+  //               ))}
+  //             </div>
+  //           </TooltipContent>
+  //         </Tooltip>
+  //       </div>
+  //     )
+  //   },
+  //   enableSorting: false,
+  //   enableHiding: false,
+  // },
+  // {
+  //   accessorKey: 'contract',
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader column={column} title='Contract' />
+  //   ),
+  //   cell: ({ row }) => {
+  //     const contract = row.getValue('contract') as {
+  //       contract_number: string
+  //       name: string
+  //     }
+  //     return (
+  //       <div className='flex flex-col gap-0.5'>
+  //         <span className='text-sm font-medium'>
+  //           <LongText className='max-w-36'>
+  //             {contract?.contract_number}
+  //           </LongText>
+  //         </span>
+  //         <span className='text-muted-foreground text-xs'>
+  //           {contract?.name || ''}
+  //         </span>
+  //       </div>
+  //     )
+  //   },
+  //   enableSorting: false,
+  // },
   {
     accessorKey: 'price',
     header: ({ column }) => (
@@ -295,18 +287,6 @@ export const columns: ColumnDef<ProjectSchema>[] = [
       <div
         className={`${row.getValue('is_qqs') ? `bg-green-500` : `bg-destructive`} h-2 w-2 animate-pulse rounded-full`}
       />
-    ),
-    enableSorting: false,
-  },
-  {
-    accessorKey: 'created_at',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Created at' />
-    ),
-    cell: ({ row }) => (
-      <div className='text-muted-foreground text-sm'>
-        {formatDateToLongString(row.getValue('created_at'))}
-      </div>
     ),
     enableSorting: false,
   },

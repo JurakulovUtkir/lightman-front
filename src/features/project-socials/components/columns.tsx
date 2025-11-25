@@ -106,16 +106,14 @@ export const columns: ColumnDef<ProjectSocialSchema>[] = [
             size='sm'
             onClick={() => window.open(fullUrl, '_blank')}
           >
-            <Eye className='mr-1 h-4 w-4' />
-            View
+            <Eye className='h-4 w-4' />
           </Button>
           <Button
             variant='outline'
             size='sm'
             onClick={() => downloadFile(fullUrl, filename)}
           >
-            <Download className='mr-1 h-4 w-4' />
-            Download
+            <Download className='h-4 w-4' />
           </Button>
         </div>
       )
@@ -148,16 +146,14 @@ export const columns: ColumnDef<ProjectSocialSchema>[] = [
             size='sm'
             onClick={() => window.open(fullUrl, '_blank')}
           >
-            <Eye className='mr-1 h-4 w-4' />
-            View
+            <Eye className='h-4 w-4' />
           </Button>
           <Button
             variant='outline'
             size='sm'
             onClick={() => downloadFile(fullUrl, filename)}
           >
-            <Download className='mr-1 h-4 w-4' />
-            Download
+            <Download className='h-4 w-4' />
           </Button>
         </div>
       )

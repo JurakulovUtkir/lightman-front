@@ -13,18 +13,67 @@ export const useExpences = ({
   limit,
   offset,
   search,
+  type,
+  expence_type,
+  payment_type,
+  distribution_id,
+  company_id,
+  project_id,
+  user_id,
+  date_from,
+  date_to,
+  max_amount,
+  min_amount,
 }: {
   limit?: number
   offset?: number
   search?: string
+  type?: 'expence' | 'income' | 'deposit'
+  expence_type?: 'salary' | 'avans' | 'project' | 'deposit' | 'other'
+  payment_type?: 'card' | 'bank_transfer' | 'cash' | 'deposit'
+  distribution_id?: string
+  company_id?: string
+  project_id?: string
+  user_id?: string
+  date_from?: string
+  date_to?: string
+  max_amount?: number
+  min_amount?: number
 }) => {
   return useQuery({
-    queryKey: ['expences', limit, offset, search],
+    queryKey: [
+      'expences',
+      limit,
+      offset,
+      search,
+      type,
+      expence_type,
+      payment_type,
+      distribution_id,
+      company_id,
+      project_id,
+      user_id,
+      date_from,
+      date_to,
+      max_amount,
+      min_amount,
+    ],
     queryFn: () =>
       getExpences({
         limit,
         offset,
         search,
+        type,
+        expence_type,
+        payment_type,
+        distribution_id,
+        company_id,
+        project_id,
+        user_id,
+        date_from,
+        date_to,
+        max_amount,
+        min_amount,
       }),
   })
 }

@@ -18,51 +18,48 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import LongText from '@/components/long-text'
-import { useCompanies } from '@/features/companies/data/hooks'
+import { useProjects } from '@/features/projects/data/hooks'
 
-interface CompanyFilterProps {
+interface ProjectFilterProps {
   placeholder?: string
   selectedFilter?: string
   onFilterChange?: (value: string | null) => void
   searchable?: boolean
-  useSearchableCompanies?: boolean
-  filterOurCompany?: boolean
+  useSearchableProjects?: boolean
   className?: string
   fieldsWidth?: number
 }
 
-export const CompanyFilter = ({
+export const ProjectSearchFilter = ({
   placeholder = 'Search...',
   selectedFilter,
   onFilterChange,
   searchable = false,
-  useSearchableCompanies = false,
-  filterOurCompany,
+  useSearchableProjects = false,
   className,
   fieldsWidth = 365,
-}: CompanyFilterProps) => {
+}: ProjectFilterProps) => {
   const [search, setSearch] = useState('')
   const [open, setOpen] = useState(false)
   const debouncedSearch = useDebounce(search, 500)
 
-  // Conditionally fetch companies if searchable companies is enabled
-  const shouldFetchCompanies = useSearchableCompanies && open
-  const companiesQuery = useCompanies({
+  // Conditionally fetch projects if searchable projects is enabled
+  const shouldFetchProjects = useSearchableProjects && open
+  const projectsQuery = useProjects({
     offset: 0,
     limit: 20,
-    search: shouldFetchCompanies ? debouncedSearch : '',
-    is_our_company: filterOurCompany,
+    search: shouldFetchProjects ? debouncedSearch : '',
   })
 
   // Determine filter options source
   const filterOptions =
-    companiesQuery.data?.data?.items?.map((company) => ({
-      label: company.name,
-      value: company.id,
+    projectsQuery.data?.data?.items?.map((project) => ({
+      label: project.name,
+      value: project.id,
     })) ?? []
 
-  const isLoadingOptions = useSearchableCompanies
-    ? companiesQuery.isFetching
+  const isLoadingOptions = useSearchableProjects
+    ? projectsQuery.isFetching
     : false
 
   // Find selected option label
@@ -95,7 +92,7 @@ export const CompanyFilter = ({
                 selectedLabel
               )
             ) : (
-              <span className='text-muted-foreground'>Filter by company</span>
+              <span className='text-muted-foreground'>Filter by project</span>
             )}
             <CaretSortIcon className='ml-2 h-4 w-4 shrink-0 opacity-50' />
           </Button>

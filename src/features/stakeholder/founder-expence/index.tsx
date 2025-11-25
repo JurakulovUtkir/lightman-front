@@ -10,6 +10,7 @@ import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
 import { DataTable } from '@/components/table/data-table'
 import { ThemeSwitch } from '@/components/theme-switch'
+import ExpenceFilter from '@/features/expences/components/filters/expence-filter'
 import { useFounder } from '../founders/data/hooks'
 import { columns } from './components/columns'
 import { useFounderExpence } from './data/hooks'
@@ -17,7 +18,21 @@ import { useFounderExpence } from './data/hooks'
 const FounderExpence = () => {
   const { id } = Route.useLoaderData()
 
-  const { offset, limit } = useSearch({
+  const {
+    offset,
+    limit,
+    type,
+    expence_type,
+    payment_type,
+    distribution_id,
+    company_id,
+    project_id,
+    user_id,
+    date_from,
+    date_to,
+    max_amount,
+    min_amount,
+  } = useSearch({
     from: '/_authenticated/stakeholder/founders/expence/$id',
   })
   const [search, setSearch] = useState('')
@@ -31,6 +46,17 @@ const FounderExpence = () => {
     offset: currentOffset,
     limit: currentLimit,
     search: debouncedSearch.length >= 2 ? debouncedSearch : undefined,
+    type,
+    expence_type,
+    payment_type,
+    distribution_id,
+    company_id,
+    project_id,
+    user_id,
+    date_from,
+    date_to,
+    max_amount,
+    min_amount,
   })
   const { data: founder } = useFounder(id)
 
@@ -66,7 +92,7 @@ const FounderExpence = () => {
               <IconSearch className='text-muted-foreground' size={16} />
             </span>
           </div>
-          {/* <ExpenceFilter onFilterChange={setFilters} /> */}
+          <ExpenceFilter isFounder />
         </div>
         <div className='-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-y-0 lg:space-x-12'>
           <DataTable

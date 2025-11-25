@@ -47,7 +47,7 @@ const PriceCards = ({ data, statistics }: PriceCardsProps) => {
     if (!statistics) return 0
     const { planned_views_count, actual_views_count } = statistics
     if (planned_views_count === 0) return 0
-    return Math.min((planned_views_count / actual_views_count) * 100, 100)
+    return Math.min((actual_views_count / planned_views_count) * 100, 100)
   }, [statistics])
 
   return (

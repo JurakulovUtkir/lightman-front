@@ -5,11 +5,19 @@ import { UsersResponse } from './types'
 export const getUsers = async ({
   limit,
   offset,
+  search,
 }: {
   limit?: number
   offset?: number
+  search?: string
 }): Promise<UsersResponse> => {
-  const response = await api.get(`/users?limit=${limit}&offset=${offset}`)
+  const params = new URLSearchParams()
+
+  if (limit !== undefined) params.append('limit', limit.toString())
+  if (offset !== undefined) params.append('offset', offset.toString())
+  if (search) params.append('search', search)
+
+  const response = await api.get(`/users?${params.toString()}`)
   return response.data
 }
 

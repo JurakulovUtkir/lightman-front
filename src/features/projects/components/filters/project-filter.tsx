@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useSearch } from '@tanstack/react-router'
 import { IconFilter, IconX } from '@tabler/icons-react'
 import { priceTypeOptions, statusOptions } from '@/constants'
 import { Badge } from '@/components/ui/badge'
@@ -15,73 +16,51 @@ import { NetworkCategoryFilter } from '@/features/network/categories/components/
 import { CompanyFilter } from './company-filter'
 import { DistributionFilter } from './distribution-filter'
 import { EnumFilter } from './enum-filters'
+import { useProjectFilters } from './useProjectFilters'
 
-interface ProjectFilterProps {
-  selectedCategoryId?: string
-  selectedStatus?: string
-  selectedOurCompanyId?: string
-  selectedCustomerCompanyId?: string
-  selectedDistributionId?: string
-  selectedMaxPrice?: number
-  selectedMinPrice?: number
-  selectedPriceType?: string
-  onCategoryFilterChange: (categoryId: string | null) => void
-  onStatusFilterChange: (status: string | null) => void
-  onOurCompanyFilterChange: (ourCompanyId: string | null) => void
-  onCustomerCompanyFilterChange: (customerCompanyId: string | null) => void
-  onDistiburionFilterChange: (distributionId: string | null) => void
-  onPriceTypeFilterChange: (priceType: string | null) => void
-  onMaxPriceFilterChange: (max_price: number | null) => void
-  onMinPriceFilterChange: (min_price: number | null) => void
-}
+const ProjectFilter = () => {
+  const {
+    category_id,
+    status,
+    our_company_id,
+    customer_company_id,
+    distribution_id,
+    price_type,
+    max_price,
+    min_price,
+  } = useSearch({
+    from: '/_authenticated/projects/',
+  })
 
-const ProjectFilter = ({
-  selectedCategoryId,
-  selectedStatus,
-  selectedOurCompanyId,
-  selectedCustomerCompanyId,
-  selectedDistributionId,
-  selectedMaxPrice,
-  selectedMinPrice,
-  selectedPriceType,
-  onCategoryFilterChange,
-  onStatusFilterChange,
-  onOurCompanyFilterChange,
-  onCustomerCompanyFilterChange,
-  onDistiburionFilterChange,
-  onPriceTypeFilterChange,
-  onMaxPriceFilterChange,
-  onMinPriceFilterChange,
-}: ProjectFilterProps) => {
+  const {
+    handleCategoryFilterChange,
+    handleCustomerCompanyFilterChange,
+    handleDistiburionFilterChange,
+    handleMaxPriceFilterChange,
+    handleMinPriceFilterChange,
+    handleOurCompanyFilterChange,
+    handlePriceTypeFilterChange,
+    handleStatusFilterChange,
+    handleClear,
+  } = useProjectFilters()
   const [open, setOpen] = useState(false)
-  const [minPrice, setMinPrice] = useState<string>(
-    selectedMinPrice?.toString() || ''
-  )
-  const [maxPrice, setMaxPrice] = useState<string>(
-    selectedMaxPrice?.toString() || ''
-  )
+  const [minPrice, setMinPrice] = useState<string>(min_price?.toString() || '')
+  const [maxPrice, setMaxPrice] = useState<string>(max_price?.toString() || '')
 
   // Count active filters
   const activeFiltersCount = [
-    selectedCategoryId,
-    selectedStatus,
-    selectedOurCompanyId,
-    selectedCustomerCompanyId,
-    selectedDistributionId,
-    selectedPriceType,
-    selectedMaxPrice,
-    selectedMinPrice,
+    category_id,
+    status,
+    our_company_id,
+    customer_company_id,
+    distribution_id,
+    price_type,
+    max_price,
+    min_price,
   ].filter(Boolean).length
 
   const handleClearAll = () => {
-    onCategoryFilterChange(null)
-    onStatusFilterChange(null)
-    onOurCompanyFilterChange(null)
-    onCustomerCompanyFilterChange(null)
-    onDistiburionFilterChange(null)
-    onPriceTypeFilterChange(null)
-    onMaxPriceFilterChange(null)
-    onMinPriceFilterChange(null)
+    handleClear()
     setMinPrice('')
     setMaxPrice('')
   }
@@ -91,15 +70,15 @@ const ProjectFilter = ({
     const max = maxPrice ? parseFloat(maxPrice) : null
 
     if (min !== null && !isNaN(min)) {
-      onMinPriceFilterChange(min)
+      handleMinPriceFilterChange(min)
     } else {
-      onMinPriceFilterChange(null)
+      handleMinPriceFilterChange(null)
     }
 
     if (max !== null && !isNaN(max)) {
-      onMaxPriceFilterChange(max)
+      handleMaxPriceFilterChange(max)
     } else {
-      onMaxPriceFilterChange(null)
+      handleMaxPriceFilterChange(null)
     }
   }
 
@@ -144,8 +123,8 @@ const ProjectFilter = ({
               placeholder='Search categories...'
               searchable={true}
               useSearchableCategories={true}
-              selectedFilter={selectedCategoryId}
-              onFilterChange={onCategoryFilterChange}
+              selectedFilter={category_id}
+              onFilterChange={handleCategoryFilterChange}
               fieldsWidth={365}
             />
           </div>
@@ -156,8 +135,8 @@ const ProjectFilter = ({
             <EnumFilter
               placeholder='Select status...'
               filterOptions={statusOptions}
-              selectedFilter={selectedStatus}
-              onFilterChange={onStatusFilterChange}
+              selectedFilter={status}
+              onFilterChange={handleStatusFilterChange}
               searchable={false}
             />
           </div>
@@ -169,8 +148,8 @@ const ProjectFilter = ({
               placeholder='Search our companies...'
               searchable={true}
               useSearchableCompanies={true}
-              selectedFilter={selectedOurCompanyId}
-              onFilterChange={onOurCompanyFilterChange}
+              selectedFilter={our_company_id}
+              onFilterChange={handleOurCompanyFilterChange}
               filterOurCompany={true}
             />
           </div>
@@ -182,8 +161,8 @@ const ProjectFilter = ({
               placeholder='Search customer companies...'
               searchable={true}
               useSearchableCompanies={true}
-              selectedFilter={selectedCustomerCompanyId}
-              onFilterChange={onCustomerCompanyFilterChange}
+              selectedFilter={customer_company_id}
+              onFilterChange={handleCustomerCompanyFilterChange}
               filterOurCompany={false}
             />
           </div>
@@ -195,8 +174,8 @@ const ProjectFilter = ({
             <DistributionFilter
               placeholder='Search distributions...'
               searchable={true}
-              selectedFilter={selectedDistributionId}
-              onFilterChange={onDistiburionFilterChange}
+              selectedFilter={distribution_id}
+              onFilterChange={handleDistiburionFilterChange}
             />
           </div>
 
@@ -206,8 +185,8 @@ const ProjectFilter = ({
             <EnumFilter
               placeholder='Select price type...'
               filterOptions={priceTypeOptions}
-              selectedFilter={selectedPriceType}
-              onFilterChange={onPriceTypeFilterChange}
+              selectedFilter={price_type}
+              onFilterChange={handlePriceTypeFilterChange}
               searchable={false}
             />
           </div>
@@ -243,17 +222,17 @@ const ProjectFilter = ({
                 Apply
               </Button>
             </div>
-            {(selectedMinPrice || selectedMaxPrice) && (
+            {(min_price || max_price) && (
               <div className='text-muted-foreground flex items-center gap-2 text-xs'>
                 <span>
-                  Active: {selectedMinPrice || '0'} - {selectedMaxPrice || '∞'}
+                  Active: {min_price || '0'} - {max_price || '∞'}
                 </span>
                 <Button
                   variant='ghost'
                   size='sm'
                   onClick={() => {
-                    onMinPriceFilterChange(null)
-                    onMaxPriceFilterChange(null)
+                    handleMinPriceFilterChange(null)
+                    handleMaxPriceFilterChange(null)
                     setMinPrice('')
                     setMaxPrice('')
                   }}

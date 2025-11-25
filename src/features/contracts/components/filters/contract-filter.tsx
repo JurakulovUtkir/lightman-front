@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useSearch } from '@tanstack/react-router'
 import { IconFilter } from '@tabler/icons-react'
 import { paymentStatusOptions, paymentTypeOptions } from '@/constants'
 import { Badge } from '@/components/ui/badge'
@@ -12,44 +13,29 @@ import {
 import { Separator } from '@/components/ui/separator'
 import { CompanyFilter } from '@/features/projects/components/filters/company-filter'
 import { EnumFilter } from '@/features/projects/components/filters/enum-filters'
+import { useContractFilters } from './useContractFilters'
 
-interface ContractFilterProps {
-  selectedOurCompanyId?: string
-  selectedCustomerCompanyId?: string
-  selectedPaymentStatus?: string
-  selectedPaymentType?: string
-  onOurCompanyFilterChange: (ourCompanyId: string | null) => void
-  onCustomerCompanyFilterChange: (customerCompanyId: string | null) => void
-  onPaymentStatusFilterChange: (paymentStatus: string | null) => void
-  onPaymentTypeFilterChange: (paymentType: string | null) => void
-}
-
-const ContractFilter = ({
-  selectedOurCompanyId,
-  selectedCustomerCompanyId,
-  selectedPaymentStatus,
-  selectedPaymentType,
-  onOurCompanyFilterChange,
-  onCustomerCompanyFilterChange,
-  onPaymentStatusFilterChange,
-  onPaymentTypeFilterChange,
-}: ContractFilterProps) => {
+const ContractFilter = () => {
+  const { customer_company_id, our_company_id, payment_status, payment_type } =
+    useSearch({
+      from: '/_authenticated/contracts/',
+    })
+  const {
+    handleCustomerCompanyFilterChange,
+    handleOurCompanyFilterChange,
+    handlePaymentStatusFilterChange,
+    handlePaymentTypeFilterChange,
+    handleClear,
+  } = useContractFilters()
   const [open, setOpen] = useState(false)
 
   // Count active filters
   const activeFiltersCount = [
-    selectedOurCompanyId,
-    selectedCustomerCompanyId,
-    selectedPaymentStatus,
-    selectedPaymentType,
+    customer_company_id,
+    our_company_id,
+    payment_status,
+    payment_type,
   ].filter(Boolean).length
-
-  const handleClearAll = () => {
-    onOurCompanyFilterChange(null)
-    onCustomerCompanyFilterChange(null)
-    onPaymentStatusFilterChange(null)
-    onPaymentTypeFilterChange(null)
-  }
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -75,7 +61,7 @@ const ContractFilter = ({
               <Button
                 variant='ghost'
                 size='sm'
-                onClick={handleClearAll}
+                onClick={handleClear}
                 className='h-8 px-2 text-xs'
               >
                 Clear all
@@ -92,8 +78,8 @@ const ContractFilter = ({
               placeholder='Search our companies...'
               searchable={true}
               useSearchableCompanies={true}
-              selectedFilter={selectedOurCompanyId}
-              onFilterChange={onOurCompanyFilterChange}
+              selectedFilter={our_company_id}
+              onFilterChange={handleOurCompanyFilterChange}
               filterOurCompany={true}
             />
           </div>
@@ -105,8 +91,8 @@ const ContractFilter = ({
               placeholder='Search customer companies...'
               searchable={true}
               useSearchableCompanies={true}
-              selectedFilter={selectedCustomerCompanyId}
-              onFilterChange={onCustomerCompanyFilterChange}
+              selectedFilter={customer_company_id}
+              onFilterChange={handleCustomerCompanyFilterChange}
               filterOurCompany={false}
             />
           </div>
@@ -115,8 +101,8 @@ const ContractFilter = ({
             <EnumFilter
               placeholder='Select status...'
               filterOptions={paymentStatusOptions}
-              selectedFilter={selectedPaymentStatus}
-              onFilterChange={onPaymentStatusFilterChange}
+              selectedFilter={payment_status}
+              onFilterChange={handlePaymentStatusFilterChange}
               searchable={false}
             />
           </div>
@@ -126,8 +112,8 @@ const ContractFilter = ({
             <EnumFilter
               placeholder='Select payment type...'
               filterOptions={paymentTypeOptions}
-              selectedFilter={selectedPaymentType}
-              onFilterChange={onPaymentTypeFilterChange}
+              selectedFilter={payment_type}
+              onFilterChange={handlePaymentTypeFilterChange}
               searchable={false}
             />
           </div>

@@ -7,16 +7,19 @@ import { UsersResponse } from './types'
 export const useGetUsers = ({
   limit,
   offset,
+  search,
 }: {
   limit?: number
   offset?: number
+  search?: string
 }) => {
   return useQuery<UsersResponse>({
-    queryKey: ['users', limit, offset],
+    queryKey: ['users', limit, offset, search],
     queryFn: () =>
       getUsers({
         limit,
         offset,
+        search,
       }),
   })
 }

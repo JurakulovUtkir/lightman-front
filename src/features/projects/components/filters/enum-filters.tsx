@@ -30,6 +30,7 @@ interface SelectFilterProps {
   searchable?: boolean
   emptyText?: string
   className?: string
+  fieldsWidth?: number
 }
 
 export function EnumFilter({
@@ -40,6 +41,7 @@ export function EnumFilter({
   searchable = false,
   emptyText = 'No data found.',
   className,
+  fieldsWidth = 365,
 }: SelectFilterProps) {
   const [search, setSearch] = useState('')
   const [open, setOpen] = useState(false)
@@ -71,7 +73,8 @@ export function EnumFilter({
             variant='outline'
             role='combobox'
             aria-expanded={open}
-            className='w-full justify-between sm:w-[365px]'
+            style={{ width: fieldsWidth }}
+            className='w-full justify-between'
           >
             {selectedLabel || (
               <span className='text-muted-foreground'>{placeholder}</span>
@@ -79,7 +82,11 @@ export function EnumFilter({
             <CaretSortIcon className='ml-2 h-4 w-4 shrink-0 opacity-50' />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className='w-full p-0 sm:w-[365px]' align='start'>
+        <PopoverContent
+          style={{ width: fieldsWidth }}
+          className='w-full p-0'
+          align='start'
+        >
           {searchable ? (
             <Command shouldFilter={false}>
               <CommandInput

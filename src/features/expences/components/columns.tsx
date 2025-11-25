@@ -48,7 +48,7 @@ export const columns: ColumnDef<ExpenceSchema>[] = [
     ),
     cell: ({ row }) => {
       const project = row.getValue('project') as { name: string } | undefined
-      return <LongText className='max-w-36'>{project?.name || 'N/A'}</LongText>
+      return <LongText className='max-w-36'>{project?.name || '-'}</LongText>
     },
     enableSorting: false,
   },
@@ -59,9 +59,7 @@ export const columns: ColumnDef<ExpenceSchema>[] = [
     ),
     cell: ({ row }) => {
       const user = row.getValue('user') as { full_name: string } | undefined
-      return (
-        <LongText className='max-w-36'>{user?.full_name || 'N/A'}</LongText>
-      )
+      return <LongText className='max-w-36'>{user?.full_name || '-'}</LongText>
     },
     enableSorting: false,
   },
@@ -72,7 +70,7 @@ export const columns: ColumnDef<ExpenceSchema>[] = [
     ),
     cell: ({ row }) => {
       const company = row.getValue('company') as { name: string } | undefined
-      return <LongText className='max-w-36'>{company?.name || 'N/A'}</LongText>
+      return <LongText className='max-w-36'>{company?.name || '-'}</LongText>
     },
     enableSorting: false,
   },
@@ -86,7 +84,7 @@ export const columns: ColumnDef<ExpenceSchema>[] = [
         | { name: string }
         | undefined
       return (
-        <LongText className='max-w-28'>{distribution?.name || 'N/A'}</LongText>
+        <LongText className='max-w-28'>{distribution?.name || '-'}</LongText>
       )
     },
     enableSorting: false,
@@ -98,7 +96,9 @@ export const columns: ColumnDef<ExpenceSchema>[] = [
     ),
     cell: ({ row }) => {
       return (
-        <LongText className='max-w-48'>{row.getValue('description')}</LongText>
+        <LongText className='max-w-48'>
+          {row.getValue('description') ?? '-'}
+        </LongText>
       )
     },
     enableSorting: false,
@@ -126,7 +126,7 @@ export const columns: ColumnDef<ExpenceSchema>[] = [
     cell: ({ row }) => {
       const paymentType = row.getValue('payment_type') as string
       if (!paymentType)
-        return <span className='text-muted-foreground text-sm'>N/A</span>
+        return <span className='text-muted-foreground text-sm'>-</span>
       return (
         <Badge variant='outline' className={getPaymentTypeColor(paymentType)}>
           {formatPaymentType(paymentType)}
@@ -169,16 +169,14 @@ export const columns: ColumnDef<ExpenceSchema>[] = [
             size='sm'
             onClick={() => window.open(fullUrl, '_blank')}
           >
-            <Eye className='mr-1 h-4 w-4' />
-            View
+            <Eye className='h-4 w-4' />
           </Button>
           <Button
             variant='outline'
             size='sm'
             onClick={() => downloadFile(fullUrl, filename)}
           >
-            <Download className='mr-1 h-4 w-4' />
-            Download
+            <Download className='h-4 w-4' />
           </Button>
         </div>
       )

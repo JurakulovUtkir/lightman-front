@@ -24,6 +24,7 @@ interface DistributionFilterProps {
   onFilterChange?: (value: string | null) => void
   searchable?: boolean
   className?: string
+  fieldsWidth?: number
 }
 
 export function DistributionFilter({
@@ -32,6 +33,7 @@ export function DistributionFilter({
   onFilterChange,
   searchable = false,
   className,
+  fieldsWidth = 365,
 }: DistributionFilterProps) {
   const [search, setSearch] = useState('')
   const [open, setOpen] = useState(false)
@@ -73,7 +75,8 @@ export function DistributionFilter({
             variant='outline'
             role='combobox'
             aria-expanded={open}
-            className='w-full justify-between sm:w-[365px]'
+            className='w-full justify-between'
+            style={{ width: fieldsWidth }}
           >
             {selectedLabel || (
               <span className='text-muted-foreground'>
@@ -83,7 +86,11 @@ export function DistributionFilter({
             <CaretSortIcon className='ml-2 h-4 w-4 shrink-0 opacity-50' />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className='w-full p-0 sm:w-[365px]' align='start'>
+        <PopoverContent
+          style={{ width: fieldsWidth }}
+          className='w-full p-0'
+          align='start'
+        >
           {searchable ? (
             <Command shouldFilter={false}>
               <CommandInput

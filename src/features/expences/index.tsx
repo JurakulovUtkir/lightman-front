@@ -12,14 +12,28 @@ import { ThemeSwitch } from '@/components/theme-switch'
 import { columns } from './components/columns'
 import { ExpenceDialogs } from './components/expence-dialogs'
 import { ExpencePrimaryButtons } from './components/expence-primary-buttons'
+import ExpenceFilter from './components/filters/expence-filter'
 import ExpenceProvider, { useExpenceContext } from './context'
-// import { ExpenceFilter } from './components/expence-filter'
 import { useExpences } from './data/hooks'
 import { ExpenceSchema } from './data/schema'
 
 const ExpencesContent = () => {
   const { setOpen, setCurrentRow } = useExpenceContext()
-  const { offset, limit } = useSearch({
+  const {
+    offset,
+    limit,
+    type,
+    expence_type,
+    payment_type,
+    distribution_id,
+    company_id,
+    project_id,
+    user_id,
+    date_from,
+    date_to,
+    max_amount,
+    min_amount,
+  } = useSearch({
     from: '/_authenticated/expences/',
   })
   const [search, setSearch] = useState('')
@@ -33,11 +47,24 @@ const ExpencesContent = () => {
     offset: currentOffset,
     limit: currentLimit,
     search: debouncedSearch.length >= 2 ? debouncedSearch : undefined,
+    type,
+    expence_type,
+    payment_type,
+    distribution_id,
+    company_id,
+    project_id,
+    user_id,
+    date_from,
+    date_to,
+    max_amount,
+    min_amount,
   })
+
   const handleDoubleClick = (payload: ExpenceSchema) => {
     setCurrentRow(payload)
     setOpen('update')
   }
+
   return (
     <>
       <Header fixed>
@@ -69,7 +96,7 @@ const ExpencesContent = () => {
               <IconSearch className='text-muted-foreground' size={16} />
             </span>
           </div>
-          {/* <ExpenceFilter onFilterChange={setFilters} /> */}
+          <ExpenceFilter />
         </div>
         <div className='-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-y-0 lg:space-x-12'>
           <DataTable
