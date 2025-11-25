@@ -62,7 +62,6 @@ export function ProjectMutateDrawer({
       .string({
         error: 'Description is required.',
       })
-      .min(1)
       .max(150, 'Description cannot exceed 150 characters.')
       .optional(),
     contract_id: z.string().optional().nullable(),
@@ -288,7 +287,7 @@ export function ProjectMutateDrawer({
                 label='Description'
                 placeholder='Enter a description'
               />
-              <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
+              <div className='grid grid-cols-1 items-baseline gap-4 sm:grid-cols-2'>
                 <div className='flex flex-col gap-4 sm:col-span-2'>
                   <FormComboboxNetworkTags
                     control={form.control}
@@ -366,22 +365,26 @@ export function ProjectMutateDrawer({
                   placeholder='Enter a count'
                   type='number'
                 />
-                <FormFieldWrapper
-                  control={form.control}
-                  name='price'
-                  label='Price'
-                  placeholder='Enter a price'
-                  type='number'
-                  suffix='UZS'
-                />
-                <FormFieldWrapper
-                  control={form.control}
-                  name='price_with_qqs'
-                  label='Price with QQS'
-                  placeholder='Enter a price'
-                  type='number'
-                  suffix='UZS'
-                />
+                {isUpdate && (
+                  <>
+                    <FormFieldWrapper
+                      control={form.control}
+                      name='price'
+                      label='Price'
+                      placeholder='Enter a price'
+                      type='number'
+                      suffix='UZS'
+                    />
+                    <FormFieldWrapper
+                      control={form.control}
+                      name='price_with_qqs'
+                      label='Price with QQS'
+                      placeholder='Enter a price'
+                      type='number'
+                      suffix='UZS'
+                    />
+                  </>
+                )}
               </div>
             </form>
           </Form>
