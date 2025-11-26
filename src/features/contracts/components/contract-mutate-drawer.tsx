@@ -65,7 +65,7 @@ export function ContractMutateDrawer({
       .string({
         error: 'Name is required.',
       })
-      .min(1, 'Please enter your name.')
+      .min(1, 'Please enter name.')
       .max(150, 'Name cannot exceed 150 characters.'),
     description: z
       .string({

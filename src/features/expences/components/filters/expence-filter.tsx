@@ -190,53 +190,57 @@ const ExpenceFilter = ({ isFounder = false }: { isFounder?: boolean }) => {
               />
             </div>
 
-            <div className='space-y-2'>
-              <Label className='text-xs font-medium'>Distribution</Label>
-              <DistributionFilter
-                placeholder='Search distributions...'
-                searchable={true}
-                selectedFilter={distribution_id}
-                onFilterChange={handleDistiburionFilterChange}
-                fieldsWidth={275}
-              />
-            </div>
+            {!isFounder && (
+              <>
+                <div className='space-y-2'>
+                  <Label className='text-xs font-medium'>Distribution</Label>
+                  <DistributionFilter
+                    placeholder='Search distributions...'
+                    searchable={true}
+                    selectedFilter={distribution_id}
+                    onFilterChange={handleDistiburionFilterChange}
+                    fieldsWidth={275}
+                  />
+                </div>
 
-            <div className='space-y-2'>
-              <Label className='text-xs font-medium'>Company</Label>
-              <CompanyFilter
-                placeholder='Search companies...'
-                searchable={true}
-                useSearchableCompanies={true}
-                selectedFilter={company_id}
-                onFilterChange={handleCompanyFilterChange}
-                filterOurCompany={true}
-                fieldsWidth={275}
-              />
-            </div>
+                <div className='space-y-2'>
+                  <Label className='text-xs font-medium'>Company</Label>
+                  <CompanyFilter
+                    placeholder='Search companies...'
+                    searchable={true}
+                    useSearchableCompanies={true}
+                    selectedFilter={company_id}
+                    onFilterChange={handleCompanyFilterChange}
+                    filterOurCompany={true}
+                    fieldsWidth={275}
+                  />
+                </div>
 
-            <div className='space-y-2'>
-              <Label className='text-xs font-medium'>Project</Label>
-              <ProjectSearchFilter
-                placeholder='Search projects...'
-                searchable={true}
-                useSearchableProjects={true}
-                selectedFilter={project_id}
-                onFilterChange={handleProjectFilterChange}
-                fieldsWidth={275}
-              />
-            </div>
+                <div className='space-y-2'>
+                  <Label className='text-xs font-medium'>Project</Label>
+                  <ProjectSearchFilter
+                    placeholder='Search projects...'
+                    searchable={true}
+                    useSearchableProjects={true}
+                    selectedFilter={project_id}
+                    onFilterChange={handleProjectFilterChange}
+                    fieldsWidth={275}
+                  />
+                </div>
 
-            <div className='space-y-2'>
-              <Label className='text-xs font-medium'>Users</Label>
-              <UserFilter
-                placeholder='Search users...'
-                searchable={true}
-                useSearchableUsers={true}
-                selectedFilter={user_id}
-                onFilterChange={handleUserFilterChange}
-                fieldsWidth={275}
-              />
-            </div>
+                <div className='space-y-2'>
+                  <Label className='text-xs font-medium'>Users</Label>
+                  <UserFilter
+                    placeholder='Search users...'
+                    searchable={true}
+                    useSearchableUsers={true}
+                    selectedFilter={user_id}
+                    onFilterChange={handleUserFilterChange}
+                    fieldsWidth={275}
+                  />
+                </div>
+              </>
+            )}
 
             <div className='space-y-2'>
               <Label className='text-xs font-medium'>Payment Type</Label>

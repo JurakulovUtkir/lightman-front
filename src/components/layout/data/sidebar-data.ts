@@ -15,6 +15,7 @@ import {
   IconUsers,
   IconUsersGroup,
   IconCoins,
+  IconBasketDollar,
   // IconBarrierBlock,
   // IconBug,
   // IconChecklist,
@@ -81,6 +82,11 @@ export const sidebarData: SidebarData = {
           title: 'Expenses',
           url: '/expences',
           icon: IconCoins,
+        },
+        {
+          title: 'Deposits',
+          url: '/deposits',
+          icon: IconBasketDollar,
         },
         {
           title: 'Stakeholders',

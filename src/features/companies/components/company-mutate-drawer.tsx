@@ -47,7 +47,7 @@ export function CompanyMutateDrawer({
       .string({
         error: 'Name is required.',
       })
-      .min(1, 'Please enter your name.')
+      .min(1, 'Please enter company name.')
       .max(150, 'Name cannot exceed 150 characters.'),
     address: z
       .string({

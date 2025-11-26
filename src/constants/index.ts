@@ -48,6 +48,14 @@ export const expenceOriginTypeOptions = [
   { value: 'income', label: 'Income' },
   { value: 'deposit', label: 'Deposit' },
 ]
+export const userRoleOptions = [
+  { value: 'admin', label: 'Admin' },
+  { value: 'user', label: 'User' },
+  { value: 'operator', label: 'Operator' },
+  { value: 'employee', label: 'Employee' },
+  { value: 'accountant', label: 'Accountant' },
+  { value: 'account_manager', label: 'Account manager' },
+]
 
 export enum PriceType {
   STANDARD = 'standard',
@@ -70,4 +78,12 @@ export enum ProjectStatus {
   REQUESTED = 'requested',
   DONE = 'done',
   CANCELED = 'canceled',
+}
+export enum UserRoles {
+  ADMIN = 'admin',
+  USER = 'user',
+  OPERATOR = 'operator',
+  EMPLOYEE = 'employee',
+  ACCOUNTANT = 'accountant',
+  ACCOUNT_MANAGER = 'account_manager',
 }

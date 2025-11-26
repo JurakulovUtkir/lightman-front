@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { UZ_PHONE_REGEX } from '@/constants'
+import { userRoleOptions, UZ_PHONE_REGEX } from '@/constants'
 import { toast } from 'sonner'
 import { toNumber } from '@/lib/helpers'
 import { Button } from '@/components/ui/button'
@@ -28,7 +28,6 @@ import { FormFieldWrapper } from '@/components/form-field-wrapper'
 import { PasswordInput } from '@/components/password-input'
 import { PhoneInput } from '@/components/phone-inputs'
 import { SelectDropdown } from '@/components/select-dropdown'
-import { userTypes } from '../data/data'
 import { useCreateUser, useUpdateUser } from '../data/hooks'
 import { User } from '../data/schema'
 import { UsersComboboxCompany } from './users-combobox-company'
@@ -40,15 +39,21 @@ const formSchema = z
       .string()
       .min(1, 'Please enter your phone number')
       .regex(UZ_PHONE_REGEX, 'Please enter valid phone number'),
-    role: z
-      .union([
+    role: z.union(
+      [
+        z.literal('admin', {
+          error: 'Required field',
+        }),
         z.literal('user'),
-        z.literal('superadmin'),
-        z.literal('admin'),
-        z.literal('manager'),
-      ])
-      .optional(),
-
+        z.literal('operator'),
+        z.literal('employee'),
+        z.literal('accountant'),
+        z.literal('account_manager'),
+      ],
+      {
+        error: 'Required field',
+      }
+    ),
     password: z
       .string()
       .transform((pwd) => pwd.trim())
@@ -136,7 +141,7 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
       phone_number: currentRow?.phone_number || '+998',
       password: '',
       confirmPassword: '',
-      role: currentRow?.role || 'user',
+      role: currentRow?.role || undefined,
       is_verified: currentRow?.is_verified ?? true,
       is_our_employee: currentRow?.is_our_employee ?? false,
       isUpdate,
@@ -153,7 +158,7 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
         phone_number: currentRow.phone_number || '+998',
         password: '',
         confirmPassword: '',
-        role: currentRow.role || 'user',
+        role: currentRow.role || undefined,
         is_verified: currentRow.is_verified ?? true,
         is_our_employee: currentRow.is_our_employee ?? false,
         isUpdate: true,
@@ -166,7 +171,7 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
         phone_number: '+998',
         password: '',
         confirmPassword: '',
-        role: 'user',
+        role: undefined,
         is_verified: true,
         is_our_employee: false,
         isUpdate: false,
@@ -331,11 +336,7 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
                       onValueChange={field.onChange}
                       placeholder='Select a role'
                       className='sm:col-span-4'
-                      items={userTypes.map(({ label, value, disabled }) => ({
-                        label,
-                        value,
-                        disabled,
-                      }))}
+                      items={userRoleOptions}
                     />
                     <FormMessage className='sm:col-span-4 sm:col-start-3' />
                   </FormItem>

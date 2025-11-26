@@ -31,6 +31,7 @@ import { Route as AuthenticatedSettingsIndexRouteImport } from './routes/_authen
 import { Route as AuthenticatedProjectsIndexRouteImport } from './routes/_authenticated/projects/index'
 import { Route as AuthenticatedHelpCenterIndexRouteImport } from './routes/_authenticated/help-center/index'
 import { Route as AuthenticatedExpencesIndexRouteImport } from './routes/_authenticated/expences/index'
+import { Route as AuthenticatedDepositsIndexRouteImport } from './routes/_authenticated/deposits/index'
 import { Route as AuthenticatedContractsIndexRouteImport } from './routes/_authenticated/contracts/index'
 import { Route as AuthenticatedCompaniesIndexRouteImport } from './routes/_authenticated/companies/index'
 import { Route as AuthenticatedChatsIndexRouteImport } from './routes/_authenticated/chats/index'
@@ -163,6 +164,12 @@ const AuthenticatedExpencesIndexRoute =
   AuthenticatedExpencesIndexRouteImport.update({
     id: '/expences/',
     path: '/expences/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedDepositsIndexRoute =
+  AuthenticatedDepositsIndexRouteImport.update({
+    id: '/deposits/',
+    path: '/deposits/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedContractsIndexRoute =
@@ -319,6 +326,7 @@ export interface FileRoutesByFullPath {
   '/chats': typeof AuthenticatedChatsIndexRoute
   '/companies': typeof AuthenticatedCompaniesIndexRoute
   '/contracts': typeof AuthenticatedContractsIndexRoute
+  '/deposits': typeof AuthenticatedDepositsIndexRoute
   '/expences': typeof AuthenticatedExpencesIndexRoute
   '/help-center': typeof AuthenticatedHelpCenterIndexRoute
   '/projects': typeof AuthenticatedProjectsIndexRoute
@@ -360,6 +368,7 @@ export interface FileRoutesByTo {
   '/chats': typeof AuthenticatedChatsIndexRoute
   '/companies': typeof AuthenticatedCompaniesIndexRoute
   '/contracts': typeof AuthenticatedContractsIndexRoute
+  '/deposits': typeof AuthenticatedDepositsIndexRoute
   '/expences': typeof AuthenticatedExpencesIndexRoute
   '/help-center': typeof AuthenticatedHelpCenterIndexRoute
   '/projects': typeof AuthenticatedProjectsIndexRoute
@@ -406,6 +415,7 @@ export interface FileRoutesById {
   '/_authenticated/chats/': typeof AuthenticatedChatsIndexRoute
   '/_authenticated/companies/': typeof AuthenticatedCompaniesIndexRoute
   '/_authenticated/contracts/': typeof AuthenticatedContractsIndexRoute
+  '/_authenticated/deposits/': typeof AuthenticatedDepositsIndexRoute
   '/_authenticated/expences/': typeof AuthenticatedExpencesIndexRoute
   '/_authenticated/help-center/': typeof AuthenticatedHelpCenterIndexRoute
   '/_authenticated/projects/': typeof AuthenticatedProjectsIndexRoute
@@ -450,6 +460,7 @@ export interface FileRouteTypes {
     | '/chats'
     | '/companies'
     | '/contracts'
+    | '/deposits'
     | '/expences'
     | '/help-center'
     | '/projects'
@@ -491,6 +502,7 @@ export interface FileRouteTypes {
     | '/chats'
     | '/companies'
     | '/contracts'
+    | '/deposits'
     | '/expences'
     | '/help-center'
     | '/projects'
@@ -536,6 +548,7 @@ export interface FileRouteTypes {
     | '/_authenticated/chats/'
     | '/_authenticated/companies/'
     | '/_authenticated/contracts/'
+    | '/_authenticated/deposits/'
     | '/_authenticated/expences/'
     | '/_authenticated/help-center/'
     | '/_authenticated/projects/'
@@ -717,6 +730,13 @@ declare module '@tanstack/react-router' {
       path: '/expences'
       fullPath: '/expences'
       preLoaderRoute: typeof AuthenticatedExpencesIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/deposits/': {
+      id: '/_authenticated/deposits/'
+      path: '/deposits'
+      fullPath: '/deposits'
+      preLoaderRoute: typeof AuthenticatedDepositsIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/contracts/': {
@@ -905,6 +925,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedChatsIndexRoute: typeof AuthenticatedChatsIndexRoute
   AuthenticatedCompaniesIndexRoute: typeof AuthenticatedCompaniesIndexRoute
   AuthenticatedContractsIndexRoute: typeof AuthenticatedContractsIndexRoute
+  AuthenticatedDepositsIndexRoute: typeof AuthenticatedDepositsIndexRoute
   AuthenticatedExpencesIndexRoute: typeof AuthenticatedExpencesIndexRoute
   AuthenticatedHelpCenterIndexRoute: typeof AuthenticatedHelpCenterIndexRoute
   AuthenticatedProjectsIndexRoute: typeof AuthenticatedProjectsIndexRoute
@@ -930,6 +951,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedChatsIndexRoute: AuthenticatedChatsIndexRoute,
   AuthenticatedCompaniesIndexRoute: AuthenticatedCompaniesIndexRoute,
   AuthenticatedContractsIndexRoute: AuthenticatedContractsIndexRoute,
+  AuthenticatedDepositsIndexRoute: AuthenticatedDepositsIndexRoute,
   AuthenticatedExpencesIndexRoute: AuthenticatedExpencesIndexRoute,
   AuthenticatedHelpCenterIndexRoute: AuthenticatedHelpCenterIndexRoute,
   AuthenticatedProjectsIndexRoute: AuthenticatedProjectsIndexRoute,
