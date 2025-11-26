@@ -29,7 +29,13 @@ export const useExpences = ({
   offset?: number
   search?: string
   type?: 'expence' | 'income' | 'deposit'
-  expence_type?: 'salary' | 'avans' | 'project' | 'deposit' | 'other'
+  expence_type?:
+    | 'salary'
+    | 'avans'
+    | 'project'
+    | 'deposit'
+    | 'other'
+    | 'transfer'
   payment_type?: 'card' | 'bank_transfer' | 'cash' | 'deposit'
   distribution_id?: string
   company_id?: string

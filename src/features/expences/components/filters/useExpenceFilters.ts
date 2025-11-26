@@ -6,14 +6,20 @@ import { useNavigate } from '@tanstack/react-router'
  */
 export const useExpenceFilters = ({
   isFounder = false,
+  isProject = false,
 }: {
   isFounder?: boolean
+  isProject?: boolean
 }) => {
   const navigate = useNavigate()
 
   const handleTypeFilterChange = (type: string | null) => {
     navigate({
-      to: isFounder ? '/stakeholder/founders/expence/$id' : '/expences',
+      to: isFounder
+        ? '/stakeholder/founders/expence/$id'
+        : isProject
+          ? '/projects/expence/$id'
+          : '/expences',
       search: (prev) => ({
         ...prev,
         type: type as 'expence' | 'income' | 'deposit' | undefined,
@@ -24,7 +30,11 @@ export const useExpenceFilters = ({
 
   const handleExpenceTypeFilterChange = (expenceType: string | null) => {
     navigate({
-      to: isFounder ? '/stakeholder/founders/expence/$id' : '/expences',
+      to: isFounder
+        ? '/stakeholder/founders/expence/$id'
+        : isProject
+          ? '/projects/expence/$id'
+          : '/expences',
       search: (prev) => ({
         ...prev,
         expence_type: expenceType as
@@ -33,6 +43,7 @@ export const useExpenceFilters = ({
           | 'project'
           | 'deposit'
           | 'other'
+          | 'transfer'
           | undefined,
         offset: 0,
       }),
@@ -41,7 +52,11 @@ export const useExpenceFilters = ({
 
   const handlePaymentTypeFilterChange = (paymentType: string | null) => {
     navigate({
-      to: isFounder ? '/stakeholder/founders/expence/$id' : '/expences',
+      to: isFounder
+        ? '/stakeholder/founders/expence/$id'
+        : isProject
+          ? '/projects/expence/$id'
+          : '/expences',
       search: (prev) => ({
         ...prev,
         payment_type: paymentType as 'card' | 'cash' | undefined,
@@ -52,7 +67,11 @@ export const useExpenceFilters = ({
 
   const handleDistiburionFilterChange = (distributionId: string | null) => {
     navigate({
-      to: isFounder ? '/stakeholder/founders/expence/$id' : '/expences',
+      to: isFounder
+        ? '/stakeholder/founders/expence/$id'
+        : isProject
+          ? '/projects/expence/$id'
+          : '/expences',
       search: (prev) => ({
         ...prev,
         distribution_id: distributionId || undefined,
@@ -63,7 +82,11 @@ export const useExpenceFilters = ({
 
   const handleCompanyFilterChange = (companyId: string | null) => {
     navigate({
-      to: isFounder ? '/stakeholder/founders/expence/$id' : '/expences',
+      to: isFounder
+        ? '/stakeholder/founders/expence/$id'
+        : isProject
+          ? '/projects/expence/$id'
+          : '/expences',
       search: (prev) => ({
         ...prev,
         company_id: companyId || undefined,
@@ -74,7 +97,11 @@ export const useExpenceFilters = ({
 
   const handleProjectFilterChange = (projectId: string | null) => {
     navigate({
-      to: isFounder ? '/stakeholder/founders/expence/$id' : '/expences',
+      to: isFounder
+        ? '/stakeholder/founders/expence/$id'
+        : isProject
+          ? '/projects/expence/$id'
+          : '/expences',
       search: (prev) => ({
         ...prev,
         project_id: projectId || undefined,
@@ -85,7 +112,11 @@ export const useExpenceFilters = ({
 
   const handleUserFilterChange = (userId: string | null) => {
     navigate({
-      to: isFounder ? '/stakeholder/founders/expence/$id' : '/expences',
+      to: isFounder
+        ? '/stakeholder/founders/expence/$id'
+        : isProject
+          ? '/projects/expence/$id'
+          : '/expences',
       search: (prev) => ({
         ...prev,
         user_id: userId || undefined,
@@ -96,7 +127,11 @@ export const useExpenceFilters = ({
 
   const handleDateFromFilterChange = (dateFrom: string | null) => {
     navigate({
-      to: isFounder ? '/stakeholder/founders/expence/$id' : '/expences',
+      to: isFounder
+        ? '/stakeholder/founders/expence/$id'
+        : isProject
+          ? '/projects/expence/$id'
+          : '/expences',
       search: (prev) => ({
         ...prev,
         date_from: dateFrom || undefined,
@@ -107,7 +142,11 @@ export const useExpenceFilters = ({
 
   const handleDateToFilterChange = (dateTo: string | null) => {
     navigate({
-      to: isFounder ? '/stakeholder/founders/expence/$id' : '/expences',
+      to: isFounder
+        ? '/stakeholder/founders/expence/$id'
+        : isProject
+          ? '/projects/expence/$id'
+          : '/expences',
       search: (prev) => ({
         ...prev,
         date_to: dateTo || undefined,
@@ -118,7 +157,11 @@ export const useExpenceFilters = ({
 
   const handleMaxAmountFilterChange = (maxAmount: number | null) => {
     navigate({
-      to: isFounder ? '/stakeholder/founders/expence/$id' : '/expences',
+      to: isFounder
+        ? '/stakeholder/founders/expence/$id'
+        : isProject
+          ? '/projects/expence/$id'
+          : '/expences',
       search: (prev) => ({
         ...prev,
         max_amount: maxAmount || undefined,
@@ -129,7 +172,11 @@ export const useExpenceFilters = ({
 
   const handleMinAmountFilterChange = (minAmount: number | null) => {
     navigate({
-      to: isFounder ? '/stakeholder/founders/expence/$id' : '/expences',
+      to: isFounder
+        ? '/stakeholder/founders/expence/$id'
+        : isProject
+          ? '/projects/expence/$id'
+          : '/expences',
       search: (prev) => ({
         ...prev,
         min_amount: minAmount || undefined,

@@ -3,8 +3,10 @@ import { Download, Eye } from 'lucide-react'
 import { formatDateToLongString } from '@/lib/dateFormatter'
 import { downloadFile } from '@/lib/helpers'
 import {
+  formatExpenceOriginType,
   formatExpenceType,
   formatPaymentType,
+  getExpenceOriginTypeColor,
   getExpenceTypeColor,
   getPaymentTypeColor,
 } from '@/lib/statusHelpers'
@@ -42,63 +44,19 @@ export const columns: ColumnDef<ExpenceSchema>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: 'project',
+    accessorKey: 'type',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Project' />
+      <DataTableColumnHeader column={column} title='Type' />
     ),
     cell: ({ row }) => {
-      const project = row.getValue('project') as { name: string } | undefined
-      return <LongText className='max-w-36'>{project?.name || '-'}</LongText>
-    },
-    enableSorting: false,
-  },
-  {
-    accessorKey: 'user',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='User' />
-    ),
-    cell: ({ row }) => {
-      const user = row.getValue('user') as { full_name: string } | undefined
-      return <LongText className='max-w-36'>{user?.full_name || '-'}</LongText>
-    },
-    enableSorting: false,
-  },
-  {
-    accessorKey: 'company',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Company' />
-    ),
-    cell: ({ row }) => {
-      const company = row.getValue('company') as { name: string } | undefined
-      return <LongText className='max-w-36'>{company?.name || '-'}</LongText>
-    },
-    enableSorting: false,
-  },
-  {
-    accessorKey: 'distribution',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Distribution' />
-    ),
-    cell: ({ row }) => {
-      const distribution = row.getValue('distribution') as
-        | { name: string }
-        | undefined
+      const expenceOriginType = row.getValue('type') as string
       return (
-        <LongText className='max-w-28'>{distribution?.name || '-'}</LongText>
-      )
-    },
-    enableSorting: false,
-  },
-  {
-    accessorKey: 'description',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Description' />
-    ),
-    cell: ({ row }) => {
-      return (
-        <LongText className='max-w-48'>
-          {row.getValue('description') ?? '-'}
-        </LongText>
+        <Badge
+          variant='outline'
+          className={getExpenceOriginTypeColor(expenceOriginType)}
+        >
+          {formatExpenceOriginType(expenceOriginType)}
+        </Badge>
       )
     },
     enableSorting: false,
@@ -114,6 +72,21 @@ export const columns: ColumnDef<ExpenceSchema>[] = [
         <Badge variant='outline' className={getExpenceTypeColor(expenceType)}>
           {formatExpenceType(expenceType)}
         </Badge>
+      )
+    },
+    enableSorting: false,
+  },
+  {
+    accessorKey: 'distribution',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Distribution' />
+    ),
+    cell: ({ row }) => {
+      const distribution = row.getValue('distribution') as
+        | { name: string }
+        | undefined
+      return (
+        <LongText className='max-w-28'>{distribution?.name || '-'}</LongText>
       )
     },
     enableSorting: false,
@@ -147,6 +120,40 @@ export const columns: ColumnDef<ExpenceSchema>[] = [
     enableSorting: true,
   },
   {
+    accessorKey: 'project',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Project' />
+    ),
+    cell: ({ row }) => {
+      const project = row.getValue('project') as { name: string } | undefined
+      return <LongText className='max-w-36'>{project?.name || '-'}</LongText>
+    },
+    enableSorting: false,
+  },
+  {
+    accessorKey: 'company',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Company' />
+    ),
+    cell: ({ row }) => {
+      const company = row.getValue('company') as { name: string } | undefined
+      return <LongText className='max-w-36'>{company?.name || '-'}</LongText>
+    },
+    enableSorting: false,
+  },
+  {
+    accessorKey: 'user',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='User' />
+    ),
+    cell: ({ row }) => {
+      const user = row.getValue('user') as { full_name: string } | undefined
+      return <LongText className='max-w-36'>{user?.full_name || '-'}</LongText>
+    },
+    enableSorting: false,
+  },
+
+  {
     accessorKey: 'file_url',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='File' />
@@ -179,6 +186,20 @@ export const columns: ColumnDef<ExpenceSchema>[] = [
             <Download className='h-4 w-4' />
           </Button>
         </div>
+      )
+    },
+    enableSorting: false,
+  },
+  {
+    accessorKey: 'description',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Description' />
+    ),
+    cell: ({ row }) => {
+      return (
+        <LongText className='max-w-48'>
+          {row.getValue('description') ?? '-'}
+        </LongText>
       )
     },
     enableSorting: false,

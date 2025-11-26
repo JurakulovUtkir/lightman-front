@@ -9,6 +9,7 @@ import {
 } from '@/constants'
 import { toast } from 'sonner'
 import { toNumber } from '@/lib/helpers'
+import { getExpenceOriginTypeColor } from '@/lib/statusHelpers'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import {
@@ -37,6 +38,7 @@ import { useDistributions } from '@/features/stakeholder/distributions/data/hook
 import { ExpenceDialogType } from '../context'
 import { useCreateExpence, useUpdateExpence } from '../data/hooks'
 import { ExpenceSchema } from '../data/schema'
+import { FormComboboxDeposit } from './form-combobox-deposit'
 import { FormComboboxUser } from './form-combobox-users'
 
 interface Props {
@@ -67,9 +69,12 @@ export function ExpenceMutateDrawer({
     project_id: z.string({
       error: 'Required field',
     }),
-    expence_type: z.enum(['salary', 'avans', 'project', 'deposit', 'other'], {
-      error: 'Required field',
-    }),
+    expence_type: z.enum(
+      ['salary', 'avans', 'project', 'deposit', 'other', 'transfer'],
+      {
+        error: 'Required field',
+      }
+    ),
     type: z.enum(['expence', 'income', 'deposit'], {
       error: 'Required field',
     }),
@@ -79,6 +84,7 @@ export function ExpenceMutateDrawer({
     }),
     company_id: z.string({ error: 'Required field' }),
     user_id: z.string().optional(),
+    deposit_id: z.string().optional(),
     payment_type: z.enum(['card', 'bank_transfer', 'cash', 'deposit'], {
       error: 'Required field',
     }),
@@ -107,6 +113,7 @@ export function ExpenceMutateDrawer({
       file_url: currentRow?.file_url ?? undefined,
     },
   })
+  const checkExpenceType = form.watch('expence_type')
 
   const handlePendingDelete = (filePath: string | null) => {
     setPendingDeleteFile(filePath)
@@ -193,16 +200,13 @@ export function ExpenceMutateDrawer({
                           <Button
                             key={option.value}
                             type='button'
-                            variant={
-                              field.value === option.value
-                                ? 'default'
-                                : 'outline'
-                            }
+                            variant='outline'
                             size='sm'
                             className={cn(
-                              'w-full',
-                              field.value === option.value &&
-                                'ring-primary ring-2'
+                              'w-full transition-all',
+                              field.value === option.value
+                                ? getExpenceOriginTypeColor(option.value)
+                                : 'border-gray-200 bg-white text-gray-700 hover:bg-gray-50 dark:border-gray-800 dark:bg-gray-950 dark:text-gray-300 dark:hover:bg-gray-900'
                             )}
                             onClick={() => field.onChange(option.value)}
                           >
@@ -215,7 +219,6 @@ export function ExpenceMutateDrawer({
                   </FormItem>
                 )}
               />
-
               <FormFieldSelect
                 control={form.control}
                 name='expence_type'
@@ -235,28 +238,6 @@ export function ExpenceMutateDrawer({
                   })) ?? []
                 }
               />
-              <FormComboboxProject
-                control={form.control}
-                name='project_id'
-                label='Select Project'
-                // detail={undefined}
-              />
-
-              <FormComboboxCompany
-                control={form.control}
-                name='company_id'
-                label='Company'
-                detail={currentRow?.company ?? undefined}
-                filterOurCompany={true}
-                setValue={form.setValue}
-              />
-
-              <FormComboboxUser
-                control={form.control}
-                name='user_id'
-                label='Select User'
-                detail={currentRow?.user ?? undefined}
-              />
               <FormFieldSelect
                 control={form.control}
                 name='payment_type'
@@ -264,7 +245,6 @@ export function ExpenceMutateDrawer({
                 placeholder='Select a payment type'
                 options={paymentTypeOptions}
               />
-
               <FormFieldWrapper
                 control={form.control}
                 name='amount'
@@ -273,13 +253,42 @@ export function ExpenceMutateDrawer({
                 type='number'
                 suffix='UZS'
               />
-              <FormFieldWrapper
+              <FormComboboxProject
                 control={form.control}
-                name='description'
-                label='Description'
-                placeholder='Enter a description'
-                type='textarea'
+                name='project_id'
+                label='Select Project'
+                detail={currentRow?.project ?? undefined}
               />
+              <FormComboboxCompany
+                control={form.control}
+                name='company_id'
+                // copany_id => from_to_company_id
+                label='Company'
+                detail={currentRow?.company ?? undefined}
+                filterOurCompany={true}
+                setValue={form.setValue}
+              />
+
+              {checkExpenceType === 'salary' ||
+                (checkExpenceType === 'avans' && (
+                  <FormComboboxUser
+                    control={form.control}
+                    name='user_id'
+                    label='Select User'
+                    detail={currentRow?.user ?? undefined}
+                  />
+                ))}
+
+              {/* Transef => Additional company select Label = "" */}
+
+              {checkExpenceType === 'deposit' && (
+                <FormComboboxDeposit
+                  name='deposit_id'
+                  label='Select deposit'
+                  control={form.control}
+                  // detail={undefined}
+                />
+              )}
 
               <FormFileUploadField
                 control={form.control}
@@ -289,6 +298,16 @@ export function ExpenceMutateDrawer({
                 isUpdateMode={isUpdate}
                 onPendingDelete={handlePendingDelete}
               />
+
+              <FormFieldWrapper
+                control={form.control}
+                name='description'
+                label='Description'
+                placeholder='Enter a description'
+                type='textarea'
+              />
+
+              {/* created_at form date select */}
             </form>
           </Form>
         </div>

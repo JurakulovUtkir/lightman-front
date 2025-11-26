@@ -19,16 +19,16 @@ export const statusOptions = [
   { value: 'done', label: 'Done' },
   { value: 'canceled', label: 'Canceled' },
 ]
-export const priceTypeOptions = [
-  { value: 'standard', label: 'Standard' },
-  { value: 'vip', label: 'VIP' },
-  { value: 'no_watermark', label: 'No Watermark' },
-]
 export const paymentStatusOptions = [
   { value: 'pending', label: 'Pending' },
   { value: 'paid', label: 'Paid' },
   { value: 'cancelled', label: 'Cancelled' },
   { value: 'unpaid', label: 'Unpaid' },
+]
+export const priceTypeOptions = [
+  { value: 'standard', label: 'Standard' },
+  { value: 'vip', label: 'VIP' },
+  { value: 'no_watermark', label: 'No Watermark' },
 ]
 export const paymentTypeOptions = [
   { value: 'card', label: 'Card' },
@@ -41,6 +41,7 @@ export const expenceTypeOptions = [
   { value: 'avans', label: 'Avans' },
   { value: 'project', label: 'Project' },
   { value: 'deposit', label: 'Deposit' },
+  { value: 'transfer', label: 'Transfer' },
   { value: 'other', label: 'Other' },
 ]
 export const expenceOriginTypeOptions = [

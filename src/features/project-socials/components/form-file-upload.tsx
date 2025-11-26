@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from 'react'
 import { Control, FieldPath, FieldValues } from 'react-hook-form'
-import { Upload, X, FileText, Image as ImageIcon, Loader2 } from 'lucide-react'
+import { Upload, X, FileText, Loader2 } from 'lucide-react'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 import {
@@ -33,7 +33,9 @@ export function FormFileUploadField<TFieldValues extends FieldValues>({
 }: FileUploadFieldProps<TFieldValues>) {
   const [preview, setPreview] = useState<string | null>(null)
   const [fileType, setFileType] = useState<'document' | 'image' | null>(null)
+  const [isFocused, setIsFocused] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
   const uploadFile = useUploadFile()
   const deleteFile = useDeleteFile()
 
@@ -53,11 +55,60 @@ export function FormFileUploadField<TFieldValues extends FieldValues>({
   }
 
   useEffect(() => {
+    const handlePaste = (e: ClipboardEvent) => {
+      if (!isFocused || !containerRef.current) return
+
+      const items = e.clipboardData?.items
+      if (!items) return
+
+      for (let i = 0; i < items.length; i++) {
+        const item = items[i]
+
+        // Handle image paste
+        if (item.type.startsWith('image/')) {
+          e.preventDefault()
+          const file = item.getAsFile()
+          if (file && containerRef.current) {
+            // Trigger the file input change event
+            const dataTransfer = new DataTransfer()
+            dataTransfer.items.add(file)
+            if (fileInputRef.current) {
+              fileInputRef.current.files = dataTransfer.files
+              fileInputRef.current.dispatchEvent(
+                new Event('change', { bubbles: true })
+              )
+            }
+          }
+          return
+        }
+
+        // Handle file paste (some apps support this)
+        if (item.kind === 'file') {
+          e.preventDefault()
+          const file = item.getAsFile()
+          if (file && containerRef.current) {
+            // Trigger the file input change event
+            const dataTransfer = new DataTransfer()
+            dataTransfer.items.add(file)
+            if (fileInputRef.current) {
+              fileInputRef.current.files = dataTransfer.files
+              fileInputRef.current.dispatchEvent(
+                new Event('change', { bubbles: true })
+              )
+            }
+          }
+          return
+        }
+      }
+    }
+
+    document.addEventListener('paste', handlePaste)
     return () => {
+      document.removeEventListener('paste', handlePaste)
       setPreview(null)
       setFileType(null)
     }
-  }, [])
+  }, [isFocused])
 
   const handleFileSelect = async (
     file: File | null,
@@ -172,7 +223,15 @@ export function FormFileUploadField<TFieldValues extends FieldValues>({
             {required && <span className='text-destructive ml-1'>*</span>}
           </FormLabel>
           <FormControl>
-            <div className='space-y-2'>
+            <div
+              ref={containerRef}
+              className='space-y-2'
+              onMouseEnter={() => setIsFocused(true)}
+              onMouseLeave={() => setIsFocused(false)}
+              onFocus={() => setIsFocused(true)}
+              onBlur={() => setIsFocused(false)}
+              tabIndex={0}
+            >
               {field.value ? (
                 <div className='bg-muted/50 flex items-center gap-2 rounded-md border p-3'>
                   {fileType === 'image' ? (
@@ -183,7 +242,7 @@ export function FormFileUploadField<TFieldValues extends FieldValues>({
                         className='h-16 w-16 rounded object-cover'
                       />
                     ) : (
-                      <ImageIcon className='text-muted-foreground h-8 w-8' />
+                      <FileText className='text-muted-foreground h-8 w-8' />
                     )
                   ) : (
                     <FileText className='text-muted-foreground h-8 w-8' />
@@ -210,7 +269,9 @@ export function FormFileUploadField<TFieldValues extends FieldValues>({
                 <div className='flex w-full items-center justify-center'>
                   <label
                     htmlFor={`file-upload-${name}`}
-                    className='hover:bg-muted/50 flex h-32 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed transition-colors'
+                    className={`hover:bg-muted/50 flex h-32 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed transition-colors ${
+                      isFocused ? 'border-primary bg-muted/30' : ''
+                    }`}
                   >
                     {isLoading ? (
                       <Loader2 className='text-muted-foreground h-8 w-8 animate-spin' />
@@ -218,7 +279,7 @@ export function FormFileUploadField<TFieldValues extends FieldValues>({
                       <>
                         <Upload className='text-muted-foreground mb-2 h-8 w-8' />
                         <p className='text-muted-foreground text-sm'>
-                          Click to upload file
+                          Click to upload or hover and press Ctrl+V
                         </p>
                         <p className='text-muted-foreground mt-1 text-xs'>
                           Images or Documents (Max: {maxSize}MB)

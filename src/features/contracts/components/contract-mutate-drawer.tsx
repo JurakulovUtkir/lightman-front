@@ -71,7 +71,6 @@ export function ContractMutateDrawer({
       .string({
         error: 'Description is required.',
       })
-      .min(1)
       .max(150, 'Description cannot exceed 150 characters.')
       .optional(),
     price: z
@@ -102,6 +101,7 @@ export function ContractMutateDrawer({
     defaultValues: {
       ...currentRow,
       price: toNumber(currentRow?.price) ?? undefined,
+      description: currentRow?.description ?? '',
     },
   })
 

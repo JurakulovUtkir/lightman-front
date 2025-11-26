@@ -26,7 +26,13 @@ import { ProjectSearchFilter } from './project-search-filter'
 import { useExpenceFilters } from './useExpenceFilters'
 import { UserFilter } from './user-filter'
 
-const ExpenceFilter = ({ isFounder = false }: { isFounder?: boolean }) => {
+const ExpenceFilter = ({
+  isFounder = false,
+  isProject = false,
+}: {
+  isFounder?: boolean
+  isProject?: boolean
+}) => {
   const {
     type,
     expence_type,
@@ -42,7 +48,9 @@ const ExpenceFilter = ({ isFounder = false }: { isFounder?: boolean }) => {
   } = useSearch({
     from: isFounder
       ? '/_authenticated/stakeholder/founders/expence/$id'
-      : '/_authenticated/expences/',
+      : isProject
+        ? '/_authenticated/projects/expence/$id'
+        : '/_authenticated/expences/',
   })
 
   const {
@@ -58,7 +66,7 @@ const ExpenceFilter = ({ isFounder = false }: { isFounder?: boolean }) => {
     handleMaxAmountFilterChange,
     handleMinAmountFilterChange,
     handleClear,
-  } = useExpenceFilters({ isFounder })
+  } = useExpenceFilters({ isFounder, isProject })
 
   const [open, setOpen] = useState(false)
   const [minAmount, setMinAmount] = useState<string>(
@@ -216,17 +224,19 @@ const ExpenceFilter = ({ isFounder = false }: { isFounder?: boolean }) => {
                   />
                 </div>
 
-                <div className='space-y-2'>
-                  <Label className='text-xs font-medium'>Project</Label>
-                  <ProjectSearchFilter
-                    placeholder='Search projects...'
-                    searchable={true}
-                    useSearchableProjects={true}
-                    selectedFilter={project_id}
-                    onFilterChange={handleProjectFilterChange}
-                    fieldsWidth={275}
-                  />
-                </div>
+                {!isProject && (
+                  <div className='space-y-2'>
+                    <Label className='text-xs font-medium'>Project</Label>
+                    <ProjectSearchFilter
+                      placeholder='Search projects...'
+                      searchable={true}
+                      useSearchableProjects={true}
+                      selectedFilter={project_id}
+                      onFilterChange={handleProjectFilterChange}
+                      fieldsWidth={275}
+                    />
+                  </div>
+                )}
 
                 <div className='space-y-2'>
                   <Label className='text-xs font-medium'>Users</Label>

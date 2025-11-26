@@ -109,7 +109,7 @@ const ProjectSocials = () => {
               Here&apos;s a list of Project socials!
             </p>
           </div>
-          <ProjectSocialPrimaryButtons />
+          <ProjectSocialPrimaryButtons id={id} />
         </div>
         {data && data?.data?.length > 0 && (
           <PriceCards data={data} statistics={statistics?.data} />

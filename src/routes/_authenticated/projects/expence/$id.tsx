@@ -1,13 +1,13 @@
 import z from 'zod'
 import { createFileRoute } from '@tanstack/react-router'
-import Expences from '@/features/expences'
+import ProjectExpence from '@/features/project-expence'
 
 const searchSchema = z.object({
   offset: z.number().optional().catch(0),
   limit: z.number().optional().catch(20),
   type: z.enum(['expence', 'income', 'deposit']).optional().catch(undefined),
   expence_type: z
-    .enum(['salary', 'avans', 'project', 'deposit', 'other', 'transfer'])
+    .enum(['salary', 'avans', 'project', 'deposit', 'other'])
     .optional()
     .catch(undefined),
   payment_type: z
@@ -24,7 +24,13 @@ const searchSchema = z.object({
   max_amount: z.number().optional().catch(undefined),
 })
 
-export const Route = createFileRoute('/_authenticated/expences/')({
+export const Route = createFileRoute('/_authenticated/projects/expence/$id')({
   validateSearch: (search) => searchSchema.parse(search),
-  component: Expences,
+
+  component: ProjectExpence,
+  loader: async ({ params }) => {
+    return {
+      id: params.id,
+    }
+  },
 })

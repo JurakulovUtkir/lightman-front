@@ -52,6 +52,7 @@ import { Route as AuthenticatedNetworkCategoriesRouteImport } from './routes/_au
 import { Route as AuthenticatedStakeholderFoundersIndexRouteImport } from './routes/_authenticated/stakeholder/founders/index'
 import { Route as AuthenticatedStakeholderDistributorsIdRouteImport } from './routes/_authenticated/stakeholder/distributors/$id'
 import { Route as AuthenticatedProjectsSocialsIdRouteImport } from './routes/_authenticated/projects/socials/$id'
+import { Route as AuthenticatedProjectsExpenceIdRouteImport } from './routes/_authenticated/projects/expence/$id'
 import { Route as AuthenticatedStakeholderFoundersExpenceIdRouteImport } from './routes/_authenticated/stakeholder/founders/expence/$id'
 
 const ClerkRouteRoute = ClerkRouteRouteImport.update({
@@ -288,6 +289,12 @@ const AuthenticatedProjectsSocialsIdRoute =
     path: '/projects/socials/$id',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedProjectsExpenceIdRoute =
+  AuthenticatedProjectsExpenceIdRouteImport.update({
+    id: '/projects/expence/$id',
+    path: '/projects/expence/$id',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedStakeholderFoundersExpenceIdRoute =
   AuthenticatedStakeholderFoundersExpenceIdRouteImport.update({
     id: '/stakeholder/founders/expence/$id',
@@ -333,6 +340,7 @@ export interface FileRoutesByFullPath {
   '/settings/': typeof AuthenticatedSettingsIndexRoute
   '/tasks': typeof AuthenticatedTasksIndexRoute
   '/users': typeof AuthenticatedUsersIndexRoute
+  '/projects/expence/$id': typeof AuthenticatedProjectsExpenceIdRoute
   '/projects/socials/$id': typeof AuthenticatedProjectsSocialsIdRoute
   '/stakeholder/distributors/$id': typeof AuthenticatedStakeholderDistributorsIdRoute
   '/stakeholder/founders': typeof AuthenticatedStakeholderFoundersIndexRoute
@@ -375,6 +383,7 @@ export interface FileRoutesByTo {
   '/settings': typeof AuthenticatedSettingsIndexRoute
   '/tasks': typeof AuthenticatedTasksIndexRoute
   '/users': typeof AuthenticatedUsersIndexRoute
+  '/projects/expence/$id': typeof AuthenticatedProjectsExpenceIdRoute
   '/projects/socials/$id': typeof AuthenticatedProjectsSocialsIdRoute
   '/stakeholder/distributors/$id': typeof AuthenticatedStakeholderDistributorsIdRoute
   '/stakeholder/founders': typeof AuthenticatedStakeholderFoundersIndexRoute
@@ -422,6 +431,7 @@ export interface FileRoutesById {
   '/_authenticated/settings/': typeof AuthenticatedSettingsIndexRoute
   '/_authenticated/tasks/': typeof AuthenticatedTasksIndexRoute
   '/_authenticated/users/': typeof AuthenticatedUsersIndexRoute
+  '/_authenticated/projects/expence/$id': typeof AuthenticatedProjectsExpenceIdRoute
   '/_authenticated/projects/socials/$id': typeof AuthenticatedProjectsSocialsIdRoute
   '/_authenticated/stakeholder/distributors/$id': typeof AuthenticatedStakeholderDistributorsIdRoute
   '/_authenticated/stakeholder/founders/': typeof AuthenticatedStakeholderFoundersIndexRoute
@@ -467,6 +477,7 @@ export interface FileRouteTypes {
     | '/settings/'
     | '/tasks'
     | '/users'
+    | '/projects/expence/$id'
     | '/projects/socials/$id'
     | '/stakeholder/distributors/$id'
     | '/stakeholder/founders'
@@ -509,6 +520,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/tasks'
     | '/users'
+    | '/projects/expence/$id'
     | '/projects/socials/$id'
     | '/stakeholder/distributors/$id'
     | '/stakeholder/founders'
@@ -555,6 +567,7 @@ export interface FileRouteTypes {
     | '/_authenticated/settings/'
     | '/_authenticated/tasks/'
     | '/_authenticated/users/'
+    | '/_authenticated/projects/expence/$id'
     | '/_authenticated/projects/socials/$id'
     | '/_authenticated/stakeholder/distributors/$id'
     | '/_authenticated/stakeholder/founders/'
@@ -879,6 +892,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedProjectsSocialsIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/projects/expence/$id': {
+      id: '/_authenticated/projects/expence/$id'
+      path: '/projects/expence/$id'
+      fullPath: '/projects/expence/$id'
+      preLoaderRoute: typeof AuthenticatedProjectsExpenceIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/stakeholder/founders/expence/$id': {
       id: '/_authenticated/stakeholder/founders/expence/$id'
       path: '/stakeholder/founders/expence/$id'
@@ -931,6 +951,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedProjectsIndexRoute: typeof AuthenticatedProjectsIndexRoute
   AuthenticatedTasksIndexRoute: typeof AuthenticatedTasksIndexRoute
   AuthenticatedUsersIndexRoute: typeof AuthenticatedUsersIndexRoute
+  AuthenticatedProjectsExpenceIdRoute: typeof AuthenticatedProjectsExpenceIdRoute
   AuthenticatedProjectsSocialsIdRoute: typeof AuthenticatedProjectsSocialsIdRoute
   AuthenticatedStakeholderDistributorsIdRoute: typeof AuthenticatedStakeholderDistributorsIdRoute
   AuthenticatedStakeholderFoundersIndexRoute: typeof AuthenticatedStakeholderFoundersIndexRoute
@@ -957,6 +978,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedProjectsIndexRoute: AuthenticatedProjectsIndexRoute,
   AuthenticatedTasksIndexRoute: AuthenticatedTasksIndexRoute,
   AuthenticatedUsersIndexRoute: AuthenticatedUsersIndexRoute,
+  AuthenticatedProjectsExpenceIdRoute: AuthenticatedProjectsExpenceIdRoute,
   AuthenticatedProjectsSocialsIdRoute: AuthenticatedProjectsSocialsIdRoute,
   AuthenticatedStakeholderDistributorsIdRoute:
     AuthenticatedStakeholderDistributorsIdRoute,
