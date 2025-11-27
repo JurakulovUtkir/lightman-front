@@ -142,6 +142,24 @@ export const columns: ColumnDef<ExpenceSchema>[] = [
     enableSorting: false,
   },
   {
+    accessorKey: 'deposit',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title='Deposit' />
+    ),
+    cell: ({ row }) => {
+      const deposit = row.original.deposit
+      return (
+        <div className='flex max-w-36 flex-col gap-1'>
+          <LongText className='max-w-36'>{deposit?.name || '-'}</LongText>
+          {/* <span className='text-xs'>
+            {formatPrice(deposit?.balance) ?? ''} UZS
+          </span> */}
+        </div>
+      )
+    },
+    enableSorting: false,
+  },
+  {
     accessorKey: 'user',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title='User' />
@@ -219,19 +237,19 @@ export const columns: ColumnDef<ExpenceSchema>[] = [
     },
     enableSorting: true,
   },
-  {
-    accessorKey: 'updated_at',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Updated at' />
-    ),
-    cell: ({ row }) => {
-      const updatedAt = row.original.updated_at
-      return (
-        <div className='whitespace-nowrap'>
-          {formatDateToLongString(updatedAt)}
-        </div>
-      )
-    },
-    enableSorting: true,
-  },
+  // {
+  //   accessorKey: 'updated_at',
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader column={column} title='Updated at' />
+  //   ),
+  //   cell: ({ row }) => {
+  //     const updatedAt = row.original.updated_at
+  //     return (
+  //       <div className='whitespace-nowrap'>
+  //         {formatDateToLongString(updatedAt)}
+  //       </div>
+  //     )
+  //   },
+  //   enableSorting: true,
+  // },
 ]

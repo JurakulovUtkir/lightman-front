@@ -1,12 +1,12 @@
 import { ConfirmDialog } from '@/components/confirm-dialog'
 import { useProjectSocialContext } from '../context'
-import { useDeleteProjectSocial, useUpdateProjectSocial } from '../data/hooks'
+import { useDeleteProjectSocial } from '../data/hooks'
+import { ProjectSocialExpenceMutateDrawer } from './project-social-expence-mutate-drawer'
 import { ProjectSocialMutateDrawer } from './project-social-mutate-drawer'
 
 export function ProjectSocialDialogs() {
   const { open, setOpen, currentRow, setCurrentRow } = useProjectSocialContext()
   const { mutate, isPending } = useDeleteProjectSocial()
-  const payment = useUpdateProjectSocial()
 
   const handleDelete = (id: string) => {
     mutate(id, {
@@ -17,24 +17,6 @@ export function ProjectSocialDialogs() {
     })
   }
 
-  const handlePay = () => {
-    if (currentRow?.id) {
-      payment.mutate(
-        {
-          id: currentRow.id,
-          data: {
-            is_paid: true,
-          },
-        },
-        {
-          onSuccess: () => {
-            setOpen(null)
-            setCurrentRow(null)
-          },
-        }
-      )
-    }
-  }
   return (
     <>
       <ProjectSocialMutateDrawer
@@ -85,8 +67,32 @@ export function ProjectSocialDialogs() {
       )}
 
       {currentRow?.id && (
-        <ConfirmDialog
-          key='is-paid'
+        // <ConfirmDialog
+        //   key='is-paid'
+        //   open={open === 'paid'}
+        //   onOpenChange={() => {
+        //     setOpen('paid')
+        //     setTimeout(() => {
+        //       setCurrentRow(null)
+        //     }, 500)
+        //   }}
+        //   handleConfirm={() => {
+        //     handlePay()
+        //   }}
+        //   isLoading={payment.isPending}
+        //   className='max-w-md'
+        //   title={`Confirm payment for Project ${currentRow.id}?`}
+        //   desc={
+        //     <>
+        //       You are about to change Project payment status with the ID{' '}
+        //       <strong>{currentRow.id}</strong> <br /> <br />
+        //       You won’t be able to roll it back. Do you want to proceed?
+        //     </>
+        //   }
+        //   confirmText={isPending ? 'Loading...' : 'Confirm'}
+        // />
+        <ProjectSocialExpenceMutateDrawer
+          key={`project-social-expence-update-${currentRow.id}`}
           open={open === 'paid'}
           onOpenChange={() => {
             setOpen('paid')
@@ -94,20 +100,7 @@ export function ProjectSocialDialogs() {
               setCurrentRow(null)
             }, 500)
           }}
-          handleConfirm={() => {
-            handlePay()
-          }}
-          isLoading={payment.isPending}
-          className='max-w-md'
-          title={`Confirm payment for Project ${currentRow.id}?`}
-          desc={
-            <>
-              You are about to change Project payment status with the ID{' '}
-              <strong>{currentRow.id}</strong> <br /> <br />
-              You won’t be able to roll it back. Do you want to proceed?
-            </>
-          }
-          confirmText={isPending ? 'Loading...' : 'Confirm'}
+          currentRow={currentRow}
         />
       )}
     </>

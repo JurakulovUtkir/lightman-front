@@ -10,7 +10,6 @@ import {
 } from '@/constants'
 import { toast } from 'sonner'
 import { formatDateToLongString } from '@/lib/dateFormatter'
-import { toNumber } from '@/lib/helpers'
 import { getExpenceOriginTypeColor } from '@/lib/statusHelpers'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
@@ -38,49 +37,45 @@ import {
 } from '@/components/ui/sheet'
 import { FormFieldSelect } from '@/components/form-field-select'
 import { FormFieldWrapper } from '@/components/form-field-wrapper'
+import { FormComboboxCompany } from '@/features/expences/components/form-combobox-company'
+import { FormComboboxDeposit } from '@/features/expences/components/form-combobox-deposit'
+import { FormComboboxUser } from '@/features/expences/components/form-combobox-users'
+import { useCreateExpence } from '@/features/expences/data/hooks'
 import { FormFileUploadField } from '@/features/project-socials/components/form-file-upload'
-import { useDeleteFile } from '@/features/project-socials/data/hooks'
-import { FormComboboxProject } from '@/features/projects/components/form-combobox-projects'
+import {
+  useDeleteFile,
+  useUpdateProjectSocial,
+} from '@/features/project-socials/data/hooks'
+// import { FormComboboxProject } from '@/features/projects/components/form-combobox-projects'
 import { useDistributions } from '@/features/stakeholder/distributions/data/hooks'
-import { ExpenceDialogType } from '../context'
-import { useCreateExpence, useUpdateExpence } from '../data/hooks'
-import { ExpenceSchema } from '../data/schema'
-import { FormComboboxCompany } from './form-combobox-company'
-import { FormComboboxDeposit } from './form-combobox-deposit'
-import { FormComboboxUser } from './form-combobox-users'
+import { ProjectSocialSchema } from '../data/schema'
 
 interface Props {
   open: boolean
   onOpenChange: (open: boolean) => void
-  currentRow?: ExpenceSchema
-  setCurrentRow?: React.Dispatch<React.SetStateAction<ExpenceSchema | null>>
-  setOpen?: (str: ExpenceDialogType | null) => void
+  currentRow?: ProjectSocialSchema
 }
 
-export function ExpenceMutateDrawer({
+export function ProjectSocialExpenceMutateDrawer({
   open,
   onOpenChange,
   currentRow,
-  setCurrentRow,
-  setOpen,
 }: Props) {
   const [pendingDeleteFile, setPendingDeleteFile] = useState<string | null>(
     null
   )
   const [openDate, setOpenDate] = useState(false)
   const createExpence = useCreateExpence()
-  const updateExpence = useUpdateExpence()
   const deleteFile = useDeleteFile()
   const { data: distribution } = useDistributions()
-
-  const isUpdate = !!currentRow
+  const updateProjectSocial = useUpdateProjectSocial()
 
   // Dynamic schema with conditional validation
   const formSchema = z
     .object({
-      project_id: z.string({
-        error: 'Required field',
-      }),
+      //   project_id: z.string({
+      //     error: 'Required field',
+      //   }),
       expence_type: z.enum(
         ['salary', 'avans', 'project', 'deposit', 'other', 'transfer'],
         {
@@ -148,14 +143,6 @@ export function ExpenceMutateDrawer({
 
   const form = useForm<ExpenceForm>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      ...currentRow,
-      amount: toNumber(currentRow?.amount),
-      description: currentRow?.description ?? undefined,
-      user_id: currentRow?.user?.id ?? undefined,
-      file_url: currentRow?.file_url ?? undefined,
-      created_at: currentRow?.created_at ?? undefined,
-    },
   })
 
   const checkExpenceType = form.watch('expence_type')
@@ -173,8 +160,12 @@ export function ExpenceMutateDrawer({
   }
 
   const onSubmit = async (values: ExpenceForm) => {
+    if (!currentRow?.id) {
+      toast.warning('Failed to create expence to this project social!')
+      return
+    }
     // If updating and there's a pending file deletion, delete it first
-    if (isUpdate && pendingDeleteFile) {
+    if (pendingDeleteFile) {
       try {
         await deleteFile.mutateAsync(pendingDeleteFile)
         setPendingDeleteFile(null)
@@ -182,37 +173,34 @@ export function ExpenceMutateDrawer({
         toast.error('Unable to delete previous file')
       }
     }
-
-    if (isUpdate) {
-      updateExpence.mutate(
-        {
-          id: currentRow.id,
-          data: values,
-        },
-        {
-          onSuccess: () => {
-            onOpenChange(false)
-            form.reset()
-            setPendingDeleteFile(null)
-          },
-        }
-      )
-    } else {
-      createExpence.mutate(values, {
+    createExpence.mutate(
+      {
+        ...values,
+        project_social_id: currentRow?.id,
+        project_id: currentRow?.project_id,
+      },
+      {
         onSuccess: () => {
-          onOpenChange(false)
-          form.reset()
-          setPendingDeleteFile(null)
+          // Nested mutation with its own callbacks
+          updateProjectSocial.mutate(
+            {
+              id: currentRow.id,
+              data: {
+                is_paid: true,
+                payment: values.file_url,
+              },
+            },
+            {
+              onSuccess: () => {
+                onOpenChange(false)
+                form.reset()
+                setPendingDeleteFile(null)
+              },
+            }
+          )
         },
-      })
-    }
-  }
-
-  const handleDelete = () => {
-    if (isUpdate && setCurrentRow && setOpen && currentRow) {
-      setCurrentRow(currentRow)
-      setOpen('delete')
-    }
+      }
+    )
   }
 
   return (
@@ -225,12 +213,10 @@ export function ExpenceMutateDrawer({
     >
       <SheetContent className='flex max-w-full flex-col sm:max-w-[540px]'>
         <SheetHeader className='text-left'>
-          <SheetTitle>{isUpdate ? 'Update' : 'Create'} Expence</SheetTitle>
+          <SheetTitle>Expence</SheetTitle>
           <SheetDescription>
-            {isUpdate
-              ? 'Update the Expence by providing necessary info.'
-              : 'Add a new Expence by providing necessary info.'}
-            Click save when you&apos;re done.
+            Add a new Expence by providing necessary info. Click save when
+            you&apos;re done.
           </SheetDescription>
         </SheetHeader>
         <div className='flex-1 overflow-y-auto'>
@@ -305,17 +291,17 @@ export function ExpenceMutateDrawer({
                 type='number'
                 suffix='UZS'
               />
-              <FormComboboxProject
+              {/* <FormComboboxProject
                 control={form.control}
                 name='project_id'
                 label='Select Project'
-                detail={currentRow?.project ?? undefined}
-              />
+                detail={undefined}
+              /> */}
               <FormComboboxCompany
                 control={form.control}
                 name='company_id'
                 label='Company'
-                detail={currentRow?.company ?? undefined}
+                detail={undefined}
                 filterOurCompany={true}
                 setValue={form.setValue}
               />
@@ -325,7 +311,7 @@ export function ExpenceMutateDrawer({
                   control={form.control}
                   name='to_company_id'
                   label='Transfer Company'
-                  detail={currentRow?.company ?? undefined}
+                  detail={undefined}
                   filterOurCompany={true}
                   setValue={form.setValue}
                   disabled={!selectedCompanyId}
@@ -339,7 +325,7 @@ export function ExpenceMutateDrawer({
                   control={form.control}
                   name='user_id'
                   label='Select User'
-                  detail={currentRow?.user ?? undefined}
+                  detail={undefined}
                 />
               )}
 
@@ -348,7 +334,7 @@ export function ExpenceMutateDrawer({
                   name='deposit_id'
                   label='Select deposit'
                   control={form.control}
-                  detail={currentRow?.deposit ?? undefined}
+                  detail={undefined}
                 />
               )}
 
@@ -412,7 +398,6 @@ export function ExpenceMutateDrawer({
                 name='file_url'
                 label='File'
                 maxSize={5}
-                isUpdateMode={isUpdate}
                 onPendingDelete={handlePendingDelete}
               />
 
@@ -427,21 +412,12 @@ export function ExpenceMutateDrawer({
           </Form>
         </div>
         <SheetFooter>
-          {isUpdate && (
-            <Button onClick={handleDelete} size='sm' variant='destructive'>
-              Delete
-            </Button>
-          )}
           <Button
-            disabled={
-              isUpdate ? updateExpence.isPending : createExpence.isPending
-            }
+            disabled={createExpence.isPending}
             form='expence-form'
             type='submit'
           >
-            {(isUpdate ? updateExpence.isPending : createExpence.isPending)
-              ? 'Loading...'
-              : 'Save changes'}
+            {createExpence.isPending ? 'Loading...' : 'Save changes'}
           </Button>
         </SheetFooter>
       </SheetContent>
