@@ -1,5 +1,6 @@
 import { useMemo } from 'react'
 import { Control, FieldPath, FieldValues, useWatch } from 'react-hook-form'
+import { useLang } from '@/hooks/useLang'
 import { FormFieldSelect } from '@/components/form-field-select'
 import { useDistributions } from '@/features/stakeholder/distributions/data/hooks'
 
@@ -20,10 +21,12 @@ export function FormDistribution<TFieldValues extends FieldValues>({
   control,
   name,
   label,
-  placeholder = 'Select a distribution',
+  placeholder = '',
   detail,
 }: FormFieldProps<TFieldValues>) {
   const { data: distributions, isLoading } = useDistributions()
+  const { lang, tForm } = useLang()
+  const t = tForm[lang].form_labels
 
   // Watch the current field value
   const fieldValue = useWatch({ control, name })
@@ -51,7 +54,7 @@ export function FormDistribution<TFieldValues extends FieldValues>({
       control={control}
       name={name}
       label={label}
-      placeholder={placeholder}
+      placeholder={placeholder ? placeholder : t.select_distribution}
       options={distributionOptions}
       disabled={isLoading}
     />

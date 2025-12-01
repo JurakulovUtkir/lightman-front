@@ -40,7 +40,7 @@ export const columns: ColumnDef<DepositSchema>[] = [
   {
     accessorKey: 'name',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Company name' />
+      <DataTableColumnHeader column={column} title='Deposit name' />
     ),
     cell: ({ row }) => (
       <div className='flex items-center gap-2 lg:w-[700px]'>

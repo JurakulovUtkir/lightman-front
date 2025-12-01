@@ -1,4 +1,5 @@
 import { Control, FieldPath, FieldValues } from 'react-hook-form'
+import { useLang } from '@/hooks/useLang'
 import {
   FormControl,
   FormField,
@@ -33,13 +34,14 @@ export function FormFieldSelect<TFieldValues extends FieldValues>({
   control,
   name,
   label,
-  placeholder = 'Select an option',
+  placeholder = '',
   options,
   disabled = false,
-  emptyMessage = 'No options available',
+  emptyMessage = '',
 }: FormFieldSelectProps<TFieldValues>) {
   const isEmpty = !options || options.length === 0
-
+  const { lang, tForm } = useLang()
+  const t = tForm[lang].form_labels
   return (
     <FormField
       control={control}
@@ -55,14 +57,22 @@ export function FormFieldSelect<TFieldValues extends FieldValues>({
             <FormControl>
               <SelectTrigger className='w-full'>
                 <SelectValue
-                  placeholder={isEmpty ? emptyMessage : placeholder}
+                  placeholder={
+                    isEmpty
+                      ? emptyMessage
+                        ? emptyMessage
+                        : t.no_options
+                      : placeholder
+                        ? placeholder
+                        : t.select_option
+                  }
                 />
               </SelectTrigger>
             </FormControl>
             <SelectContent>
               {isEmpty ? (
                 <div className='text-muted-foreground py-6 text-center text-sm'>
-                  {emptyMessage}
+                  {emptyMessage ? emptyMessage : t.no_options}
                 </div>
               ) : (
                 options.map((option) => (

@@ -1,0 +1,41 @@
+{
+  "en": {
+    "projects": "Projects",
+    "list_projects": "Here's a list of projects!",
+    "search_by_project": "Search by project",
+    "create_project": "Create project",
+    "create_desc": "Add a new Project by providing necessary info.",
+    "update_project": "Update project",
+    "update_desc": "Update the Project by providing necessary info.",
+    "create": "Create",
+    "click_save": "Click save when you're done.",
+    "delete_title": "Delete this Project with the name: {{name}} ?",
+    "delete_confirm": "You are about to delete a Project with the name {{name}}"
+  },
+  "ru": {
+    "projects": "Проекты",
+    "list_projects": "Здесь представлен список проектов!",
+    "search_by_project": "Поиск по проекту",
+    "create_project": "Создать проект",
+    "create_desc": "Добавьте новый проект, указав необходимую информацию.",
+    "update_project": "Обновить проект",
+    "update_desc": "Обновите проект, указав необходимую информацию.",
+    "create": "Создать",
+    "click_save": "Нажмите «Сохранить», когда закончите.",
+    "delete_title": "Удалить этот проект с именем: {{name}}?",
+    "delete_confirm": "Вы собираетесь удалить проект с именем {{name}}"
+  },
+  "uz": {
+    "projects": "Loyihalar",
+    "list_projects": "Bu yerda loyihalar roʻyxati keltirilgan!",
+    "search_by_project": "Loyiha bo‘yicha qidirish",
+    "create_project": "Loyiha yaratish",
+    "create_desc": "Kerakli ma’lumotlarni kiritib yangi loyiha qo‘shing.",
+    "update_project": "Loyihani yangilash",
+    "update_desc": "Kerakli ma’lumotlarni kiritib loyihani yangilang.",
+    "create": "Yaratish",
+    "click_save": "Tugatgach, «Saqlash» tugmasini bosing.",
+    "delete_title": "Ushbu loyiha nomi: {{name}} ni o‘chirish?",
+    "delete_confirm": "Siz {{name}} nomli loyihani o‘chirmoqchisiz"
+  }
+}

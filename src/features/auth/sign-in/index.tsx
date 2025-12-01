@@ -1,4 +1,5 @@
 import { Link } from '@tanstack/react-router'
+import { useLang } from '@/hooks/useLang'
 import {
   Card,
   CardContent,
@@ -11,21 +12,25 @@ import AuthLayout from '../auth-layout'
 import { UserAuthForm } from './components/user-auth-form'
 
 export default function SignIn() {
+  const { lang, general, interpolateWithComponents } = useLang()
+  const t = general[lang]
+
   return (
     <AuthLayout>
       <Card className='gap-4'>
         <CardHeader>
-          <CardTitle className='text-lg tracking-tight'>Sign in </CardTitle>
+          <CardTitle className='text-lg tracking-tight'>
+            {t.auth.sign_in}
+          </CardTitle>
           <CardDescription>
-            Enter your phone number and password below to <br />
-            sign into your account
+            {t.auth.enter_sign_in_details}
             <br />
-            Don&apos;t have an account?{' '}
+            {t.auth.no_account}{' '}
             <Link
               to='/sign-up'
               className='hover:text-primary underline underline-offset-4'
             >
-              Sign up
+              {t.auth.sign_up}
             </Link>
           </CardDescription>
         </CardHeader>
@@ -35,25 +40,28 @@ export default function SignIn() {
         <CardFooter className='flex flex-col gap-4'>
           <div>
             <p className='text-muted-foreground px-8 text-center text-sm'>
-              By clicking login, you agree to our{' '}
-              <a
-                href='/terms'
-                className='hover:text-primary underline underline-offset-4'
-              >
-                Terms of Service
-              </a>{' '}
-              and{' '}
-              <a
-                href='/privacy'
-                className='hover:text-primary underline underline-offset-4'
-              >
-                Privacy Policy
-              </a>
-              .
+              {interpolateWithComponents(t.terms.agreement, {
+                terms: (
+                  <a
+                    href='/terms'
+                    className='hover:text-primary underline underline-offset-4'
+                  >
+                    {t.terms.terms_of_service}
+                  </a>
+                ),
+                privacy: (
+                  <a
+                    href='/privacy'
+                    className='hover:text-primary underline underline-offset-4'
+                  >
+                    {t.terms.privacy_policy}
+                  </a>
+                ),
+              })}
             </p>
           </div>
           <p className='text-muted-foreground px-8 text-center text-sm'>
-            © {new Date().getFullYear()} Developed by Lightman Group.
+            © {new Date().getFullYear()} {t.auth.developed_by}
           </p>
         </CardFooter>
       </Card>

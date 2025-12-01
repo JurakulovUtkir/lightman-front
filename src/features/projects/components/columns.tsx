@@ -4,8 +4,6 @@ import {
   getPriceTypeColor,
   getPaymentStatusColor,
   getPaymentTypeColor,
-  formatPaymentType,
-  formatPriceType,
 } from '@/lib/statusHelpers'
 import { cn } from '@/lib/utils'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -14,7 +12,9 @@ import { DataTableColumnHeader } from '@/components/table/data-table-column-head
 import { ProjectSchema } from '../data/schema'
 import { DataTableRowActions } from './data-table-row-actions'
 
-export const columns: ColumnDef<ProjectSchema>[] = [
+export const columns = (
+  t: (typeof import('@/translations/general.json'))['uz']['columns']
+): ColumnDef<ProjectSchema>[] => [
   {
     id: 'select',
     header: ({ table }) => (
@@ -48,7 +48,7 @@ export const columns: ColumnDef<ProjectSchema>[] = [
   {
     accessorKey: 'name',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Project name' />
+      <DataTableColumnHeader column={column} title={t.project_name} />
     ),
     cell: ({ row }) => (
       <div className='flex items-center gap-2'>
@@ -75,7 +75,7 @@ export const columns: ColumnDef<ProjectSchema>[] = [
   {
     accessorKey: 'our_company',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Our Company' />
+      <DataTableColumnHeader column={column} title={t.our_company} />
     ),
     cell: ({ row }) => {
       const company = row.getValue('our_company') as { name: string }
@@ -86,7 +86,7 @@ export const columns: ColumnDef<ProjectSchema>[] = [
   {
     accessorKey: 'customer_company',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Customer' />
+      <DataTableColumnHeader column={column} title={t.customer_company} />
     ),
     cell: ({ row }) => {
       const customer = row.getValue('customer_company') as { name: string }
@@ -200,12 +200,14 @@ export const columns: ColumnDef<ProjectSchema>[] = [
   {
     accessorKey: 'price',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Price' />
+      <DataTableColumnHeader column={column} title={t.price} />
     ),
     cell: ({ row }) => {
       const price = row.getValue('price') as number
       return (
-        <div className='font-medium'>{price?.toLocaleString('en-US')} UZS</div>
+        <div className='font-medium'>
+          {price?.toLocaleString('en-US')} {t.uzs}
+        </div>
       )
     },
     enableSorting: false,
@@ -213,15 +215,15 @@ export const columns: ColumnDef<ProjectSchema>[] = [
   {
     accessorKey: 'status',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Status' />
+      <DataTableColumnHeader column={column} title={t.status} />
     ),
     cell: ({ row }) => {
-      const status = row.getValue('status') as string
+      const status = row.getValue('status') as keyof typeof t.statusOptions
       return (
         <div
           className={`inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-medium capitalize ${getStatusColor(status)}`}
         >
-          {status}
+          {t.statusOptions[status]}
         </div>
       )
     },
@@ -230,15 +232,17 @@ export const columns: ColumnDef<ProjectSchema>[] = [
   {
     accessorKey: 'payment_status',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Payment' />
+      <DataTableColumnHeader column={column} title={t.payment_status} />
     ),
     cell: ({ row }) => {
-      const paymentStatus = row.getValue('payment_status') as string
+      const paymentStatus = row.getValue(
+        'payment_status'
+      ) as keyof typeof t.paymentStatusOprions
       return (
         <div
           className={`inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-medium capitalize ${getPaymentStatusColor(paymentStatus)}`}
         >
-          {paymentStatus}
+          {t.paymentStatusOprions[paymentStatus]}
         </div>
       )
     },
@@ -247,15 +251,17 @@ export const columns: ColumnDef<ProjectSchema>[] = [
   {
     accessorKey: 'payment_type',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Payment Type' />
+      <DataTableColumnHeader column={column} title={t.payment_type} />
     ),
     cell: ({ row }) => {
-      const paymentType = row.getValue('payment_type') as string
+      const paymentType = row.getValue(
+        'payment_type'
+      ) as keyof typeof t.paymentTypeOptions
       return (
         <div
           className={`inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-medium capitalize ${getPaymentTypeColor(paymentType)}`}
         >
-          {formatPaymentType(paymentType)}
+          {t.paymentTypeOptions[paymentType]}
         </div>
       )
     },
@@ -264,15 +270,17 @@ export const columns: ColumnDef<ProjectSchema>[] = [
   {
     accessorKey: 'price_type',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Price Type' />
+      <DataTableColumnHeader column={column} title={t.price_type} />
     ),
     cell: ({ row }) => {
-      const priceType = row.getValue('price_type') as string
+      const priceType = row.getValue(
+        'price_type'
+      ) as keyof typeof t.priceTypeOptions
       return (
         <div
           className={`inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-medium capitalize ${getPriceTypeColor(priceType)}`}
         >
-          {formatPriceType(priceType)}
+          {t.priceTypeOptions[priceType]}
         </div>
       )
     },
@@ -281,7 +289,7 @@ export const columns: ColumnDef<ProjectSchema>[] = [
   {
     accessorKey: 'is_qqs',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='QQS' />
+      <DataTableColumnHeader column={column} title={t.qqs} />
     ),
     cell: ({ row }) => (
       <div

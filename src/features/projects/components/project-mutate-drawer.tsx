@@ -1,8 +1,9 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toNumber } from '@/lib/helpers'
+import { useLang } from '@/hooks/useLang'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -50,49 +51,59 @@ export function ProjectMutateDrawer({
   const createProject = useCreateProject()
   const updateProject = useUpdateProject()
   const isUpdate = !!currentRow
+  const { lang, tForm, tProject, general } = useLang()
+  const t = tForm[lang]
+  const t_general = general[lang]
 
-  const formSchema = z.object({
-    name: z
-      .string({
-        error: 'Name is required.',
-      })
-      .min(1, 'Please enter project name.')
-      .max(150, 'Name cannot exceed 150 characters.'),
-    description: z
-      .string({
-        error: 'Description is required.',
-      })
-      .max(150, 'Description cannot exceed 150 characters.')
-      .optional(),
-    contract_id: z.string().optional().nullable(),
-    price: z
-      .number({
-        error: 'Required field',
-      })
-      .min(0, 'Invalid value'),
-    price_with_qqs: z
-      .number({
-        error: 'Required field',
-      })
-      .min(0, 'Invalid value'),
-    planned_views_count: z.number().min(0, 'Invalid value').optional(),
-    distribution_id: z.string().optional(),
-    price_type: z.enum(['standard', 'vip', 'no_watermark']).optional(),
-    category_id: z.string().optional(),
-    customer_company_id: z.string({
-      error: 'Required field',
-    }),
-    our_company_id: z.string({
-      error: 'Required field',
-    }),
-    payment_type: z
-      .enum(['cash', 'card', 'bank_transfer', 'deposit'])
-      .optional(),
-    is_active: z.boolean().optional(),
-    is_qqs: z.boolean().optional(),
-    tags: z.array(z.string()).optional(),
-    clone_project_id: z.string().optional().nullable(),
-  })
+  const formSchema = useMemo(
+    () =>
+      z.object({
+        name: z
+          .string({
+            error: t.form_validations.name,
+          })
+          .min(1, t.form_validations.enter_name)
+          .max(150, t.form_validations.invalid_name),
+        description: z
+          .string({
+            error: t.form_validations.description,
+          })
+          .max(150, t.form_validations.invalid_description)
+          .optional(),
+        contract_id: z.string().optional().nullable(),
+        price: z
+          .number({
+            error: t.form_validations.required_field,
+          })
+          .min(0, t.form_validations.invalid_value),
+        price_with_qqs: z
+          .number({
+            error: t.form_validations.required_field,
+          })
+          .min(0, t.form_validations.invalid_value),
+        planned_views_count: z
+          .number()
+          .min(0, t.form_validations.invalid_value)
+          .optional(),
+        distribution_id: z.string().optional(),
+        price_type: z.enum(['standard', 'vip', 'no_watermark']).optional(),
+        category_id: z.string().optional(),
+        customer_company_id: z.string({
+          error: t.form_validations.required_field,
+        }),
+        our_company_id: z.string({
+          error: t.form_validations.required_field,
+        }),
+        payment_type: z
+          .enum(['cash', 'card', 'bank_transfer', 'deposit'])
+          .optional(),
+        is_active: z.boolean().optional(),
+        is_qqs: z.boolean().optional(),
+        tags: z.array(z.string()).optional(),
+        clone_project_id: z.string().optional().nullable(),
+      }),
+    [t]
+  )
 
   type ProjectForm = z.infer<typeof formSchema>
 
@@ -232,12 +243,14 @@ export function ProjectMutateDrawer({
     >
       <SheetContent className='flex max-w-full flex-col sm:max-w-[540px]'>
         <SheetHeader className='text-left'>
-          <SheetTitle>{isUpdate ? 'Update' : 'Create'} Project</SheetTitle>
-          <SheetDescription>
+          <SheetTitle>
             {isUpdate
-              ? 'Update the Project by providing necessary info.'
-              : 'Add a new Project by providing necessary info.'}
-            Click save when you&apos;re done.
+              ? tProject[lang].update_project
+              : tProject[lang].create_project}
+          </SheetTitle>
+          <SheetDescription>
+            {isUpdate ? tProject[lang].update_desc : tProject[lang].create_desc}
+            {tProject[lang].click_save}
           </SheetDescription>
         </SheetHeader>
         <div className='flex-1 overflow-y-auto'>
@@ -259,7 +272,9 @@ export function ProjectMutateDrawer({
                           onCheckedChange={field.onChange}
                         />
                       </FormControl>
-                      <FormLabel className='text-sm'>Is active</FormLabel>
+                      <FormLabel className='text-sm'>
+                        {t.form_labels.is_active}
+                      </FormLabel>
                     </div>
                   </FormItem>
                 )}
@@ -269,7 +284,7 @@ export function ProjectMutateDrawer({
                 <FormComboboxProject
                   control={form.control}
                   name='clone_project_id'
-                  label='Clone project'
+                  label={t.form_labels.clone_project}
                   detail={undefined}
                 />
               )}
@@ -277,51 +292,51 @@ export function ProjectMutateDrawer({
               <FormFieldWrapper
                 control={form.control}
                 name='name'
-                label='Name'
-                placeholder='Enter a name'
+                label={t.form_labels.name}
+                placeholder={t.form_placeholders.enter_name}
               />
 
               <FormFieldWrapper
                 control={form.control}
                 name='description'
-                label='Description'
-                placeholder='Enter a description'
+                label={t.form_labels.description}
+                placeholder={t.form_placeholders.enter_description}
               />
               <div className='grid grid-cols-1 items-baseline gap-4 sm:grid-cols-2'>
                 <div className='flex flex-col gap-4 sm:col-span-2'>
                   <FormComboboxNetworkTags
                     control={form.control}
                     name='tags'
-                    label='Tags'
+                    label={t.form_labels.tags}
                     enableCreate
                   />
                 </div>
                 <FormDistribution
                   control={form.control}
                   name='distribution_id'
-                  label='Distribution'
-                  placeholder='Select a distribution'
+                  label={t.form_labels.distribution}
+                  placeholder={t.form_placeholders.select_distribution}
                   detail={currentRow?.distribution ?? undefined}
                 />
 
                 <FormComboboxContract
                   control={form.control}
                   name='contract_id'
-                  label='Contract'
+                  label={t.form_labels.contract}
                   detail={currentRow?.contract ?? undefined}
                 />
 
                 <FormComboboxNetworkCategory
                   control={form.control}
                   name='category_id'
-                  label='Category'
+                  label={t.form_labels.category}
                   detail={currentRow?.category ?? undefined}
                 />
 
                 <FormComboboxCompany
                   control={form.control}
                   name='our_company_id'
-                  label='Our company'
+                  label={t.form_labels.our_company}
                   detail={currentRow?.our_company}
                   filterOurCompany={true}
                   setValue={form.setValue}
@@ -330,7 +345,7 @@ export function ProjectMutateDrawer({
                 <FormComboboxCompany
                   control={form.control}
                   name='customer_company_id'
-                  label='Customer company'
+                  label={t.form_labels.customer_company}
                   detail={currentRow?.customer_company}
                   filterOurCompany={false}
                 />
@@ -338,31 +353,49 @@ export function ProjectMutateDrawer({
                 <FormFieldSelect
                   control={form.control}
                   name='price_type'
-                  label='Price type'
-                  placeholder='Select a price type'
+                  label={t.form_labels.price_type}
+                  placeholder={t.form_placeholders.select_price_type}
                   options={[
-                    { value: 'standard', label: 'Standard' },
-                    { value: 'no_watermark', label: 'No watermark' },
-                    { value: 'vip', label: 'Vip' },
+                    {
+                      value: 'standard',
+                      label: t_general.columns.priceTypeOptions.standard,
+                    },
+                    {
+                      value: 'no_watermark',
+                      label: t_general.columns.priceTypeOptions.no_watermark,
+                    },
+                    {
+                      value: 'vip',
+                      label: t_general.columns.priceTypeOptions.vip,
+                    },
                   ]}
                 />
 
                 <FormFieldSelect
                   control={form.control}
                   name='payment_type'
-                  label='Payment type'
-                  placeholder='Select a payment type'
+                  label={t.form_labels.payment_type}
+                  placeholder={t.form_placeholders.select_payment_type}
                   options={[
-                    { value: 'cash', label: 'Cash' },
-                    { value: 'card', label: 'Card' },
-                    { value: 'bank_transfer', label: 'Bank Transfer' },
+                    {
+                      value: 'cash',
+                      label: t_general.columns.paymentTypeOptions.cash,
+                    },
+                    {
+                      value: 'card',
+                      label: t_general.columns.paymentTypeOptions.card,
+                    },
+                    {
+                      value: 'bank_transfer',
+                      label: t_general.columns.paymentTypeOptions.bank_transfer,
+                    },
                   ]}
                 />
                 <FormFieldWrapper
                   control={form.control}
                   name='planned_views_count'
-                  label='Planned views count'
-                  placeholder='Enter a count'
+                  label={t.form_labels.planned_views_count}
+                  placeholder={t.form_placeholders.enter_count}
                   type='number'
                 />
                 {isUpdate && (
@@ -370,16 +403,16 @@ export function ProjectMutateDrawer({
                     <FormFieldWrapper
                       control={form.control}
                       name='price'
-                      label='Price'
-                      placeholder='Enter a price'
+                      label={t.form_labels.price}
+                      placeholder={t.form_placeholders.enter_price}
                       type='number'
                       suffix='UZS'
                     />
                     <FormFieldWrapper
                       control={form.control}
                       name='price_with_qqs'
-                      label='Price with QQS'
-                      placeholder='Enter a price'
+                      label={t.form_labels.price_with_vat}
+                      placeholder={t.form_placeholders.enter_price}
                       type='number'
                       suffix='UZS'
                     />
@@ -397,7 +430,7 @@ export function ProjectMutateDrawer({
               variant='destructive'
               className='w-full sm:w-auto'
             >
-              Delete
+              {t.buttons.delete}
             </Button>
           )}
           <Button
@@ -409,8 +442,8 @@ export function ProjectMutateDrawer({
             className='w-full sm:w-auto'
           >
             {(isUpdate ? updateProject.isPending : createProject.isPending)
-              ? 'Loading...'
-              : 'Save changes'}
+              ? t.buttons.loading
+              : t.buttons.save_changes}
           </Button>
         </SheetFooter>
       </SheetContent>

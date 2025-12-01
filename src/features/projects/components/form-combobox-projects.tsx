@@ -3,6 +3,7 @@ import { Control, FieldValues, Path } from 'react-hook-form'
 import { IconCheck, IconSelector } from '@tabler/icons-react'
 import { cn } from '@/lib/utils'
 import { useDebounce } from '@/hooks/useDebounce'
+import { useLang } from '@/hooks/useLang'
 import { Button } from '@/components/ui/button'
 import {
   Command,
@@ -49,6 +50,8 @@ export const FormComboboxProject = <T extends FieldValues>({
   const [search, setSearch] = useState('')
   const [open, setOpen] = useState(false)
   const debouncedSearch = useDebounce(search, 500)
+  const { lang, tForm } = useLang()
+  const t = tForm[lang].form_labels
 
   const {
     data: projects,
@@ -107,7 +110,7 @@ export const FormComboboxProject = <T extends FieldValues>({
         )
         const displayLabel =
           selectedOption?.label ??
-          (field.value ? `Selected ID: ${field.value}` : '')
+          (field.value ? `${t.selected_id} ${field.value}` : '')
 
         return (
           <FormItem className='flex w-full flex-col space-y-1'>
@@ -123,9 +126,7 @@ export const FormComboboxProject = <T extends FieldValues>({
                       !field.value && 'text-muted-foreground'
                     )}
                   >
-                    {field.value
-                      ? displayLabel
-                      : `Select ${label.toLowerCase()}`}
+                    {field.value ? displayLabel : t.select_value}
                     <IconSelector className='opacity-50' />
                   </Button>
                 </FormControl>
@@ -133,7 +134,7 @@ export const FormComboboxProject = <T extends FieldValues>({
               <PopoverContent className='max-w-[400px] p-0'>
                 <Command shouldFilter={false}>
                   <CommandInput
-                    placeholder={`Search ${label.toLowerCase()}...`}
+                    placeholder={t.search_value}
                     className='h-9'
                     value={search}
                     onValueChange={setSearch}
@@ -144,13 +145,13 @@ export const FormComboboxProject = <T extends FieldValues>({
                         <div className='flex items-center gap-2'>
                           <div className='h-4 w-4 animate-spin rounded-full border-2 border-gray-300 border-t-gray-900'></div>
                           <span className='text-muted-foreground text-sm'>
-                            Searching...
+                            {t.searching}
                           </span>
                         </div>
                       </div>
                     ) : (
                       <>
-                        <CommandEmpty>No project found.</CommandEmpty>
+                        <CommandEmpty>{t.no_project_found}</CommandEmpty>
                         <CommandGroup>
                           {options.map((item) => (
                             <CommandItem

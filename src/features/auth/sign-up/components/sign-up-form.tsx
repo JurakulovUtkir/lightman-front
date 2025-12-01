@@ -1,10 +1,11 @@
-import { HTMLAttributes } from 'react'
+import { HTMLAttributes, useMemo } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { UZ_PHONE_REGEX } from '@/constants'
 import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
+import { useLang } from '@/hooks/useLang'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -21,28 +22,36 @@ import { useSignUp } from '../../data/hooks'
 
 type SignUpFormProps = HTMLAttributes<HTMLFormElement>
 
-const formSchema = z
-  .object({
-    full_name: z.string().min(3, 'Please enter full name'),
-    phone_number: z
-      .string()
-      .min(1, 'Please enter your phone number')
-      .regex(UZ_PHONE_REGEX, 'Please enter valid phone number'),
-    password: z
-      .string()
-      .min(1, 'Please enter your password')
-      .min(6, 'Password must be at least 6 characters long'),
-    confirmPassword: z.string().min(1, 'Please confirm your password'),
-    // !!! Need to add roles
-    role: z.string().optional(),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    error: "Passwords don't match.",
-    path: ['confirmPassword'],
-  })
-
 export function SignUpForm({ className, ...props }: SignUpFormProps) {
   const { mutate: signUp, isPending } = useSignUp()
+  const { lang, general } = useLang()
+  const t = general[lang].auth
+
+  const formSchema = useMemo(
+    () =>
+      z
+        .object({
+          full_name: z.string().min(3, t.form_validation.full_name),
+          phone_number: z
+            .string()
+            .min(1, t.form_validation.phone_number)
+            .regex(UZ_PHONE_REGEX, t.form_validation.invalid_phone_number),
+          password: z
+            .string()
+            .min(1, t.form_validation.password)
+            .min(6, t.form_validation.invalid_password),
+          confirmPassword: z
+            .string()
+            .min(1, t.form_validation.confirm_password),
+          // !!! Need to add roles
+          role: z.string().optional(),
+        })
+        .refine((data) => data.password === data.confirmPassword, {
+          error: t.form_validation.password_not_match,
+          path: ['confirmPassword'],
+        }),
+    [t]
+  )
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -58,7 +67,7 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
   function onSubmit(data: z.infer<typeof formSchema>) {
     signUp(data, {
       onSuccess: () => {
-        toast.success('Account created successfully')
+        toast.success(t.form_toaster.signed_up)
         form.reset()
       },
     })
@@ -76,9 +85,13 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
           name='full_name'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Full name</FormLabel>
+              <FormLabel>{t.form_labels.full_name}</FormLabel>
               <FormControl>
-                <Input type='text' placeholder='Enter full name' {...field} />
+                <Input
+                  type='text'
+                  placeholder={t.form_placeholders.enter_full_name}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -89,9 +102,12 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
           name='phone_number'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Phone number</FormLabel>
+              <FormLabel>{t.form_labels.phone_number}</FormLabel>
               <FormControl>
-                <PhoneInput {...field} />
+                <PhoneInput
+                  placeholder={t.form_placeholders.enter_phone_number}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -102,7 +118,7 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
           name='password'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Password</FormLabel>
+              <FormLabel>{t.form_labels.password}</FormLabel>
               <FormControl>
                 <PasswordInput placeholder='********' {...field} />
               </FormControl>
@@ -115,7 +131,7 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
           name='confirmPassword'
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Confirm Password</FormLabel>
+              <FormLabel>{t.form_labels.confirm_password}</FormLabel>
               <FormControl>
                 <PasswordInput placeholder='********' {...field} />
               </FormControl>
@@ -124,21 +140,21 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
           )}
         />
         <Button className='mt-2' disabled={isPending}>
-          Create Account
+          {t.create_account}
         </Button>
 
-        <div className='relative my-2'>
+        {/*    <div className='relative my-2'>
           <div className='absolute inset-0 flex items-center'>
             <span className='w-full border-t' />
           </div>
           <div className='relative flex justify-center text-xs uppercase'>
             <span className='bg-background text-muted-foreground px-2'>
-              Or continue with
+              {t.continue_with}
             </span>
           </div>
         </div>
 
-        {/* <div className='grid grid-cols-2 gap-2'>
+      <div className='grid grid-cols-2 gap-2'>
           <Button
             variant='outline'
             className='w-full'

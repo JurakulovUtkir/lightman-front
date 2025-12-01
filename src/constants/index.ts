@@ -1,3 +1,21 @@
+export enum AllowedLangs {
+  UZ = 'uz',
+  RU = 'ru',
+  EN = 'en',
+}
+export const languages = [
+  { label: 'English', value: 'en', disabled: false },
+  { label: 'Russian', value: 'ru', disabled: false },
+  { label: 'Uzbek', value: 'uz', disabled: false },
+  { label: 'French', value: 'fr', disabled: true },
+  { label: 'German', value: 'de', disabled: true },
+  { label: 'Spanish', value: 'es', disabled: true },
+  { label: 'Portuguese', value: 'pt', disabled: true },
+  { label: 'Japanese', value: 'ja', disabled: true },
+  { label: 'Korean', value: 'ko', disabled: true },
+  { label: 'Chinese', value: 'zh', disabled: true },
+] as const
+
 export const ACCESS_TOKEN = 'access_token'
 export const USER_DATA = 'user_data'
 

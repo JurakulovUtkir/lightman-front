@@ -16,6 +16,7 @@ import {
   IconUsersGroup,
   IconCoins,
   IconBasketDollar,
+  IconLanguage,
   // IconBarrierBlock,
   // IconBug,
   // IconChecklist,
@@ -33,8 +34,8 @@ import { type SidebarData } from '../types'
 
 export const sidebarData: SidebarData = {
   user: {
-    name: 'satnaing',
-    email: 'satnaingdev@gmail.com',
+    name: 'user',
+    email: 'user@gmail.com',
     avatar: '/avatars/shadcn.jpg',
   },
   teams: [
@@ -56,83 +57,82 @@ export const sidebarData: SidebarData = {
   ],
   navGroups: [
     {
-      title: 'General',
+      title: 'general',
       items: [
         {
-          title: 'Dashboard',
+          title: 'dashboard',
           url: '/',
           icon: IconLayoutDashboard,
         },
         {
-          title: 'Projects',
+          title: 'projects',
           url: '/projects',
           icon: IconBriefcase2,
         },
         {
-          title: 'Contracts',
+          title: 'network',
+          icon: IconSocial,
+          items: [
+            {
+              title: 'types',
+              url: '/network/types',
+            },
+            {
+              title: 'categories',
+              url: '/network/categories',
+            },
+            {
+              title: 'socials',
+              url: '/network/socials',
+            },
+            {
+              title: 'tags',
+              url: '/network/tags',
+            },
+          ],
+        },
+        {
+          title: 'contracts',
           url: '/contracts',
           icon: IconContract,
         },
         {
-          title: 'Companies',
+          title: 'companies',
           url: '/companies',
           icon: IconBuildings,
         },
         {
-          title: 'Expenses',
+          title: 'expenses',
           url: '/expences',
           icon: IconCoins,
         },
         {
-          title: 'Deposits',
+          title: 'deposits',
           url: '/deposits',
           icon: IconBasketDollar,
         },
         {
-          title: 'Stakeholders',
+          title: 'stakeholders',
           icon: IconUsersGroup,
           items: [
             {
-              title: 'Founders',
+              title: 'founders',
               url: '/stakeholder/founders',
             },
             {
-              title: 'Distribution',
+              title: 'distribution',
               url: '/stakeholder/distribution',
             },
           ],
         },
         {
-          title: 'Users',
+          title: 'users',
           url: '/users',
           icon: IconUsers,
         },
 
         {
-          title: 'Network',
-          icon: IconSocial,
-          items: [
-            {
-              title: 'Types',
-              url: '/network/types',
-            },
-            {
-              title: 'Categories',
-              url: '/network/categories',
-            },
-            {
-              title: 'Socials',
-              url: '/network/socials',
-            },
-            {
-              title: 'Tags',
-              url: '/network/tags',
-            },
-          ],
-        },
-
-        {
-          title: 'User Actions',
+          title: 'user_actions',
           url: '/actions',
           icon: IconDeviceImacSearch,
         },
@@ -237,41 +237,46 @@ export const sidebarData: SidebarData = {
     //   ],
     // },
     {
-      title: 'Other',
+      title: 'other',
       items: [
         {
-          title: 'Settings',
+          title: 'settings',
           icon: IconSettings,
           items: [
             {
-              title: 'Profile',
+              title: 'profile',
               url: '/settings',
               icon: IconUserCog,
             },
             {
-              title: 'Account',
+              title: 'account',
               url: '/settings/account',
               icon: IconTool,
             },
             {
-              title: 'Appearance',
+              title: 'appearance',
               url: '/settings/appearance',
               icon: IconPalette,
             },
             {
-              title: 'Notifications',
+              title: 'notifications',
               url: '/settings/notifications',
               icon: IconNotification,
             },
             {
-              title: 'Display',
+              title: 'display',
               url: '/settings/display',
               icon: IconBrowserCheck,
+            },
+            {
+              title: 'localization',
+              url: '/settings/localization',
+              icon: IconLanguage,
             },
           ],
         },
         {
-          title: 'Help Center',
+          title: 'help_center',
           url: '/help-center',
           icon: IconHelp,
         },

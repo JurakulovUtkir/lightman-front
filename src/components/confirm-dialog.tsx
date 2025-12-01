@@ -1,4 +1,5 @@
 import { cn } from '@/lib/utils'
+import { useLang } from '@/hooks/useLang'
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -39,6 +40,10 @@ export function ConfirmDialog(props: ConfirmDialogProps) {
     handleConfirm,
     ...actions
   } = props
+
+  const { lang, general } = useLang()
+  const t = general[lang].layout
+
   return (
     <AlertDialog {...actions}>
       <AlertDialogContent className={cn(className && className)}>
@@ -51,14 +56,14 @@ export function ConfirmDialog(props: ConfirmDialogProps) {
         {children}
         <AlertDialogFooter>
           <AlertDialogCancel disabled={isLoading}>
-            {cancelBtnText ?? 'Cancel'}
+            {cancelBtnText ?? t.cancel}
           </AlertDialogCancel>
           <Button
             variant={destructive ? 'destructive' : 'default'}
             onClick={handleConfirm}
             disabled={disabled || isLoading}
           >
-            {confirmText ?? 'Continue'}
+            {confirmText ?? t.continue}
           </Button>
         </AlertDialogFooter>
       </AlertDialogContent>

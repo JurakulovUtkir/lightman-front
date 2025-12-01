@@ -7,6 +7,7 @@ import {
   LogOut,
   Sparkles,
 } from 'lucide-react'
+import { useLang } from '@/hooks/useLang'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
   DropdownMenu,
@@ -29,7 +30,8 @@ import { UserType } from '@/features/auth/data/types'
 export function NavUser({ user }: { user: UserType }) {
   const { isMobile } = useSidebar()
   const { mutate: logout, isPending } = useLogout()
-
+  const { lang, general } = useLang()
+  const t = general[lang].layout
   const handleLogout = () => {
     logout()
   }
@@ -82,7 +84,7 @@ export function NavUser({ user }: { user: UserType }) {
             <DropdownMenuGroup>
               <DropdownMenuItem>
                 <Sparkles />
-                Upgrade to Pro
+                {t.upgrade}
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
@@ -90,26 +92,26 @@ export function NavUser({ user }: { user: UserType }) {
               <DropdownMenuItem asChild>
                 <Link to='/settings/account'>
                   <BadgeCheck />
-                  Account
+                  {t.account}
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
                 <Link to='/settings'>
                   <CreditCard />
-                  Billing
+                  {t.billing}
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
                 <Link to='/settings/notifications'>
                   <Bell />
-                  Notifications
+                  {t.notifications}
                 </Link>
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleLogout} disabled={isPending}>
               <LogOut />
-              {isPending ? 'Logging out...' : 'Log out'}
+              {!isPending ? t.logging_out : t.log_out}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

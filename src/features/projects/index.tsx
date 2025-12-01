@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate, useSearch } from '@tanstack/react-router'
 import { IconSearch } from '@tabler/icons-react'
 import { useDebounce } from '@/hooks/useDebounce'
+import { useLang } from '@/hooks/useLang'
 import { Input } from '@/components/ui/input'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
@@ -34,6 +35,8 @@ const Projects = () => {
     from: '/_authenticated/projects/',
   })
   const [search, setSearch] = useState('')
+  const { lang, tProject, general } = useLang()
+  const t = tProject[lang]
 
   const debouncedSearch = useDebounce(search, 500)
 
@@ -72,18 +75,16 @@ const Projects = () => {
       <Main>
         <div className='mb-2 flex flex-wrap items-center justify-between space-y-2 gap-x-4'>
           <div>
-            <h2 className='text-2xl font-bold tracking-tight'>Projects</h2>
-            <p className='text-muted-foreground'>
-              Here&apos;s a list of projects!
-            </p>
+            <h2 className='text-2xl font-bold tracking-tight'>{t.projects}</h2>
+            <p className='text-muted-foreground'>{t.list_projects}</p>
           </div>
-          <ProjectPrimaryButtons />
+          <ProjectPrimaryButtons text={t.create} />
         </div>
         <div className='flex flex-col gap-4 md:flex-row md:items-center'>
           <div className='relative'>
             <Input
               type='search'
-              placeholder='Search by projects'
+              placeholder={t.search_by_project}
               className='h-8 max-w-80 pl-8'
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -96,7 +97,7 @@ const Projects = () => {
         <div className='-mx-4 flex-1 overflow-auto px-4 pt-4 pb-1 lg:flex-row lg:space-y-0 lg:space-x-12'>
           <DataTable
             data={data?.data.items?.length ? data.data.items : []}
-            columns={columns}
+            columns={columns(general[lang].columns)}
             offset={offset}
             limit={limit}
             total={data?.data.total ?? 0}

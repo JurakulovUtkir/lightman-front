@@ -1,0 +1,518 @@
+{
+  "en": {
+    "layout": {
+      "profile": "Profile",
+      "billing": "Billing",
+      "settings": "Settings",
+      "new_team": "New team",
+      "log_out": "Log out",
+      "logging_out": "Logging out...",
+      "account": "Account",
+      "upgrade": "Upgrade to Pro",
+      "notifications": "Notifications",
+      "cancel": "Cancel",
+      "continue": "continue",
+      "delete": "Delete",
+      "deleting": "Deleting ...",
+      "undone": "This action cannot be undone.",
+      "toggle_theme": "Toggle theme",
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System"
+    },
+    "auth": {
+      "sign_in": "Sign in",
+      "sign_up": "Sign up",
+      "enter_sign_in_details": "Enter your phone number and password below to sign into your account",
+      "no_account": "Don't have an account?",
+      "continue_with": "Or continue with",
+      "developed_by": "Developed by Lightman Group.",
+      "create_account": "Create an account",
+      "enter_sign_up_details": "Enter your email and password to create an account.",
+      "have_account": "Already have an account?",
+      "by_creating_account": "By creating an account, you agree to our Terms of Service and Privacy Policy.",
+      "signing_in": "'Signing in...",
+      "form_labels": {
+        "full_name": "Full name",
+        "phone_number": "Phone number",
+        "password": "Password",
+        "confirm_password": "Confirm Password",
+        "forgot_password": "Forgot password?"
+      },
+      "form_placeholders": {
+        "enter_full_name": "Enter full name",
+        "enter_phone_number": "Enter phone number",
+        "enter_password": "Enter password",
+        "enter_confirm_password": "Enter confirm password"
+      },
+      "form_validation": {
+        "full_name": "Please enter full name",
+        "phone_number": "Please enter your phone number",
+        "invalid_phone_number": "Please enter valid phone number",
+        "password": "Please enter your password",
+        "invalid_password": "Password must be at least 6 characters long",
+        "confirm_password": "Please confirm your password",
+        "password_not_match": "Passwords don't match."
+      },
+      "form_toaster": {
+        "signed_in": "Signed in successfully",
+        "signed_up": "Account created successfully"
+      }
+    },
+    "terms": {
+      "terms": "Terms of Service",
+      "privacy": "Privacy Policy",
+      "agreement": "By clicking login, you agree to our {{terms}} and {{privacy}}.",
+      "terms_of_service": "Terms of Service",
+      "privacy_policy": "Privacy Policy"
+    },
+    "pagination": {
+      "selected_rows": "{{selected}} of {{total}} row(s) selected.",
+      "rows_per_page": "Rows per page",
+      "page_of": "Page {{current}} of {{total}}",
+      "go_first": "Go to first page",
+      "go_previous": "Go to previous page",
+      "go_next": "Go to next page",
+      "go_last": "Go to last page"
+    },
+    "filters": {
+      "search": "Search",
+      "filters": "Filters",
+      "by_category": "Filter by category",
+      "search_category": "Search categories ..."
+    },
+    "sidebar": {
+      "general": "General",
+      "dashboard": "Dashboard",
+      "projects": "Projects",
+      "network": "Network",
+      "types": "Types",
+      "categories": "Categories",
+      "socials": "Socials",
+      "tags": "Tags",
+      "contracts": "Contracts",
+      "companies": "Companies",
+      "expenses": "Expenses",
+      "deposits": "Deposits",
+      "stakeholders": "Stakeholders",
+      "founders": "Founders",
+      "distribution": "Distribution",
+      "users": "Users",
+      "user_actions": "User Actions",
+      "other": "Other",
+      "settings": "Settings",
+      "profile": "Profile",
+      "account": "Account",
+      "appearance": "Appearance",
+      "notifications": "Notifications",
+      "display": "Display",
+      "localization": "Localization",
+      "help_center": "Help Center"
+    },
+    "columns": {
+      "statusOptions": {
+        "draft": "Draft",
+        "active": "Active",
+        "on_hold": "On hold",
+        "approved": "Approved",
+        "requested": "Requested",
+        "done": "Done",
+        "canceled": "Canceled"
+      },
+      "paymentStatusOprions": {
+        "pending": "Pending",
+        "paid": "Paid",
+        "cancelled": "Cancelled",
+        "unpaid": "Unpaid"
+      },
+      "priceTypeOptions": {
+        "standard": "Standard",
+        "vip": "Vip",
+        "no_watermark": "No Watermark"
+      },
+      "paymentTypeOptions": {
+        "card": "Card",
+        "bank_transfer": "Bank transfer",
+        "cash": "Cash",
+        "deposit": "Deposit"
+      },
+      "expenceTypeOptions": {
+        "salary": "Salary",
+        "avans": "Avans",
+        "project": "Project",
+        "deposit": "Deposit",
+        "transfer": "Transfer",
+        "other": "Other"
+      },
+      "expenceOriginTypeOptions": {
+        "expence": "Expence",
+        "income": "Income",
+        "deposit": "Deposit"
+      },
+      "userRoleOptions": {
+        "admin": "Admin",
+        "user": "User",
+        "operator": "Operator",
+        "employee": "Employee",
+        "accountant": "Accountant",
+        "account_manager": "Account manager"
+      },
+      "project_name": "Project name",
+      "our_company": "Our company",
+      "customer": "Customer",
+      "customer_company": "Customer company",
+      "price": "Price",
+      "status": "Status",
+      "payment": "Payment",
+      "payment_type": "Payment type",
+      "payment_status": "Payment status",
+      "price_type": "Price type",
+      "qqs": "QQS",
+      "uzs": "UZS"
+    }
+  },
+  "ru": {
+    "layout": {
+      "profile": "Профиль",
+      "billing": "Биллинг",
+      "settings": "Настройки",
+      "new_team": "Новая команда",
+      "log_out": "Выйти",
+      "logging_out": "Выход из системы...",
+      "account": "Аккаунт",
+      "upgrade": "Обновить до Pro",
+      "notifications": "Уведомления",
+      "cancel": "Отмена",
+      "continue": "Продолжить",
+      "delete": "Удалить",
+      "deleting": "Удаление ...",
+      "undone": "Это действие нельзя отменить.",
+      "toggle_theme": "Переключить тему",
+      "light": "Светлая",
+      "dark": "Тёмная",
+      "system": "Системная"
+    },
+    "auth": {
+      "sign_in": "Войти",
+      "sign_up": "Регистрация",
+      "enter_sign_in_details": "Введите номер телефона и пароль, чтобы войти в аккаунт",
+      "no_account": "Нет аккаунта?",
+      "continue_with": "Или продолжить с помощью",
+      "developed_by": "Разработано компанией Lightman Group.",
+      "create_account": "Создать аккаунт",
+      "enter_sign_up_details": "Введите email и пароль для создания аккаунта.",
+      "have_account": "Уже есть аккаунт?",
+      "by_creating_account": "Создавая аккаунт, вы соглашаетесь с Условиями использования и Политикой конфиденциальности.",
+      "signing_in": "Вход в систему...",
+      "form_labels": {
+        "full_name": "Полное имя",
+        "phone_number": "Номер телефона",
+        "password": "Пароль",
+        "confirm_password": "Подтверждение пароля",
+        "forgot_password": "Забыли пароль?"
+      },
+      "form_placeholders": {
+        "enter_full_name": "Введите полное имя",
+        "enter_phone_number": "Введите номер телефона",
+        "enter_password": "Введите пароль",
+        "enter_confirm_password": "Подтвердите пароль"
+      },
+      "form_validation": {
+        "full_name": "Пожалуйста, введите полное имя",
+        "phone_number": "Пожалуйста, введите номер телефона",
+        "invalid_phone_number": "Пожалуйста, введите корректный номер телефона",
+        "password": "Пожалуйста, введите пароль",
+        "invalid_password": "Пароль должен содержать не менее 6 символов",
+        "confirm_password": "Пожалуйста, подтвердите пароль",
+        "password_not_match": "Пароли не совпадают"
+      },
+      "form_toaster": {
+        "signed_in": "Вход выполнен успешно",
+        "signed_up": "Аккаунт успешно создан"
+      }
+    },
+    "terms": {
+      "terms": "Условия использования",
+      "privacy": "Политика конфиденциальности",
+      "agreement": "Нажимая кнопку входа, вы соглашаетесь с {{terms}} и {{privacy}}.",
+      "terms_of_service": "Условиями использования",
+      "privacy_policy": "Политикой конфиденциальности"
+    },
+    "pagination": {
+      "selected_rows": "Выбрано {{selected}} из {{total}} строк",
+      "rows_per_page": "Строк на странице",
+      "page_of": "Страница {{current}} из {{total}}",
+      "go_first": "Перейти на первую страницу",
+      "go_previous": "Перейти на предыдущую страницу",
+      "go_next": "Перейти на следующую страницу",
+      "go_last": "Перейти на последнюю страницу"
+    },
+    "filters": {
+      "search": "Поиск",
+      "filters": "Фильтры",
+      "by_category": "Фильтр по категории",
+      "search_category": "Поиск категорий ..."
+    },
+    "sidebar": {
+      "general": "Общее",
+      "dashboard": "Панель управления",
+      "projects": "Проекты",
+      "network": "Сеть",
+      "types": "Типы",
+      "categories": "Категории",
+      "socials": "Социальные сети",
+      "tags": "Теги",
+      "contracts": "Контракты",
+      "companies": "Компании",
+      "expenses": "Расходы",
+      "deposits": "Депозиты",
+      "stakeholders": "Заинтересованные стороны",
+      "founders": "Основатели",
+      "distribution": "Распределение",
+      "users": "Пользователи",
+      "user_actions": "Действия пользователей",
+      "other": "Другое",
+      "settings": "Настройки",
+      "profile": "Профиль",
+      "account": "Аккаунт",
+      "appearance": "Внешний вид",
+      "notifications": "Уведомления",
+      "display": "Отображение",
+      "localization": "Локализация",
+      "help_center": "Центр помощи"
+    },
+    "columns": {
+      "statusOptions": {
+        "draft": "Черновик",
+        "active": "Активный",
+        "on_hold": "На удержании",
+        "approved": "Утверждено",
+        "requested": "Запрошено",
+        "done": "Завершено",
+        "canceled": "Отменено"
+      },
+      "paymentStatusOprions": {
+        "pending": "В ожидании",
+        "paid": "Оплачено",
+        "cancelled": "Отменено",
+        "unpaid": "Не оплачено"
+      },
+      "priceTypeOptions": {
+        "standard": "Стандартный",
+        "vip": "VIP",
+        "no_watermark": "Без водяного знака"
+      },
+      "paymentTypeOptions": {
+        "card": "Карта",
+        "bank_transfer": "Банковский перевод",
+        "cash": "Наличные",
+        "deposit": "Депозит"
+      },
+      "expenceTypeOptions": {
+        "salary": "Зарплата",
+        "avans": "Аванс",
+        "project": "Проект",
+        "deposit": "Депозит",
+        "transfer": "Перевод",
+        "other": "Другое"
+      },
+      "expenceOriginTypeOptions": {
+        "expence": "Расход",
+        "income": "Доход",
+        "deposit": "Депозит"
+      },
+      "userRoleOptions": {
+        "admin": "Администратор",
+        "user": "Пользователь",
+        "operator": "Оператор",
+        "employee": "Сотрудник",
+        "accountant": "Бухгалтер",
+        "account_manager": "Аккаунт-менеджер"
+      },
+      "project_name": "Название проекта",
+      "our_company": "Наша компания",
+      "customer": "Клиент",
+      "customer_company": "Компания клиента",
+      "price": "Цена",
+      "status": "Статус",
+      "payment": "Платеж",
+      "payment_type": "Тип оплаты",
+      "payment_status": "Статус платежа",
+      "price_type": "Тип цены",
+      "qqs": "НДС",
+      "uzs": "UZS (Сум)"
+    }
+  },
+  "uz": {
+    "layout": {
+      "profile": "Profil",
+      "billing": "To‘lovlar",
+      "settings": "Sozlamalar",
+      "new_team": "Yangi jamoa",
+      "log_out": "Chiqish",
+      "logging_out": "Amalga oshirilmoqda...",
+      "account": "Hisob",
+      "upgrade": "Pro versiyaga o'tish",
+      "notifications": "Bildirishnomalar",
+      "cancel": "Bekor qilish",
+      "continue": "Davom etish",
+      "delete": "O‘chirish",
+      "deleting": "O‘chirilmoqda ...",
+      "undone": "Bu amalni bekor qilib bo‘lmaydi.",
+      "toggle_theme": "Mavzuni almashtirish",
+      "light": "Yorug‘",
+      "dark": "Qorong‘i",
+      "system": "Tizim"
+    },
+    "auth": {
+      "sign_in": "Kirish",
+      "sign_up": "Ro‘yxatdan o‘tish",
+      "enter_sign_in_details": "Hisobingizga kirish uchun telefon raqamingiz va parolingizni kiriting",
+      "no_account": "Hisobingiz yo‘qmi?",
+      "continue_with": "Yoki quyidagilar orqali davom eting",
+      "developed_by": "Lightman Group tomonidan ishlab chiqilgan.",
+      "create_account": "Hisob yaratish",
+      "enter_sign_up_details": "Hisob yaratish uchun emailingiz va parolingizni kiriting.",
+      "have_account": "Allaqachon hisobingiz bormi?",
+      "by_creating_account": "Hisob yaratish orqali Siz Xizmat ko‘rsatish shartlari va Maxfiylik siyosatiga rozilik bildirasiz.",
+      "signing_in": "Kirish amalga oshirilmoqda...",
+      "form_labels": {
+        "full_name": "To‘liq ism",
+        "phone_number": "Telefon raqami",
+        "password": "Parol",
+        "confirm_password": "Parolni tasdiqlash",
+        "forgot_password": "Parolni unutdingizmi?"
+      },
+      "form_placeholders": {
+        "enter_full_name": "To‘liq ismingizni kiriting",
+        "enter_phone_number": "Telefon raqamingizni kiriting",
+        "enter_password": "Parolni kiriting",
+        "enter_confirm_password": "Parolni qayta kiriting"
+      },
+      "form_validation": {
+        "full_name": "Iltimos, to‘liq ismingizni kiriting",
+        "phone_number": "Iltimos, telefon raqamingizni kiriting",
+        "invalid_phone_number": "Iltimos, to‘g‘ri telefon raqamini kiriting",
+        "password": "Iltimos, parolingizni kiriting",
+        "invalid_password": "Parol kamida 6 ta belgidan iborat bo‘lishi kerak",
+        "confirm_password": "Iltimos, parolni tasdiqlang",
+        "password_not_match": "Parollar mos kelmaydi"
+      },
+      "form_toaster": {
+        "signed_in": "Muvaffaqiyatli tizimga kirdingiz",
+        "signed_up": "Hisob muvaffaqiyatli yaratildi"
+      }
+    },
+    "terms": {
+      "terms": "Xizmat ko‘rsatish shartlari",
+      "privacy": "Maxfiylik siyosati",
+      "agreement": "Kirish tugmasini bosish orqali Siz {{terms}} va {{privacy}} ga rozilik bildirasiz.",
+      "terms_of_service": "Xizmat ko‘rsatish shartlari",
+      "privacy_policy": "Maxfiylik siyosati"
+    },
+    "pagination": {
+      "selected_rows": "{{total}} ta qatordan {{selected}} tasi tanlandi",
+      "rows_per_page": "Sahifadagi qatorlar soni",
+      "page_of": "{{total}} sahifadan {{current}}-sahifa",
+      "go_first": "Birinchi sahifaga o‘tish",
+      "go_previous": "Oldingi sahifaga o‘tish",
+      "go_next": "Keyingi sahifaga o‘tish",
+      "go_last": "Oxirgi sahifaga o‘tish"
+    },
+    "filters": {
+      "search": "Qidirish",
+      "filters": "Filtrlar",
+      "by_category": "Kategoriya bo‘yicha filtrlash",
+      "search_category": "Kategoriyalarni qidirish ..."
+    },
+    "sidebar": {
+      "general": "Umumiy",
+      "dashboard": "Boshqaruv paneli",
+      "projects": "Loyihalar",
+      "network": "Tarmoq",
+      "types": "Turlar",
+      "categories": "Kategoriyalar",
+      "socials": "Ijtimoiy tarmoqlar",
+      "tags": "Teglar",
+      "contracts": "Shartnomalar",
+      "companies": "Kompaniyalar",
+      "expenses": "Xarajatlar",
+      "deposits": "Depozitlar",
+      "stakeholders": "Manfaatdor tomonlar",
+      "founders": "Tashkilotchilar",
+      "distribution": "Taqsimot",
+      "users": "Foydalanuvchilar",
+      "user_actions": "Foydalanuvchi harakatlari",
+      "other": "Boshqa",
+      "settings": "Sozlamalar",
+      "profile": "Profil",
+      "account": "Hisob",
+      "appearance": "Ko‘rinish",
+      "notifications": "Bildirishnomalar",
+      "display": "Ko‘rsatish",
+      "localization": "Lokalizatsiya",
+      "help_center": "Yordam markazi"
+    },
+    "columns": {
+      "statusOptions": {
+        "draft": "Qoralama",
+        "active": "Faol",
+        "on_hold": "Kutilmoqda",
+        "approved": "Tasdiqlangan",
+        "requested": "So‘ralgan",
+        "done": "Yakunlangan",
+        "canceled": "Bekor qilingan"
+      },
+      "paymentStatusOprions": {
+        "pending": "Kutilmoqda",
+        "paid": "To‘langan",
+        "cancelled": "Bekor qilingan",
+        "unpaid": "To‘lanmagan"
+      },
+      "priceTypeOptions": {
+        "standard": "Standart",
+        "vip": "VIP",
+        "no_watermark": "Watermarksiz"
+      },
+      "paymentTypeOptions": {
+        "card": "Karta",
+        "bank_transfer": "Bank o‘tkazmasi",
+        "cash": "Naqd pul",
+        "deposit": "Depozit"
+      },
+      "expenceTypeOptions": {
+        "salary": "Ish haqi",
+        "avans": "Avans",
+        "project": "Loyiha",
+        "deposit": "Depozit",
+        "transfer": "O‘tkazma",
+        "other": "Boshqa"
+      },
+      "expenceOriginTypeOptions": {
+        "expence": "Xarajat",
+        "income": "Daromad",
+        "deposit": "Depozit"
+      },
+      "userRoleOptions": {
+        "admin": "Administrator",
+        "user": "Foydalanuvchi",
+        "operator": "Operator",
+        "employee": "Xodim",
+        "accountant": "Buxgalter",
+        "account_manager": "Mijozlar menejeri"
+      },
+      "project_name": "Loyiha nomi",
+      "our_company": "Kompaniyamiz",
+      "customer": "Mijoz",
+      "customer_company": "Mijoz kompaniyasi",
+      "price": "Narx",
+      "status": "Holat",
+      "payment": "To‘lov",
+      "payment_type": "To‘lov turi",
+      "payment_status": "To‘lov holati",
+      "price_type": "Narx turi",
+      "qqs": "QQS",
+      "uzs": "UZS (So‘m)"
+    }
+  }
+}

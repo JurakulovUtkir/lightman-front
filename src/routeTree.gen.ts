@@ -42,6 +42,7 @@ import { Route as ClerkauthSignUpRouteImport } from './routes/clerk/(auth)/sign-
 import { Route as ClerkauthSignInRouteImport } from './routes/clerk/(auth)/sign-in'
 import { Route as AuthenticatedStakeholderDistributionRouteImport } from './routes/_authenticated/stakeholder/distribution'
 import { Route as AuthenticatedSettingsNotificationsRouteImport } from './routes/_authenticated/settings/notifications'
+import { Route as AuthenticatedSettingsLocalizationRouteImport } from './routes/_authenticated/settings/localization'
 import { Route as AuthenticatedSettingsDisplayRouteImport } from './routes/_authenticated/settings/display'
 import { Route as AuthenticatedSettingsAppearanceRouteImport } from './routes/_authenticated/settings/appearance'
 import { Route as AuthenticatedSettingsAccountRouteImport } from './routes/_authenticated/settings/account'
@@ -229,6 +230,12 @@ const AuthenticatedSettingsNotificationsRoute =
     path: '/notifications',
     getParentRoute: () => AuthenticatedSettingsRouteRoute,
   } as any)
+const AuthenticatedSettingsLocalizationRoute =
+  AuthenticatedSettingsLocalizationRouteImport.update({
+    id: '/localization',
+    path: '/localization',
+    getParentRoute: () => AuthenticatedSettingsRouteRoute,
+  } as any)
 const AuthenticatedSettingsDisplayRoute =
   AuthenticatedSettingsDisplayRouteImport.update({
     id: '/display',
@@ -323,6 +330,7 @@ export interface FileRoutesByFullPath {
   '/settings/account': typeof AuthenticatedSettingsAccountRoute
   '/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
   '/settings/display': typeof AuthenticatedSettingsDisplayRoute
+  '/settings/localization': typeof AuthenticatedSettingsLocalizationRoute
   '/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
   '/stakeholder/distribution': typeof AuthenticatedStakeholderDistributionRoute
   '/clerk/sign-in': typeof ClerkauthSignInRoute
@@ -366,6 +374,7 @@ export interface FileRoutesByTo {
   '/settings/account': typeof AuthenticatedSettingsAccountRoute
   '/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
   '/settings/display': typeof AuthenticatedSettingsDisplayRoute
+  '/settings/localization': typeof AuthenticatedSettingsLocalizationRoute
   '/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
   '/stakeholder/distribution': typeof AuthenticatedStakeholderDistributionRoute
   '/clerk/sign-in': typeof ClerkauthSignInRoute
@@ -414,6 +423,7 @@ export interface FileRoutesById {
   '/_authenticated/settings/account': typeof AuthenticatedSettingsAccountRoute
   '/_authenticated/settings/appearance': typeof AuthenticatedSettingsAppearanceRoute
   '/_authenticated/settings/display': typeof AuthenticatedSettingsDisplayRoute
+  '/_authenticated/settings/localization': typeof AuthenticatedSettingsLocalizationRoute
   '/_authenticated/settings/notifications': typeof AuthenticatedSettingsNotificationsRoute
   '/_authenticated/stakeholder/distribution': typeof AuthenticatedStakeholderDistributionRoute
   '/clerk/(auth)/sign-in': typeof ClerkauthSignInRoute
@@ -460,6 +470,7 @@ export interface FileRouteTypes {
     | '/settings/account'
     | '/settings/appearance'
     | '/settings/display'
+    | '/settings/localization'
     | '/settings/notifications'
     | '/stakeholder/distribution'
     | '/clerk/sign-in'
@@ -503,6 +514,7 @@ export interface FileRouteTypes {
     | '/settings/account'
     | '/settings/appearance'
     | '/settings/display'
+    | '/settings/localization'
     | '/settings/notifications'
     | '/stakeholder/distribution'
     | '/clerk/sign-in'
@@ -550,6 +562,7 @@ export interface FileRouteTypes {
     | '/_authenticated/settings/account'
     | '/_authenticated/settings/appearance'
     | '/_authenticated/settings/display'
+    | '/_authenticated/settings/localization'
     | '/_authenticated/settings/notifications'
     | '/_authenticated/stakeholder/distribution'
     | '/clerk/(auth)/sign-in'
@@ -822,6 +835,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedSettingsNotificationsRouteImport
       parentRoute: typeof AuthenticatedSettingsRouteRoute
     }
+    '/_authenticated/settings/localization': {
+      id: '/_authenticated/settings/localization'
+      path: '/localization'
+      fullPath: '/settings/localization'
+      preLoaderRoute: typeof AuthenticatedSettingsLocalizationRouteImport
+      parentRoute: typeof AuthenticatedSettingsRouteRoute
+    }
     '/_authenticated/settings/display': {
       id: '/_authenticated/settings/display'
       path: '/display'
@@ -913,6 +933,7 @@ interface AuthenticatedSettingsRouteRouteChildren {
   AuthenticatedSettingsAccountRoute: typeof AuthenticatedSettingsAccountRoute
   AuthenticatedSettingsAppearanceRoute: typeof AuthenticatedSettingsAppearanceRoute
   AuthenticatedSettingsDisplayRoute: typeof AuthenticatedSettingsDisplayRoute
+  AuthenticatedSettingsLocalizationRoute: typeof AuthenticatedSettingsLocalizationRoute
   AuthenticatedSettingsNotificationsRoute: typeof AuthenticatedSettingsNotificationsRoute
   AuthenticatedSettingsIndexRoute: typeof AuthenticatedSettingsIndexRoute
 }
@@ -922,6 +943,8 @@ const AuthenticatedSettingsRouteRouteChildren: AuthenticatedSettingsRouteRouteCh
     AuthenticatedSettingsAccountRoute: AuthenticatedSettingsAccountRoute,
     AuthenticatedSettingsAppearanceRoute: AuthenticatedSettingsAppearanceRoute,
     AuthenticatedSettingsDisplayRoute: AuthenticatedSettingsDisplayRoute,
+    AuthenticatedSettingsLocalizationRoute:
+      AuthenticatedSettingsLocalizationRoute,
     AuthenticatedSettingsNotificationsRoute:
       AuthenticatedSettingsNotificationsRoute,
     AuthenticatedSettingsIndexRoute: AuthenticatedSettingsIndexRoute,

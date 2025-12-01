@@ -19,6 +19,7 @@ export const getStatusColor = (status: string): string => {
     'border-gray-200 bg-gray-50 text-gray-700 dark:border-gray-800 dark:bg-gray-950 dark:text-gray-300'
   )
 }
+// Need to remove after translations
 export const formatStatus = (status: string): string => {
   const formatted: Record<string, string> = {
     draft: 'Draft',
@@ -47,6 +48,7 @@ export const getPaymentStatusColor = (paymentStatus: string): string => {
     'border-gray-200 bg-gray-50 text-gray-700 dark:border-gray-800 dark:bg-gray-950 dark:text-gray-300'
   )
 }
+// Need to remove after translations
 export const formatPaymentStatus = (paymentStatus: string): string => {
   const formatted: Record<string, string> = {
     pending: 'Pending',
@@ -67,6 +69,7 @@ export const getPriceTypeColor = (priceType: string): string => {
     'bg-gray-100 text-gray-800 border-gray-200'
   )
 }
+// Need to remove after translations
 export const formatPriceType = (priceType: string): string => {
   const formatted: Record<string, string> = {
     standard: 'Standard',
@@ -89,6 +92,7 @@ export const getPaymentTypeColor = (paymentType: string): string => {
       return 'border-gray-200 bg-gray-50 text-gray-700 dark:border-gray-800 dark:bg-gray-950 dark:text-gray-300'
   }
 }
+// Need to remove after translations
 export const formatPaymentType = (paymentType: string): string => {
   switch (paymentType) {
     case 'cash':
@@ -123,6 +127,7 @@ export const getExpenceTypeColor = (type: string): string => {
     'border-gray-200 bg-gray-50 text-gray-700 dark:border-gray-800 dark:bg-gray-950 dark:text-gray-300'
   )
 }
+// Need to remove after translations
 export const formatExpenceType = (type: string): string => {
   const formatted: Record<string, string> = {
     salary: 'Salary',
@@ -148,6 +153,7 @@ export const getExpenceOriginTypeColor = (type: string): string => {
     'border-gray-200 bg-gray-50 text-gray-700 dark:border-gray-800 dark:bg-gray-950 dark:text-gray-300'
   )
 }
+// Need to remove after translations
 export const formatExpenceOriginType = (type: string): string => {
   const formatted: Record<string, string> = {
     expence: 'Expence',

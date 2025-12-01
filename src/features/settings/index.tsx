@@ -1,6 +1,7 @@
 import { Outlet } from '@tanstack/react-router'
 import {
   IconBrowserCheck,
+  IconLanguage,
   IconNotification,
   IconPalette,
   IconTool,
@@ -74,5 +75,10 @@ const sidebarNavItems = [
     title: 'Display',
     icon: <IconBrowserCheck size={18} />,
     href: '/settings/display',
+  },
+  {
+    title: 'Localization',
+    icon: <IconLanguage size={18} />,
+    href: '/settings/localization',
   },
 ]
