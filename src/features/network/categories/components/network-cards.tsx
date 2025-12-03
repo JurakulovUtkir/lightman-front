@@ -7,6 +7,7 @@ import {
   IconCircleX,
 } from '@tabler/icons-react'
 import { formatToYearMonthDay } from '@/lib/dateFormatter'
+import { useLang } from '@/hooks/useLang'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -20,6 +21,8 @@ const NetworkCards = ({
 }) => {
   const navigate = useNavigate()
   const { setOpen, setCurrentRow } = useNetworkCategoryContext()
+  const { lang, general, tNetwork } = useLang()
+  const t = general[lang]
 
   const handleEdit = (e: React.MouseEvent, payload: NetworkCategorySchema) => {
     e.stopPropagation()
@@ -56,12 +59,12 @@ const NetworkCards = ({
                   {item.is_active ? (
                     <>
                       <IconCircleCheck className='h-3 w-3' />
-                      Active
+                      {t.layout.active}
                     </>
                   ) : (
                     <>
                       <IconCircleX className='h-3 w-3' />
-                      Inactive
+                      {t.layout.inactive}
                     </>
                   )}
                 </Badge>
@@ -95,10 +98,10 @@ const NetworkCards = ({
       <CardContent className='flex flex-col items-center justify-center py-12'>
         <IconCategory className='text-muted-foreground mb-4 h-12 w-12' />
         <CardTitle className='mb-2 text-xl'>
-          No Network Categories Found
+          {tNetwork[lang].no_network_categories_found}
         </CardTitle>
         <p className='text-muted-foreground text-sm'>
-          Create a network category to get started
+          {tNetwork[lang].create_network_category_message}
         </p>
       </CardContent>
     </Card>

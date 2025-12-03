@@ -1,11 +1,11 @@
 import { ColumnDef } from '@tanstack/react-table'
-import { formatDateToLongString } from '@/lib/dateFormatter'
 import { Checkbox } from '@/components/ui/checkbox'
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
+import { FormatDateToLongString } from '@/components/date-formatter'
 import LongText from '@/components/long-text'
 import { DistributorSchema } from '../data/schema'
 import { DataTableColumnHeader } from './data-table-column-header'
@@ -72,7 +72,9 @@ export const columns: ColumnDef<DistributorSchema>[] = [
       <DataTableColumnHeader column={column} title='Created at' />
     ),
     cell: ({ row }) => (
-      <div>{formatDateToLongString(row.getValue('created_at'))}</div>
+      <div>
+        <FormatDateToLongString dateString={row.getValue('created_at')} />
+      </div>
     ),
 
     enableSorting: false,
@@ -84,7 +86,9 @@ export const columns: ColumnDef<DistributorSchema>[] = [
       <DataTableColumnHeader column={column} title='Updated at' />
     ),
     cell: ({ row }) => (
-      <div>{formatDateToLongString(row.getValue('updated_at'))}</div>
+      <div>
+        <FormatDateToLongString dateString={row.getValue('updated_at')} />
+      </div>
     ),
 
     enableSorting: false,

@@ -2,6 +2,7 @@ import { useRef, useState, useEffect } from 'react'
 import { Control, FieldPath, FieldValues } from 'react-hook-form'
 import { Upload, X, FileText, Loader2 } from 'lucide-react'
 import { toast } from 'sonner'
+import { useLang } from '@/hooks/useLang'
 import { Button } from '@/components/ui/button'
 import {
   FormControl,
@@ -31,6 +32,8 @@ export function FormFileUploadField<TFieldValues extends FieldValues>({
   isUpdateMode = false,
   onPendingDelete,
 }: FileUploadFieldProps<TFieldValues>) {
+  const { lang, tForm, interpolate } = useLang()
+  const t = tForm[lang]
   const [preview, setPreview] = useState<string | null>(null)
   const [fileType, setFileType] = useState<'document' | 'image' | null>(null)
   const [isFocused, setIsFocused] = useState(false)
@@ -119,7 +122,11 @@ export function FormFileUploadField<TFieldValues extends FieldValues>({
 
     // Validate file size
     if (file.size > maxSize * 1024 * 1024) {
-      toast.error(`File size must be less than ${maxSize}MB`)
+      toast.error(
+        interpolate(t.toast.file_size_error, {
+          size: maxSize,
+        })
+      )
       if (fileInputRef.current) {
         fileInputRef.current.value = ''
       }
@@ -151,7 +158,7 @@ export function FormFileUploadField<TFieldValues extends FieldValues>({
       const filePath = response.data?.path
 
       if (!filePath) {
-        throw new Error('No file path returned from server')
+        throw new Error(t.toast.no_file_returned)
       }
 
       onChange(filePath)
@@ -167,9 +174,9 @@ export function FormFileUploadField<TFieldValues extends FieldValues>({
         setPreview(null)
       }
 
-      toast.success('File uploaded successfully')
+      toast.success(t.toast.file_uploaded)
     } catch (_error) {
-      toast.error('Failed to upload file')
+      toast.error(t.toast.failed_to_upload)
       if (fileInputRef.current) {
         fileInputRef.current.value = ''
       }
@@ -202,9 +209,9 @@ export function FormFileUploadField<TFieldValues extends FieldValues>({
           if (fileInputRef.current) {
             fileInputRef.current.value = ''
           }
-          toast.success('File removed successfully')
+          toast.success(t.toast.file_removed)
         } catch (_error) {
-          toast.error('Failed to remove file')
+          toast.error(t.toast.failed_to_remove)
         }
       }
     }
@@ -253,7 +260,9 @@ export function FormFileUploadField<TFieldValues extends FieldValues>({
                         ? field.value.split('/').pop().slice(0, 20) + '...'
                         : field.value.split('/').pop()}
                     </p>
-                    <p className='text-muted-foreground text-xs'>Uploaded</p>
+                    <p className='text-muted-foreground text-xs'>
+                      {t.form_labels.uploaded}
+                    </p>
                   </div>
                   <Button
                     type='button'
@@ -278,11 +287,13 @@ export function FormFileUploadField<TFieldValues extends FieldValues>({
                     ) : (
                       <>
                         <Upload className='text-muted-foreground mb-2 h-8 w-8' />
-                        <p className='text-muted-foreground text-sm'>
-                          Click to upload or hover and press Ctrl+V
+                        <p className='text-muted-foreground text-center text-sm'>
+                          {t.form_labels.click_to_upload}
                         </p>
                         <p className='text-muted-foreground mt-1 text-xs'>
-                          Images or Documents (Max: {maxSize}MB)
+                          {interpolate(t.form_labels.file_size, {
+                            size: maxSize,
+                          })}
                         </p>
                       </>
                     )}

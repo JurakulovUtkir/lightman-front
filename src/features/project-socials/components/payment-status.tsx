@@ -7,9 +7,11 @@ import { ProjectSocialSchema } from '../data/schema'
 const PaymentStatus = ({
   isPaid,
   item,
+  t,
 }: {
   isPaid: boolean
   item: ProjectSocialSchema
+  t: (typeof import('@/translations/general.json'))['uz']['columns']
 }) => {
   const { setOpen, setCurrentRow } = useProjectSocialContext()
   const hadleClick = () => {
@@ -22,11 +24,11 @@ const PaymentStatus = ({
   }
   return isPaid ? (
     <Badge variant='success' className='px-5.5'>
-      Paid
+      {t.paid}
     </Badge>
   ) : (
     <Button variant='destructive' size='sm' onClick={hadleClick}>
-      Unpaid
+      {t.unpaid}
     </Button>
   )
 }

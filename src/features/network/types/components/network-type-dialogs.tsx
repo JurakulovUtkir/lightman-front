@@ -1,3 +1,4 @@
+import { useLang } from '@/hooks/useLang'
 import { ConfirmDialog } from '@/components/confirm-dialog'
 import { useNetworkTypeContext } from '../context'
 import { useDeleteNetworkType } from '../data/hooks'
@@ -6,6 +7,10 @@ import { NetworkTypeMutateDrawer } from './network-type-mutate-drawer'
 export function NetworkTypesDialogs() {
   const { open, setOpen, currentRow, setCurrentRow } = useNetworkTypeContext()
   const { mutate, isPending } = useDeleteNetworkType()
+  const { lang, general, tNetwork, interpolate, interpolateWithComponents } =
+    useLang()
+  const t_general = general[lang].layout
+  const t = tNetwork[lang]
 
   const handleDelete = (id: string) => {
     mutate(id, {
@@ -51,16 +56,20 @@ export function NetworkTypesDialogs() {
             }}
             handleConfirm={() => handleDelete(currentRow.id)}
             className='max-w-md'
-            title={`Delete this Network type with the name: ${currentRow.name} ?`}
+            title={interpolate(t.delete_title, {
+              name: currentRow.name,
+            })}
             desc={
               <>
-                You are about to delete a Network type with the name{' '}
-                <strong>{currentRow.name}</strong>. <br />
-                This action cannot be undone.
+                {interpolateWithComponents(t.delete_confirm, {
+                  name: <strong>{currentRow.name}</strong>,
+                })}
+                <br />
+                {t_general.undone}
               </>
             }
             isLoading={isPending}
-            confirmText={isPending ? 'Deleting...' : 'Delete'}
+            confirmText={isPending ? t_general.deleting : t_general.delete}
           />
         </>
       )}

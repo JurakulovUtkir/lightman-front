@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Control, FieldValues, Path } from 'react-hook-form'
 import { IconCheck, IconSelector } from '@tabler/icons-react'
 import { cn } from '@/lib/utils'
+import { useLang } from '@/hooks/useLang'
 import { Button } from '@/components/ui/button'
 import {
   Command,
@@ -48,7 +49,8 @@ export const FormComboboxFounders = <T extends FieldValues>({
   excludeFounderIds = [],
 }: FormComboboxProps<T>) => {
   const [open, setOpen] = useState(false)
-
+  const { lang, tForm } = useLang()
+  const t = tForm[lang].form_labels
   const {
     data: founders,
     isLoading: isLoadingFounders,
@@ -107,7 +109,7 @@ export const FormComboboxFounders = <T extends FieldValues>({
         )
         const displayLabel =
           selectedOption?.label ??
-          (field.value ? `Selected ID: ${field.value}` : '')
+          (field.value ? `${t.selected_id} ${field.value}` : '')
 
         return (
           <FormItem className='flex w-full flex-col space-y-1'>
@@ -123,26 +125,21 @@ export const FormComboboxFounders = <T extends FieldValues>({
                       !field.value && 'text-muted-foreground'
                     )}
                   >
-                    {field.value
-                      ? displayLabel
-                      : `Select ${label.toLowerCase()}`}
+                    {field.value ? displayLabel : t.select_value}
                     <IconSelector className='opacity-50' />
                   </Button>
                 </FormControl>
               </PopoverTrigger>
               <PopoverContent className='p-0'>
                 <Command>
-                  <CommandInput
-                    placeholder={`Search ${label.toLowerCase()}...`}
-                    className='h-9'
-                  />
+                  <CommandInput placeholder={t.search_value} className='h-9' />
                   <CommandList>
                     {isLoading ? (
                       <div className='flex items-center justify-center p-4'>
                         <div className='flex items-center gap-2'>
                           <div className='h-4 w-4 animate-spin rounded-full border-2 border-gray-300 border-t-gray-900'></div>
                           <span className='text-muted-foreground text-sm'>
-                            Searching...
+                            {t.searching}
                           </span>
                         </div>
                       </div>
@@ -150,8 +147,8 @@ export const FormComboboxFounders = <T extends FieldValues>({
                       <>
                         <CommandEmpty>
                           {options.length === 0
-                            ? 'All founders are already assigned.'
-                            : 'No data found.'}
+                            ? t.founders_assigned
+                            : t.no_data}
                         </CommandEmpty>
                         <CommandGroup>
                           {options.map((item) => (

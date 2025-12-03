@@ -1,16 +1,18 @@
 import { ColumnDef } from '@tanstack/react-table'
 import { Download, Eye } from 'lucide-react'
-import { formatDateToLongString } from '@/lib/dateFormatter'
 import { downloadFile } from '@/lib/helpers'
 import { formatPrice } from '@/utils/formatPrice'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
+import { FormatDateToLongString } from '@/components/date-formatter'
 import LongText from '@/components/long-text'
 import { ProjectSocialSchema } from '../data/schema'
 import { DataTableColumnHeader } from './data-table-column-header'
 import PaymentStatus from './payment-status'
 
-export const columns: ColumnDef<ProjectSocialSchema>[] = [
+export const columns = (
+  t: (typeof import('@/translations/general.json'))['uz']['columns']
+): ColumnDef<ProjectSocialSchema>[] => [
   {
     id: 'select',
     header: ({ table }) => (
@@ -38,7 +40,7 @@ export const columns: ColumnDef<ProjectSocialSchema>[] = [
   {
     accessorKey: 'social',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Social' />
+      <DataTableColumnHeader column={column} title={t.social} />
     ),
     cell: ({ row }) => {
       const social = row.original.social
@@ -50,11 +52,15 @@ export const columns: ColumnDef<ProjectSocialSchema>[] = [
   {
     accessorKey: 'buy_price',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Buy price' />
+      <DataTableColumnHeader column={column} title={t.buy_price} />
     ),
     cell: ({ row }) => {
       const buyPrice = row.original.buy_price ?? 0
-      return <div>{formatPrice(buyPrice)} UZS</div>
+      return (
+        <div>
+          {formatPrice(buyPrice)} {t.uzs}
+        </div>
+      )
     },
     enableSorting: true,
     enableHiding: false,
@@ -62,11 +68,15 @@ export const columns: ColumnDef<ProjectSocialSchema>[] = [
   {
     accessorKey: 'sell_price',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Sell price' />
+      <DataTableColumnHeader column={column} title={t.sell_price} />
     ),
     cell: ({ row }) => {
       const sellPrice = row.original.sell_price ?? 0
-      return <div>{formatPrice(sellPrice)} UZS</div>
+      return (
+        <div>
+          {formatPrice(sellPrice)} {t.uzs}
+        </div>
+      )
     },
     enableSorting: true,
     enableHiding: false,
@@ -74,11 +84,11 @@ export const columns: ColumnDef<ProjectSocialSchema>[] = [
   {
     accessorKey: 'is_paid',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Payment Status' />
+      <DataTableColumnHeader column={column} title={t.payment_status} />
     ),
     cell: ({ row }) => {
       const isPaid = row.original.is_paid
-      return <PaymentStatus isPaid={isPaid} item={row.original} />
+      return <PaymentStatus isPaid={isPaid} item={row.original} t={t} />
     },
     enableSorting: false,
     enableHiding: false,
@@ -86,14 +96,16 @@ export const columns: ColumnDef<ProjectSocialSchema>[] = [
   {
     accessorKey: 'payment',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Payment' />
+      <DataTableColumnHeader column={column} title={t.payment} />
     ),
     cell: ({ row }) => {
       const base_url = import.meta.env.VITE_API_BASE_URL.replace(/\/v1\/?$/, '')
       const payment = row.original.payment
 
       if (!payment) {
-        return <span className='text-muted-foreground text-sm'>No payment</span>
+        return (
+          <span className='text-muted-foreground text-sm'>{t.no_payment}</span>
+        )
       }
 
       const fullUrl = `${base_url}${payment}`
@@ -124,7 +136,7 @@ export const columns: ColumnDef<ProjectSocialSchema>[] = [
   {
     accessorKey: 'post_screenshot',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Screenshot' />
+      <DataTableColumnHeader column={column} title={t.screenshot} />
     ),
     cell: ({ row }) => {
       const base_url = import.meta.env.VITE_API_BASE_URL.replace(/\/v1\/?$/, '')
@@ -132,7 +144,9 @@ export const columns: ColumnDef<ProjectSocialSchema>[] = [
 
       if (!screenshot) {
         return (
-          <span className='text-muted-foreground text-sm'>No screenshot</span>
+          <span className='text-muted-foreground text-sm'>
+            {t.no_screenshot}
+          </span>
         )
       }
 
@@ -164,7 +178,7 @@ export const columns: ColumnDef<ProjectSocialSchema>[] = [
   {
     accessorKey: 'post_link',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Post Link' />
+      <DataTableColumnHeader column={column} title={t.post_link} />
     ),
     cell: ({ row }) => {
       const postLink = row.original.post_link
@@ -178,7 +192,7 @@ export const columns: ColumnDef<ProjectSocialSchema>[] = [
           {postLink}
         </a>
       ) : (
-        <span className='text-muted-foreground text-sm'>No link</span>
+        <span className='text-muted-foreground text-sm'>{t.no_link}</span>
       )
     },
     enableSorting: false,
@@ -187,7 +201,7 @@ export const columns: ColumnDef<ProjectSocialSchema>[] = [
   {
     accessorKey: 'post_views',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Post views' />
+      <DataTableColumnHeader column={column} title={t.post_views} />
     ),
     cell: ({ row }) => {
       const postViews = row.original.post_views ?? 0
@@ -199,13 +213,13 @@ export const columns: ColumnDef<ProjectSocialSchema>[] = [
   {
     accessorKey: 'created_at',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Created at' />
+      <DataTableColumnHeader column={column} title={t.created_at} />
     ),
     cell: ({ row }) => {
       const createdAt = row.original.created_at
       return (
         <div className='whitespace-nowrap'>
-          {formatDateToLongString(createdAt)}
+          <FormatDateToLongString dateString={createdAt} />
         </div>
       )
     },
@@ -215,13 +229,13 @@ export const columns: ColumnDef<ProjectSocialSchema>[] = [
   {
     accessorKey: 'updated_at',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Updated at' />
+      <DataTableColumnHeader column={column} title={t.updated_at} />
     ),
     cell: ({ row }) => {
       const updatedAt = row.original.updated_at
       return (
         <div className='whitespace-nowrap'>
-          {formatDateToLongString(updatedAt)}
+          <FormatDateToLongString dateString={updatedAt} />
         </div>
       )
     },

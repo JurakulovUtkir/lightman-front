@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useSearch, useNavigate } from '@tanstack/react-router'
 import { IconSearch } from '@tabler/icons-react'
 import { useDebounce } from '@/hooks/useDebounce'
+import { useLang } from '@/hooks/useLang'
 import { Input } from '@/components/ui/input'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
@@ -18,6 +19,9 @@ import { useNetworkSocials } from './data/hooks'
 import { NetworkSocialSchema } from './data/schema'
 
 const NetworkSocialsContent = () => {
+  const { lang, tNetwork, general } = useLang()
+  const t = tNetwork[lang]
+
   const { setOpen, setCurrentRow } = useNetworkSocialContext()
   const navigate = useNavigate()
   const { offset, limit, category_id, social_network_type_id } = useSearch({
@@ -76,19 +80,17 @@ const NetworkSocialsContent = () => {
         <div className='mb-2 flex flex-wrap items-center justify-between space-y-2 gap-x-4'>
           <div>
             <h2 className='text-2xl font-bold tracking-tight'>
-              Network Socials
+              {t.network_socials}
             </h2>
-            <p className='text-muted-foreground'>
-              Here&apos;s a list of network socials!
-            </p>
+            <p className='text-muted-foreground'>{t.list_network_socials}</p>
           </div>
-          <NetworkSocialPrimaryButtons />
+          <NetworkSocialPrimaryButtons text={t.create} />
         </div>
         <div className='flex flex-col gap-4 lg:flex-row lg:items-center'>
           <div className='relative'>
             <Input
               type='search'
-              placeholder='Search by projects'
+              placeholder={t.search_network_social}
               className='h-8 pl-8 sm:max-w-80'
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -107,7 +109,7 @@ const NetworkSocialsContent = () => {
         <div className='-mx-4 flex-1 overflow-auto px-4 py-2 sm:mt-0 lg:flex-row lg:space-y-0 lg:space-x-12'>
           <DataTable
             data={data?.data.items?.length ? data.data.items : []}
-            columns={columns()}
+            columns={columns(general[lang].columns)}
             offset={offset}
             limit={limit}
             total={data?.data.total ?? 0}

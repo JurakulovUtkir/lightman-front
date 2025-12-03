@@ -8,6 +8,7 @@ import {
 import { IconCheck, IconSelector } from '@tabler/icons-react'
 import { cn } from '@/lib/utils'
 import { useDebounce } from '@/hooks/useDebounce'
+import { useLang } from '@/hooks/useLang'
 import { Button } from '@/components/ui/button'
 import {
   Command,
@@ -60,6 +61,8 @@ export const FormComboboxNetworkCategory = <T extends FieldValues>({
   const [open, setOpen] = useState(false)
   const [isCreating, setIsCreating] = useState(false)
   const debouncedSearch = useDebounce(search, 500)
+  const { lang, tForm } = useLang()
+  const t = tForm[lang].form_labels
 
   const {
     data: networkCategories,
@@ -146,7 +149,7 @@ export const FormComboboxNetworkCategory = <T extends FieldValues>({
         )
         const displayLabel =
           selectedOption?.label ??
-          (field.value ? `Selected ID: ${field.value}` : '')
+          (field.value ? `${t.selected_id} ${field.value}` : '')
 
         const hasExactMatch = options.some(
           (option) => option.label.toLowerCase() === search.toLowerCase()
@@ -169,9 +172,7 @@ export const FormComboboxNetworkCategory = <T extends FieldValues>({
                       !field.value && 'text-muted-foreground'
                     )}
                   >
-                    {field.value
-                      ? displayLabel
-                      : `Select ${label.toLowerCase()}`}
+                    {field.value ? displayLabel : t.select_value}
                     <IconSelector className='opacity-50' />
                   </Button>
                 </FormControl>
@@ -179,7 +180,7 @@ export const FormComboboxNetworkCategory = <T extends FieldValues>({
               <PopoverContent className='p-0'>
                 <Command shouldFilter={false}>
                   <CommandInput
-                    placeholder={`Search ${label.toLowerCase()}...`}
+                    placeholder={t.search_value}
                     className='h-9'
                     value={search}
                     onValueChange={setSearch}
@@ -190,7 +191,7 @@ export const FormComboboxNetworkCategory = <T extends FieldValues>({
                         <div className='flex items-center gap-2'>
                           <div className='h-4 w-4 animate-spin rounded-full border-2 border-gray-300 border-t-gray-900'></div>
                           <span className='text-muted-foreground text-sm'>
-                            Searching...
+                            {t.searching}
                           </span>
                         </div>
                       </div>
@@ -199,8 +200,8 @@ export const FormComboboxNetworkCategory = <T extends FieldValues>({
                         {options.length === 0 && !showCreateOption && (
                           <CommandEmpty>
                             {enableCreate && search.length < 2
-                              ? 'Type at least 2 characters to search'
-                              : 'No categories found.'}
+                              ? t.at_least_two
+                              : t.no_categories}
                           </CommandEmpty>
                         )}
                         {showCreateOption && (
@@ -214,8 +215,8 @@ export const FormComboboxNetworkCategory = <T extends FieldValues>({
                             >
                               <span className='font-medium'>
                                 {isCreating
-                                  ? 'Creating...'
-                                  : `Create "${search}"`}
+                                  ? t.creating
+                                  : `${t.create} "${search}"`}
                               </span>
                             </CommandItem>
                           </CommandGroup>

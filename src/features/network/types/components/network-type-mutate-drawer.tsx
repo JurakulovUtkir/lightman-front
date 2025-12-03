@@ -1,6 +1,8 @@
+import { useMemo } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useLang } from '@/hooks/useLang'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -42,11 +44,19 @@ export function NetworkTypeMutateDrawer({
   const createNetworkType = useCreateNetworkType()
   const updateNetworkType = useUpdateNetworkType()
   const isUpdate = !!currentRow
+  const { lang, tForm, tNetwork } = useLang()
+  const t = tForm[lang]
 
-  const formSchema = z.object({
-    name: z.string().min(1, 'Name is required.'),
-    is_active: z.boolean().optional(),
-  })
+  const formSchema = useMemo(
+    () =>
+      z.object({
+        name: z
+          .string({ error: t.form_validations.name })
+          .min(1, t.form_validations.name),
+        is_active: z.boolean().optional(),
+      }),
+    [t]
+  )
 
   type NetworkTypeForm = z.infer<typeof formSchema>
 
@@ -99,12 +109,14 @@ export function NetworkTypeMutateDrawer({
     >
       <SheetContent className='flex flex-col'>
         <SheetHeader className='text-left'>
-          <SheetTitle>{isUpdate ? 'Update' : 'Create'} Network type</SheetTitle>
-          <SheetDescription>
+          <SheetTitle>
             {isUpdate
-              ? 'Update the Network type by providing necessary info.'
-              : 'Add a new Network type by providing necessary info.'}
-            Click save when you&apos;re done.
+              ? tNetwork[lang].update_network_type
+              : tNetwork[lang].create_network_type}
+          </SheetTitle>
+          <SheetDescription>
+            {isUpdate ? tNetwork[lang].update_desc : tNetwork[lang].create_desc}
+            {tNetwork[lang].click_save}
           </SheetDescription>
         </SheetHeader>
         <div className='flex-1 overflow-y-auto'>
@@ -127,7 +139,7 @@ export function NetworkTypeMutateDrawer({
                           onCheckedChange={field.onChange}
                         />
                       </FormControl>
-                      <FormLabel>Is Active</FormLabel>
+                      <FormLabel>{t.form_labels.is_active}</FormLabel>
                     </div>
                   </FormItem>
                 )}
@@ -137,9 +149,12 @@ export function NetworkTypeMutateDrawer({
                 name='name'
                 render={({ field }) => (
                   <FormItem className='space-y-1'>
-                    <FormLabel>Network Type</FormLabel>
+                    <FormLabel>{t.form_labels.network_type}</FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder='Enter a name' />
+                      <Input
+                        {...field}
+                        placeholder={t.form_placeholders.enter_name}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -151,7 +166,7 @@ export function NetworkTypeMutateDrawer({
         <SheetFooter className='gap-2'>
           {isUpdate && (
             <Button onClick={handleDelete} size='sm' variant='destructive'>
-              Delete
+              {t.buttons.delete}
             </Button>
           )}
 
@@ -169,8 +184,8 @@ export function NetworkTypeMutateDrawer({
                 ? updateNetworkType.isPending
                 : createNetworkType.isPending
             )
-              ? 'Loading...'
-              : 'Save changes'}
+              ? t.buttons.loading
+              : t.buttons.save_changes}
           </Button>
         </SheetFooter>
       </SheetContent>

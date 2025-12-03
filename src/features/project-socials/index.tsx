@@ -1,5 +1,6 @@
 import { useMemo } from 'react'
 import { Route } from '@/routes/_authenticated/projects/socials/$id'
+import { useLang } from '@/hooks/useLang'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
@@ -23,6 +24,8 @@ const ProjectSocials = () => {
   const { data } = useProjectSocials(id)
   const { data: project, isPending: isPendingProject } = useProject(id)
   const { data: statistics } = useProjectSocialStatistics(id)
+  const { lang, tProject, general } = useLang()
+  const t = tProject[lang]
 
   // Group data by social network type, then by social_id
   const groupedData = useMemo(() => {
@@ -105,9 +108,7 @@ const ProjectSocials = () => {
             <h2 className='text-2xl font-bold tracking-tight'>
               {isPendingProject ? '' : project?.name ? project.name : '-'}
             </h2>
-            <p className='text-muted-foreground'>
-              Here&apos;s a list of Project socials!
-            </p>
+            <p className='text-muted-foreground'>{t.list_project_socials}</p>
           </div>
           <ProjectSocialPrimaryButtons id={id} />
         </div>
@@ -119,7 +120,7 @@ const ProjectSocials = () => {
           {networkTypes.length > 0 ? (
             <Tabs defaultValue='all' className='w-full'>
               <TabsList>
-                <TabsTrigger value='all'>All</TabsTrigger>
+                <TabsTrigger value='all'>{t.all}</TabsTrigger>
                 {networkTypes.map(([typeId, { name }]) => (
                   <TabsTrigger key={typeId} value={typeId}>
                     {name}
@@ -129,14 +130,14 @@ const ProjectSocials = () => {
               <TabsContent value='all'>
                 <DataTable
                   data={allGroupedData}
-                  columns={groupedColumns}
+                  columns={groupedColumns(general[lang].columns)}
                   enableExpanding={true}
                   onRowDoubleClick={false}
                   renderSubComponent={(row) => (
                     <div className='bg-gray-50 p-4 dark:bg-gray-900'>
                       <DataTable
                         data={row.items}
-                        columns={columns}
+                        columns={columns(general[lang].columns)}
                         enableExpanding={false}
                         onRowDoubleClick={true}
                       />
@@ -148,14 +149,14 @@ const ProjectSocials = () => {
                 <TabsContent key={typeId} value={typeId}>
                   <DataTable
                     data={groupedBySocial}
-                    columns={groupedColumns}
+                    columns={groupedColumns(general[lang].columns)}
                     enableExpanding={true}
                     onRowDoubleClick={false}
                     renderSubComponent={(row) => (
                       <div className='bg-gray-50 p-4 dark:bg-gray-900'>
                         <DataTable
                           data={row.items}
-                          columns={columns}
+                          columns={columns(general[lang].columns)}
                           enableExpanding={false}
                           onRowDoubleClick={true}
                         />
@@ -166,7 +167,10 @@ const ProjectSocials = () => {
               ))}
             </Tabs>
           ) : (
-            <DataTable data={[]} columns={groupedColumns} />
+            <DataTable
+              data={[]}
+              columns={groupedColumns(general[lang].columns)}
+            />
           )}
         </div>
       </Main>

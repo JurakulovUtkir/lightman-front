@@ -1,7 +1,9 @@
+import { useMemo } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toNumber } from '@/lib/helpers'
+import { useLang } from '@/hooks/useLang'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -49,34 +51,58 @@ export function NetworkSocialMutateDrawer({
   const createNetworkSocial = useCreateNetworkSocial()
   const updateNetworkSocial = useUpdateNetworkSocial()
   const isUpdate = !!currentRow
-  const formSchema = z.object({
-    name: z
-      .string({
-        error: 'Name is required.',
-      })
-      .min(1),
-    link: z
-      .url({
-        error: 'Link is required.',
-      })
-      .min(1),
-    social_network_type_id: z.string({
-      error: 'Social network type is required.',
-    }),
 
-    category_id: z.string().optional(),
-    tags: z.array(z.string()).optional(),
+  const { lang, tForm, tNetwork } = useLang()
+  const t = tForm[lang]
 
-    subscriber_count: z.number().min(0, 'Invalid value').optional(),
-    average_view_count: z.number().min(0, 'Invalid value').optional(),
-    buy_price: z.number().min(0, 'Invalid value').optional(),
-    standard_sell_price: z.number().min(0, 'Invalid value').optional(),
-    vip_sell_price: z.number().min(0, 'Invalid value').optional(),
-    no_watermark_sell_price: z.number().min(0, 'Invalid value').optional(),
-    balance: z.number().min(0, 'Invalid value').optional(),
-    contact_info: z.string().optional().nullable(),
-    is_active: z.boolean().optional(),
-  })
+  const formSchema = useMemo(
+    () =>
+      z.object({
+        name: z
+          .string({ error: t.form_validations.name })
+          .min(1, t.form_validations.name),
+        link: z
+          .url({
+            error: t.form_validations.link,
+          })
+          .min(1),
+        social_network_type_id: z.string({
+          error: t.form_validations.social_network_type,
+        }),
+
+        category_id: z.string().optional(),
+        tags: z.array(z.string()).optional(),
+
+        subscriber_count: z
+          .number()
+          .min(0, t.form_validations.invalid_value)
+          .optional(),
+        average_view_count: z
+          .number()
+          .min(0, t.form_validations.invalid_value)
+          .optional(),
+        buy_price: z
+          .number()
+          .min(0, t.form_validations.invalid_value)
+          .optional(),
+        standard_sell_price: z
+          .number()
+          .min(0, t.form_validations.invalid_value)
+          .optional(),
+        vip_sell_price: z
+          .number()
+          .min(0, t.form_validations.invalid_value)
+          .optional(),
+        no_watermark_sell_price: z
+          .number()
+          .min(0, t.form_validations.invalid_value)
+          .optional(),
+        balance: z.number().min(0, t.form_validations.invalid_value).optional(),
+        contact_info: z.string().optional().nullable(),
+        is_active: z.boolean().optional(),
+      }),
+    [t]
+  )
 
   type NetworkSocialForm = z.infer<typeof formSchema>
 
@@ -134,13 +160,15 @@ export function NetworkSocialMutateDrawer({
       <SheetContent className='flex max-w-full flex-col sm:max-w-[540px]'>
         <SheetHeader className='text-left'>
           <SheetTitle>
-            {isUpdate ? 'Update' : 'Create'} Network social
+            {isUpdate
+              ? tNetwork[lang].update_network_social
+              : tNetwork[lang].create_network_social}
           </SheetTitle>
           <SheetDescription>
             {isUpdate
-              ? 'Update the Network social by providing necessary info.'
-              : 'Add a new Network social by providing necessary info.'}
-            Click save when you&apos;re done.
+              ? tNetwork[lang].update_social_desc
+              : tNetwork[lang].create_social_desc}
+            {tNetwork[lang].click_save}
           </SheetDescription>
         </SheetHeader>
         <div className='flex-1 overflow-y-auto'>
@@ -163,7 +191,7 @@ export function NetworkSocialMutateDrawer({
                           onCheckedChange={field.onChange}
                         />
                       </FormControl>
-                      <FormLabel className='text-sm'>Is Active</FormLabel>
+                      <FormLabel>{t.form_labels.is_active}</FormLabel>
                     </div>
                   </FormItem>
                 )}
@@ -172,12 +200,12 @@ export function NetworkSocialMutateDrawer({
                 control={form.control}
                 name='name'
                 label='Name'
-                placeholder='Enter a name'
+                placeholder={t.form_placeholders.enter_name}
               />
               <FormComboboxNetworkTypes
                 control={form.control}
                 name='social_network_type_id'
-                label='Network type'
+                label={t.form_labels.network_type}
                 enableCreate
                 detail={
                   currentRow?.social_network_type as
@@ -188,7 +216,7 @@ export function NetworkSocialMutateDrawer({
               <FormComboboxNetworkCategory
                 control={form.control}
                 name='category_id'
-                label='Network category'
+                label={t.form_labels.network_category}
                 enableCreate
                 detail={
                   currentRow?.category as NetworkCategorySchema | undefined
@@ -197,28 +225,28 @@ export function NetworkSocialMutateDrawer({
               <FormComboboxNetworkTags
                 control={form.control}
                 name='tags'
-                label='Tags'
+                label={t.form_labels.tags}
                 enableCreate
               />
               <FormFieldWrapper
                 control={form.control}
                 name='link'
-                label='Link'
-                placeholder='Enter a link'
+                label={t.form_labels.link}
+                placeholder={t.form_placeholders.enter_link}
               />
               <div className='grid grid-cols-1 items-baseline gap-4 sm:grid-cols-2'>
                 <FormFieldWrapper
                   control={form.control}
                   name='subscriber_count'
-                  label='Subscriber Count'
-                  placeholder='Enter a count'
+                  label={t.form_labels.subscriber_count}
+                  placeholder={t.form_placeholders.enter_count}
                   type='number'
                 />
                 <FormFieldWrapper
                   control={form.control}
                   name='average_view_count'
-                  label='Average View Count'
-                  placeholder='Enter a count'
+                  label={t.form_labels.average_views_count}
+                  placeholder={t.form_placeholders.enter_count}
                   type='number'
                 />
               </div>
@@ -226,40 +254,40 @@ export function NetworkSocialMutateDrawer({
                 <FormFieldWrapper
                   control={form.control}
                   name='buy_price'
-                  label='Buy Price'
-                  placeholder='Enter a price'
+                  label={t.form_labels.buy_price}
+                  placeholder={t.form_placeholders.enter_price}
                   type='number'
                   suffix='UZS'
                 />
                 <FormFieldWrapper
                   control={form.control}
                   name='standard_sell_price'
-                  label='Standard Sell Price'
-                  placeholder='Enter a price'
+                  label={t.form_labels.standard_sell_price}
+                  placeholder={t.form_placeholders.enter_price}
                   type='number'
                   suffix='UZS'
                 />
                 <FormFieldWrapper
                   control={form.control}
                   name='vip_sell_price'
-                  label='VIP Sell Price'
-                  placeholder='Enter a price'
+                  label={t.form_labels.vip_sell_price}
+                  placeholder={t.form_placeholders.enter_price}
                   type='number'
                   suffix='UZS'
                 />
                 <FormFieldWrapper
                   control={form.control}
                   name='no_watermark_sell_price'
-                  label='No Watermark Sell Price'
-                  placeholder='Enter a price'
+                  label={t.form_labels.no_watermark_sell_price}
+                  placeholder={t.form_placeholders.enter_price}
                   type='number'
                   suffix='UZS'
                 />
                 <FormFieldWrapper
                   control={form.control}
                   name='balance'
-                  label='Balance'
-                  placeholder='Enter a price'
+                  label={t.form_labels.balance}
+                  placeholder={t.form_placeholders.enter_price}
                   type='number'
                   suffix='UZS'
                 />
@@ -267,8 +295,8 @@ export function NetworkSocialMutateDrawer({
               <FormFieldWrapper
                 control={form.control}
                 name='contact_info'
-                label='Contact Info'
-                placeholder='Add your notes'
+                label={t.form_labels.contact_info}
+                placeholder={t.form_placeholders.add_your_notes}
                 type='textarea'
               />
             </form>
@@ -277,7 +305,7 @@ export function NetworkSocialMutateDrawer({
         <SheetFooter className='gap-2'>
           {isUpdate && (
             <Button onClick={handleDelete} size='sm' variant='destructive'>
-              Delete
+              {t.buttons.delete}
             </Button>
           )}
           <Button
@@ -295,8 +323,8 @@ export function NetworkSocialMutateDrawer({
                 ? updateNetworkSocial.isPending
                 : createNetworkSocial.isPending
             )
-              ? 'Loading...'
-              : 'Save changes'}
+              ? t.buttons.loading
+              : t.buttons.save_changes}
           </Button>
         </SheetFooter>
       </SheetContent>

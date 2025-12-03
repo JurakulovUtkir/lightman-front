@@ -9,7 +9,6 @@ import {
   paymentTypeOptions,
 } from '@/constants'
 import { toast } from 'sonner'
-import { formatDateToLongString } from '@/lib/dateFormatter'
 import { toNumber } from '@/lib/helpers'
 import { getExpenceOriginTypeColor } from '@/lib/statusHelpers'
 import { cn } from '@/lib/utils'
@@ -36,6 +35,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from '@/components/ui/sheet'
+import { FormatDateToLongString } from '@/components/date-formatter'
 import { FormFieldSelect } from '@/components/form-field-select'
 import { FormFieldWrapper } from '@/components/form-field-wrapper'
 import { FormFileUploadField } from '@/features/project-socials/components/form-file-upload'
@@ -370,7 +370,9 @@ export function ExpenceMutateDrawer({
                             onClick={() => setOpenDate(true)}
                           >
                             {field.value ? (
-                              formatDateToLongString(field.value)
+                              <FormatDateToLongString
+                                dateString={field.value}
+                              />
                             ) : (
                               <span>Creation date</span>
                             )}

@@ -3,6 +3,7 @@ import { Control, FieldValues, Path, UseFormSetValue } from 'react-hook-form'
 import { IconCheck, IconSelector } from '@tabler/icons-react'
 import { cn } from '@/lib/utils'
 import { useDebounce } from '@/hooks/useDebounce'
+import { useLang } from '@/hooks/useLang'
 import { Button } from '@/components/ui/button'
 import {
   Command,
@@ -65,7 +66,8 @@ export const FormComboboxNetworkSocial = <T extends FieldValues>({
   const [search, setSearch] = useState('')
   const [open, setOpen] = useState(false)
   const debouncedSearch = useDebounce(search, 500)
-
+  const { lang, tForm } = useLang()
+  const t = tForm[lang].form_labels
   const {
     data: networkSocials,
     isLoading: isLoadingNetworkSocials,
@@ -152,8 +154,8 @@ export const FormComboboxNetworkSocial = <T extends FieldValues>({
                     )}
                   >
                     {disabled
-                      ? 'Select network type first'
-                      : displayLabel || `Select ${label.toLowerCase()}`}
+                      ? t.select_type_first
+                      : displayLabel || t.select_value}
                     <IconSelector className='opacity-50' />
                   </Button>
                 </FormControl>
@@ -161,7 +163,7 @@ export const FormComboboxNetworkSocial = <T extends FieldValues>({
               <PopoverContent className='p-0' align='start'>
                 <Command shouldFilter={false}>
                   <CommandInput
-                    placeholder={`Search ${label.toLowerCase()}...`}
+                    placeholder={t.search_value}
                     className='h-9'
                     value={search}
                     onValueChange={setSearch}
@@ -172,13 +174,13 @@ export const FormComboboxNetworkSocial = <T extends FieldValues>({
                         <div className='flex items-center gap-2'>
                           <div className='h-4 w-4 animate-spin rounded-full border-2 border-gray-300 border-t-gray-900'></div>
                           <span className='text-muted-foreground text-sm'>
-                            Searching...
+                            {t.searching}
                           </span>
                         </div>
                       </div>
                     ) : (
                       <>
-                        <CommandEmpty>No social networks found.</CommandEmpty>
+                        <CommandEmpty>{t.no_social_networks}</CommandEmpty>
                         <CommandGroup>
                           {options.map((item) => (
                             <CommandItem

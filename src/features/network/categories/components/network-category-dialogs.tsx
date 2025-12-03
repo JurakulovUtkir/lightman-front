@@ -1,3 +1,4 @@
+import { useLang } from '@/hooks/useLang'
 import { ConfirmDialog } from '@/components/confirm-dialog'
 import { useNetworkCategoryContext } from '../context'
 import { useDeleteNetworkCategory } from '../data/hooks'
@@ -7,6 +8,10 @@ export function NetworkCategoryDialogs() {
   const { open, setOpen, currentRow, setCurrentRow } =
     useNetworkCategoryContext()
   const { mutate, isPending } = useDeleteNetworkCategory()
+  const { lang, general, tNetwork, interpolate, interpolateWithComponents } =
+    useLang()
+  const t_general = general[lang].layout
+  const t = tNetwork[lang]
 
   const handleDelete = (id: string) => {
     mutate(id, {
@@ -52,16 +57,20 @@ export function NetworkCategoryDialogs() {
             }}
             handleConfirm={() => handleDelete(currentRow.id)}
             className='max-w-md'
-            title={`Delete this Network category with the name: ${currentRow.name} ?`}
+            title={interpolate(t.delete_title_category, {
+              name: currentRow.name,
+            })}
             desc={
               <>
-                You are about to delete a Network category with the name{' '}
-                <strong>{currentRow.name}</strong>. <br />
-                This action cannot be undone.
+                {interpolateWithComponents(t.delete_confirm_category, {
+                  name: <strong>{currentRow.name}</strong>,
+                })}
+                <br />
+                {t_general.undone}
               </>
             }
             isLoading={isPending}
-            confirmText={isPending ? 'Deleting...' : 'Delete'}
+            confirmText={isPending ? t_general.deleting : t_general.delete}
           />
         </>
       )}

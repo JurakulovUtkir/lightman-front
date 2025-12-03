@@ -1,9 +1,10 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Route } from '@/routes/_authenticated/projects/socials/$id'
 import { toast } from 'sonner'
+import { useLang } from '@/hooks/useLang'
 import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import {
@@ -42,35 +43,43 @@ export function ProjectSocialMutateDrawer({
   setOpen,
 }: Props) {
   const { id } = Route.useLoaderData()
+  const { data: project } = useProject(id)
+
   const createProjectSocial = useCreateProjectSocial()
   const updateProjectSocial = useUpdateProjectSocial()
   const isUpdate = !!currentRow
-  const { data: project } = useProject(id)
+  const { lang, tForm, tProject } = useLang()
+  const t = tForm[lang]
 
-  const formSchema = z.object({
-    network_type_id: z.string({
-      error: 'Required field',
-    }),
-    social_id: z
-      .string({
-        error: 'Required field',
-      })
-      .min(1, 'Social network is required'),
-    buy_price: z.number().optional(),
-    sell_price: z.number().optional(),
-    post_link: z
-      .url({
-        message: 'Enter valid url',
-      })
-      .or(z.literal(''))
-      .optional()
-      .nullable(),
-    post_views: z.number().optional().nullable(),
-    payment: z.string().nullable().optional(),
-    post_screenshot: z.string().nullable().optional(),
+  const formSchema = useMemo(
+    () =>
+      z.object({
+        network_type_id: z.string({
+          error: t.form_validations.required_field,
+        }),
+        social_id: z
+          .string({
+            error: t.form_validations.required_field,
+          })
+          .min(1, t.form_validations.required_field),
+        buy_price: z.number().optional(),
+        sell_price: z.number().optional(),
+        post_link: z
+          .url({
+            message: t.form_validations.enter_valid_url,
+          })
+          .or(z.literal(''))
+          .optional()
+          .nullable(),
+        post_views: z.number().optional().nullable(),
+        payment: z.string().nullable().optional(),
+        post_screenshot: z.string().nullable().optional(),
 
-    post_count: z.number().optional(),
-  })
+        post_count: z.number().optional(),
+      }),
+    [t]
+  )
+
   type ProjectSocialForm = z.infer<typeof formSchema>
 
   const form = useForm<ProjectSocialForm>({
@@ -96,7 +105,7 @@ export function ProjectSocialMutateDrawer({
 
   const onSubmit = (data: ProjectSocialForm) => {
     if (!id) {
-      toast.warning('Unable to find Project ID')
+      toast.warning(t.toast.missing_project)
       return
     }
 
@@ -152,13 +161,15 @@ export function ProjectSocialMutateDrawer({
       <SheetContent className='flex flex-col'>
         <SheetHeader className='text-left'>
           <SheetTitle>
-            {isUpdate ? 'Update' : 'Create'} Project Social
+            {isUpdate
+              ? tProject[lang].update_project_social
+              : tProject[lang].create_project_social}
           </SheetTitle>
           <SheetDescription>
             {isUpdate
-              ? 'Update the Project Social by providing necessary info.'
-              : 'Add a new Project Social by providing necessary info.'}
-            Click save when you&apos;re done.
+              ? tProject[lang].update_desc_social
+              : tProject[lang].create_desc_social}
+            {tProject[lang].click_save}
           </SheetDescription>
         </SheetHeader>
         <div className='flex-1 overflow-y-auto'>
@@ -170,7 +181,7 @@ export function ProjectSocialMutateDrawer({
             >
               <FormComboboxNetworkTypes
                 name='network_type_id'
-                label='Network type'
+                label={t.form_labels.network_type}
                 control={form.control}
                 detail={
                   currentRow?.social.social_network_type as
@@ -180,7 +191,7 @@ export function ProjectSocialMutateDrawer({
               />
               <FormComboboxNetworkSocial
                 name='social_id'
-                label='Social Network'
+                label={t.form_labels.social_network}
                 control={form.control}
                 detail={currentRow?.social ?? undefined}
                 socialNetworkTypeId={selectedNetworkTypeId}
@@ -198,24 +209,24 @@ export function ProjectSocialMutateDrawer({
                 <FormFieldWrapper
                   control={form.control}
                   name='post_count'
-                  label='Post count'
-                  placeholder='Enter a count'
+                  label={t.form_labels.post_count}
+                  placeholder={t.form_placeholders.enter_count}
                   type='number'
                 />
               )}
               <FormFieldWrapper
                 control={form.control}
                 name='buy_price'
-                label='Buy price'
-                placeholder='Enter a price'
+                label={t.form_labels.buy_price}
+                placeholder={t.form_placeholders.enter_price}
                 type='number'
                 suffix='UZS'
               />
               <FormFieldWrapper
                 control={form.control}
                 name='sell_price'
-                label='Sell price'
-                placeholder='Enter a price'
+                label={t.form_labels.sell_price}
+                placeholder={t.form_placeholders.enter_price}
                 type='number'
                 suffix='UZS'
               />
@@ -224,28 +235,28 @@ export function ProjectSocialMutateDrawer({
                   <FormFieldWrapper
                     control={form.control}
                     name='post_link'
-                    label='Post link'
-                    placeholder='Enter a link'
+                    label={t.form_labels.post_link}
+                    placeholder={t.form_placeholders.enter_link}
                   />
                   <FormFieldWrapper
                     control={form.control}
                     name='post_views'
-                    label='Post views'
-                    placeholder='Enter a views'
+                    label={t.form_labels.post_views}
+                    placeholder={t.form_placeholders.enter_views}
                     type='number'
                   />
 
                   <FormFileUploadField
                     control={form.control}
                     name='payment'
-                    label='Payment Document'
+                    label={t.form_labels.payment_document}
                     maxSize={10}
                   />
 
                   <FormFileUploadField
                     control={form.control}
                     name='post_screenshot'
-                    label='Post Screenshot'
+                    label={t.form_labels.post_screenshot}
                     maxSize={5}
                   />
                 </>
@@ -256,7 +267,7 @@ export function ProjectSocialMutateDrawer({
         <SheetFooter className='gap-2'>
           {isUpdate && (
             <Button onClick={handleDelete} size='sm' variant='destructive'>
-              Delete
+              {t.buttons.delete}
             </Button>
           )}
           <Button
@@ -273,8 +284,8 @@ export function ProjectSocialMutateDrawer({
                 ? updateProjectSocial.isPending
                 : createProjectSocial.isPending
             )
-              ? 'Loading...'
-              : 'Save changes'}
+              ? t.buttons.loading
+              : t.buttons.save_changes}
           </Button>
         </SheetFooter>
       </SheetContent>

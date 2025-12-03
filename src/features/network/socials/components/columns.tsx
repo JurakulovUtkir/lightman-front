@@ -20,11 +20,13 @@ import { NetworkSocialSchema } from '../data/schema'
 // import { DataTableColumnCategoryHeader } from './data-table-column-category-header'
 // import { DataTableColumnTypeHeader } from './data-table-column-type-header'
 
-export const columns = () // selectedCategoryId: string | undefined,
-// onCategoryFilterChange: (categoryId: string | null) => void,
-// selectedTypeId: string | undefined,
-// onTypeFilterChange: (typeId: string | null) => void
-: ColumnDef<NetworkSocialSchema>[] => [
+export const columns = (
+  // selectedCategoryId: string | undefined,
+  // onCategoryFilterChange: (categoryId: string | null) => void,
+  // selectedTypeId: string | undefined,
+  // onTypeFilterChange: (typeId: string | null) => void
+  t: (typeof import('@/translations/general.json'))['uz']['columns']
+): ColumnDef<NetworkSocialSchema>[] => [
   {
     id: 'select',
     header: ({ table }) => (
@@ -54,7 +56,7 @@ export const columns = () // selectedCategoryId: string | undefined,
   {
     accessorKey: 'name',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Name' />
+      <DataTableColumnHeader column={column} title={t.name} />
     ),
     cell: ({ row }) => {
       return (
@@ -82,7 +84,7 @@ export const columns = () // selectedCategoryId: string | undefined,
       //   searchable={true}
       //   useSearchableTypes={true}
       // />
-      <DataTableColumnHeader column={column} title='Network type' />
+      <DataTableColumnHeader column={column} title={t.network_type} />
     ),
     cell: ({ row }) => {
       const type = row.original.social_network_type
@@ -108,7 +110,7 @@ export const columns = () // selectedCategoryId: string | undefined,
       //   searchable={true}
       //   useSearchableCategories={true}
       // />
-      <DataTableColumnHeader column={column} title='Category' />
+      <DataTableColumnHeader column={column} title={t.category} />
     ),
     cell: ({ row }) => {
       const category = row.original.category
@@ -126,7 +128,7 @@ export const columns = () // selectedCategoryId: string | undefined,
   {
     accessorKey: 'tags',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Tags' />
+      <DataTableColumnHeader column={column} title={t.tags} />
     ),
     cell: ({ row }) => {
       const tags = row.original.tags || []
@@ -135,7 +137,7 @@ export const columns = () // selectedCategoryId: string | undefined,
         return (
           <div className='text-muted-foreground flex items-center gap-1'>
             <IconTag className='h-4 w-4' />
-            <span className='text-sm'>No tags</span>
+            <span className='text-sm'>{t.no_tags}</span>
           </div>
         )
       }
@@ -188,7 +190,7 @@ export const columns = () // selectedCategoryId: string | undefined,
   {
     accessorKey: 'subscriber_count',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Subscribers' />
+      <DataTableColumnHeader column={column} title={t.subscribers} />
     ),
     cell: ({ row }) => (
       <div>{formatPrice(row.getValue('subscriber_count'))}</div>
@@ -199,7 +201,7 @@ export const columns = () // selectedCategoryId: string | undefined,
   {
     accessorKey: 'average_view_count',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Average views' />
+      <DataTableColumnHeader column={column} title={t.average_views} />
     ),
     cell: ({ row }) => (
       <div>{formatPrice(row.getValue('average_view_count'))}</div>
@@ -210,7 +212,10 @@ export const columns = () // selectedCategoryId: string | undefined,
   {
     accessorKey: 'buy_price',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Buy Price (UZS)' />
+      <DataTableColumnHeader
+        column={column}
+        title={`${t.buy_price} ${t.uzs}`}
+      />
     ),
     cell: ({ row }) => <div>{formatPrice(row.getValue('buy_price'))}</div>,
     enableSorting: false,
@@ -219,7 +224,10 @@ export const columns = () // selectedCategoryId: string | undefined,
   {
     accessorKey: 'standard_sell_price',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Standard Price (UZS)' />
+      <DataTableColumnHeader
+        column={column}
+        title={`${t.standard_price} ${t.uzs}`}
+      />
     ),
     cell: ({ row }) => (
       <div>{formatPrice(row.getValue('standard_sell_price'))}</div>
@@ -230,7 +238,10 @@ export const columns = () // selectedCategoryId: string | undefined,
   {
     accessorKey: 'vip_sell_price',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Vip Price (UZS)' />
+      <DataTableColumnHeader
+        column={column}
+        title={`${t.vip_price} ${t.uzs}`}
+      />
     ),
     cell: ({ row }) => <div>{formatPrice(row.getValue('vip_sell_price'))}</div>,
     enableSorting: false,
@@ -239,7 +250,10 @@ export const columns = () // selectedCategoryId: string | undefined,
   {
     accessorKey: 'no_watermark_sell_price',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='No Watermark Price (UZS)' />
+      <DataTableColumnHeader
+        column={column}
+        title={`${t.no_watermark_price} ${t.uzs}`}
+      />
     ),
     cell: ({ row }) => (
       <div>{formatPrice(row.getValue('no_watermark_sell_price'))}</div>
@@ -250,17 +264,16 @@ export const columns = () // selectedCategoryId: string | undefined,
   {
     accessorKey: 'balance',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Balance (UZS)' />
+      <DataTableColumnHeader column={column} title={`${t.balance} ${t.uzs}`} />
     ),
     cell: ({ row }) => <div>{formatPrice(row.getValue('balance'))}</div>,
     enableSorting: false,
     enableHiding: false,
   },
-
   {
     accessorKey: 'link',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Link' />
+      <DataTableColumnHeader column={column} title={t.link} />
     ),
     cell: ({ row }) => (
       <div>

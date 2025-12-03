@@ -1,6 +1,7 @@
 import { ReactNode } from 'react'
 import formJson from '@/translations/form.json'
 import generalJson from '@/translations/general.json'
+import networkJson from '@/translations/network.json'
 import projectJson from '@/translations/project.json'
 import { useUnit } from 'effector-react'
 import { $lang } from '@/context/lang'
@@ -31,12 +32,14 @@ export const useLang = () => {
   const general = generalJson
   const tProject = projectJson
   const tForm = formJson
+  const tNetwork = networkJson
 
   return {
     lang,
     general,
     tProject,
     tForm,
+    tNetwork,
     interpolate,
     interpolateWithComponents,
   }

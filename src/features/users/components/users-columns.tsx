@@ -1,8 +1,8 @@
 import { ColumnDef } from '@tanstack/react-table'
-import { formatDateToLongString } from '@/lib/dateFormatter'
 import { cn } from '@/lib/utils'
 import { Badge } from '@/components/ui/badge'
 import { Checkbox } from '@/components/ui/checkbox'
+import { FormatDateToLongString } from '@/components/date-formatter'
 import LongText from '@/components/long-text'
 import { DataTableColumnHeader } from '@/components/table/data-table-column-header'
 import { callTypes, userTypes } from '../data/data'
@@ -181,7 +181,9 @@ export const columns: ColumnDef<User>[] = [
       <DataTableColumnHeader column={column} title='Created at' />
     ),
     cell: ({ row }) => (
-      <div>{formatDateToLongString(row.getValue('created_at'))}</div>
+      <div>
+        <FormatDateToLongString dateString={row.getValue('created_at')} />
+      </div>
     ),
     enableSorting: false,
   },

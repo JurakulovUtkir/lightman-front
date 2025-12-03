@@ -1,11 +1,11 @@
 import { ColumnDef } from '@tanstack/react-table'
 import { Download, Eye } from 'lucide-react'
-import { formatDateToLongString } from '@/lib/dateFormatter'
 import { downloadFile } from '@/lib/helpers'
 import { formatPrice } from '@/utils/formatPrice'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { CopyButton } from '@/components/copy-button'
+import { FormatDateToLongString } from '@/components/date-formatter'
 import LongText from '@/components/long-text'
 import { ContractSchema } from '../data/schema'
 import { DataTableColumnHeader } from './data-table-column-header'
@@ -171,7 +171,7 @@ export const columns: ColumnDef<ContractSchema>[] = [
       const createdAt = row.original.created_at
       return (
         <div className='whitespace-nowrap'>
-          {formatDateToLongString(createdAt)}
+          <FormatDateToLongString dateString={createdAt} />
         </div>
       )
     },
@@ -187,7 +187,7 @@ export const columns: ColumnDef<ContractSchema>[] = [
   //       const updatedAt = row.original.updated_at
   //       return (
   //         <div className='whitespace-nowrap'>
-  //           {formatDateToLongString(updatedAt)}
+  //          <FormatDateToLongString dateString={updatedAt} />
   //         </div>
   //       )
   //     },

@@ -1,3 +1,4 @@
+import { useLang } from '@/hooks/useLang'
 import { ConfirmDialog } from '@/components/confirm-dialog'
 import { useProjectSocialContext } from '../context'
 import { useDeleteProjectSocial } from '../data/hooks'
@@ -7,6 +8,9 @@ import { ProjectSocialMutateDrawer } from './project-social-mutate-drawer'
 export function ProjectSocialDialogs() {
   const { open, setOpen, currentRow, setCurrentRow } = useProjectSocialContext()
   const { mutate, isPending } = useDeleteProjectSocial()
+  const { lang, general, tProject } = useLang()
+  const t_general = general[lang].layout
+  const t = tProject[lang]
 
   const handleDelete = (id: string) => {
     mutate(id, {
@@ -53,15 +57,10 @@ export function ProjectSocialDialogs() {
             }}
             handleConfirm={() => handleDelete(currentRow.id)}
             className='max-w-md'
-            title={`Delete this Project social?`}
-            desc={
-              <>
-                You are about to delete a Project social. This action cannot be
-                undone.
-              </>
-            }
+            title={t.delete_project_social}
+            desc={t.delete_confirm_project_social}
             isLoading={isPending}
-            confirmText={isPending ? 'Deleting...' : 'Delete'}
+            confirmText={isPending ? t_general.deleting : t_general.delete}
           />
         </>
       )}

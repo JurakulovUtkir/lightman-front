@@ -7,6 +7,7 @@ import {
 } from 'react-hook-form'
 import { IconCheck, IconSelector, IconX } from '@tabler/icons-react'
 import { cn } from '@/lib/utils'
+import { useLang } from '@/hooks/useLang'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -47,6 +48,8 @@ export const FormComboboxNetworkTags = <T extends FieldValues>({
   const [open, setOpen] = useState(false)
   const [search, setSearch] = useState('')
   const [isCreating, setIsCreating] = useState(false)
+  const { lang, tForm } = useLang()
+  const t = tForm[lang].form_labels
 
   const {
     data: tagsResponse,
@@ -143,7 +146,7 @@ export const FormComboboxNetworkTags = <T extends FieldValues>({
                           </Badge>
                         ))
                       ) : (
-                        <span>Select tags</span>
+                        <span>{t.select_tags}</span>
                       )}
                     </div>
                     <IconSelector className='ml-2 h-4 w-4 shrink-0 opacity-50' />
@@ -153,7 +156,7 @@ export const FormComboboxNetworkTags = <T extends FieldValues>({
               <PopoverContent className='w-(--radix-popover-trigger-width) p-0'>
                 <Command shouldFilter={false}>
                   <CommandInput
-                    placeholder='Search tags...'
+                    placeholder={t.search_tags}
                     className='h-9'
                     value={search}
                     onValueChange={setSearch}
@@ -164,7 +167,7 @@ export const FormComboboxNetworkTags = <T extends FieldValues>({
                         <div className='flex items-center gap-2'>
                           <div className='h-4 w-4 animate-spin rounded-full border-2 border-gray-300 border-t-gray-900'></div>
                           <span className='text-muted-foreground text-sm'>
-                            Searching...
+                            {t.searching}
                           </span>
                         </div>
                       </div>
@@ -173,8 +176,8 @@ export const FormComboboxNetworkTags = <T extends FieldValues>({
                         {availableTags.length === 0 && !showCreateOption && (
                           <CommandEmpty>
                             {enableCreate && search.length < 2
-                              ? 'Type at least 2 characters to search'
-                              : 'No tags found.'}
+                              ? t.at_least_two
+                              : t.no_tags}
                           </CommandEmpty>
                         )}
                         {showCreateOption && (
@@ -188,8 +191,8 @@ export const FormComboboxNetworkTags = <T extends FieldValues>({
                             >
                               <span className='font-medium'>
                                 {isCreating
-                                  ? 'Creating...'
-                                  : `Create "${search}"`}
+                                  ? t.creating
+                                  : `${t.create} "${search}"`}
                               </span>
                             </CommandItem>
                           </CommandGroup>

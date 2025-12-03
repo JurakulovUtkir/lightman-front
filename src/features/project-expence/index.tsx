@@ -3,6 +3,7 @@ import { useSearch } from '@tanstack/react-router'
 import { IconSearch } from '@tabler/icons-react'
 import { Route } from '@/routes/_authenticated/projects/expence/$id'
 import { useDebounce } from '@/hooks/useDebounce'
+import { useLang } from '@/hooks/useLang'
 import { Input } from '@/components/ui/input'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
@@ -17,6 +18,8 @@ import { columns } from './components/columns'
 
 const ProjectExpence = () => {
   const { id } = Route.useLoaderData()
+  const { lang, tProject, general, interpolate } = useLang()
+  const t = tProject[lang]
 
   const {
     offset,
@@ -74,7 +77,9 @@ const ProjectExpence = () => {
               {project?.name ?? ''}
             </h2>
             <p className='text-muted-foreground'>
-              Here&apos;s a list expences of {project?.name ?? ''}
+              {interpolate(t.list_project_expence, {
+                project_name: project?.name ?? '',
+              })}
             </p>
           </div>
         </div>
@@ -82,7 +87,7 @@ const ProjectExpence = () => {
           <div className='relative'>
             <Input
               type='search'
-              placeholder='Search by expence'
+              placeholder={t.search_by_expence}
               className='h-8 max-w-80 pl-8'
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -95,7 +100,7 @@ const ProjectExpence = () => {
         <div className='-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-y-0 lg:space-x-12'>
           <DataTable
             data={data?.data.items?.length ? data.data.items : []}
-            columns={columns}
+            columns={columns(general[lang].columns)}
             offset={offset}
             limit={limit}
             total={data?.data.total ?? 0}

@@ -6,6 +6,7 @@ import {
   IconEye,
 } from '@tabler/icons-react'
 import { formatPrice } from '@/utils/formatPrice'
+import { useLang } from '@/hooks/useLang'
 import { ProjectSocialResponse } from '../data/types'
 
 interface PriceCardsProps {
@@ -17,6 +18,9 @@ interface PriceCardsProps {
 }
 
 const PriceCards = ({ data, statistics }: PriceCardsProps) => {
+  const { lang, tProject, general } = useLang()
+  const t = tProject[lang]
+
   const { totalPrice, totalPriceWithQQS, totalProfit } = useMemo(() => {
     if (!data?.data?.length) {
       return { totalPrice: 0, totalPriceWithQQS: 0, totalProfit: 0 }
@@ -57,9 +61,9 @@ const PriceCards = ({ data, statistics }: PriceCardsProps) => {
           <IconCurrencyDollar className='h-5 w-5 text-blue-600' stroke={2} />
         </div>
         <div className='min-w-0'>
-          <p className='text-muted-foreground text-xs'>Project Price</p>
+          <p className='text-muted-foreground text-xs'>{t.project_price}</p>
           <p className='truncate text-lg font-bold'>
-            {formatPrice(totalPrice)} UZS
+            {formatPrice(totalPrice)} {general[lang].columns.uzs}
           </p>
         </div>
       </div>
@@ -71,9 +75,11 @@ const PriceCards = ({ data, statistics }: PriceCardsProps) => {
           <IconCalculator className='h-5 w-5 text-green-600' stroke={2} />
         </div>
         <div className='min-w-0'>
-          <p className='text-muted-foreground text-xs'>Price with QQS (12%)</p>
+          <p className='text-muted-foreground text-xs'>
+            {t.price_with_vat} (12%)
+          </p>
           <p className='truncate text-lg font-bold'>
-            {formatPrice(totalPriceWithQQS)} UZS
+            {formatPrice(totalPriceWithQQS)} {general[lang].columns.uzs}
           </p>
         </div>
       </div>
@@ -85,9 +91,9 @@ const PriceCards = ({ data, statistics }: PriceCardsProps) => {
           <IconTrendingUp className='h-5 w-5 text-purple-600' stroke={2} />
         </div>
         <div className='min-w-0'>
-          <p className='text-muted-foreground text-xs'>Total Profit</p>
+          <p className='text-muted-foreground text-xs'>{t.total_profit}</p>
           <p className='truncate text-lg font-bold'>
-            {formatPrice(totalProfit)} UZS
+            {formatPrice(totalProfit)} {general[lang].columns.uzs}
           </p>
         </div>
       </div>
@@ -102,7 +108,9 @@ const PriceCards = ({ data, statistics }: PriceCardsProps) => {
             </div>
             <div className='min-w-0 flex-1'>
               <div className='mb-1 flex items-center justify-between gap-2'>
-                <p className='text-muted-foreground text-xs'>Views Progress</p>
+                <p className='text-muted-foreground text-xs'>
+                  {t.views_progress}
+                </p>
                 <p className='text-xs font-medium'>
                   {viewsProgress.toFixed(0)}%
                 </p>

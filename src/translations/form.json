@@ -24,7 +24,46 @@
       "selected_id": "Selected ID:",
       "select_distribution": "Select a distribution",
       "select_option": "Select an option",
-      "no_options": "No options available"
+      "no_options": "No options available",
+      "network_type": "Network type",
+      "network_category": "Network category",
+      "link": "Link",
+      "subscriber_count": "Subscriber count",
+      "average_views_count": "Average views count",
+      "buy_price": "Buy price",
+      "standard_sell_price": "Standard sell price",
+      "vip_sell_price": "Vip sell price",
+      "no_watermark_sell_price": "No watermark sell price",
+      "balance": "Balance",
+      "contact_info": "Contact info",
+      "network_tag": "Network tag",
+      "at_least_two": "Type at least 2 characters to search",
+      "no_categories": "No categories found.",
+      "creating": "Creating...",
+      "create": "Create",
+      "no_contracts": "No contracts found.",
+      "select_tags": "Select tags",
+      "search_tags": "Search tags",
+      "no_tags": "No tags found.",
+      "no_network_types": "No network types found.",
+      "no_users": "No users found.",
+      "select_company_first": "Select company first",
+      "no_deposit": "No deposits found.",
+      "founders_assigned": "All founders are already assigned.",
+      "no_data": "No data found.",
+      "select_type_first": "Select network type first",
+      "no_social_networks": "No social networks found.",
+      "social_network": "Social network",
+      "post_count": "Post count",
+      "sell_price": "Sell price",
+      "post_link": "Post link",
+      "post_views": "Post views",
+      "post_screenshot": "Post Screenshot",
+      "payment_document": "Payment Document",
+
+      "uploaded": "Uploaded",
+      "click_to_upload": "Click to upload or hover and press Ctrl+V",
+      "file_size": "Images or Documents Max: {{size}}MB"
     },
     "form_placeholders": {
       "select_project": "Select project",
@@ -38,7 +77,12 @@
       "select_price_type": "Select a price type",
       "select_payment_type": "Select payment type",
       "enter_count": "Enter a count",
-      "enter_price": "Enter a price"
+      "enter_price": "Enter a price",
+      "select_network_type": "Select network type",
+      "select_network_category": "Select network category",
+      "enter_link": "Enter a link",
+      "add_your_notes": "Add your notes",
+      "enter_views": "Enter a views count"
     },
     "form_validations": {
       "required_field": "Required field",
@@ -48,13 +92,26 @@
       "enter_name": "Please enter name",
       "invalid_name": "Name cannot exceed 150 characters.",
       "description": "Description is required.",
-      "invalid_description": "Description cannot exceed 150 characters."
+      "invalid_description": "Description cannot exceed 150 characters.",
+      "link": "Link is required.",
+      "social_network_type": "Social network type is required.",
+      "social_network_category": "Social network category is required.",
+      "enter_valid_url": "Enter valid url"
     },
     "buttons": {
       "save": "Save",
       "save_changes": "Save changes",
       "delete": "Delete",
       "loading": "Loading ..."
+    },
+    "toast": {
+      "missing_project": "Unable to find Project ID",
+      "file_uploaded": "File uploaded successfully",
+      "failed_to_upload": "Failed to upload file",
+      "file_size_error": "File size must be less than {{size}}MB",
+      "no_file_returned": "No file path returned from server",
+      "file_removed": "File removed successfully",
+      "failed_to_remove": "Failed to remove file"
     }
   },
   "ru": {
@@ -82,7 +139,45 @@
       "selected_id": "Выбранный ID:",
       "select_distribution": "Выберите распределение",
       "select_option": "Выберите вариант",
-      "no_options": "Варианты отсутствуют"
+      "no_options": "Варианты отсутствуют",
+      "network_type": "Тип сети",
+      "network_category": "Категория сети",
+      "link": "Ссылка",
+      "subscriber_count": "Количество подписчиков",
+      "average_views_count": "Среднее количество просмотров",
+      "buy_price": "Цена покупки",
+      "standard_sell_price": "Стандартная цена продажи",
+      "vip_sell_price": "VIP-цена продажи",
+      "no_watermark_sell_price": "Цена продажи без водяного знака",
+      "balance": "Баланс",
+      "contact_info": "Контактная информация",
+      "network_tag": "Тег сети",
+      "at_least_two": "Введите минимум 2 символа для поиска",
+      "no_categories": "Категорий не найдено",
+      "creating": "Создание...",
+      "create": "Создать",
+      "no_contracts": "Договоры не найдены",
+      "select_tags": "Выберите теги",
+      "search_tags": "Поиск тегов",
+      "no_tags": "Теги не найдены",
+      "no_network_types": "Типы сетей не найдены",
+      "no_users": "Пользователи не найдены",
+      "select_company_first": "Сначала выберите компанию",
+      "no_deposit": "Депозиты не найдены",
+      "founders_assigned": "Все учредители уже назначены",
+      "no_data": "Данные не найдены",
+      "select_type_first": "Сначала выберите тип сети",
+      "no_social_networks": "Социальные сети не найдены",
+      "social_network": "Социальная сеть",
+      "post_count": "Количество постов",
+      "sell_price": "Цена продажи",
+      "post_link": "Ссылка на пост",
+      "post_views": "Просмотры поста",
+      "post_screenshot": "Скриншот поста",
+      "payment_document": "Платёжный документ",
+      "uploaded": "Загружено",
+      "click_to_upload": "Нажмите для загрузки или наведите и нажмите Ctrl+V",
+      "file_size": "Изображения или документы макс.: {{size}} МБ"
     },
     "form_placeholders": {
       "select_project": "Выберите проект",
@@ -96,7 +191,12 @@
       "select_price_type": "Выберите тип цены",
       "select_payment_type": "Выберите тип оплаты",
       "enter_count": "Введите количество",
-      "enter_price": "Введите цену"
+      "enter_price": "Введите цену",
+      "select_network_type": "Выберите тип сети",
+      "select_network_category": "Выберите категорию сети",
+      "enter_link": "Введите ссылку",
+      "add_your_notes": "Добавьте свои заметки",
+      "enter_views": "Введите количество просмотров"
     },
     "form_validations": {
       "required_field": "Обязательное поле",
@@ -106,13 +206,26 @@
       "enter_name": "Пожалуйста, введите название",
       "invalid_name": "Название не может превышать 150 символов.",
       "description": "Описание обязательно.",
-      "invalid_description": "Описание не может превышать 150 символов."
+      "invalid_description": "Описание не может превышать 150 символов.",
+      "link": "Ссылка обязательна.",
+      "social_network_type": "Тип социальной сети обязателен.",
+      "social_network_category": "Категория социальной сети обязательна.",
+      "enter_valid_url": "Введите корректный URL"
     },
     "buttons": {
       "save": "Сохранить",
       "save_changes": "Сохранить изменения",
       "delete": "Удалить",
       "loading": "Загрузка ..."
+    },
+    "toast": {
+      "missing_project": "Не удалось найти ID проекта",
+      "file_uploaded": "Файл успешно загружен",
+      "failed_to_upload": "Не удалось загрузить файл",
+      "file_size_error": "Размер файла должен быть меньше {{size}} МБ",
+      "no_file_returned": "Сервер не вернул путь к файлу",
+      "file_removed": "Файл успешно удалён",
+      "failed_to_remove": "Не удалось удалить файл"
     }
   },
   "uz": {
@@ -140,7 +253,45 @@
       "selected_id": "Tanlangan ID:",
       "select_distribution": "Taqsimotni tanlang",
       "select_option": "Variantni tanlang",
-      "no_options": "Variantlar mavjud emas"
+      "no_options": "Variantlar mavjud emas",
+      "network_type": "Tarmoq turi",
+      "network_category": "Tarmoq kategoriyasi",
+      "link": "Havola",
+      "subscriber_count": "Obunachilar soni",
+      "average_views_count": "O‘rtacha ko‘rishlar soni",
+      "buy_price": "Sotib olish narxi",
+      "standard_sell_price": "Standart sotish narxi",
+      "vip_sell_price": "VIP sotish narxi",
+      "no_watermark_sell_price": "Suv belgisisiz sotish narxi",
+      "balance": "Balans",
+      "contact_info": "Aloqa ma’lumotlari",
+      "network_tag": "Tarmoq tegi",
+      "at_least_two": "Qidirish uchun kamida 2 ta belgi kiriting",
+      "no_categories": "Kategoriya topilmadi",
+      "creating": "Yaratilmoqda...",
+      "create": "Yaratish",
+      "no_contracts": "Shartnomalar topilmadi",
+      "select_tags": "Teglarni tanlang",
+      "search_tags": "Teglarni qidirish",
+      "no_tags": "Teglar topilmadi",
+      "no_network_types": "Tarmoq turlari topilmadi",
+      "no_users": "Foydalanuvchilar topilmadi",
+      "select_company_first": "Avval kompaniyani tanlang",
+      "no_deposit": "Depozitlar topilmadi",
+      "founders_assigned": "Barcha asoschilar allaqachon biriktirilgan",
+      "no_data": "Ma’lumotlar topilmadi",
+      "select_type_first": "Avval tarmoq turini tanlang",
+      "no_social_networks": "Ijtimoiy tarmoqlar topilmadi",
+      "social_network": "Ijtimoiy tarmoq",
+      "post_count": "Postlar soni",
+      "sell_price": "Sotish narxi",
+      "post_link": "Post havolasi",
+      "post_views": "Post ko‘rishlari",
+      "post_screenshot": "Post skrinshoti",
+      "payment_document": "To‘lov hujjati",
+      "uploaded": "Yuklandi",
+      "click_to_upload": "Yuklash uchun bosing yoki ustiga olib boring va Ctrl+V ni bosing",
+      "file_size": "Rasm yoki hujjatlar maksimal hajmi: {{size}}MB"
     },
     "form_placeholders": {
       "select_project": "Loyihani tanlang",
@@ -154,7 +305,12 @@
       "select_price_type": "Narx turini tanlang",
       "select_payment_type": "To‘lov turini tanlang",
       "enter_count": "Sonini kiriting",
-      "enter_price": "Narxni kiriting"
+      "enter_price": "Narxni kiriting",
+      "select_network_type": "Tarmoq turini tanlang",
+      "select_network_category": "Tarmoq kategoriyasini tanlang",
+      "enter_link": "Havolani kiriting",
+      "add_your_notes": "Izohlaringizni qo‘shing",
+      "enter_views": "Ko‘rishlar sonini kiriting"
     },
     "form_validations": {
       "required_field": "Majburiy maydon",
@@ -164,13 +320,26 @@
       "enter_name": "Iltimos, nomini kiriting",
       "invalid_name": "Nom 150 ta belgidan oshmasligi kerak.",
       "description": "Tavsif kiritilishi shart.",
-      "invalid_description": "Tavsif 150 ta belgidan oshmasligi kerak."
+      "invalid_description": "Tavsif 150 ta belgidan oshmasligi kerak.",
+      "link": "Havola kiritilishi shart.",
+      "social_network_type": "Ijtimoiy tarmoq turi tanlanishi shart.",
+      "social_network_category": "Ijtimoiy tarmoq kategoriyasi tanlanishi shart.",
+      "enter_valid_url": "Yaroqli URL kiriting"
     },
     "buttons": {
       "save": "Saqlash",
       "save_changes": "O‘zgarishlarni saqlash",
       "delete": "O‘chirish",
       "loading": "Yuklanmoqda ..."
+    },
+    "toast": {
+      "missing_project": "Loyiha ID topilmadi",
+      "file_uploaded": "Fayl muvaffaqiyatli yuklandi",
+      "failed_to_upload": "Faylni yuklash muvaffaqiyatsiz tugadi",
+      "file_size_error": "Fayl hajmi {{size}}MB dan kam bo‘lishi kerak",
+      "no_file_returned": "Serverdan fayl yo‘li qaytmadi",
+      "file_removed": "Fayl muvaffaqiyatli o‘chirildi",
+      "failed_to_remove": "Faylni o‘chirish muvaffaqiyatsiz tugadi"
     }
   }
 }

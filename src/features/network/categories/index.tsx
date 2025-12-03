@@ -1,4 +1,5 @@
 import { useSearch } from '@tanstack/react-router'
+import { useLang } from '@/hooks/useLang'
 import { CustomPagination } from '@/components/custom-pagination'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
@@ -12,6 +13,9 @@ import NetworkCategoryProvider from './context'
 import { useNetworkCategories } from './data/hooks'
 
 const NetworkCategories = () => {
+  const { lang, tNetwork } = useLang()
+  const t = tNetwork[lang]
+
   const { offset, limit } = useSearch({
     from: '/_authenticated/network/categories',
   })
@@ -36,13 +40,11 @@ const NetworkCategories = () => {
         <div className='mb-2 flex flex-wrap items-center justify-between space-y-2 gap-x-4'>
           <div>
             <h2 className='text-2xl font-bold tracking-tight'>
-              Network Categories
+              {t.network_categories}
             </h2>
-            <p className='text-muted-foreground'>
-              Here&apos;s a list of network categories!
-            </p>
+            <p className='text-muted-foreground'>{t.list_network_categories}</p>
           </div>
-          <NetworkCategoryPrimaryButtons />
+          <NetworkCategoryPrimaryButtons text={t.create} />
         </div>
         <div className='-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-y-0 lg:space-x-12'>
           <NetworkCards data={data?.data} />

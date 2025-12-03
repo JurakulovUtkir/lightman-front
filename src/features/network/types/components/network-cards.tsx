@@ -7,6 +7,7 @@ import {
   IconCircleX,
 } from '@tabler/icons-react'
 import { formatToYearMonthDay } from '@/lib/dateFormatter'
+import { useLang } from '@/hooks/useLang'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
@@ -16,7 +17,8 @@ import { NetworkTypeSchema } from '../data/schema'
 const NetworkCards = ({ data }: { data: NetworkTypeSchema[] | undefined }) => {
   const navigate = useNavigate()
   const { setOpen, setCurrentRow } = useNetworkTypeContext()
-
+  const { lang, general, tNetwork } = useLang()
+  const t = general[lang]
   const handleEdit = (e: React.MouseEvent, payload: NetworkTypeSchema) => {
     e.stopPropagation()
     setCurrentRow(payload)
@@ -52,12 +54,12 @@ const NetworkCards = ({ data }: { data: NetworkTypeSchema[] | undefined }) => {
                   {item.is_active ? (
                     <>
                       <IconCircleCheck className='h-3 w-3' />
-                      Active
+                      {t.layout.active}
                     </>
                   ) : (
                     <>
                       <IconCircleX className='h-3 w-3' />
-                      Inactive
+                      {t.layout.inactive}
                     </>
                   )}
                 </Badge>
@@ -90,9 +92,11 @@ const NetworkCards = ({ data }: { data: NetworkTypeSchema[] | undefined }) => {
     <Card className='border-dashed'>
       <CardContent className='flex flex-col items-center justify-center py-12'>
         <IconNetwork className='text-muted-foreground mb-4 h-12 w-12' />
-        <CardTitle className='mb-2 text-xl'>No Network Types Found</CardTitle>
+        <CardTitle className='mb-2 text-xl'>
+          {tNetwork[lang].no_network_types_found}
+        </CardTitle>
         <p className='text-muted-foreground text-sm'>
-          Create a network type to get started
+          {tNetwork[lang].create_network_type_message}
         </p>
       </CardContent>
     </Card>

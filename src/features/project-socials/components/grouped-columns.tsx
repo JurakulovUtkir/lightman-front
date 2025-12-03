@@ -15,10 +15,12 @@ export interface GroupedRow {
   items: ProjectSocialSchema[]
 }
 
-export const groupedColumns: ColumnDef<GroupedRow>[] = [
+export const groupedColumns = (
+  t: (typeof import('@/translations/general.json'))['uz']['columns']
+): ColumnDef<GroupedRow>[] => [
   {
     accessorKey: 'socialName',
-    header: 'Social Name',
+    header: t.social_name,
     cell: ({ row }) => (
       <div className='flex flex-col'>
         <LongText className='max-w-36 font-semibold'>
@@ -28,7 +30,7 @@ export const groupedColumns: ColumnDef<GroupedRow>[] = [
           href={row.original.socialLink}
           target='_blank'
           rel='noopener noreferrer'
-          className='text-xs text-blue-500 hover:underline'
+          className='max-w-max text-xs text-blue-500 hover:underline'
           onClick={(e) => e.stopPropagation()}
         >
           {row.original.socialLink?.length >= 50 ? (
@@ -44,7 +46,7 @@ export const groupedColumns: ColumnDef<GroupedRow>[] = [
   },
   {
     accessorKey: 'subscriberCount',
-    header: 'Subscribers',
+    header: t.subscribers,
     cell: ({ row }) => (
       <div className='font-medium'>
         {row.original.subscriberCount.toLocaleString()}
@@ -53,46 +55,46 @@ export const groupedColumns: ColumnDef<GroupedRow>[] = [
   },
   {
     accessorKey: 'count',
-    header: 'Posts Count',
+    header: t.posts_count,
     cell: ({ row }) => (
       <div className='text-center font-semibold'>{row.original.count}</div>
     ),
   },
   {
     accessorKey: 'totalBuyPrice',
-    header: 'Total Buy Price',
+    header: t.total_buy_price,
     cell: ({ row }) => (
       <div className='font-medium'>
-        {formatPrice(row.original.totalBuyPrice)} UZS
+        {formatPrice(row.original.totalBuyPrice)} {t.uzs}
       </div>
     ),
   },
   {
     accessorKey: 'totalSellPrice',
-    header: 'Total Sell Price',
+    header: t.total_sell_price,
     cell: ({ row }) => (
       <div className='font-medium'>
-        {formatPrice(row.original.totalSellPrice)} UZS
+        {formatPrice(row.original.totalSellPrice)} {t.uzs}
       </div>
     ),
   },
   {
     accessorKey: 'paymentStatus',
-    header: 'Payment Status',
+    header: t.payment_status,
     cell: ({ row }) => {
       const allPaid = row.original.items.every((item) => item.is_paid)
       const somePaid = row.original.items.some((item) => item.is_paid)
 
-      let displayStatus = 'Unpaid'
+      let displayStatus = t.unpaid
       let colorClass =
         'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
 
       if (allPaid) {
-        displayStatus = 'Paid'
+        displayStatus = t.paid
         colorClass =
           'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
       } else if (somePaid) {
-        displayStatus = 'Partially Paid'
+        displayStatus = t.partially_paid
         colorClass =
           'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
       }

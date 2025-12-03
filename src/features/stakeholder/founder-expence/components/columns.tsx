@@ -1,7 +1,7 @@
 import { ColumnDef } from '@tanstack/react-table'
-import { formatDateToLongString } from '@/lib/dateFormatter'
 import { formatPrice } from '@/utils/formatPrice'
 import { Checkbox } from '@/components/ui/checkbox'
+import { FormatDateToLongString } from '@/components/date-formatter'
 import LongText from '@/components/long-text'
 import { DataTableColumnHeader } from '@/components/table/data-table-column-header'
 import { ExpenceSchema } from '@/features/expences/data/schema'
@@ -118,7 +118,9 @@ export const columns: ColumnDef<ExpenceSchema>[] = [
       <DataTableColumnHeader column={column} title='Created at' />
     ),
     cell: ({ row }) => (
-      <div>{formatDateToLongString(row.getValue('created_at'))}</div>
+      <div>
+        <FormatDateToLongString dateString={row.getValue('created_at')} />
+      </div>
     ),
     enableSorting: false,
     enableHiding: false,
@@ -129,7 +131,9 @@ export const columns: ColumnDef<ExpenceSchema>[] = [
       <DataTableColumnHeader column={column} title='Updated at' />
     ),
     cell: ({ row }) => (
-      <div>{formatDateToLongString(row.getValue('updated_at'))}</div>
+      <div>
+        <FormatDateToLongString dateString={row.getValue('updated_at')} />
+      </div>
     ),
     enableSorting: false,
     enableHiding: false,

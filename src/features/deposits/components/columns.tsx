@@ -1,8 +1,8 @@
 import { ColumnDef } from '@tanstack/react-table'
-import { formatDateToLongString } from '@/lib/dateFormatter'
 import { cn } from '@/lib/utils'
 import { formatPrice } from '@/utils/formatPrice'
 import { Checkbox } from '@/components/ui/checkbox'
+import { FormatDateToLongString } from '@/components/date-formatter'
 import { DataTableColumnHeader } from '@/components/table/data-table-column-header'
 import { DepositSchema } from '../data/schema'
 
@@ -68,7 +68,7 @@ export const columns: ColumnDef<DepositSchema>[] = [
       const createdAt = row.original.created_at
       return (
         <div className='text-sm whitespace-nowrap'>
-          {formatDateToLongString(createdAt)}
+          <FormatDateToLongString dateString={createdAt} />
         </div>
       )
     },
@@ -81,10 +81,10 @@ export const columns: ColumnDef<DepositSchema>[] = [
       <DataTableColumnHeader column={column} title='Updated At' />
     ),
     cell: ({ row }) => {
-      const createdAt = row.original.updated_at
+      const updated_at = row.original.updated_at
       return (
         <div className='text-sm whitespace-nowrap'>
-          {formatDateToLongString(createdAt)}
+          <FormatDateToLongString dateString={updated_at} />
         </div>
       )
     },

@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Control, FieldValues, Path } from 'react-hook-form'
 import { IconCheck, IconSelector } from '@tabler/icons-react'
 import { cn } from '@/lib/utils'
+import { useLang } from '@/hooks/useLang'
 import { Button } from '@/components/ui/button'
 import {
   Command,
@@ -48,7 +49,8 @@ export const FormComboboxDeposit = <T extends FieldValues>({
 }: FormComboboxProps<T>) => {
   const [open, setOpen] = useState(false)
   const [search, setSearch] = useState('')
-
+  const { lang, tForm } = useLang()
+  const t = tForm[lang].form_labels
   const {
     data: depositsResponse,
     isLoading: isLoadingDeposits,
@@ -106,7 +108,7 @@ export const FormComboboxDeposit = <T extends FieldValues>({
         )
         const displayLabel =
           selectedOption?.label ??
-          (field.value ? `Selected ID: ${field.value}` : '')
+          (field.value ? `${t.selected_id} ${field.value}` : '')
 
         // Filter options based on search (client-side for fallback)
         const filteredOptions = search
@@ -129,9 +131,7 @@ export const FormComboboxDeposit = <T extends FieldValues>({
                       !field.value && 'text-muted-foreground'
                     )}
                   >
-                    {field.value
-                      ? displayLabel
-                      : `Select ${label.toLowerCase()}`}
+                    {field.value ? displayLabel : t.select_value}
                     <IconSelector className='opacity-50' />
                   </Button>
                 </FormControl>
@@ -139,7 +139,7 @@ export const FormComboboxDeposit = <T extends FieldValues>({
               <PopoverContent className='p-0'>
                 <Command shouldFilter={false}>
                   <CommandInput
-                    placeholder={`Search ${label.toLowerCase()}...`}
+                    placeholder={t.search_value}
                     className='h-9'
                     value={search}
                     onValueChange={setSearch}
@@ -150,14 +150,14 @@ export const FormComboboxDeposit = <T extends FieldValues>({
                         <div className='flex items-center gap-2'>
                           <div className='h-4 w-4 animate-spin rounded-full border-2 border-gray-300 border-t-gray-900'></div>
                           <span className='text-muted-foreground text-sm'>
-                            Searching...
+                            {t.searching}
                           </span>
                         </div>
                       </div>
                     ) : (
                       <>
                         {filteredOptions.length === 0 && (
-                          <CommandEmpty>No deposits found.</CommandEmpty>
+                          <CommandEmpty>{t.no_deposit}</CommandEmpty>
                         )}
                         {filteredOptions.length > 0 && (
                           <CommandGroup>
@@ -175,7 +175,7 @@ export const FormComboboxDeposit = <T extends FieldValues>({
                                   <span>{item.label}</span>
                                   {item.balance && (
                                     <span className='text-muted-foreground text-xs'>
-                                      Balance: $
+                                      {t.balance}: $
                                       {parseFloat(
                                         item.balance
                                       ).toLocaleString()}

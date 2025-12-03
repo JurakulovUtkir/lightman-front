@@ -5,6 +5,7 @@ import {
   DoubleArrowRightIcon,
 } from '@radix-ui/react-icons'
 import { useNavigate } from '@tanstack/react-router'
+import { useLang } from '@/hooks/useLang'
 import { Button } from '@/components/ui/button'
 import {
   Select,
@@ -28,6 +29,8 @@ export function CustomPagination({
   const navigate = useNavigate()
   const currentPage = Math.floor(offset / limit) + 1
   const totalPages = Math.ceil(total / limit)
+  const { lang, general, interpolate } = useLang()
+  const t = general[lang].pagination
 
   const handleOffsetChange = (newOffset: number) => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -65,12 +68,17 @@ export function CustomPagination({
       style={{ overflowClipMargin: 1 }}
     >
       <div className='text-muted-foreground hidden flex-1 text-sm sm:block'>
-        Showing {offset + 1} to {Math.min(offset + limit, total)} of {total}{' '}
-        results
+        {interpolate(t.showing_results, {
+          from: offset + 1,
+          to: Math.min(offset + limit, total),
+          total: total,
+        })}
       </div>
       <div className='flex w-full items-center justify-between sm:space-x-6 lg:w-auto lg:space-x-8'>
         <div className='flex items-center space-x-2'>
-          <p className='hidden text-sm font-medium sm:block'>Items per page</p>
+          <p className='hidden text-sm font-medium sm:block'>
+            {t.items_per_page}
+          </p>
           <Select
             value={limit.toString()}
             onValueChange={(value) => handleLimitChange(Number(value))}
@@ -87,8 +95,8 @@ export function CustomPagination({
             </SelectContent>
           </Select>
         </div>
-        <div className='flex w-[100px] items-center justify-center text-sm font-medium'>
-          Page {currentPage} of {totalPages}
+        <div className='flex items-center justify-center text-sm font-medium'>
+          {interpolate(t.page_of, { current: currentPage, total: totalPages })}
         </div>
         <div className='flex items-center space-x-2'>
           <Button
@@ -97,7 +105,7 @@ export function CustomPagination({
             onClick={handleFirstPage}
             disabled={currentPage === 1}
           >
-            <span className='sr-only'>Go to first page</span>
+            <span className='sr-only'>{t.go_first}</span>
             <DoubleArrowLeftIcon className='h-4 w-4' />
           </Button>
           <Button
@@ -106,7 +114,7 @@ export function CustomPagination({
             onClick={handlePreviousPage}
             disabled={currentPage === 1}
           >
-            <span className='sr-only'>Go to previous page</span>
+            <span className='sr-only'>{t.go_previous}</span>
             <ChevronLeftIcon className='h-4 w-4' />
           </Button>
           <Button
@@ -115,7 +123,7 @@ export function CustomPagination({
             onClick={handleNextPage}
             disabled={currentPage === totalPages}
           >
-            <span className='sr-only'>Go to next page</span>
+            <span className='sr-only'>{t.go_next}</span>
             <ChevronRightIcon className='h-4 w-4' />
           </Button>
           <Button
@@ -124,7 +132,7 @@ export function CustomPagination({
             onClick={handleLastPage}
             disabled={currentPage === totalPages}
           >
-            <span className='sr-only'>Go to last page</span>
+            <span className='sr-only'>{t.go_last}</span>
             <DoubleArrowRightIcon className='h-4 w-4' />
           </Button>
         </div>
