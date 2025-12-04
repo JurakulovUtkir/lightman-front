@@ -19,6 +19,9 @@ import { useProjects } from './data/hooks'
 import { ProjectSchema } from './data/schema'
 
 const Projects = () => {
+  const { lang, tProject, general } = useLang()
+  const t = tProject[lang]
+
   const navigate = useNavigate()
   const {
     offset,
@@ -35,8 +38,6 @@ const Projects = () => {
     from: '/_authenticated/projects/',
   })
   const [search, setSearch] = useState('')
-  const { lang, tProject, general } = useLang()
-  const t = tProject[lang]
 
   const debouncedSearch = useDebounce(search, 500)
 

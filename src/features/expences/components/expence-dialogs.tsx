@@ -1,3 +1,4 @@
+import { useLang } from '@/hooks/useLang'
 import { ConfirmDialog } from '@/components/confirm-dialog'
 import { useExpenceContext } from '../context'
 import { useDeleteExpence } from '../data/hooks'
@@ -6,6 +7,10 @@ import { ExpenceMutateDrawer } from './expence-mutate-drawer'
 export function ExpenceDialogs() {
   const { open, setOpen, currentRow, setCurrentRow } = useExpenceContext()
   const { mutate, isPending } = useDeleteExpence()
+  const { lang, general, tExpence, interpolate, interpolateWithComponents } =
+    useLang()
+  const t_general = general[lang].layout
+  const t = tExpence[lang]
 
   const handleDelete = (id: string) => {
     mutate(id, {
@@ -51,16 +56,20 @@ export function ExpenceDialogs() {
             }}
             handleConfirm={() => handleDelete(currentRow.id)}
             className='max-w-md'
-            title={`Delete this Expence with the amount: ${currentRow.amount} ?`}
+            title={interpolate(t.delete_title, {
+              amount: currentRow.amount,
+            })}
             desc={
               <>
-                You are about to delete a Expence with the amount{' '}
-                <strong>{currentRow.amount}</strong>. <br />
-                This action cannot be undone.
+                {interpolateWithComponents(t.delete_confirm, {
+                  amount: <strong>{currentRow.amount}</strong>,
+                })}
+                <br />
+                {t_general.undone}
               </>
             }
             isLoading={isPending}
-            confirmText={isPending ? 'Deleting...' : 'Delete'}
+            confirmText={isPending ? t_general.deleting : t_general.delete}
           />
         </>
       )}

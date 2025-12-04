@@ -12,12 +12,10 @@ import {
 } from '@tabler/icons-react'
 import { formatToYearMonthDay } from '@/lib/dateFormatter'
 import {
-  formatPriceType,
   getPaymentStatusColor,
   getPriceTypeColor,
   getStatusColor,
   getPaymentTypeColor,
-  formatPaymentType,
 } from '@/lib/statusHelpers'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -99,7 +97,7 @@ const ProjectCards = ({
                 className={`${getPriceTypeColor(item.price_type)} font-medium`}
               >
                 <IconTag className='mr-1 h-3 w-3' />
-                {formatPriceType(item.price_type)}
+                {item.price_type}
               </Badge>
               <Badge
                 variant='outline'
@@ -113,7 +111,7 @@ const ProjectCards = ({
                 className={`${getPaymentTypeColor(item.payment_type)} font-medium`}
               >
                 <IconWallet className='mr-1 h-3 w-3' />
-                {formatPaymentType(item.payment_type)}
+                {item.payment_type}
               </Badge>
             </div>
 

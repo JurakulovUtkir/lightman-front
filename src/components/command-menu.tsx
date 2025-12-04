@@ -9,6 +9,7 @@ import {
 } from '@tabler/icons-react'
 import { useSearch } from '@/context/search-context'
 import { useTheme } from '@/context/theme-context'
+import { useLang } from '@/hooks/useLang'
 import {
   CommandDialog,
   CommandEmpty,
@@ -25,6 +26,8 @@ export function CommandMenu() {
   const navigate = useNavigate()
   const { setTheme } = useTheme()
   const { open, setOpen } = useSearch()
+  const { lang, general } = useLang()
+  const t = general[lang].columns
 
   const runCommand = React.useCallback(
     (command: () => unknown) => {
@@ -39,7 +42,7 @@ export function CommandMenu() {
       <CommandInput placeholder='Type a command or search...' />
       <CommandList>
         <ScrollArea type='hover' className='h-72 pr-1'>
-          <CommandEmpty>No results found.</CommandEmpty>
+          <CommandEmpty>{t.no_results}</CommandEmpty>
           {sidebarData.navGroups.map((group) => (
             <CommandGroup key={group.title} heading={group.title}>
               {group.items.map((navItem, i) => {

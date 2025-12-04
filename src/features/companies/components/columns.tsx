@@ -8,7 +8,9 @@ import { DataTableColumnHeader } from '@/components/table/data-table-column-head
 import { CompanySchema } from '../data/schema'
 import { DataTableRowActions } from './data-table-row-actions'
 
-export const columns: ColumnDef<CompanySchema>[] = [
+export const columns = (
+  t: (typeof import('@/translations/general.json'))['en']['columns']
+): ColumnDef<CompanySchema>[] => [
   {
     id: 'select',
     header: ({ table }) => (
@@ -42,7 +44,7 @@ export const columns: ColumnDef<CompanySchema>[] = [
   {
     accessorKey: 'name',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Company name' />
+      <DataTableColumnHeader column={column} title={t.company_name} />
     ),
     cell: ({ row }) => (
       <div className='flex items-center gap-2'>
@@ -58,7 +60,7 @@ export const columns: ColumnDef<CompanySchema>[] = [
   {
     accessorKey: 'address',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Address' />
+      <DataTableColumnHeader column={column} title={t.address} />
     ),
     cell: ({ row }) => (
       <LongText className='max-w-36'>{row.getValue('address')}</LongText>
@@ -68,7 +70,7 @@ export const columns: ColumnDef<CompanySchema>[] = [
   {
     accessorKey: 'bank',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Bank' />
+      <DataTableColumnHeader column={column} title={t.bank} />
     ),
     cell: ({ row }) => (
       <LongText className='max-w-36'>{row.getValue('bank')}</LongText>
@@ -78,7 +80,7 @@ export const columns: ColumnDef<CompanySchema>[] = [
   {
     accessorKey: 'stir',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='STIR' />
+      <DataTableColumnHeader column={column} title={t.stir} />
     ),
     cell: ({ row }) => (
       <div className='flex items-center gap-2'>
@@ -91,7 +93,7 @@ export const columns: ColumnDef<CompanySchema>[] = [
   {
     accessorKey: 'mfo',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='MFO' />
+      <DataTableColumnHeader column={column} title={t.mfo} />
     ),
     cell: ({ row }) => (
       <div className='flex items-center gap-2'>
@@ -104,7 +106,7 @@ export const columns: ColumnDef<CompanySchema>[] = [
   {
     accessorKey: 'account_number',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Account number' />
+      <DataTableColumnHeader column={column} title={t.account_number} />
     ),
     cell: ({ row }) => (
       <div className='flex items-center gap-2'>
@@ -117,9 +119,13 @@ export const columns: ColumnDef<CompanySchema>[] = [
   {
     accessorKey: 'balance',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Balance' />
+      <DataTableColumnHeader column={column} title={t.balance} />
     ),
-    cell: ({ row }) => <div>{formatPrice(row.getValue('balance'))} UZS</div>,
+    cell: ({ row }) => (
+      <div>
+        {formatPrice(row.getValue('balance'))} {t.uzs}
+      </div>
+    ),
     enableSorting: false,
   },
   // {
@@ -137,7 +143,7 @@ export const columns: ColumnDef<CompanySchema>[] = [
   {
     accessorKey: 'is_vip',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Is vip' />
+      <DataTableColumnHeader column={column} title={t.is_vip} />
     ),
     cell: ({ row }) => (
       <div
@@ -149,7 +155,7 @@ export const columns: ColumnDef<CompanySchema>[] = [
   {
     accessorKey: 'is_qqs',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Is QQS' />
+      <DataTableColumnHeader column={column} title={t.is_vat} />
     ),
     cell: ({ row }) => (
       <div

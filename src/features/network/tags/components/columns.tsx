@@ -8,7 +8,7 @@ import { NetworkTagSchema } from '../data/schema'
 import { DataTableRowActions } from './data-table-row-actions'
 
 export const columns = (
-  t: (typeof import('@/translations/general.json'))['uz']['columns']
+  t: (typeof import('@/translations/general.json'))['en']['columns']
 ): ColumnDef<NetworkTagSchema>[] => [
   {
     id: 'select',

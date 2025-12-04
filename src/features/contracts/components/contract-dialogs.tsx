@@ -1,3 +1,4 @@
+import { useLang } from '@/hooks/useLang'
 import { ConfirmDialog } from '@/components/confirm-dialog'
 import { useContractContext } from '../context'
 import { useDeleteContract } from '../data/hooks'
@@ -6,6 +7,10 @@ import { ContractMutateDrawer } from './contract-mutate-drawer'
 export function ContractDialogs() {
   const { open, setOpen, currentRow, setCurrentRow } = useContractContext()
   const { mutate, isPending } = useDeleteContract()
+  const { lang, general, tContract, interpolate, interpolateWithComponents } =
+    useLang()
+  const t_general = general[lang].layout
+  const t = tContract[lang]
 
   const handleDelete = (id: string) => {
     mutate(id, {
@@ -51,16 +56,20 @@ export function ContractDialogs() {
             }}
             handleConfirm={() => handleDelete(currentRow.id)}
             className='max-w-md'
-            title={`Delete this Contract with the name: ${currentRow.name} ?`}
+            title={interpolate(t.delete_title, {
+              name: currentRow.name,
+            })}
             desc={
               <>
-                You are about to delete a Contract with the name{' '}
-                <strong>{currentRow.name}</strong>. <br />
-                This action cannot be undone.
+                {interpolateWithComponents(t.delete_confirm, {
+                  name: <strong>{currentRow.name}</strong>,
+                })}
+                <br />
+                {t_general.undone}
               </>
             }
             isLoading={isPending}
-            confirmText={isPending ? 'Deleting...' : 'Delete'}
+            confirmText={isPending ? t_general.deleting : t_general.delete}
           />
         </>
       )}

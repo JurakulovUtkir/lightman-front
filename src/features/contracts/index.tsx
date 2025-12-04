@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useSearch } from '@tanstack/react-router'
 import { IconSearch } from '@tabler/icons-react'
 import { useDebounce } from '@/hooks/useDebounce'
+import { useLang } from '@/hooks/useLang'
 import { Input } from '@/components/ui/input'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
@@ -17,6 +18,9 @@ import ContractProvider from './context'
 import { useContracts } from './data/hooks'
 
 const Contracts = () => {
+  const { lang, tContract, general } = useLang()
+  const t = tContract[lang]
+
   const {
     offset,
     limit,
@@ -56,18 +60,16 @@ const Contracts = () => {
       <Main>
         <div className='mb-2 flex flex-wrap items-center justify-between space-y-2 gap-x-4'>
           <div>
-            <h2 className='text-2xl font-bold tracking-tight'>Contracts</h2>
-            <p className='text-muted-foreground'>
-              Here&apos;s a list of contracts!
-            </p>
+            <h2 className='text-2xl font-bold tracking-tight'>{t.contracts}</h2>
+            <p className='text-muted-foreground'>{t.list_contracts}</p>
           </div>
-          <ContractPrimaryButtons />
+          <ContractPrimaryButtons text={t.create} />
         </div>
         <div className='flex items-center gap-4'>
           <div className='relative'>
             <Input
               type='search'
-              placeholder='Search by contracts'
+              placeholder={t.search_by_contract}
               className='h-8 max-w-80 pl-8'
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -80,7 +82,7 @@ const Contracts = () => {
         <div className='-mx-4 flex-1 overflow-auto px-4 pt-4 pb-1 lg:flex-row lg:space-y-0 lg:space-x-12'>
           <DataTable
             data={data?.data.items?.length ? data.data.items : []}
-            columns={columns}
+            columns={columns(general[lang].columns)}
           />
         </div>
       </Main>

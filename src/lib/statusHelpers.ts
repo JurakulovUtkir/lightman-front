@@ -19,20 +19,6 @@ export const getStatusColor = (status: string): string => {
     'border-gray-200 bg-gray-50 text-gray-700 dark:border-gray-800 dark:bg-gray-950 dark:text-gray-300'
   )
 }
-// Need to remove after translations
-export const formatStatus = (status: string): string => {
-  const formatted: Record<string, string> = {
-    draft: 'Draft',
-    active: 'Active',
-    on_hold: 'On Hold',
-    approved: 'Approved',
-    requested: 'Requested',
-    done: 'Done',
-    canceled: 'Canceled',
-  }
-  return formatted[status.toLowerCase()] || status
-}
-
 export const getPaymentStatusColor = (paymentStatus: string): string => {
   const colors: Record<string, string> = {
     paid: 'border-green-200 bg-green-50 text-green-700 dark:border-green-800 dark:bg-green-950 dark:text-green-300',
@@ -48,16 +34,6 @@ export const getPaymentStatusColor = (paymentStatus: string): string => {
     'border-gray-200 bg-gray-50 text-gray-700 dark:border-gray-800 dark:bg-gray-950 dark:text-gray-300'
   )
 }
-// Need to remove after translations
-export const formatPaymentStatus = (paymentStatus: string): string => {
-  const formatted: Record<string, string> = {
-    pending: 'Pending',
-    paid: 'Paid',
-    cancelled: 'Cancelled',
-    unpaid: 'Unpaid',
-  }
-  return formatted[paymentStatus.toLowerCase()] || paymentStatus
-}
 export const getPriceTypeColor = (priceType: string): string => {
   const colors: Record<string, string> = {
     standard: 'bg-slate-100 text-slate-800 border-slate-200',
@@ -68,15 +44,6 @@ export const getPriceTypeColor = (priceType: string): string => {
     colors[priceType.toLowerCase()] ||
     'bg-gray-100 text-gray-800 border-gray-200'
   )
-}
-// Need to remove after translations
-export const formatPriceType = (priceType: string): string => {
-  const formatted: Record<string, string> = {
-    standard: 'Standard',
-    vip: 'VIP',
-    no_watermark: 'No Watermark',
-  }
-  return formatted[priceType.toLowerCase()] || priceType
 }
 export const getPaymentTypeColor = (paymentType: string): string => {
   switch (paymentType) {
@@ -90,21 +57,6 @@ export const getPaymentTypeColor = (paymentType: string): string => {
       return 'border-amber-200 bg-amber-50 text-amber-700 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-300'
     default:
       return 'border-gray-200 bg-gray-50 text-gray-700 dark:border-gray-800 dark:bg-gray-950 dark:text-gray-300'
-  }
-}
-// Need to remove after translations
-export const formatPaymentType = (paymentType: string): string => {
-  switch (paymentType) {
-    case 'cash':
-      return 'Cash'
-    case 'card':
-      return 'Card'
-    case 'bank_transfer':
-      return 'Bank Transfer'
-    case 'deposit':
-      return 'Deposit'
-    default:
-      return paymentType
   }
 }
 export const getExpenceTypeColor = (type: string): string => {
@@ -127,18 +79,6 @@ export const getExpenceTypeColor = (type: string): string => {
     'border-gray-200 bg-gray-50 text-gray-700 dark:border-gray-800 dark:bg-gray-950 dark:text-gray-300'
   )
 }
-// Need to remove after translations
-export const formatExpenceType = (type: string): string => {
-  const formatted: Record<string, string> = {
-    salary: 'Salary',
-    avans: 'Avans',
-    project: 'Project',
-    deposit: 'Deposit',
-    transfer: 'Transfer',
-    other: 'Other',
-  }
-  return formatted[type.toLowerCase()] || type
-}
 export const getExpenceOriginTypeColor = (type: string): string => {
   const colors: Record<string, string> = {
     expence:
@@ -152,13 +92,4 @@ export const getExpenceOriginTypeColor = (type: string): string => {
     colors[type.toLowerCase()] ||
     'border-gray-200 bg-gray-50 text-gray-700 dark:border-gray-800 dark:bg-gray-950 dark:text-gray-300'
   )
-}
-// Need to remove after translations
-export const formatExpenceOriginType = (type: string): string => {
-  const formatted: Record<string, string> = {
-    expence: 'Expence',
-    income: 'Income',
-    deposit: 'Deposit',
-  }
-  return formatted[type.toLowerCase()] || type
 }

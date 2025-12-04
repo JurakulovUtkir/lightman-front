@@ -2,9 +2,6 @@ import { ColumnDef } from '@tanstack/react-table'
 import { Download, Eye } from 'lucide-react'
 import { downloadFile } from '@/lib/helpers'
 import {
-  formatExpenceOriginType,
-  formatExpenceType,
-  formatPaymentType,
   getExpenceOriginTypeColor,
   getExpenceTypeColor,
   getPaymentTypeColor,
@@ -18,7 +15,9 @@ import LongText from '@/components/long-text'
 import { DataTableColumnHeader } from '@/components/table/data-table-column-header'
 import { ExpenceSchema } from '../data/schema'
 
-export const columns: ColumnDef<ExpenceSchema>[] = [
+export const columns = (
+  t: (typeof import('@/translations/general.json'))['en']['columns']
+): ColumnDef<ExpenceSchema>[] => [
   {
     id: 'select',
     header: ({ table }) => (
@@ -46,16 +45,18 @@ export const columns: ColumnDef<ExpenceSchema>[] = [
   {
     accessorKey: 'type',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Type' />
+      <DataTableColumnHeader column={column} title={t.type} />
     ),
     cell: ({ row }) => {
-      const expenceOriginType = row.getValue('type') as string
+      const expenceOriginType = row.getValue(
+        'type'
+      ) as keyof typeof t.expenceOriginTypeOptions
       return (
         <Badge
           variant='outline'
           className={getExpenceOriginTypeColor(expenceOriginType)}
         >
-          {formatExpenceOriginType(expenceOriginType)}
+          {t.expenceOriginTypeOptions[expenceOriginType]}
         </Badge>
       )
     },
@@ -64,13 +65,15 @@ export const columns: ColumnDef<ExpenceSchema>[] = [
   {
     accessorKey: 'expence_type',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Expence Type' />
+      <DataTableColumnHeader column={column} title={t.expence_type} />
     ),
     cell: ({ row }) => {
-      const expenceType = row.getValue('expence_type') as string
+      const expenceType = row.getValue(
+        'expence_type'
+      ) as keyof typeof t.expenceTypeOptions
       return (
         <Badge variant='outline' className={getExpenceTypeColor(expenceType)}>
-          {formatExpenceType(expenceType)}
+          {t.expenceTypeOptions[expenceType]}
         </Badge>
       )
     },
@@ -79,7 +82,7 @@ export const columns: ColumnDef<ExpenceSchema>[] = [
   {
     accessorKey: 'distribution',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Distribution' />
+      <DataTableColumnHeader column={column} title={t.distribution} />
     ),
     cell: ({ row }) => {
       const distribution = row.getValue('distribution') as
@@ -94,15 +97,17 @@ export const columns: ColumnDef<ExpenceSchema>[] = [
   {
     accessorKey: 'payment_type',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Payment Type' />
+      <DataTableColumnHeader column={column} title={t.payment_type} />
     ),
     cell: ({ row }) => {
-      const paymentType = row.getValue('payment_type') as string
+      const paymentType = row.getValue(
+        'payment_type'
+      ) as keyof typeof t.paymentTypeOptions
       if (!paymentType)
         return <span className='text-muted-foreground text-sm'>-</span>
       return (
         <Badge variant='outline' className={getPaymentTypeColor(paymentType)}>
-          {formatPaymentType(paymentType)}
+          {t.paymentTypeOptions[paymentType]}
         </Badge>
       )
     },
@@ -111,18 +116,22 @@ export const columns: ColumnDef<ExpenceSchema>[] = [
   {
     accessorKey: 'amount',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Amount' />
+      <DataTableColumnHeader column={column} title={t.amount} />
     ),
     cell: ({ row }) => {
       const amount = row.original.amount ?? 0
-      return <div className='font-medium'>{formatPrice(amount)} UZS</div>
+      return (
+        <div className='font-medium'>
+          {formatPrice(amount)} {t.uzs}
+        </div>
+      )
     },
     enableSorting: true,
   },
   {
     accessorKey: 'project',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Project' />
+      <DataTableColumnHeader column={column} title={t.project} />
     ),
     cell: ({ row }) => {
       const project = row.getValue('project') as { name: string } | undefined
@@ -133,7 +142,7 @@ export const columns: ColumnDef<ExpenceSchema>[] = [
   {
     accessorKey: 'company',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Company' />
+      <DataTableColumnHeader column={column} title={t.company} />
     ),
     cell: ({ row }) => {
       const company = row.getValue('company') as { name: string } | undefined
@@ -144,7 +153,7 @@ export const columns: ColumnDef<ExpenceSchema>[] = [
   {
     accessorKey: 'deposit',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Deposit' />
+      <DataTableColumnHeader column={column} title={t.deposit} />
     ),
     cell: ({ row }) => {
       const deposit = row.original.deposit
@@ -162,7 +171,7 @@ export const columns: ColumnDef<ExpenceSchema>[] = [
   {
     accessorKey: 'user',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='User' />
+      <DataTableColumnHeader column={column} title={t.user} />
     ),
     cell: ({ row }) => {
       const user = row.getValue('user') as { full_name: string } | undefined
@@ -174,14 +183,16 @@ export const columns: ColumnDef<ExpenceSchema>[] = [
   {
     accessorKey: 'file_url',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='File' />
+      <DataTableColumnHeader column={column} title={t.file} />
     ),
     cell: ({ row }) => {
       const base_url = import.meta.env.VITE_API_BASE_URL.replace(/\/v1\/?$/, '')
       const file = row.original.file_url
 
       if (!file) {
-        return <span className='text-muted-foreground text-sm'>No File</span>
+        return (
+          <span className='text-muted-foreground text-sm'>{t.no_file}</span>
+        )
       }
 
       const fullUrl = `${base_url}${file}`
@@ -211,7 +222,7 @@ export const columns: ColumnDef<ExpenceSchema>[] = [
   {
     accessorKey: 'description',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Description' />
+      <DataTableColumnHeader column={column} title={t.description} />
     ),
     cell: ({ row }) => {
       return (
@@ -225,7 +236,7 @@ export const columns: ColumnDef<ExpenceSchema>[] = [
   {
     accessorKey: 'created_at',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Created at' />
+      <DataTableColumnHeader column={column} title={t.created_at} />
     ),
     cell: ({ row }) => {
       const createdAt = row.original.created_at
@@ -240,7 +251,7 @@ export const columns: ColumnDef<ExpenceSchema>[] = [
   // {
   //   accessorKey: 'updated_at',
   //   header: ({ column }) => (
-  //     <DataTableColumnHeader column={column} title='Updated at' />
+  //     <DataTableColumnHeader column={column} title={t.updated_at} />
   //   ),
   //   cell: ({ row }) => {
   //     const updatedAt = row.original.updated_at

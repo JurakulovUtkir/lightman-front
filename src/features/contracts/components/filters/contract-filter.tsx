@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { useSearch } from '@tanstack/react-router'
 import { IconFilter } from '@tabler/icons-react'
-import { paymentStatusOptions, paymentTypeOptions } from '@/constants'
+import { getPaymentTypeOptions, getPaymentStatusOptions } from '@/constants'
+import { useLang } from '@/hooks/useLang'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
@@ -16,6 +17,10 @@ import { EnumFilter } from '@/features/projects/components/filters/enum-filters'
 import { useContractFilters } from './useContractFilters'
 
 const ContractFilter = () => {
+  const { lang, general } = useLang()
+  const t_general = general[lang].columns
+  const paymentStatusOptions = getPaymentStatusOptions(t_general)
+
   const { customer_company_id, our_company_id, payment_status, payment_type } =
     useSearch({
       from: '/_authenticated/contracts/',
@@ -111,7 +116,7 @@ const ContractFilter = () => {
             <Label className='text-xs font-medium'>Payment Type</Label>
             <EnumFilter
               placeholder='Select payment type...'
-              filterOptions={paymentTypeOptions}
+              filterOptions={getPaymentTypeOptions(t_general)}
               selectedFilter={payment_type}
               onFilterChange={handlePaymentTypeFilterChange}
               searchable={false}

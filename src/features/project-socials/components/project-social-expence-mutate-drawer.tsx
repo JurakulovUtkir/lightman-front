@@ -4,13 +4,14 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { IconCalendar } from '@tabler/icons-react'
 import {
-  expenceOriginTypeOptions,
-  expenceTypeOptions,
-  paymentTypeOptions,
+  getExpenceTypeOptions,
+  getExpenceOriginTypeOptions,
+  getPaymentTypeOptions,
 } from '@/constants'
 import { toast } from 'sonner'
 import { getExpenceOriginTypeColor } from '@/lib/statusHelpers'
 import { cn } from '@/lib/utils'
+import { useLang } from '@/hooks/useLang'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import {
@@ -61,6 +62,11 @@ export function ProjectSocialExpenceMutateDrawer({
   onOpenChange,
   currentRow,
 }: Props) {
+  const { lang, general } = useLang()
+  // const t = tForm[lang]
+  const t_general = general[lang].columns
+  const expenceOriginTypeOptions = getExpenceOriginTypeOptions(t_general)
+
   const [pendingDeleteFile, setPendingDeleteFile] = useState<string | null>(
     null
   )
@@ -262,7 +268,7 @@ export function ProjectSocialExpenceMutateDrawer({
                 name='expence_type'
                 label='Expence type'
                 placeholder='Select a type'
-                options={expenceTypeOptions}
+                options={getExpenceTypeOptions(t_general)}
               />
               <FormFieldSelect
                 control={form.control}
@@ -281,7 +287,7 @@ export function ProjectSocialExpenceMutateDrawer({
                 name='payment_type'
                 label='Payment type'
                 placeholder='Select a payment type'
-                options={paymentTypeOptions}
+                options={getPaymentTypeOptions(t_general)}
               />
               <FormFieldWrapper
                 control={form.control}

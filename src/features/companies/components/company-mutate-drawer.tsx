@@ -1,7 +1,9 @@
+import { useMemo } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toNumber } from '@/lib/helpers'
+import { useLang } from '@/hooks/useLang'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -42,47 +44,55 @@ export function CompanyMutateDrawer({
   const createCompany = useCreateCompany()
   const updateCompany = useUpdateCompany()
   const isUpdate = !!currentRow
-  const formSchema = z.object({
-    name: z
-      .string({
-        error: 'Name is required.',
-      })
-      .min(1, 'Please enter company name.')
-      .max(150, 'Name cannot exceed 150 characters.'),
-    address: z
-      .string({
-        error: 'Address is required.',
-      })
-      .min(1)
-      .max(150, 'Address cannot exceed 150 characters.'),
-    stir: z
-      .string({
-        error: 'STIR number is required.',
-      })
-      .regex(/^\d{9}$/, 'STIR number must be exactly 9 digits.'),
-    mfo: z
-      .string({
-        error: 'MFO number is required.',
-      })
-      .regex(/^\d{5}$/, 'MFO number must be exactly 5 digits.'),
-    bank: z
-      .string({
-        error: 'Bank name is required.',
-      })
-      .min(1)
-      .max(150, 'Bank name cannot exceed 150 characters.'),
-    account_number: z
-      .string({
-        error: 'Account number is required.',
-      })
-      .regex(/^\d{20}$/, 'Account number must be exactly 20 digits.'),
 
-    balance: z.number().min(0, 'Invalid value').optional(),
-    is_active: z.boolean().optional(),
-    is_our_company: z.boolean().optional(),
-    is_vip: z.boolean().optional(),
-    is_qqs: z.boolean().optional(),
-  })
+  const { lang, tForm, tCompany } = useLang()
+  const t = tForm[lang]
+
+  const formSchema = useMemo(
+    () =>
+      z.object({
+        name: z
+          .string({
+            error: t.form_validations.name,
+          })
+          .min(1, t.form_validations.enter_a_name)
+          .max(150, t.form_validations.invalid_name),
+        address: z
+          .string({
+            error: t.form_validations.address,
+          })
+          .min(1)
+          .max(150, t.form_validations.invalid_address),
+        stir: z
+          .string({
+            error: t.form_validations.stir,
+          })
+          .regex(/^\d{9}$/, t.form_validations.invalid_stir),
+        mfo: z
+          .string({
+            error: t.form_validations.mfo,
+          })
+          .regex(/^\d{5}$/, t.form_validations.invalid_mfo),
+        bank: z
+          .string({
+            error: t.form_validations.bank,
+          })
+          .min(1)
+          .max(150, t.form_validations.invalid_bank),
+        account_number: z
+          .string({
+            error: t.form_validations.account_number,
+          })
+          .regex(/^\d{20}$/, t.form_validations.invalid_account_number),
+
+        balance: z.number().min(0, t.form_validations.invalid_value).optional(),
+        is_active: z.boolean().optional(),
+        is_our_company: z.boolean().optional(),
+        is_vip: z.boolean().optional(),
+        is_qqs: z.boolean().optional(),
+      }),
+    [t]
+  )
 
   type CompanyForm = z.infer<typeof formSchema>
 
@@ -124,19 +134,19 @@ export function CompanyMutateDrawer({
   const switchFields = [
     {
       name: 'is_active',
-      label: 'Is active',
+      label: t.form_labels.is_active,
     },
     {
       name: 'is_our_company',
-      label: 'Is our company',
+      label: t.form_labels.is_our_company,
     },
     {
       name: 'is_vip',
-      label: 'Is vip',
+      label: t.form_labels.is_vip,
     },
     {
       name: 'is_qqs',
-      label: 'Is QQS',
+      label: t.form_labels.is_vat,
     },
   ] as const
 
@@ -157,12 +167,14 @@ export function CompanyMutateDrawer({
     >
       <SheetContent className='flex max-w-full flex-col sm:max-w-[540px]'>
         <SheetHeader className='text-left'>
-          <SheetTitle>{isUpdate ? 'Update' : 'Create'} Company</SheetTitle>
-          <SheetDescription>
+          <SheetTitle>
             {isUpdate
-              ? 'Update the Company by providing necessary info.'
-              : 'Add a new Company by providing necessary info.'}
-            Click save when you&apos;re done.
+              ? tCompany[lang].update_company
+              : tCompany[lang].create_company}
+          </SheetTitle>
+          <SheetDescription>
+            {isUpdate ? tCompany[lang].update_desc : tCompany[lang].create_desc}
+            {tCompany[lang].click_save}
           </SheetDescription>
         </SheetHeader>
         <div className='flex-1 overflow-y-auto'>
@@ -200,51 +212,51 @@ export function CompanyMutateDrawer({
               <FormFieldWrapper
                 control={form.control}
                 name='name'
-                label='Name'
-                placeholder='Enter a name'
+                label={t.form_labels.name}
+                placeholder={t.form_placeholders.enter_name}
               />
 
               <FormFieldWrapper
                 control={form.control}
                 name='address'
-                label='Address'
-                placeholder='Enter a address'
+                label={t.form_labels.address}
+                placeholder={t.form_placeholders.enter_address}
               />
               <FormFieldWrapper
                 control={form.control}
                 name='bank'
-                label='Bank name'
-                placeholder='Enter a bank name'
+                label={t.form_labels.bank_name}
+                placeholder={t.form_placeholders.enter_bank_name}
               />
 
               <div className='grid grid-cols-1 items-baseline gap-4 sm:grid-cols-2'>
                 <FormFieldWrapper
                   control={form.control}
                   name='stir'
-                  label='STIR number'
-                  placeholder='Enter a number'
+                  label={t.form_labels.stir_number}
+                  placeholder={t.form_placeholders.enter_number}
                   type='text'
                 />
                 <FormFieldWrapper
                   control={form.control}
                   name='mfo'
-                  label='MFO number'
-                  placeholder='Enter a number'
+                  label={t.form_labels.mfo_number}
+                  placeholder={t.form_placeholders.enter_number}
                   type='text'
                 />
               </div>
               <FormFieldWrapper
                 control={form.control}
                 name='account_number'
-                label='Account number'
-                placeholder='Enter a number'
+                label={t.form_labels.account_number}
+                placeholder={t.form_placeholders.enter_number}
                 type='text'
               />
               <FormFieldWrapper
                 control={form.control}
                 name='balance'
-                label='Balance'
-                placeholder='Enter a price'
+                label={t.form_labels.balance}
+                placeholder={t.form_placeholders.enter_price}
                 type='number'
                 suffix='UZS'
               />
@@ -254,7 +266,7 @@ export function CompanyMutateDrawer({
         <SheetFooter>
           {isUpdate && (
             <Button onClick={handleDelete} size='sm' variant='destructive'>
-              Delete
+              {t.buttons.delete}
             </Button>
           )}
           <Button
@@ -265,8 +277,8 @@ export function CompanyMutateDrawer({
             type='submit'
           >
             {(isUpdate ? updateCompany.isPending : createCompany.isPending)
-              ? 'Loading...'
-              : 'Save changes'}
+              ? t.buttons.loading
+              : t.buttons.save_changes}
           </Button>
         </SheetFooter>
       </SheetContent>

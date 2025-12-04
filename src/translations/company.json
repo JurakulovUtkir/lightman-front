@@ -1,0 +1,41 @@
+{
+  "en": {
+    "companies": "Companies",
+    "list_companies": "Here's a list of companies!",
+    "search_by_company": "Search by company",
+    "create_company": "Create company",
+    "create_desc": "Add a new Company by providing necessary info.",
+    "update_company": "Update company",
+    "update_desc": "Update the Company by providing necessary info.",
+    "create": "Create",
+    "click_save": "Click save when you're done.",
+    "delete_title": "Delete this Company with the name: {{name}} ?",
+    "delete_confirm": "You are about to delete a Company with the name {{name}}"
+  },
+  "ru": {
+    "companies": "Компании",
+    "list_companies": "Список компаний",
+    "search_by_company": "Поиск по компании",
+    "create_company": "Создать компанию",
+    "create_desc": "Добавьте новую компанию, указав необходимую информацию.",
+    "update_company": "Обновить компанию",
+    "update_desc": "Обновите компанию, указав необходимую информацию.",
+    "create": "Создать",
+    "click_save": "Нажмите сохранить, когда закончите.",
+    "delete_title": "Удалить компанию с именем: {{name}}?",
+    "delete_confirm": "Вы собираетесь удалить компанию с именем {{name}}"
+  },
+  "uz": {
+    "companies": "Kompaniyalar",
+    "list_companies": "Kompaniyalar ro‘yxati",
+    "search_by_company": "Kompaniya bo‘yicha qidirish",
+    "create_company": "Kompaniya yaratish",
+    "create_desc": "Kerakli ma’lumotlarni kiritib yangi kompaniya qo‘shing.",
+    "update_company": "Kompaniyani yangilash",
+    "update_desc": "Kerakli ma’lumotlarni kiritib kompaniyani yangilang.",
+    "create": "Yaratish",
+    "click_save": "Barchasi tayyor bo‘lganda saqlash tugmasini bosing.",
+    "delete_title": "{{name}} nomli kompaniyani o‘chirmoqchimisiz?",
+    "delete_confirm": "Siz {{name}} nomli kompaniyani o‘chirish arafasidansiz."
+  }
+}

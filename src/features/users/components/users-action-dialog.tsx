@@ -2,9 +2,10 @@ import { useEffect } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { userRoleOptions, UZ_PHONE_REGEX } from '@/constants'
+import { getUserRoleOptions, UZ_PHONE_REGEX } from '@/constants'
 import { toast } from 'sonner'
 import { toNumber } from '@/lib/helpers'
+import { useLang } from '@/hooks/useLang'
 import { Button } from '@/components/ui/button'
 import {
   Dialog,
@@ -133,6 +134,9 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
   const isUpdate = !!currentRow
   const createUser = useCreateUser()
   const updateUser = useUpdateUser()
+  const { lang, general } = useLang()
+  const t_general = general[lang].columns
+  const userRoleOptions = getUserRoleOptions(t_general)
 
   const form = useForm<UserForm>({
     resolver: zodResolver(formSchema),

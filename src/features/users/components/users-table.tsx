@@ -14,6 +14,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table'
+import { useLang } from '@/hooks/useLang'
 import {
   Table,
   TableBody,
@@ -43,6 +44,9 @@ export function UsersTable({ columns, data }: DataTableProps) {
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [sorting, setSorting] = useState<SortingState>([])
+
+  const { lang, general } = useLang()
+  const t = general[lang].columns
 
   const table = useReactTable({
     data,
@@ -120,7 +124,7 @@ export function UsersTable({ columns, data }: DataTableProps) {
                   colSpan={columns.length}
                   className='h-24 text-center'
                 >
-                  No results.
+                  {t.no_results}
                 </TableCell>
               </TableRow>
             )}

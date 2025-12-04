@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import { useSearch } from '@tanstack/react-router'
 import { IconFilter, IconX } from '@tabler/icons-react'
-import { priceTypeOptions, statusOptions } from '@/constants'
+import { getPriceTypeOptions, getstatusOptions } from '@/constants'
+import { useLang } from '@/hooks/useLang'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -19,6 +20,9 @@ import { EnumFilter } from './enum-filters'
 import { useProjectFilters } from './useProjectFilters'
 
 const ProjectFilter = () => {
+  const { lang, general } = useLang()
+  const t_general = general[lang].columns
+  const statusOptions = getstatusOptions(t_general)
   const {
     category_id,
     status,
@@ -184,7 +188,7 @@ const ProjectFilter = () => {
             <Label className='text-xs font-medium'>Price Type</Label>
             <EnumFilter
               placeholder='Select price type...'
-              filterOptions={priceTypeOptions}
+              filterOptions={getPriceTypeOptions(t_general)}
               selectedFilter={price_type}
               onFilterChange={handlePriceTypeFilterChange}
               searchable={false}

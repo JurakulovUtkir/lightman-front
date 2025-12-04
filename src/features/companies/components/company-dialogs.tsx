@@ -1,3 +1,4 @@
+import { useLang } from '@/hooks/useLang'
 import { ConfirmDialog } from '@/components/confirm-dialog'
 import { useCompanyContext } from '../context'
 import { useDeleteCompany } from '../data/hooks'
@@ -6,6 +7,10 @@ import { CompanyMutateDrawer } from './company-mutate-drawer'
 export function CompanyDialogs() {
   const { open, setOpen, currentRow, setCurrentRow } = useCompanyContext()
   const { mutate, isPending } = useDeleteCompany()
+  const { lang, general, tCompany, interpolate, interpolateWithComponents } =
+    useLang()
+  const t_general = general[lang].layout
+  const t = tCompany[lang]
 
   const handleDelete = (id: string) => {
     mutate(id, {
@@ -51,16 +56,20 @@ export function CompanyDialogs() {
             }}
             handleConfirm={() => handleDelete(currentRow.id)}
             className='max-w-md'
-            title={`Delete this Company with the name: ${currentRow.name} ?`}
+            title={interpolate(t.delete_title, {
+              name: currentRow.name,
+            })}
             desc={
               <>
-                You are about to delete a Company with the name{' '}
-                <strong>{currentRow.name}</strong>. <br />
-                This action cannot be undone.
+                {interpolateWithComponents(t.delete_confirm, {
+                  name: <strong>{currentRow.name}</strong>,
+                })}
+                <br />
+                {t_general.undone}
               </>
             }
             isLoading={isPending}
-            confirmText={isPending ? 'Deleting...' : 'Delete'}
+            confirmText={isPending ? t_general.deleting : t_general.delete}
           />
         </>
       )}

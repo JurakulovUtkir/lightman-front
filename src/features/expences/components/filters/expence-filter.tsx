@@ -3,11 +3,12 @@ import { format } from 'date-fns'
 import { useSearch } from '@tanstack/react-router'
 import { IconCalendar, IconFilter, IconX } from '@tabler/icons-react'
 import {
-  expenceOriginTypeOptions,
-  expenceTypeOptions,
-  paymentTypeOptions,
+  getExpenceTypeOptions,
+  getExpenceOriginTypeOptions,
+  getPaymentTypeOptions,
 } from '@/constants'
 import { cn } from '@/lib/utils'
+import { useLang } from '@/hooks/useLang'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
@@ -33,6 +34,11 @@ const ExpenceFilter = ({
   isFounder?: boolean
   isProject?: boolean
 }) => {
+  const { lang, general } = useLang()
+  const t_general = general[lang].columns
+  const expenceOriginTypeOptions = getExpenceOriginTypeOptions(t_general)
+  const expenceTypeOptions = getExpenceTypeOptions(t_general)
+
   const {
     type,
     expence_type,
@@ -256,7 +262,7 @@ const ExpenceFilter = ({
               <Label className='text-xs font-medium'>Payment Type</Label>
               <EnumFilter
                 placeholder='Select payment type...'
-                filterOptions={paymentTypeOptions}
+                filterOptions={getPaymentTypeOptions(t_general)}
                 selectedFilter={payment_type}
                 onFilterChange={handlePaymentTypeFilterChange}
                 searchable={false}

@@ -1,17 +1,18 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { IconCalendar } from '@tabler/icons-react'
 import {
-  expenceOriginTypeOptions,
-  expenceTypeOptions,
-  paymentTypeOptions,
+  getExpenceOriginTypeOptions,
+  getExpenceTypeOptions,
+  getPaymentTypeOptions,
 } from '@/constants'
 import { toast } from 'sonner'
 import { toNumber } from '@/lib/helpers'
 import { getExpenceOriginTypeColor } from '@/lib/statusHelpers'
 import { cn } from '@/lib/utils'
+import { useLang } from '@/hooks/useLang'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
 import {
@@ -75,74 +76,82 @@ export function ExpenceMutateDrawer({
 
   const isUpdate = !!currentRow
 
-  // Dynamic schema with conditional validation
-  const formSchema = z
-    .object({
-      project_id: z.string({
-        error: 'Required field',
-      }),
-      expence_type: z.enum(
-        ['salary', 'avans', 'project', 'deposit', 'other', 'transfer'],
-        {
-          error: 'Required field',
-        }
-      ),
-      type: z.enum(['expence', 'income', 'deposit'], {
-        error: 'Required field',
-      }),
-      distribution_id: z.string({
-        error: 'Required field',
-      }),
-      company_id: z.string({ error: 'Required field' }),
-      to_company_id: z.string().optional(),
-      created_at: z.date().optional(),
-      user_id: z.string().optional(),
-      deposit_id: z.string().optional(),
-      payment_type: z.enum(['card', 'bank_transfer', 'cash', 'deposit'], {
-        error: 'Required field',
-      }),
-      amount: z
-        .number({
-          error: 'Amount is required',
-        })
-        .min(0, 'Invalid value'),
-      description: z
-        .string()
-        .max(150, 'Name cannot exceed 150 characters.')
-        .optional(),
-      file_url: z.string().optional(),
-    })
-    .superRefine((data, ctx) => {
-      // If expence_type is 'transfer', to_company_id is required
-      if (data.expence_type === 'transfer' && !data.to_company_id) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: 'Transfer to company is required for transfer type',
-          path: ['to_company_id'],
-        })
-      }
+  const { lang, tForm, tExpence, general } = useLang()
+  const t = tForm[lang]
+  const t_general = general[lang].columns
+  const expenceOriginTypeOptions = getExpenceOriginTypeOptions(t_general)
 
-      // If expence_type is 'salary' or 'avans', user_id is required
-      if (
-        (data.expence_type === 'salary' || data.expence_type === 'avans') &&
-        !data.user_id
-      ) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: 'User is required for salary/avans type',
-          path: ['user_id'],
+  const formSchema = useMemo(
+    () =>
+      z
+        .object({
+          project_id: z.string({
+            error: t.form_validations.required_field,
+          }),
+          expence_type: z.enum(
+            ['salary', 'avans', 'project', 'deposit', 'other', 'transfer'],
+            {
+              error: t.form_validations.required_field,
+            }
+          ),
+          type: z.enum(['expence', 'income', 'deposit'], {
+            error: t.form_validations.required_field,
+          }),
+          distribution_id: z.string({
+            error: t.form_validations.required_field,
+          }),
+          company_id: z.string({ error: t.form_validations.required_field }),
+          to_company_id: z.string().optional(),
+          created_at: z.date().optional(),
+          user_id: z.string().optional(),
+          deposit_id: z.string().optional(),
+          payment_type: z.enum(['card', 'bank_transfer', 'cash', 'deposit'], {
+            error: t.form_validations.required_field,
+          }),
+          amount: z
+            .number({
+              error: t.form_validations.amount,
+            })
+            .min(0, t.form_validations.invalid_value),
+          description: z
+            .string()
+            .max(150, t.form_validations.invalid_description)
+            .optional(),
+          file_url: z.string().optional(),
         })
-      }
+        .superRefine((data, ctx) => {
+          // If expence_type is 'transfer', to_company_id is required
+          if (data.expence_type === 'transfer' && !data.to_company_id) {
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              message: t.form_validations.required_transfer,
+              path: ['to_company_id'],
+            })
+          }
 
-      // If expence_type is 'deposit', deposit_id is required
-      if (data.expence_type === 'deposit' && !data.deposit_id) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: 'Deposit is required for deposit type',
-          path: ['deposit_id'],
-        })
-      }
-    })
+          // If expence_type is 'salary' or 'avans', user_id is required
+          if (
+            (data.expence_type === 'salary' || data.expence_type === 'avans') &&
+            !data.user_id
+          ) {
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              message: t.form_validations.required_user,
+              path: ['user_id'],
+            })
+          }
+
+          // If expence_type is 'deposit', deposit_id is required
+          if (data.expence_type === 'deposit' && !data.deposit_id) {
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              message: t.form_validations.required_deposit,
+              path: ['deposit_id'],
+            })
+          }
+        }),
+    [t]
+  )
 
   type ExpenceForm = z.infer<typeof formSchema>
 
@@ -179,7 +188,7 @@ export function ExpenceMutateDrawer({
         await deleteFile.mutateAsync(pendingDeleteFile)
         setPendingDeleteFile(null)
       } catch (_error) {
-        toast.error('Unable to delete previous file')
+        toast.error(t.toast.unable_delete_previous)
       }
     }
 
@@ -225,12 +234,14 @@ export function ExpenceMutateDrawer({
     >
       <SheetContent className='flex max-w-full flex-col sm:max-w-[540px]'>
         <SheetHeader className='text-left'>
-          <SheetTitle>{isUpdate ? 'Update' : 'Create'} Expence</SheetTitle>
-          <SheetDescription>
+          <SheetTitle>
             {isUpdate
-              ? 'Update the Expence by providing necessary info.'
-              : 'Add a new Expence by providing necessary info.'}
-            Click save when you&apos;re done.
+              ? tExpence[lang].update_expence
+              : tExpence[lang].create_expence}
+          </SheetTitle>
+          <SheetDescription>
+            {isUpdate ? tExpence[lang].update_desc : tExpence[lang].create_desc}
+            {tExpence[lang].click_save}
           </SheetDescription>
         </SheetHeader>
         <div className='flex-1 overflow-y-auto'>
@@ -245,7 +256,7 @@ export function ExpenceMutateDrawer({
                 name='type'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Type</FormLabel>
+                    <FormLabel>{t.form_labels.type}</FormLabel>
                     <FormControl>
                       <div className='grid grid-cols-3 gap-2'>
                         {expenceOriginTypeOptions.map((option) => (
@@ -274,15 +285,15 @@ export function ExpenceMutateDrawer({
               <FormFieldSelect
                 control={form.control}
                 name='expence_type'
-                label='Expence type'
-                placeholder='Select a type'
-                options={expenceTypeOptions}
+                label={t.form_labels.expence_type}
+                placeholder={t.form_placeholders.select_type}
+                options={getExpenceTypeOptions(t_general)}
               />
               <FormFieldSelect
                 control={form.control}
                 name='distribution_id'
-                label='Distribution'
-                placeholder='Select a distribution'
+                label={t.form_labels.distribution}
+                placeholder={t.form_placeholders.select_distribution}
                 options={
                   distribution?.data?.map((item) => ({
                     value: item.id,
@@ -293,28 +304,28 @@ export function ExpenceMutateDrawer({
               <FormFieldSelect
                 control={form.control}
                 name='payment_type'
-                label='Payment type'
-                placeholder='Select a payment type'
-                options={paymentTypeOptions}
+                label={t.form_labels.payment_type}
+                placeholder={t.form_placeholders.select_payment_type}
+                options={getPaymentTypeOptions(t_general)}
               />
               <FormFieldWrapper
                 control={form.control}
                 name='amount'
-                label='Amount'
-                placeholder='Enter a amount'
+                label={t.form_labels.amount}
+                placeholder={t.form_placeholders.enter_amount}
                 type='number'
-                suffix='UZS'
+                suffix={t.form_placeholders.uzs}
               />
               <FormComboboxProject
                 control={form.control}
                 name='project_id'
-                label='Select Project'
+                label={t.form_placeholders.select_project}
                 detail={currentRow?.project ?? undefined}
               />
               <FormComboboxCompany
                 control={form.control}
                 name='company_id'
-                label='Company'
+                label={t.form_labels.company}
                 detail={currentRow?.company ?? undefined}
                 filterOurCompany={true}
                 setValue={form.setValue}
@@ -324,7 +335,7 @@ export function ExpenceMutateDrawer({
                 <FormComboboxCompany
                   control={form.control}
                   name='to_company_id'
-                  label='Transfer Company'
+                  label={t.form_labels.transfer_company}
                   detail={currentRow?.company ?? undefined}
                   filterOurCompany={true}
                   setValue={form.setValue}
@@ -338,7 +349,7 @@ export function ExpenceMutateDrawer({
                 <FormComboboxUser
                   control={form.control}
                   name='user_id'
-                  label='Select User'
+                  label={t.form_labels.select_user}
                   detail={currentRow?.user ?? undefined}
                 />
               )}
@@ -346,7 +357,7 @@ export function ExpenceMutateDrawer({
               {checkExpenceType === 'deposit' && (
                 <FormComboboxDeposit
                   name='deposit_id'
-                  label='Select deposit'
+                  label={t.form_labels.select_deposit}
                   control={form.control}
                   detail={currentRow?.deposit ?? undefined}
                 />
@@ -357,7 +368,7 @@ export function ExpenceMutateDrawer({
                 name='created_at'
                 render={({ field }) => (
                   <FormItem className='flex flex-col'>
-                    <FormLabel>Creation date</FormLabel>
+                    <FormLabel>{t.form_labels.creation_date}</FormLabel>
                     <Popover open={openDate} onOpenChange={setOpenDate}>
                       <PopoverTrigger asChild>
                         <FormControl>
@@ -374,7 +385,7 @@ export function ExpenceMutateDrawer({
                                 dateString={field.value}
                               />
                             ) : (
-                              <span>Creation date</span>
+                              <span>{t.form_labels.creation_date}</span>
                             )}
                             <IconCalendar className='ml-auto h-4 w-4 opacity-50' />
                           </Button>
@@ -412,7 +423,7 @@ export function ExpenceMutateDrawer({
               <FormFileUploadField
                 control={form.control}
                 name='file_url'
-                label='File'
+                label={t.form_labels.file}
                 maxSize={5}
                 isUpdateMode={isUpdate}
                 onPendingDelete={handlePendingDelete}
@@ -421,8 +432,8 @@ export function ExpenceMutateDrawer({
               <FormFieldWrapper
                 control={form.control}
                 name='description'
-                label='Description'
-                placeholder='Enter a description'
+                label={t.form_labels.description}
+                placeholder={t.form_placeholders.enter_description}
                 type='textarea'
               />
             </form>
@@ -431,7 +442,7 @@ export function ExpenceMutateDrawer({
         <SheetFooter>
           {isUpdate && (
             <Button onClick={handleDelete} size='sm' variant='destructive'>
-              Delete
+              {t.buttons.delete}
             </Button>
           )}
           <Button
@@ -442,8 +453,8 @@ export function ExpenceMutateDrawer({
             type='submit'
           >
             {(isUpdate ? updateExpence.isPending : createExpence.isPending)
-              ? 'Loading...'
-              : 'Save changes'}
+              ? t.buttons.loading
+              : t.buttons.save_changes}
           </Button>
         </SheetFooter>
       </SheetContent>

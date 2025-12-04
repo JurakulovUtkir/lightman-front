@@ -1,9 +1,11 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { getPaymentTypeOptions } from '@/constants'
 import { toast } from 'sonner'
 import { toNumber } from '@/lib/helpers'
+import { useLang } from '@/hooks/useLang'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -49,50 +51,56 @@ export function ContractMutateDrawer({
   const updateContract = useUpdateContract()
   const deleteFile = useDeleteFile()
   const isUpdate = !!currentRow
+  const { lang, tForm, general, tContract } = useLang()
+  const t = tForm[lang]
+  const t_general = general[lang].columns
 
   const [pendingDeleteFile, setPendingDeleteFile] = useState<string | null>(
     null
   )
-
-  const formSchema = z.object({
-    contract_number: z
-      .string({
-        error: 'Contract number is required',
-      })
-      .min(1, 'Please enter contract number.')
-      .max(100, 'Contract number cannot exceed 100 characters.'),
-    name: z
-      .string({
-        error: 'Name is required.',
-      })
-      .min(1, 'Please enter name.')
-      .max(150, 'Name cannot exceed 150 characters.'),
-    description: z
-      .string({
-        error: 'Description is required.',
-      })
-      .max(150, 'Description cannot exceed 150 characters.')
-      .optional(),
-    price: z
-      .number({
-        error: 'Required field',
-      })
-      .min(0, 'Invalid value'),
-    payment_type: z.enum(['card', 'bank_transfer', 'cash', 'deposit'], {
-      error: 'Required field',
-    }),
-    our_company_id: z.string({
-      error: 'Required field',
-    }),
-    customer_company_id: z.string({
-      error: 'Required field',
-    }),
-    file: z.string({
-      error: 'File is field',
-    }),
-    is_active: z.boolean().optional(),
-    is_qqs: z.boolean().optional(),
-  })
+  const formSchema = useMemo(
+    () =>
+      z.object({
+        contract_number: z
+          .string({
+            error: t.form_validations.contract_number,
+          })
+          .min(1, t.form_validations.enter_contract_number)
+          .max(100, t.form_validations.contract_number_limit),
+        name: z
+          .string({
+            error: t.form_validations.name,
+          })
+          .min(1, t.form_validations.enter_a_name)
+          .max(150, t.form_validations.invalid_name),
+        description: z
+          .string({
+            error: t.form_validations.description,
+          })
+          .max(150, t.form_validations.invalid_description)
+          .optional(),
+        price: z
+          .number({
+            error: t.form_validations.required_field,
+          })
+          .min(0, t.form_validations.invalid_value),
+        payment_type: z.enum(['card', 'bank_transfer', 'cash', 'deposit'], {
+          error: t.form_validations.required_field,
+        }),
+        our_company_id: z.string({
+          error: t.form_validations.required_field,
+        }),
+        customer_company_id: z.string({
+          error: t.form_validations.required_field,
+        }),
+        file: z.string({
+          error: t.form_validations.file,
+        }),
+        is_active: z.boolean().optional(),
+        is_qqs: z.boolean().optional(),
+      }),
+    [t]
+  )
 
   type ProjectForm = z.infer<typeof formSchema>
 
@@ -116,7 +124,7 @@ export function ContractMutateDrawer({
         await deleteFile.mutateAsync(pendingDeleteFile)
         setPendingDeleteFile(null)
       } catch (_error) {
-        toast.error('Unable to delete previous file')
+        toast.error(t.toast.unable_delete_previous)
         // Handle error if needed
         // console.error('Failed to delete old file:', error)
       }
@@ -166,11 +174,11 @@ export function ContractMutateDrawer({
   const switchFields = [
     {
       name: 'is_active',
-      label: 'Is active',
+      label: t.form_labels.is_active,
     },
     {
       name: 'is_qqs',
-      label: 'Is QQS',
+      label: t.form_labels.is_vat,
     },
   ] as const
 
@@ -178,12 +186,16 @@ export function ContractMutateDrawer({
     <Sheet open={open} onOpenChange={handleSheetChange}>
       <SheetContent className='flex max-w-full flex-col sm:max-w-[540px]'>
         <SheetHeader className='text-left'>
-          <SheetTitle>{isUpdate ? 'Update' : 'Create'} Contract</SheetTitle>
+          <SheetTitle>
+            {isUpdate
+              ? tContract[lang].update_contract
+              : tContract[lang].create_contract}
+          </SheetTitle>
           <SheetDescription>
             {isUpdate
-              ? 'Update the Contract by providing necessary info.'
-              : 'Add a new Contract by providing necessary info.'}
-            Click save when you&apos;re done.
+              ? tContract[lang].update_desc
+              : tContract[lang].create_desc}
+            {tContract[lang].click_save}
           </SheetDescription>
         </SheetHeader>
         <div className='flex-1 overflow-y-auto'>
@@ -222,55 +234,51 @@ export function ContractMutateDrawer({
               <FormFieldWrapper
                 control={form.control}
                 name='contract_number'
-                label='Contract number'
-                placeholder='Enter a number'
+                label={t.form_labels.contract_number}
+                placeholder={t.form_placeholders.enter_number}
               />
 
               <FormFieldWrapper
                 control={form.control}
                 name='name'
-                label='Name'
-                placeholder='Enter a name'
+                label={t.form_labels.name}
+                placeholder={t.form_placeholders.enter_name}
               />
 
               <FormFieldWrapper
                 control={form.control}
                 name='description'
-                label='Description'
-                placeholder='Enter a description'
+                label={t.form_labels.description}
+                placeholder={t.form_placeholders.enter_description}
               />
 
               <div className='grid grid-cols-1 items-baseline gap-4 sm:grid-cols-2'>
                 <FormFieldWrapper
                   control={form.control}
                   name='price'
-                  label='Price'
-                  placeholder='Enter a price'
+                  label={t.form_labels.price}
+                  placeholder={t.form_placeholders.enter_price}
                   type='number'
-                  suffix='UZS'
+                  suffix={t.form_placeholders.uzs}
                 />
                 <FormComboboxCompany
                   control={form.control}
                   name='our_company_id'
-                  label='Our company'
+                  label={t.form_labels.our_company}
                   detail={currentRow?.our_company}
                   filterOurCompany={true}
                 />
                 <FormFieldSelect
                   control={form.control}
                   name='payment_type'
-                  label='Payment type'
-                  placeholder='Select a payment type'
-                  options={[
-                    { value: 'cash', label: 'Cash' },
-                    { value: 'card', label: 'Card' },
-                    { value: 'bank_transfer', label: 'Bank Transfer' },
-                  ]}
+                  label={t.form_labels.payment_type}
+                  placeholder={t.form_placeholders.select_payment_type}
+                  options={getPaymentTypeOptions(t_general)}
                 />
                 <FormComboboxCompany
                   control={form.control}
                   name='customer_company_id'
-                  label='Customer company'
+                  label={t.form_labels.customer_company}
                   detail={currentRow?.customer_company}
                   filterOurCompany={false}
                 />
@@ -279,7 +287,7 @@ export function ContractMutateDrawer({
               <FormFileUploadField
                 control={form.control}
                 name='file'
-                label='File'
+                label={t.form_labels.file}
                 maxSize={5}
                 isUpdateMode={isUpdate}
                 onPendingDelete={handlePendingDelete}
@@ -295,7 +303,7 @@ export function ContractMutateDrawer({
               variant='destructive'
               className='w-full sm:w-auto'
             >
-              Delete
+              {t.buttons.delete}
             </Button>
           )}
           <Button
@@ -307,8 +315,8 @@ export function ContractMutateDrawer({
             className='w-full sm:w-auto'
           >
             {(isUpdate ? updateContract.isPending : createContract.isPending)
-              ? 'Loading...'
-              : 'Save changes'}
+              ? t.buttons.loading
+              : t.buttons.save_changes}
           </Button>
         </SheetFooter>
       </SheetContent>

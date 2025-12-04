@@ -9,7 +9,7 @@ import { DataTableColumnHeader } from '@/components/table/data-table-column-head
 import { ExpenceSchema } from '@/features/expences/data/schema'
 
 export const columns = (
-  t: (typeof import('@/translations/general.json'))['uz']['columns']
+  t: (typeof import('@/translations/general.json'))['en']['columns']
 ): ColumnDef<ExpenceSchema>[] => [
   {
     id: 'select',

@@ -28,52 +28,68 @@ export interface ApiResponse<T> {
   error: string | null
 }
 
-export const statusOptions = [
-  { value: 'draft', label: 'Draft' },
-  { value: 'active', label: 'Active' },
-  { value: 'on_hold', label: 'On hold' },
-  { value: 'approved', label: 'Approved' },
-  { value: 'requested', label: 'Requested' },
-  { value: 'done', label: 'Done' },
-  { value: 'canceled', label: 'Canceled' },
+export const getstatusOptions = (
+  t: (typeof import('@/translations/general.json'))['en']['columns']
+) => [
+  { value: 'draft', label: t.statusOptions.draft },
+  { value: 'active', label: t.statusOptions.active },
+  { value: 'on_hold', label: t.statusOptions.on_hold },
+  { value: 'approved', label: t.statusOptions.approved },
+  { value: 'requested', label: t.statusOptions.requested },
+  { value: 'done', label: t.statusOptions.done },
+  { value: 'canceled', label: t.statusOptions.canceled },
 ]
-export const paymentStatusOptions = [
-  { value: 'pending', label: 'Pending' },
-  { value: 'paid', label: 'Paid' },
-  { value: 'cancelled', label: 'Cancelled' },
-  { value: 'unpaid', label: 'Unpaid' },
+
+export const getPaymentStatusOptions = (
+  t: (typeof import('@/translations/general.json'))['en']['columns']
+) => [
+  { value: 'pending', label: t.paymentStatusOprions.pending },
+  { value: 'paid', label: t.paymentStatusOprions.paid },
+  { value: 'cancelled', label: t.paymentStatusOprions.cancelled },
+  { value: 'unpaid', label: t.paymentStatusOprions.unpaid },
 ]
-export const priceTypeOptions = [
-  { value: 'standard', label: 'Standard' },
-  { value: 'vip', label: 'VIP' },
-  { value: 'no_watermark', label: 'No Watermark' },
+export const getPriceTypeOptions = (
+  t: (typeof import('@/translations/general.json'))['en']['columns']
+) => [
+  { value: 'standard', label: t.priceTypeOptions.standard },
+  { value: 'vip', label: t.priceTypeOptions.vip },
+  { value: 'no_watermark', label: t.priceTypeOptions.no_watermark },
 ]
-export const paymentTypeOptions = [
-  { value: 'card', label: 'Card' },
-  { value: 'bank_transfer', label: 'Bank transfer' },
-  { value: 'cash', label: 'Cash' },
-  { value: 'deposit', label: 'Deposit' },
+export const getPaymentTypeOptions = (
+  t: (typeof import('@/translations/general.json'))['en']['columns']
+) => [
+  { value: 'card', label: t.paymentTypeOptions.card },
+  { value: 'bank_transfer', label: t.paymentTypeOptions.bank_transfer },
+  { value: 'cash', label: t.paymentTypeOptions.cash },
+  { value: 'deposit', label: t.paymentTypeOptions.deposit },
 ]
-export const expenceTypeOptions = [
-  { value: 'salary', label: 'Salary' },
-  { value: 'avans', label: 'Avans' },
-  { value: 'project', label: 'Project' },
-  { value: 'deposit', label: 'Deposit' },
-  { value: 'transfer', label: 'Transfer' },
-  { value: 'other', label: 'Other' },
+export const getExpenceTypeOptions = (
+  t: (typeof import('@/translations/general.json'))['en']['columns']
+) => [
+  { value: 'salary', label: t.expenceTypeOptions.salary },
+  { value: 'avans', label: t.expenceTypeOptions.avans },
+  { value: 'project', label: t.expenceTypeOptions.project },
+  { value: 'deposit', label: t.expenceTypeOptions.deposit },
+  { value: 'transfer', label: t.expenceTypeOptions.transfer },
+  { value: 'other', label: t.expenceTypeOptions.other },
 ]
-export const expenceOriginTypeOptions = [
-  { value: 'expence', label: 'Expence' },
-  { value: 'income', label: 'Income' },
-  { value: 'deposit', label: 'Deposit' },
+
+export const getExpenceOriginTypeOptions = (
+  t: (typeof import('@/translations/general.json'))['en']['columns']
+) => [
+  { value: 'expence', label: t.expenceOriginTypeOptions.expence },
+  { value: 'income', label: t.expenceOriginTypeOptions.income },
+  { value: 'deposit', label: t.expenceOriginTypeOptions.deposit },
 ]
-export const userRoleOptions = [
-  { value: 'admin', label: 'Admin' },
-  { value: 'user', label: 'User' },
-  { value: 'operator', label: 'Operator' },
-  { value: 'employee', label: 'Employee' },
-  { value: 'accountant', label: 'Accountant' },
-  { value: 'account_manager', label: 'Account manager' },
+export const getUserRoleOptions = (
+  t: (typeof import('@/translations/general.json'))['en']['columns']
+) => [
+  { value: 'admin', label: t.userRoleOptions.admin },
+  { value: 'user', label: t.userRoleOptions.user },
+  { value: 'operator', label: t.userRoleOptions.operator },
+  { value: 'employee', label: t.userRoleOptions.employee },
+  { value: 'accountant', label: t.userRoleOptions.accountant },
+  { value: 'account_manager', label: t.userRoleOptions.account_manager },
 ]
 
 export enum PriceType {

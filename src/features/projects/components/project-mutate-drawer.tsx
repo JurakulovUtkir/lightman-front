@@ -2,6 +2,7 @@ import { useEffect, useMemo } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { getPaymentTypeOptions, getPriceTypeOptions } from '@/constants'
 import { toNumber } from '@/lib/helpers'
 import { useLang } from '@/hooks/useLang'
 import { Button } from '@/components/ui/button'
@@ -53,7 +54,7 @@ export function ProjectMutateDrawer({
   const isUpdate = !!currentRow
   const { lang, tForm, tProject, general } = useLang()
   const t = tForm[lang]
-  const t_general = general[lang]
+  const t_general = general[lang].columns
 
   const formSchema = useMemo(
     () =>
@@ -355,20 +356,7 @@ export function ProjectMutateDrawer({
                   name='price_type'
                   label={t.form_labels.price_type}
                   placeholder={t.form_placeholders.select_price_type}
-                  options={[
-                    {
-                      value: 'standard',
-                      label: t_general.columns.priceTypeOptions.standard,
-                    },
-                    {
-                      value: 'no_watermark',
-                      label: t_general.columns.priceTypeOptions.no_watermark,
-                    },
-                    {
-                      value: 'vip',
-                      label: t_general.columns.priceTypeOptions.vip,
-                    },
-                  ]}
+                  options={getPriceTypeOptions(t_general)}
                 />
 
                 <FormFieldSelect
@@ -376,20 +364,7 @@ export function ProjectMutateDrawer({
                   name='payment_type'
                   label={t.form_labels.payment_type}
                   placeholder={t.form_placeholders.select_payment_type}
-                  options={[
-                    {
-                      value: 'cash',
-                      label: t_general.columns.paymentTypeOptions.cash,
-                    },
-                    {
-                      value: 'card',
-                      label: t_general.columns.paymentTypeOptions.card,
-                    },
-                    {
-                      value: 'bank_transfer',
-                      label: t_general.columns.paymentTypeOptions.bank_transfer,
-                    },
-                  ]}
+                  options={getPaymentTypeOptions(t_general)}
                 />
                 <FormFieldWrapper
                   control={form.control}

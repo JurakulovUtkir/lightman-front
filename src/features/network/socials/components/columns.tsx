@@ -25,7 +25,7 @@ export const columns = (
   // onCategoryFilterChange: (categoryId: string | null) => void,
   // selectedTypeId: string | undefined,
   // onTypeFilterChange: (typeId: string | null) => void
-  t: (typeof import('@/translations/general.json'))['uz']['columns']
+  t: (typeof import('@/translations/general.json'))['en']['columns']
 ): ColumnDef<NetworkSocialSchema>[] => [
   {
     id: 'select',

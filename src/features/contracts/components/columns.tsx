@@ -10,7 +10,9 @@ import LongText from '@/components/long-text'
 import { ContractSchema } from '../data/schema'
 import { DataTableColumnHeader } from './data-table-column-header'
 
-export const columns: ColumnDef<ContractSchema>[] = [
+export const columns = (
+  t: (typeof import('@/translations/general.json'))['en']['columns']
+): ColumnDef<ContractSchema>[] => [
   {
     id: 'select',
     header: ({ table }) => (
@@ -38,7 +40,7 @@ export const columns: ColumnDef<ContractSchema>[] = [
   {
     accessorKey: 'name',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Company name' />
+      <DataTableColumnHeader column={column} title={t.company_name} />
     ),
     cell: ({ row }) => (
       <div className='flex items-center gap-2'>
@@ -54,7 +56,7 @@ export const columns: ColumnDef<ContractSchema>[] = [
   {
     accessorKey: 'contract_number',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Contract number' />
+      <DataTableColumnHeader column={column} title={t.contract_number} />
     ),
     cell: ({ row }) => (
       <div className='flex items-center gap-2'>
@@ -67,7 +69,7 @@ export const columns: ColumnDef<ContractSchema>[] = [
   {
     accessorKey: 'our_company',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Our Company' />
+      <DataTableColumnHeader column={column} title={t.our_company} />
     ),
     cell: ({ row }) => {
       const company = row.getValue('our_company') as { name: string }
@@ -78,7 +80,7 @@ export const columns: ColumnDef<ContractSchema>[] = [
   {
     accessorKey: 'customer_company',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Customer' />
+      <DataTableColumnHeader column={column} title={t.customer_company} />
     ),
     cell: ({ row }) => {
       const customer = row.getValue('customer_company') as { name: string }
@@ -89,11 +91,15 @@ export const columns: ColumnDef<ContractSchema>[] = [
   {
     accessorKey: 'price',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Price' />
+      <DataTableColumnHeader column={column} title={t.price} />
     ),
     cell: ({ row }) => {
       const buyPrice = row.original.price ?? 0
-      return <div>{formatPrice(buyPrice)} UZS</div>
+      return (
+        <div>
+          {formatPrice(buyPrice)} {t.uzs}
+        </div>
+      )
     },
     enableSorting: true,
     enableHiding: false,
@@ -101,7 +107,7 @@ export const columns: ColumnDef<ContractSchema>[] = [
   {
     accessorKey: 'is_qqs',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Is QQS' />
+      <DataTableColumnHeader column={column} title={t.is_vat} />
     ),
     cell: ({ row }) => (
       <div
@@ -113,14 +119,16 @@ export const columns: ColumnDef<ContractSchema>[] = [
   {
     accessorKey: 'file',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='File' />
+      <DataTableColumnHeader column={column} title={t.file} />
     ),
     cell: ({ row }) => {
       const base_url = import.meta.env.VITE_API_BASE_URL.replace(/\/v1\/?$/, '')
       const file = row.original.file
 
       if (!file) {
-        return <span className='text-muted-foreground text-sm'>No File</span>
+        return (
+          <span className='text-muted-foreground text-sm'>{t.no_file}</span>
+        )
       }
 
       const fullUrl = `${base_url}${file}`
@@ -151,7 +159,7 @@ export const columns: ColumnDef<ContractSchema>[] = [
   {
     accessorKey: 'description',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Description' />
+      <DataTableColumnHeader column={column} title={t.description} />
     ),
     cell: ({ row }) => {
       return (
@@ -161,11 +169,10 @@ export const columns: ColumnDef<ContractSchema>[] = [
     enableSorting: false,
     enableHiding: false,
   },
-
   {
     accessorKey: 'created_at',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Created at' />
+      <DataTableColumnHeader column={column} title={t.created_at} />
     ),
     cell: ({ row }) => {
       const createdAt = row.original.created_at
@@ -181,7 +188,7 @@ export const columns: ColumnDef<ContractSchema>[] = [
   //   {
   //     accessorKey: 'updated_at',
   //     header: ({ column }) => (
-  //       <DataTableColumnHeader column={column} title='Updated at' />
+  //       <DataTableColumnHeader column={column} title={t.updated_at} />
   //     ),
   //     cell: ({ row }) => {
   //       const updatedAt = row.original.updated_at

@@ -1,4 +1,7 @@
 import { ReactNode } from 'react'
+import companyJson from '@/translations/company.json'
+import contractJson from '@/translations/contract.json'
+import expenceJson from '@/translations/expence.json'
 import formJson from '@/translations/form.json'
 import generalJson from '@/translations/general.json'
 import networkJson from '@/translations/network.json'
@@ -33,14 +36,20 @@ export const useLang = () => {
   const tProject = projectJson
   const tForm = formJson
   const tNetwork = networkJson
+  const tContract = contractJson
+  const tCompany = companyJson
+  const tExpence = expenceJson
 
   return {
     lang,
+    interpolate,
+    interpolateWithComponents,
     general,
     tProject,
     tForm,
     tNetwork,
-    interpolate,
-    interpolateWithComponents,
+    tCompany,
+    tContract,
+    tExpence,
   }
 }

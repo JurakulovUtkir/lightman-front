@@ -16,7 +16,7 @@ export interface GroupedRow {
 }
 
 export const groupedColumns = (
-  t: (typeof import('@/translations/general.json'))['uz']['columns']
+  t: (typeof import('@/translations/general.json'))['en']['columns']
 ): ColumnDef<GroupedRow>[] => [
   {
     accessorKey: 'socialName',

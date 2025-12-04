@@ -11,7 +11,7 @@ const PaymentStatus = ({
 }: {
   isPaid: boolean
   item: ProjectSocialSchema
-  t: (typeof import('@/translations/general.json'))['uz']['columns']
+  t: (typeof import('@/translations/general.json'))['en']['columns']
 }) => {
   const { setOpen, setCurrentRow } = useProjectSocialContext()
   const hadleClick = () => {

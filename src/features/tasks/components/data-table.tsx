@@ -13,6 +13,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table'
+import { useLang } from '@/hooks/useLang'
 import {
   Table,
   TableBody,
@@ -40,6 +41,9 @@ export function DataTable<TData, TValue>({
     []
   )
   const [sorting, setSorting] = React.useState<SortingState>([])
+
+  const { lang, general } = useLang()
+  const t = general[lang].columns
 
   const table = useReactTable({
     data,
@@ -109,7 +113,7 @@ export function DataTable<TData, TValue>({
                   colSpan={columns.length}
                   className='h-24 text-center'
                 >
-                  No results.
+                  {t.no_results}
                 </TableCell>
               </TableRow>
             )}

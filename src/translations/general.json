@@ -223,7 +223,24 @@
       "amount": "Amount",
       "company": "Company",
       "project": "Project",
-      "partially_paid": "Partially Paid"
+      "partially_paid": "Partially Paid",
+      "company_name": "Company name",
+      "contract_number": "Contract number",
+      "is_vat": "Is VAT",
+      "file": "File",
+      "description": "Description",
+      "no_file": "No file",
+      "no_results": "No results found.",
+      "address": "Address",
+      "bank": "Bank",
+      "stir": "STIR",
+      "mfo": "MFO",
+      "account_number": "Account number",
+      "is_vip": "Is vip",
+      "type": "Type",
+      "distribution": "Distribution",
+      "deposit": "Deposit",
+      "user": "User"
     }
   },
   "ru": {
@@ -450,7 +467,24 @@
       "amount": "Сумма",
       "company": "Компания",
       "project": "Проект",
-      "partially_paid": "Частично оплачено"
+      "partially_paid": "Частично оплачено",
+      "company_name": "Название компании",
+      "contract_number": "Номер договора",
+      "is_vat": "С НДС",
+      "file": "Файл",
+      "description": "Описание",
+      "no_file": "Файла нет",
+      "no_results": "Результаты не найдены.",
+      "address": "Адрес",
+      "bank": "Банк",
+      "stir": "STIR",
+      "mfo": "MFO",
+      "account_number": "Номер счета",
+      "is_vip": "VIP счет",
+      "type": "Тип",
+      "distribution": "Распределение",
+      "deposit": "Депозит",
+      "user": "Пользователь"
     }
   },
   "uz": {
@@ -677,7 +711,24 @@
       "amount": "Miqdor",
       "company": "Kompaniya",
       "project": "Loyiha",
-      "partially_paid": "Qisman to‘langan"
+      "partially_paid": "Qisman to‘langan",
+      "company_name": "Kompaniya nomi",
+      "contract_number": "Shartnoma raqami",
+      "is_vat": "QQS bilan",
+      "file": "Fayl",
+      "description": "Tavsif",
+      "no_file": "Fayl yo‘q",
+      "no_results": "Natija topilmadi.",
+      "address": "Manzil",
+      "bank": "Bank",
+      "stir": "STIR",
+      "mfo": "MFO",
+      "account_number": "Hisob raqami",
+      "is_vip": "VIP hisob",
+      "type": "Turi",
+      "distribution": "Taqsimot",
+      "deposit": "Depozit",
+      "user": "Foydalanuvchi"
     }
   }
 }

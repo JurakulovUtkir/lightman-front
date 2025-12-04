@@ -11,7 +11,7 @@ import { DataTableColumnHeader } from './data-table-column-header'
 import PaymentStatus from './payment-status'
 
 export const columns = (
-  t: (typeof import('@/translations/general.json'))['uz']['columns']
+  t: (typeof import('@/translations/general.json'))['en']['columns']
 ): ColumnDef<ProjectSocialSchema>[] => [
   {
     id: 'select',

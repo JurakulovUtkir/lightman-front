@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useSearch } from '@tanstack/react-router'
 import { IconSearch } from '@tabler/icons-react'
 import { useDebounce } from '@/hooks/useDebounce'
+import { useLang } from '@/hooks/useLang'
 import { Input } from '@/components/ui/input'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
@@ -17,6 +18,9 @@ import CompanyProvider from './context'
 import { useCompanies } from './data/hooks'
 
 const Companies = () => {
+  const { lang, tCompany, general } = useLang()
+  const t = tCompany[lang]
+
   const { offset, limit } = useSearch({
     from: '/_authenticated/companies/',
   })
@@ -53,18 +57,16 @@ const Companies = () => {
       <Main>
         <div className='mb-2 flex flex-wrap items-center justify-between space-y-2 gap-x-4'>
           <div>
-            <h2 className='text-2xl font-bold tracking-tight'>Companies</h2>
-            <p className='text-muted-foreground'>
-              Here&apos;s a list of companies!
-            </p>
+            <h2 className='text-2xl font-bold tracking-tight'>{t.companies}</h2>
+            <p className='text-muted-foreground'>{t.list_companies}</p>
           </div>
-          <CompanyPrimaryButtons />
+          <CompanyPrimaryButtons text={t.create} />
         </div>
         <div className='flex items-center gap-4'>
           <div className='relative'>
             <Input
               type='search'
-              placeholder='Search by company'
+              placeholder={t.search_by_company}
               className='h-8 max-w-80 pl-8'
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -77,7 +79,7 @@ const Companies = () => {
         <div className='-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-y-0 lg:space-x-12'>
           <DataTable
             data={data?.data.items?.length ? data.data.items : []}
-            columns={columns}
+            columns={columns(general[lang].columns)}
             offset={offset}
             limit={limit}
             total={data?.data.total ?? 0}
