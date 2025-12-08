@@ -130,7 +130,8 @@
       "notifications": "Notifications",
       "display": "Display",
       "localization": "Localization",
-      "help_center": "Help Center"
+      "help_center": "Help Center",
+      "cards": "Cards"
     },
     "columns": {
       "statusOptions": {
@@ -404,7 +405,8 @@
       "notifications": "Уведомления",
       "display": "Отображение",
       "localization": "Локализация",
-      "help_center": "Центр помощи"
+      "help_center": "Центр помощи",
+      "cards": "Карты"
     },
     "columns": {
       "statusOptions": {
@@ -677,7 +679,8 @@
       "notifications": "Bildirishnomalar",
       "display": "Ko‘rsatish",
       "localization": "Lokalizatsiya",
-      "help_center": "Yordam markazi"
+      "help_center": "Yordam markazi",
+      "cards": "Kartalar"
     },
     "columns": {
       "statusOptions": {

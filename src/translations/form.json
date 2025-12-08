@@ -93,7 +93,9 @@
       "employee_company": "Employee company",
       "salary": "Salary",
       "password": "Password",
-      "confirm_password": "Confirm Password"
+      "confirm_password": "Confirm Password",
+      "card_name": "Card name",
+      "expiration_date": "Expiration date"
     },
     "form_placeholders": {
       "select_project": "Select project",
@@ -122,7 +124,8 @@
       "enter_percentage": "Enter percentage",
       "select_role": "Select a role",
       "enter_salary": "Enter salary",
-      "leave_blank": "Leave blank to keep current password"
+      "leave_blank": "Leave blank to keep current password",
+      "enter_balance": "Enter a balance"
     },
     "form_validations": {
       "required_field": "Required field",
@@ -281,7 +284,9 @@
       "employee_company": "Компания сотрудника",
       "salary": "Зарплата",
       "password": "Пароль",
-      "confirm_password": "Подтвердите пароль"
+      "confirm_password": "Подтвердите пароль",
+      "card_name": "Название карты",
+      "expiration_date": "Срок действия"
     },
     "form_placeholders": {
       "select_project": "Выберите проект",
@@ -310,7 +315,8 @@
       "enter_percentage": "Введите процент",
       "select_role": "Выберите роль",
       "enter_salary": "Введите зарплату",
-      "leave_blank": "Оставьте пустым, чтобы сохранить текущий пароль"
+      "leave_blank": "Оставьте пустым, чтобы сохранить текущий пароль",
+      "enter_balance": "Введите баланс"
     },
     "form_validations": {
       "required_field": "Обязательное поле",
@@ -469,7 +475,9 @@
       "employee_company": "Xodim kompaniyasi",
       "salary": "Maosh",
       "password": "Parol",
-      "confirm_password": "Parolni tasdiqlang"
+      "confirm_password": "Parolni tasdiqlang",
+      "card_name": "Karta nomi",
+      "expiration_date": "Amal qilish muddati"
     },
     "form_placeholders": {
       "select_project": "Loyihani tanlang",
@@ -498,7 +506,8 @@
       "enter_percentage": "Foizni kiriting",
       "select_role": "Rolni tanlang",
       "enter_salary": "Maoshni kiriting",
-      "leave_blank": "Joriy parolni saqlab qolish uchun bo‘sh qoldiring"
+      "leave_blank": "Joriy parolni saqlab qolish uchun bo‘sh qoldiring",
+      "enter_balance": "Balansni kiriting"
     },
     "form_validations": {
       "required_field": "Majburiy maydon",

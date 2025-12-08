@@ -256,9 +256,9 @@ export function CompanyMutateDrawer({
                 control={form.control}
                 name='balance'
                 label={t.form_labels.balance}
-                placeholder={t.form_placeholders.enter_price}
+                placeholder={t.form_placeholders.enter_balance}
                 type='number'
-                suffix='UZS'
+                suffix={t.form_placeholders.uzs}
               />
             </form>
           </Form>

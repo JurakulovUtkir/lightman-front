@@ -1,0 +1,41 @@
+{
+  "en": {
+    "cards": "Cards",
+    "list_cards": "Here's a list of cards!",
+    "search_by_card": "Search by card",
+    "create_card": "Create card",
+    "create_desc": "Add a new Card by providing necessary info.",
+    "update_card": "Update card",
+    "update_desc": "Update the Card by providing necessary info.",
+    "create": "Create",
+    "click_save": "Click save when you're done.",
+    "delete_title": "Delete this Card with the name: {{name}} ?",
+    "delete_confirm": "You are about to delete a Card with the name {{name}}"
+  },
+  "ru": {
+    "cards": "Карты",
+    "list_cards": "Вот список карт!",
+    "search_by_card": "Поиск по карте",
+    "create_card": "Создать карту",
+    "create_desc": "Добавьте новую карту, предоставив необходимую информацию.",
+    "update_card": "Обновить карту",
+    "update_desc": "Обновите карту, предоставив необходимую информацию.",
+    "create": "Создать",
+    "click_save": "Нажмите 'Сохранить', когда закончите.",
+    "delete_title": "Удалить эту карту с именем: {{name}}?",
+    "delete_confirm": "Вы собираетесь удалить карту с именем {{name}}"
+  },
+  "uz": {
+    "cards": "Kartalar",
+    "list_cards": "Kartalar ro'yxati!",
+    "search_by_card": "Karta bo'yicha qidirish",
+    "create_card": "Karta yaratish",
+    "create_desc": "Kerakli ma'lumotlarni taqdim etib yangi karta qo'shing.",
+    "update_card": "Kartani yangilash",
+    "update_desc": "Kerakli ma'lumotlarni taqdim etib kartani yangilang.",
+    "create": "Yaratish",
+    "click_save": "Tugatgach, saqlash tugmasini bosing.",
+    "delete_title": "Ushbu {{name}} nomli kartani o'chirishni xohlaysizmi?",
+    "delete_confirm": "Siz {{name}} nomli kartani o'chirmoqchisiz"
+  }
+}

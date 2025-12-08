@@ -1,4 +1,5 @@
 import { ReactNode } from 'react'
+import cardJson from '@/translations/card.json'
 import companyJson from '@/translations/company.json'
 import contractJson from '@/translations/contract.json'
 import depositJson from '@/translations/deposit.json'
@@ -49,6 +50,7 @@ export const useLang = () => {
   const tDistribution = distributionJson
   const tDistributor = distributorJson
   const tUser = userJson
+  const tCard = cardJson
 
   return {
     lang,
@@ -66,5 +68,6 @@ export const useLang = () => {
     tDistribution,
     tDistributor,
     tUser,
+    tCard,
   }
 }

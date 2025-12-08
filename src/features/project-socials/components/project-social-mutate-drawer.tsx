@@ -220,7 +220,7 @@ export function ProjectSocialMutateDrawer({
                 label={t.form_labels.buy_price}
                 placeholder={t.form_placeholders.enter_price}
                 type='number'
-                suffix='UZS'
+                suffix={t.form_placeholders.uzs}
               />
               <FormFieldWrapper
                 control={form.control}
@@ -228,7 +228,7 @@ export function ProjectSocialMutateDrawer({
                 label={t.form_labels.sell_price}
                 placeholder={t.form_placeholders.enter_price}
                 type='number'
-                suffix='UZS'
+                suffix={t.form_placeholders.uzs}
               />
               {isUpdate && (
                 <>

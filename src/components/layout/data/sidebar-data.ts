@@ -25,8 +25,8 @@ import {
   // IconMessages,
   // IconPackages,
   // IconServerOff,
-  // IconUserOff,
   // IconHelp,
+  // IconUserOff,
 } from '@tabler/icons-react'
 import { AudioWaveform, Command, GalleryVerticalEnd } from 'lucide-react'
 // import { ClerkLogo } from '@/assets/clerk-logo'
@@ -96,10 +96,24 @@ export const sidebarData: SidebarData = {
           url: '/contracts',
           icon: IconContract,
         },
+        // {
+        //   title: 'companies',
+        //   url: '/companies',
+        //   icon: IconBuildings,
+        // },
         {
           title: 'companies',
-          url: '/companies',
           icon: IconBuildings,
+          items: [
+            {
+              title: 'companies',
+              url: '/companies',
+            },
+            {
+              title: 'cards',
+              url: '/companies/cards',
+            },
+          ],
         },
         {
           title: 'expenses',

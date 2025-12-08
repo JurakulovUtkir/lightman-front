@@ -381,7 +381,7 @@ export function ProjectMutateDrawer({
                       label={t.form_labels.price}
                       placeholder={t.form_placeholders.enter_price}
                       type='number'
-                      suffix='UZS'
+                      suffix={t.form_placeholders.uzs}
                     />
                     <FormFieldWrapper
                       control={form.control}
@@ -389,7 +389,7 @@ export function ProjectMutateDrawer({
                       label={t.form_labels.price_with_vat}
                       placeholder={t.form_placeholders.enter_price}
                       type='number'
-                      suffix='UZS'
+                      suffix={t.form_placeholders.uzs}
                     />
                   </>
                 )}

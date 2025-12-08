@@ -257,7 +257,7 @@ export function NetworkSocialMutateDrawer({
                   label={t.form_labels.buy_price}
                   placeholder={t.form_placeholders.enter_price}
                   type='number'
-                  suffix='UZS'
+                  suffix={t.form_placeholders.uzs}
                 />
                 <FormFieldWrapper
                   control={form.control}
@@ -265,7 +265,7 @@ export function NetworkSocialMutateDrawer({
                   label={t.form_labels.standard_sell_price}
                   placeholder={t.form_placeholders.enter_price}
                   type='number'
-                  suffix='UZS'
+                  suffix={t.form_placeholders.uzs}
                 />
                 <FormFieldWrapper
                   control={form.control}
@@ -273,7 +273,7 @@ export function NetworkSocialMutateDrawer({
                   label={t.form_labels.vip_sell_price}
                   placeholder={t.form_placeholders.enter_price}
                   type='number'
-                  suffix='UZS'
+                  suffix={t.form_placeholders.uzs}
                 />
                 <FormFieldWrapper
                   control={form.control}
@@ -281,15 +281,15 @@ export function NetworkSocialMutateDrawer({
                   label={t.form_labels.no_watermark_sell_price}
                   placeholder={t.form_placeholders.enter_price}
                   type='number'
-                  suffix='UZS'
+                  suffix={t.form_placeholders.uzs}
                 />
                 <FormFieldWrapper
                   control={form.control}
                   name='balance'
                   label={t.form_labels.balance}
-                  placeholder={t.form_placeholders.enter_price}
+                  placeholder={t.form_placeholders.enter_balance}
                   type='number'
-                  suffix='UZS'
+                  suffix={t.form_placeholders.uzs}
                 />
               </div>
               <FormFieldWrapper

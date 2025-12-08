@@ -1,0 +1,45 @@
+import api from '@/lib/axios'
+import { CardsSchema } from './schema'
+import { CardsSchemaResponse } from './types'
+
+export const getCards = async ({
+  limit,
+  offset,
+  search,
+}: {
+  limit?: number
+  offset?: number
+  search?: string
+}): Promise<CardsSchemaResponse> => {
+  const params = new URLSearchParams()
+
+  if (limit !== undefined) params.append('limit', limit.toString())
+  if (offset !== undefined) params.append('offset', offset.toString())
+  if (search) params.append('search', search)
+
+  const response = await api.get(`/cards?${params.toString()}`)
+  return response.data
+}
+export const getCard = async (id: string): Promise<CardsSchema> => {
+  const response = await api.get(`/cards/${id}`)
+  return response.data
+}
+
+export const createCard = async (
+  data: Partial<CardsSchema>
+): Promise<CardsSchema> => {
+  const response = await api.post('/cards', data)
+  return response.data
+}
+
+export const updateCard = async (
+  id: string,
+  data: Partial<CardsSchema>
+): Promise<CardsSchema> => {
+  const response = await api.patch(`/cards/${id}`, data)
+  return response.data
+}
+
+export const deleteCard = async (id: string): Promise<void> => {
+  await api.delete(`/cards/${id}`)
+}

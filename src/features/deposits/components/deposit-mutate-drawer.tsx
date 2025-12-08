@@ -138,7 +138,7 @@ export function DepositMutateDrawer({
                 control={form.control}
                 name='balance'
                 label={t.form_labels.balance}
-                placeholder={t.form_placeholders.enter_amount}
+                placeholder={t.form_placeholders.enter_balance}
                 type='number'
                 suffix={t.form_placeholders.uzs}
               />
