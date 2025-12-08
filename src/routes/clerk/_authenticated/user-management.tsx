@@ -14,7 +14,7 @@ import { Main } from '@/components/layout/main'
 import { LearnMore } from '@/components/learn-more'
 import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
-import { columns } from '@/features/users/components/users-columns'
+// import { columns } from '@/features/users/components/users-columns'
 import { UsersDialogs } from '@/features/users/components/users-dialogs'
 import { UsersPrimaryButtons } from '@/features/users/components/users-primary-buttons'
 import { UsersTable } from '@/features/users/components/users-table'
@@ -87,10 +87,10 @@ function UserManagement() {
                   </LearnMore>
                 </div>
               </div>
-              <UsersPrimaryButtons />
+              <UsersPrimaryButtons text='' />
             </div>
             <div className='-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-y-0 lg:space-x-12'>
-              <UsersTable data={userList} columns={columns} />
+              <UsersTable data={userList} columns={[]} />
             </div>
           </Main>
 
