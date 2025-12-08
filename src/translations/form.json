@@ -73,7 +73,6 @@
       "stir_number": "STIR number",
       "mfo_number": "MFO number",
       "account_number": "Account number",
-
       "type": "Type",
       "expence_type": "Expence type",
       "amount": "Amount",
@@ -82,7 +81,19 @@
       "creation_date": "Creation date",
       "select_user": "Select user",
       "select_deposit": "Select deposit",
-      "transfer_company": "Transfer company"
+      "transfer_company": "Transfer company",
+      "founder": "Founder",
+      "available_remaining": "Available: {{remainingPercentage}}% remaining",
+      "percentage": "Percentage",
+      "is_verified": "Is verified",
+      "our_employee": "Our employee",
+      "full_name": "Full Name",
+      "phone_number": "Phone Number",
+      "role": "Role",
+      "employee_company": "Employee company",
+      "salary": "Salary",
+      "password": "Password",
+      "confirm_password": "Confirm Password"
     },
     "form_placeholders": {
       "select_project": "Select project",
@@ -107,7 +118,11 @@
       "enter_address": "Enter address",
       "enter_bank_name": "Enter bank name",
       "select_type": "Select type",
-      "enter_amount": "Enter amount"
+      "enter_amount": "Enter amount",
+      "enter_percentage": "Enter percentage",
+      "select_role": "Select a role",
+      "enter_salary": "Enter salary",
+      "leave_blank": "Leave blank to keep current password"
     },
     "form_validations": {
       "required_field": "Required field",
@@ -136,11 +151,22 @@
       "invalid_bank": "Bank name cannot exceed 150 characters",
       "account_number": "Account number is required",
       "invalid_account_number": "Account number must be exactly 20 digits.",
-
       "amount": "Amount is required",
       "required_transfer": "Transfer to company is required for transfer type",
       "required_user": "User is required for salary/avans type",
-      "required_deposit": "Deposit is required for deposit type"
+      "required_deposit": "Deposit is required for deposit type",
+      "founder": "Founder is required",
+      "founder_assigned": "This founder is already assigned to a distributor",
+      "percentage": "Percentage",
+      "invalid_percentage": "Percentage must be greater than 0",
+      "percentage_exceed": "Percentage cannot exceed {{remainingPercentage}}% (remaining available)",
+      "enter_phone_number": "Please enter phone number",
+      "invalid_phone_number": "Please enter valid phone number",
+      "password": "Password is required",
+      "password_length": "Password must be at least 6 characters long.",
+      "password_lowercase": "Password must contain at least one lowercase letter.",
+      "password_number": "Password must contain at least one number.",
+      "password_not_match": "Passwords don't match."
     },
     "buttons": {
       "save": "Save",
@@ -156,7 +182,9 @@
       "no_file_returned": "No file path returned from server",
       "file_removed": "File removed successfully",
       "failed_to_remove": "Failed to remove file",
-      "unable_delete_previous": "Unable to delete previous file"
+      "unable_delete_previous": "Unable to delete previous file",
+      "total_percentage": "Total percentage would be {{finalPercentage}}%. Maximum is 100%.",
+      "unable_find_distribution": "Unable to find Distribution ID"
     }
   },
   "ru": {
@@ -241,7 +269,19 @@
       "creation_date": "Дата создания",
       "select_user": "Выберите пользователя",
       "select_deposit": "Выберите депозит",
-      "transfer_company": "Компания-получатель"
+      "transfer_company": "Компания-получатель",
+      "founder": "Основател",
+      "available_remaining": "Доступно: осталось {{remainingPercentage}}%",
+      "percentage": "Процент",
+      "is_verified": "Подтверждён",
+      "our_employee": "Наш сотрудник",
+      "full_name": "Полное имя",
+      "phone_number": "Номер телефона",
+      "role": "Роль",
+      "employee_company": "Компания сотрудника",
+      "salary": "Зарплата",
+      "password": "Пароль",
+      "confirm_password": "Подтвердите пароль"
     },
     "form_placeholders": {
       "select_project": "Выберите проект",
@@ -266,7 +306,11 @@
       "enter_address": "Введите адрес",
       "enter_bank_name": "Введите название банка",
       "select_type": "Выберите тип",
-      "enter_amount": "Введите сумму"
+      "enter_amount": "Введите сумму",
+      "enter_percentage": "Введите процент",
+      "select_role": "Выберите роль",
+      "enter_salary": "Введите зарплату",
+      "leave_blank": "Оставьте пустым, чтобы сохранить текущий пароль"
     },
     "form_validations": {
       "required_field": "Обязательное поле",
@@ -298,7 +342,19 @@
       "amount": "Сумма обязательна",
       "required_transfer": "Для типа «Перевод» необходимо указать компанию-получателя",
       "required_user": "Для типа «Зарплата/аванс» необходимо указать пользователя",
-      "required_deposit": "Для типа «Депозит» необходимо указать депозит"
+      "required_deposit": "Для типа «Депозит» необходимо указать депозит",
+      "founder": "Основатель обязателен",
+      "founder_assigned": "Этот основатель уже назначен дистрибьютору",
+      "percentage": "Процент",
+      "invalid_percentage": "Процент должен быть больше 0",
+      "percentage_exceed": "Процент не может превышать {{remainingPercentage}}% (доступно оставшееся количество)",
+      "enter_phone_number": "Please enter a phone number",
+      "invalid_phone_number": "Please enter a valid phone number",
+      "password": "Password is required",
+      "password_length": "Password must be at least 6 characters long.",
+      "password_lowercase": "Password must contain at least one lowercase letter.",
+      "password_number": "Password must contain at least one number.",
+      "password_not_match": "Passwords don't match."
     },
     "buttons": {
       "save": "Сохранить",
@@ -314,7 +370,9 @@
       "no_file_returned": "Сервер не вернул путь к файлу",
       "file_removed": "Файл успешно удалён",
       "failed_to_remove": "Не удалось удалить файл",
-      "unable_delete_previous": "Не удалось удалить предыдущий файл"
+      "unable_delete_previous": "Не удалось удалить предыдущий файл",
+      "total_percentage": "Общий процент будет {{finalPercentage}}%. Максимум — 100%.",
+      "unable_find_distribution": "Не удалось найти идентификатор распределения"
     }
   },
   "uz": {
@@ -399,7 +457,19 @@
       "creation_date": "Yaratilgan sana",
       "select_user": "Foydalanuvchini tanlang",
       "select_deposit": "Depozitni tanlang",
-      "transfer_company": "Qabul qiluvchi kompaniya"
+      "transfer_company": "Qabul qiluvchi kompaniya",
+      "founder": "Tashkilotchi",
+      "available_remaining": "Mavjud: {{remainingPercentage}}% qoldi",
+      "percentage": "Foiz",
+      "is_verified": "Tasdiqlangan",
+      "our_employee": "Bizning xodim",
+      "full_name": "To‘liq ism",
+      "phone_number": "Telefon raqami",
+      "role": "Rol",
+      "employee_company": "Xodim kompaniyasi",
+      "salary": "Maosh",
+      "password": "Parol",
+      "confirm_password": "Parolni tasdiqlang"
     },
     "form_placeholders": {
       "select_project": "Loyihani tanlang",
@@ -424,7 +494,11 @@
       "enter_address": "Manzilni kiriting",
       "enter_bank_name": "Bank nomini kiriting",
       "select_type": "Turni tanlang",
-      "enter_amount": "Miqdorni kiriting"
+      "enter_amount": "Miqdorni kiriting",
+      "enter_percentage": "Foizni kiriting",
+      "select_role": "Rolni tanlang",
+      "enter_salary": "Maoshni kiriting",
+      "leave_blank": "Joriy parolni saqlab qolish uchun bo‘sh qoldiring"
     },
     "form_validations": {
       "required_field": "Majburiy maydon",
@@ -456,7 +530,19 @@
       "amount": "Miqdor kiritilishi shart",
       "required_transfer": "O‘tkazma turi uchun qabul qiluvchi kompaniyani tanlash shart",
       "required_user": "Maosh/avans turi uchun foydalanuvchini tanlash shart",
-      "required_deposit": "Depozit turi uchun depozitni tanlash shart"
+      "required_deposit": "Depozit turi uchun depozitni tanlash shart",
+      "founder": "Ta’sischi talab qilinadi",
+      "founder_assigned": "Ushbu ta’sischi allaqachon distribyutorga tayinlangan",
+      "percentage": "Foiz",
+      "invalid_percentage": "Foiz 0 dan katta bo‘lishi kerak",
+      "percentage_exceed": "Foiz {{remainingPercentage}}% dan oshmasligi kerak (qolgan mavjud foiz)",
+      "enter_phone_number": "Пожалуйста, введите номер телефона",
+      "invalid_phone_number": "Пожалуйста, введите правильный номер телефона",
+      "password": "Требуется пароль",
+      "password_length": "Пароль должен содержать не менее 6 символов.",
+      "password_lowercase": "Пароль должен содержать хотя бы одну строчную букву.",
+      "password_number": "Пароль должен содержать хотя бы одну цифру.",
+      "password_not_match": "Пароли не совпадают."
     },
     "buttons": {
       "save": "Saqlash",
@@ -472,7 +558,9 @@
       "no_file_returned": "Serverdan fayl yo‘li qaytmadi",
       "file_removed": "Fayl muvaffaqiyatli o‘chirildi",
       "failed_to_remove": "Faylni o‘chirish muvaffaqiyatsiz tugadi",
-      "unable_delete_previous": "Oldingi faylni o‘chirishning iloji yo‘q"
+      "unable_delete_previous": "Oldingi faylni o‘chirishning iloji yo‘q",
+      "total_percentage": "Umumiy foiz {{finalPercentage}}% bo‘ladi. Maksimal qiymat 100%.",
+      "unable_find_distribution": "Ta’qsimot ID sini topib bo‘lmadi"
     }
   }
 }

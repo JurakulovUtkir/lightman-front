@@ -1,7 +1,9 @@
+import { useMemo } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toNumber } from '@/lib/helpers'
+import { useLang } from '@/hooks/useLang'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -42,12 +44,23 @@ export function FounderMutateDrawer({
   const createFounder = useCreateFounder()
   const updateFounder = useUpdateFounder()
   const isUpdate = !!currentRow
+  const { lang, tForm, tFounder } = useLang()
+  const t = tForm[lang]
 
-  const formSchema = z.object({
-    name: z.string().min(1, 'Name is required.'),
-    is_active: z.boolean().optional(),
-    balance: z.number().min(0, 'Invalid value').optional(),
-  })
+  const formSchema = useMemo(
+    () =>
+      z.object({
+        name: z
+          .string({
+            error: t.form_validations.name,
+          })
+          .min(1, t.form_validations.enter_name)
+          .max(150, t.form_validations.invalid_name),
+        is_active: z.boolean().optional(),
+        balance: z.number().min(0, t.form_validations.invalid_value).optional(),
+      }),
+    [t]
+  )
 
   type FounderForm = z.infer<typeof formSchema>
 
@@ -107,12 +120,14 @@ export function FounderMutateDrawer({
     >
       <SheetContent className='flex flex-col'>
         <SheetHeader className='text-left'>
-          <SheetTitle>{isUpdate ? 'Update' : 'Create'} Founder</SheetTitle>
-          <SheetDescription>
+          <SheetTitle>
             {isUpdate
-              ? 'Update the Founder by providing necessary info.'
-              : 'Add a new Founder by providing necessary info.'}
-            Click save when you&apos;re done.
+              ? tFounder[lang].update_founder
+              : tFounder[lang].create_founder}
+          </SheetTitle>
+          <SheetDescription>
+            {isUpdate ? tFounder[lang].update_desc : tFounder[lang].create_desc}
+            {tFounder[lang].click_save}
           </SheetDescription>
         </SheetHeader>
         <div className='flex-1 overflow-y-auto'>
@@ -135,7 +150,7 @@ export function FounderMutateDrawer({
                           onCheckedChange={field.onChange}
                         />
                       </FormControl>
-                      <FormLabel>Is Active</FormLabel>
+                      <FormLabel>{t.form_labels.is_active}</FormLabel>
                     </div>
                   </FormItem>
                 )}
@@ -143,18 +158,18 @@ export function FounderMutateDrawer({
               <FormFieldWrapper
                 control={form.control}
                 name='name'
-                label='Founder'
-                placeholder='Enter a name'
+                label={t.form_labels.founder}
+                placeholder={t.form_placeholders.enter_name}
               />
 
               {isUpdate && (
                 <FormFieldWrapper
                   control={form.control}
                   name='balance'
-                  label='Balance'
-                  placeholder='Enter a price'
+                  label={t.form_labels.balance}
+                  placeholder={t.form_placeholders.enter_amount}
                   type='number'
-                  suffix='UZS'
+                  suffix={t.form_placeholders.uzs}
                 />
               )}
             </form>
@@ -163,7 +178,7 @@ export function FounderMutateDrawer({
         <SheetFooter className='gap-2'>
           {isUpdate && (
             <Button onClick={handleDelete} size='sm' variant='destructive'>
-              Delete
+              {t.buttons.delete}
             </Button>
           )}
           <Button
@@ -174,8 +189,8 @@ export function FounderMutateDrawer({
             type='submit'
           >
             {(isUpdate ? updateFounder.isPending : createFounder.isPending)
-              ? 'Loading...'
-              : 'Save changes'}
+              ? t.buttons.loading
+              : t.buttons.save_changes}
           </Button>
         </SheetFooter>
       </SheetContent>

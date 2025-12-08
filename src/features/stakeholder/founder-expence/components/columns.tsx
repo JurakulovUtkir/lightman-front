@@ -1,12 +1,16 @@
 import { ColumnDef } from '@tanstack/react-table'
+import { getPaymentTypeColor } from '@/lib/statusHelpers'
 import { formatPrice } from '@/utils/formatPrice'
+import { Badge } from '@/components/ui/badge'
 import { Checkbox } from '@/components/ui/checkbox'
 import { FormatDateToLongString } from '@/components/date-formatter'
 import LongText from '@/components/long-text'
 import { DataTableColumnHeader } from '@/components/table/data-table-column-header'
 import { ExpenceSchema } from '@/features/expences/data/schema'
 
-export const columns: ColumnDef<ExpenceSchema>[] = [
+export const columns = (
+  t: (typeof import('@/translations/general.json'))['en']['columns']
+): ColumnDef<ExpenceSchema>[] => [
   {
     id: 'select',
     header: ({ table }) => (
@@ -35,25 +39,29 @@ export const columns: ColumnDef<ExpenceSchema>[] = [
   {
     accessorKey: 'expence_type',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Expense Type' />
+      <DataTableColumnHeader column={column} title={t.expence_type} />
     ),
     cell: ({ row }) => {
-      const type = row.original.type
-      const expenseType = row.getValue('expence_type') as string
+      const expenceOriginType = row.original.type
+      const expenceType = row.getValue(
+        'expence_type'
+      ) as keyof typeof t.expenceTypeOptions
       return (
         <div className='flex items-center gap-2'>
           <div
             className={`${
-              expenseType === 'salary'
+              expenceType === 'salary'
                 ? 'bg-blue-500'
-                : expenseType === 'avans'
+                : expenceType === 'avans'
                   ? 'bg-amber-500'
                   : 'bg-gray-500'
             } h-2 w-2 rounded-full`}
           />
           <span className='capitalize'>
-            {type ? `${type} - ` : ``}
-            {expenseType}
+            {expenceOriginType
+              ? `${t.expenceOriginTypeOptions[expenceOriginType]} - `
+              : ``}
+            {t.expenceTypeOptions[expenceType]}
           </span>
         </div>
       )
@@ -64,12 +72,12 @@ export const columns: ColumnDef<ExpenceSchema>[] = [
   {
     accessorKey: 'amount',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Amount' />
+      <DataTableColumnHeader column={column} title={t.amount} />
     ),
     cell: ({ row }) => {
       return (
         <div className='font-medium'>
-          {formatPrice(row.getValue('amount'))} UZS
+          {formatPrice(row.getValue('amount'))} {t.uzs}
         </div>
       )
     },
@@ -79,7 +87,7 @@ export const columns: ColumnDef<ExpenceSchema>[] = [
   {
     accessorKey: 'company_name',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Company' />
+      <DataTableColumnHeader column={column} title={t.company} />
     ),
     cell: ({ row }) => {
       const companyName = row.getValue('company_name') as string
@@ -91,7 +99,7 @@ export const columns: ColumnDef<ExpenceSchema>[] = [
   {
     accessorKey: 'project_name',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Project' />
+      <DataTableColumnHeader column={column} title={t.project} />
     ),
     cell: ({ row }) => {
       const projectName = row.getValue('project_name') as string
@@ -103,11 +111,20 @@ export const columns: ColumnDef<ExpenceSchema>[] = [
   {
     accessorKey: 'payment_type',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Payment Type' />
+      <DataTableColumnHeader column={column} title={t.payment_type} />
     ),
     cell: ({ row }) => {
-      const paymentType = row.getValue('payment_type') as string | null
-      return <div>{paymentType || '-'}</div>
+      const paymentType = row.getValue(
+        'payment_type'
+      ) as keyof typeof t.paymentTypeOptions
+
+      if (!paymentType)
+        return <span className='text-muted-foreground text-sm'>-</span>
+      return (
+        <Badge variant='outline' className={getPaymentTypeColor(paymentType)}>
+          {t.paymentTypeOptions[paymentType]}
+        </Badge>
+      )
     },
     enableSorting: false,
     enableHiding: false,
@@ -115,7 +132,7 @@ export const columns: ColumnDef<ExpenceSchema>[] = [
   {
     accessorKey: 'created_at',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Created at' />
+      <DataTableColumnHeader column={column} title={t.created_at} />
     ),
     cell: ({ row }) => (
       <div>
@@ -128,7 +145,7 @@ export const columns: ColumnDef<ExpenceSchema>[] = [
   {
     accessorKey: 'updated_at',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Updated at' />
+      <DataTableColumnHeader column={column} title={t.updated_at} />
     ),
     cell: ({ row }) => (
       <div>

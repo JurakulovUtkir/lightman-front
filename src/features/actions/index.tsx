@@ -1,3 +1,4 @@
+import { useLang } from '@/hooks/useLang'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
@@ -8,6 +9,9 @@ import { DataTable } from './components/data-table'
 import { useActions } from './data/hooks'
 
 const Actions = () => {
+  const { lang, tUser, general } = useLang()
+  const t = tUser[lang]
+
   const { data } = useActions({})
 
   return (
@@ -22,10 +26,10 @@ const Actions = () => {
       <Main>
         <div className='mb-2 flex flex-wrap items-center justify-between space-y-2 gap-x-4'>
           <div>
-            <h2 className='text-2xl font-bold tracking-tight'>Actions</h2>
-            <p className='text-muted-foreground'>
-              Here&apos;s a list of your API actions!
-            </p>
+            <h2 className='text-2xl font-bold tracking-tight'>
+              {t.user_actions}
+            </h2>
+            <p className='text-muted-foreground'>{t.list_actions}</p>
           </div>
         </div>
         <div className='flex items-center gap-4'>
@@ -44,7 +48,7 @@ const Actions = () => {
         <div className='-mx-4 flex-1 overflow-auto px-4 pt-4 pb-1 lg:flex-row lg:space-y-0 lg:space-x-12'>
           <DataTable
             data={data?.items?.length ? data.items : []}
-            columns={columns}
+            columns={columns(general[lang].columns)}
           />
         </div>
       </Main>

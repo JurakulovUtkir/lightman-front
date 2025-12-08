@@ -1,0 +1,41 @@
+{
+  "en": {
+    "distributors": "Distributors",
+    "list_distributors": "Here's a list of distributors!",
+    "search_by_distributor": "Search by distributor",
+    "create_distributor": "Create distributor",
+    "create_desc": "Add a new Distributor by providing necessary info.",
+    "update_distributor": "Update distributor",
+    "update_desc": "Update the Distributor by providing necessary info.",
+    "create": "Create",
+    "click_save": "Click save when you're done.",
+    "delete_title": "Delete this Distributor?",
+    "delete_confirm": "You are about to delete a Distributor"
+  },
+  "ru": {
+    "distributors": "Дистрибьюторы",
+    "list_distributors": "Список дистрибьюторов!",
+    "search_by_distributor": "Поиск по дистрибьютору",
+    "create_distributor": "Создать дистрибьютора",
+    "create_desc": "Добавьте нового дистрибьютора, указав необходимую информацию.",
+    "update_distributor": "Обновить дистрибьютора",
+    "update_desc": "Обновите дистрибьютора, указав необходимую информацию.",
+    "create": "Создать",
+    "click_save": "Нажмите «Сохранить», когда закончите.",
+    "delete_title": "Удалить этого дистрибьютора?",
+    "delete_confirm": "Вы собираетесь удалить дистрибьютора"
+  },
+  "uz": {
+    "distributors": "Distribyutorlar",
+    "list_distributors": "Distribyutorlar ro‘yxati!",
+    "search_by_distributor": "Distribyutor bo‘yicha qidirish",
+    "create_distributor": "Distribyutor yaratish",
+    "create_desc": "Kerakli ma’lumotlarni kiritib, yangi distribyutor qo‘shing.",
+    "update_distributor": "Distribyutorni yangilash",
+    "update_desc": "Kerakli ma’lumotlarni kiritib, distribyutorni yangilang.",
+    "create": "Yaratish",
+    "click_save": "Tugatganingizdan so‘ng «Saqlash» tugmasini bosing.",
+    "delete_title": "Ushbu distribyutorni o‘chirmoqchimisiz?",
+    "delete_confirm": "Siz distribyutorni o‘chirmoqchisiz"
+  }
+}

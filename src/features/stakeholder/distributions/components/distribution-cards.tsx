@@ -6,6 +6,7 @@ import {
   IconCircleX,
   IconFileDescription,
 } from '@tabler/icons-react'
+import { useLang } from '@/hooks/useLang'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -29,6 +30,8 @@ const DistributionCards = ({
 }: {
   data: DistributionSchema[] | undefined
 }) => {
+  const { lang, general } = useLang()
+  const t = general[lang].columns
   const navigate = useNavigate()
   const { setOpen, setCurrentRow } = useDistributionContext()
 
@@ -65,12 +68,12 @@ const DistributionCards = ({
                     {item.is_active ? (
                       <>
                         <IconCircleCheck className='h-3 w-3' />
-                        Active
+                        {t.active}
                       </>
                     ) : (
                       <>
                         <IconCircleX className='h-3 w-3' />
-                        Inactive
+                        {t.inactive}
                       </>
                     )}
                   </Badge>
@@ -121,7 +124,7 @@ const DistributionCards = ({
                 <CardDescription className='text-muted-foreground/60 text-sm italic'>
                   <span className='flex items-start gap-1.5'>
                     <IconFileDescription className='mt-0.5 h-4 w-4 shrink-0' />
-                    <span>No description provided</span>
+                    <span>{t.no_description}</span>
                   </span>
                 </CardDescription>
               )}
@@ -134,10 +137,8 @@ const DistributionCards = ({
     <Card className='border-dashed'>
       <CardContent className='flex flex-col items-center justify-center py-12'>
         <IconShare3 className='text-muted-foreground mb-4 h-12 w-12' />
-        <CardTitle className='mb-2 text-xl'>No Distributions Found</CardTitle>
-        <p className='text-muted-foreground text-sm'>
-          Create a distribution to get started
-        </p>
+        <CardTitle className='mb-2 text-xl'>{t.no_distribution}</CardTitle>
+        <p className='text-muted-foreground text-sm'>{t.create_distribution}</p>
       </CardContent>
     </Card>
   )

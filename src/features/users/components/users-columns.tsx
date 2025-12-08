@@ -9,7 +9,9 @@ import { callTypes, userTypes } from '../data/data'
 import { User } from '../data/schema'
 import { DataTableRowActions } from './data-table-row-actions'
 
-export const columns: ColumnDef<User>[] = [
+export const columns = (
+  t: (typeof import('@/translations/general.json'))['en']['columns']
+): ColumnDef<User>[] => [
   {
     id: 'select',
     header: ({ table }) => (
@@ -43,10 +45,15 @@ export const columns: ColumnDef<User>[] = [
   {
     accessorKey: 'full_name',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Full name' />
+      <DataTableColumnHeader column={column} title={t.full_name} />
     ),
     cell: ({ row }) => (
-      <LongText className='max-w-36'>{row.getValue('full_name')}</LongText>
+      <div className='flex items-center gap-2'>
+        <div
+          className={`${row.original.is_verified ? `bg-green-500` : `bg-destructive`} h-2 w-2 animate-pulse rounded-full`}
+        />
+        <LongText className='max-w-36'>{row.getValue('full_name')}</LongText>
+      </div>
     ),
     meta: {
       className: cn(
@@ -58,28 +65,28 @@ export const columns: ColumnDef<User>[] = [
     enableHiding: false,
     enableSorting: false,
   },
-
   {
     accessorKey: 'phone_number',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Phone Number' />
+      <DataTableColumnHeader column={column} title={t.phone_number} />
     ),
     cell: ({ row }) => <div>{row.getValue('phone_number')}</div>,
     enableSorting: false,
   },
-
   {
     accessorKey: 'status',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Status' />
+      <DataTableColumnHeader column={column} title={t.status} />
     ),
     cell: ({ row }) => {
-      const { status } = row.original
+      const status = row.getValue('status') as keyof typeof t.userStatus
+
       const badgeColor = callTypes.get(status)
+
       return (
         <div className='flex space-x-2'>
           <Badge variant='outline' className={cn('capitalize', badgeColor)}>
-            {row.getValue('status')}
+            {t.userStatus[status]}
           </Badge>
         </div>
       )
@@ -93,10 +100,10 @@ export const columns: ColumnDef<User>[] = [
   {
     accessorKey: 'role',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Role' />
+      <DataTableColumnHeader column={column} title={t.role} />
     ),
     cell: ({ row }) => {
-      const { role } = row.original
+      const role = row.getValue('role') as keyof typeof t.userRoleOptions
       const userType = userTypes.find(({ value }) => value === role)
 
       if (!userType) {
@@ -108,7 +115,7 @@ export const columns: ColumnDef<User>[] = [
           {userType.icon && (
             <userType.icon size={16} className='text-muted-foreground' />
           )}
-          <span className='text-sm capitalize'>{row.getValue('role')}</span>
+          <span className='text-sm capitalize'>{t.userRoleOptions[role]}</span>
         </div>
       )
     },
@@ -118,22 +125,22 @@ export const columns: ColumnDef<User>[] = [
     enableSorting: false,
     enableHiding: false,
   },
-  {
-    accessorKey: 'is_verified',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Is verified' />
-    ),
-    cell: ({ row }) => (
-      <div
-        className={`${row.getValue('is_verified') ? `bg-green-500` : `bg-destructive`} h-2 w-2 animate-pulse rounded-full`}
-      />
-    ),
-    enableSorting: false,
-  },
+  // {
+  //   accessorKey: 'is_verified',
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader column={column} title={t.is_verified} />
+  //   ),
+  //   cell: ({ row }) => (
+  //     <div
+  //       className={`${row.getValue('is_verified') ? `bg-green-500` : `bg-destructive`} h-2 w-2 animate-pulse rounded-full`}
+  //     />
+  //   ),
+  //   enableSorting: false,
+  // },
   {
     accessorKey: 'employee_company',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Company' />
+      <DataTableColumnHeader column={column} title={t.company} />
     ),
     cell: ({ row }) => {
       const { is_our_employee, employee_company } = row.original
@@ -154,7 +161,7 @@ export const columns: ColumnDef<User>[] = [
   {
     accessorKey: 'salary',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Salary' />
+      <DataTableColumnHeader column={column} title={t.salary} />
     ),
     cell: ({ row }) => {
       const salary = row.getValue('salary') as number | null | undefined
@@ -169,7 +176,7 @@ export const columns: ColumnDef<User>[] = [
       return (
         <div className='font-medium'>
           {formattedSalary}{' '}
-          <span className='text-muted-foreground text-xs'>UZS</span>
+          <span className='text-muted-foreground text-xs'> {t.uzs}</span>
         </div>
       )
     },
@@ -178,7 +185,7 @@ export const columns: ColumnDef<User>[] = [
   {
     accessorKey: 'created_at',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Created at' />
+      <DataTableColumnHeader column={column} title={t.created_at} />
     ),
     cell: ({ row }) => (
       <div>

@@ -20,7 +20,12 @@
       "dark": "Dark",
       "system": "System",
       "active": "Active",
-      "inactive": "Inactive"
+      "inactive": "Inactive",
+      "manage_settings": "Manage your account settings and set e-mail preferences.",
+      "appearance": "Appearance",
+      "display": "Display",
+      "localization": "Localization",
+      "update_lang": "Update your language settings. Set your preferred language."
     },
     "months": [
       "April",
@@ -175,6 +180,10 @@
         "accountant": "Accountant",
         "account_manager": "Account manager"
       },
+      "userStatus": {
+        "web-user": "Web user"
+      },
+
       "project_name": "Project name",
       "our_company": "Our company",
       "customer": "Customer",
@@ -240,7 +249,28 @@
       "type": "Type",
       "distribution": "Distribution",
       "deposit": "Deposit",
-      "user": "User"
+      "user": "User",
+      "deposit_name": "Deposit name",
+      "no_founders": "No Founders Found",
+      "add_founders": "Add founders to start tracking balances",
+      "no_description": "No description provided",
+      "no_distribution": "No Distributions Found",
+      "create_distribution": " Create a distribution to get started",
+      "distributor": "Distributor",
+      "percentage": "Percentage",
+      "full_name": "Full name",
+      "phone_number": "Phone number",
+      "role": "Role",
+      "is_verified": "Is verified",
+      "salary": "Salary",
+      "method": "Method",
+      "path": "Path",
+      "success": "Success",
+      "ip_address": "IP Address",
+      "duration": "Duration",
+      "user_agent": "User Agent",
+      "unknown": "Unknown",
+      "error": "Error"
     }
   },
   "ru": {
@@ -264,7 +294,12 @@
       "dark": "Тёмная",
       "system": "Системная",
       "active": "Активный",
-      "inactive": "Неактивный"
+      "inactive": "Неактивный",
+      "manage_settings": "Управляйте настройками аккаунта и параметрами электронной почты.",
+      "appearance": "Внешний вид",
+      "display": "Дисплей",
+      "localization": "Локализация",
+      "update_lang": "Обновите языковые настройки. Установите предпочитаемый язык."
     },
     "months": [
       "Август",
@@ -419,6 +454,9 @@
         "accountant": "Бухгалтер",
         "account_manager": "Аккаунт-менеджер"
       },
+      "userStatus": {
+        "web-user": "Веб-пользователь"
+      },
       "project_name": "Название проекта",
       "our_company": "Наша компания",
       "customer": "Клиент",
@@ -484,7 +522,28 @@
       "type": "Тип",
       "distribution": "Распределение",
       "deposit": "Депозит",
-      "user": "Пользователь"
+      "user": "Пользователь",
+      "deposit_name": "Название депозита",
+      "no_founders": "Основатели не найдены",
+      "add_founders": "Добавьте основателей, чтобы начать отслеживать балансы",
+      "no_description": "Описание не указано",
+      "no_distribution": "Распределения не найдены",
+      "create_distribution": "Создайте распределение, чтобы начать",
+      "distributor": "Дистрибьютор",
+      "percentage": "Процент",
+      "full_name": "Полное имя",
+      "phone_number": "Номер телефона",
+      "role": "Роль",
+      "is_verified": "Проверен",
+      "salary": "Зарплата",
+      "method": "Метод",
+      "path": "Путь",
+      "success": "Успешно",
+      "ip_address": "IP-адрес",
+      "duration": "Длительность",
+      "user_agent": "User-Agent",
+      "unknown": "Неизвестно",
+      "error": "Ошибка"
     }
   },
   "uz": {
@@ -508,7 +567,12 @@
       "dark": "Qorong‘i",
       "system": "Tizim",
       "active": "Faol",
-      "inactive": "Faol emas"
+      "inactive": "Faol emas",
+      "manage_settings": "Hisob sozlamalarini boshqaring va e-pochta parametrlarini belgilang.",
+      "appearance": "Ko‘rinish",
+      "display": "Displey",
+      "localization": "Lokalizatsiya",
+      "update_lang": "Til sozlamalaringizni yangilang. Afzal tilni tanlang."
     },
     "months": [
       "Aprel",
@@ -600,7 +664,7 @@
       "companies": "Kompaniyalar",
       "expenses": "Xarajatlar",
       "deposits": "Depozitlar",
-      "stakeholders": "Manfaatdor tomonlar",
+      "stakeholders": "Ta’sischilar",
       "founders": "Tashkilotchilar",
       "distribution": "Taqsimot",
       "users": "Foydalanuvchilar",
@@ -662,6 +726,9 @@
         "employee": "Xodim",
         "accountant": "Buxgalter",
         "account_manager": "Mijozlar menejeri"
+      },
+      "userStatus": {
+        "web-user": "Veb foydalanuvchi"
       },
       "project_name": "Loyiha nomi",
       "our_company": "Kompaniyamiz",
@@ -728,7 +795,28 @@
       "type": "Turi",
       "distribution": "Taqsimot",
       "deposit": "Depozit",
-      "user": "Foydalanuvchi"
+      "user": "Foydalanuvchi",
+      "deposit_name": "Depozit nomi",
+      "no_founders": "Ta’sischilar topilmadi",
+      "add_founders": "Balanslarni kuzatishni boshlash uchun ta’sischilarni qo‘shing",
+      "no_description": "Tavsif berilmagan",
+      "no_distribution": "Ta’qsimotlar topilmadi",
+      "create_distribution": "Boshlash uchun ta’qsimot yarating",
+      "distributor": "Distribyutor",
+      "percentage": "Foiz",
+      "full_name": "To‘liq ism",
+      "phone_number": "Telefon raqam",
+      "role": "Roli",
+      "is_verified": "Tasdiqlangan",
+      "salary": "Maosh",
+      "method": "Metod",
+      "path": "Yo‘l",
+      "success": "Muvaffaqiyat",
+      "ip_address": "IP manzil",
+      "duration": "Davomiylik",
+      "user_agent": "User agent",
+      "unknown": "Noma’lum",
+      "error": "Xato"
     }
   }
 }

@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useSearch } from '@tanstack/react-router'
 import { IconSearch } from '@tabler/icons-react'
 import { useDebounce } from '@/hooks/useDebounce'
+import { useLang } from '@/hooks/useLang'
 import { Input } from '@/components/ui/input'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
@@ -18,6 +19,9 @@ import { useDeposits } from './data/hooks'
 import { DepositSchema } from './data/schema'
 
 const DepositContent = () => {
+  const { lang, tDeposit, general } = useLang()
+  const t = tDeposit[lang]
+
   const { setOpen, setCurrentRow } = useDepositContext()
   const { offset, limit } = useSearch({
     from: '/_authenticated/deposits/',
@@ -51,18 +55,16 @@ const DepositContent = () => {
       <Main>
         <div className='mb-2 flex flex-wrap items-center justify-between space-y-2 gap-x-4'>
           <div>
-            <h2 className='text-2xl font-bold tracking-tight'>Deposits</h2>
-            <p className='text-muted-foreground'>
-              Here&apos;s a list of deposits!
-            </p>
+            <h2 className='text-2xl font-bold tracking-tight'>{t.deposits}</h2>
+            <p className='text-muted-foreground'>{t.list_deposits}</p>
           </div>
-          <DepositPrimaryButtons />
+          <DepositPrimaryButtons text={t.create} />
         </div>
         <div className='flex items-center gap-4'>
           <div className='relative'>
             <Input
               type='search'
-              placeholder='Search by deposit'
+              placeholder={t.search_by_deposit}
               className='h-8 max-w-80 pl-8'
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -75,7 +77,7 @@ const DepositContent = () => {
         <div className='-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-y-0 lg:space-x-12'>
           <DataTable
             data={data?.data.data?.length ? data.data.data : []}
-            columns={columns}
+            columns={columns(general[lang].columns)}
             offset={offset}
             limit={limit}
             total={data?.data.total ?? 0}

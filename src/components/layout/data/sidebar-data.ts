@@ -4,7 +4,6 @@ import {
   IconBuildings,
   IconContract,
   IconDeviceImacSearch,
-  IconHelp,
   IconLayoutDashboard,
   IconNotification,
   IconPalette,
@@ -27,6 +26,7 @@ import {
   // IconPackages,
   // IconServerOff,
   // IconUserOff,
+  // IconHelp,
 } from '@tabler/icons-react'
 import { AudioWaveform, Command, GalleryVerticalEnd } from 'lucide-react'
 // import { ClerkLogo } from '@/assets/clerk-logo'
@@ -275,11 +275,11 @@ export const sidebarData: SidebarData = {
             },
           ],
         },
-        {
-          title: 'help_center',
-          url: '/help-center',
-          icon: IconHelp,
-        },
+        // {
+        //   title: 'help_center',
+        //   url: '/help-center',
+        //   icon: IconHelp,
+        // },
       ],
     },
   ],

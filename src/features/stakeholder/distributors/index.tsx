@@ -1,4 +1,5 @@
 import { Route } from '@/routes/_authenticated/stakeholder/distributors/$id'
+import { useLang } from '@/hooks/useLang'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
@@ -13,6 +14,9 @@ import DistributorProvider from './context'
 import { useDistributors } from './data/hooks'
 
 const Distributors = () => {
+  const { lang, tDistributor, general } = useLang()
+  const t = tDistributor[lang]
+
   const { id } = Route.useLoaderData()
 
   const { data } = useDistributors(id)
@@ -38,16 +42,14 @@ const Distributors = () => {
                   ? distribution.name
                   : '-'}
             </h2>
-            <p className='text-muted-foreground'>
-              Here&apos;s a list of distributors!
-            </p>
+            <p className='text-muted-foreground'>{t.list_distributors}</p>
           </div>
-          <DistributorPrimaryButtons />
+          <DistributorPrimaryButtons text={t.create} />
         </div>
         <div className='-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-y-0 lg:space-x-12'>
           <DataTable
             data={data?.data?.length ? data.data : []}
-            columns={columns}
+            columns={columns(general[lang].columns)}
           />
         </div>
       </Main>

@@ -1,3 +1,4 @@
+import { useLang } from '@/hooks/useLang'
 import { ConfirmDialog } from '@/components/confirm-dialog'
 import { useDistributionContext } from '../context'
 import { useDeleteDistribution } from '../data/hooks'
@@ -6,6 +7,15 @@ import { DistributionMutateDrawer } from './distribution-mutate-drawer'
 export function DistributionDialogs() {
   const { open, setOpen, currentRow, setCurrentRow } = useDistributionContext()
   const { mutate, isPending } = useDeleteDistribution()
+  const {
+    lang,
+    general,
+    tDistribution,
+    interpolate,
+    interpolateWithComponents,
+  } = useLang()
+  const t_general = general[lang].layout
+  const t = tDistribution[lang]
 
   const handleDelete = (id: string) => {
     mutate(id, {
@@ -51,16 +61,20 @@ export function DistributionDialogs() {
             }}
             handleConfirm={() => handleDelete(currentRow.id)}
             className='max-w-md'
-            title={`Delete this Distribution with the name: ${currentRow.name} ?`}
+            title={interpolate(t.delete_title, {
+              name: currentRow.name,
+            })}
             desc={
               <>
-                You are about to delete a Distribution with the name{' '}
-                <strong>{currentRow.name}</strong>. <br />
-                This action cannot be undone.
+                {interpolateWithComponents(t.delete_confirm, {
+                  name: <strong>{currentRow.name}</strong>,
+                })}
+                <br />
+                {t_general.undone}
               </>
             }
             isLoading={isPending}
-            confirmText={isPending ? 'Deleting...' : 'Delete'}
+            confirmText={isPending ? t_general.deleting : t_general.delete}
           />
         </>
       )}

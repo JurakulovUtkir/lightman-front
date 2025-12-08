@@ -1,6 +1,8 @@
+import { useMemo } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useLang } from '@/hooks/useLang'
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -45,12 +47,23 @@ export function DistributionMutateDrawer({
   const createDistribution = useCreateDistribution()
   const updateDistribution = useUpdateDistribution()
   const isUpdate = !!currentRow
+  const { lang, tForm, tDistribution } = useLang()
+  const t = tForm[lang]
 
-  const formSchema = z.object({
-    name: z.string().min(1, 'Name is required.'),
-    description: z.string().optional(),
-    is_active: z.boolean().optional(),
-  })
+  const formSchema = useMemo(
+    () =>
+      z.object({
+        name: z
+          .string({
+            error: t.form_validations.name,
+          })
+          .min(1, t.form_validations.enter_a_name)
+          .max(150, t.form_validations.invalid_name),
+        description: z.string().optional(),
+        is_active: z.boolean().optional(),
+      }),
+    [t]
+  )
 
   type DistributionForm = z.infer<typeof formSchema>
 
@@ -104,12 +117,16 @@ export function DistributionMutateDrawer({
     >
       <SheetContent className='flex flex-col'>
         <SheetHeader className='text-left'>
-          <SheetTitle>{isUpdate ? 'Update' : 'Create'} Distribution</SheetTitle>
+          <SheetTitle>
+            {isUpdate
+              ? tDistribution[lang].update_distribution
+              : tDistribution[lang].create_distribution}
+          </SheetTitle>
           <SheetDescription>
             {isUpdate
-              ? 'Update the Distribution by providing necessary info.'
-              : 'Add a new Distribution by providing necessary info.'}
-            Click save when you&apos;re done.
+              ? tDistribution[lang].update_desc
+              : tDistribution[lang].create_desc}
+            {tDistribution[lang].click_save}
           </SheetDescription>
         </SheetHeader>
         <div className='flex-1 overflow-y-auto'>
@@ -132,7 +149,7 @@ export function DistributionMutateDrawer({
                           onCheckedChange={field.onChange}
                         />
                       </FormControl>
-                      <FormLabel>Is Active</FormLabel>
+                      <FormLabel>{t.form_labels.is_active}</FormLabel>
                     </div>
                   </FormItem>
                 )}
@@ -142,9 +159,12 @@ export function DistributionMutateDrawer({
                 name='name'
                 render={({ field }) => (
                   <FormItem className='space-y-1'>
-                    <FormLabel>Distribution</FormLabel>
+                    <FormLabel>{t.form_labels.distribution}</FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder='Enter a name' />
+                      <Input
+                        {...field}
+                        placeholder={t.form_placeholders.enter_name}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -155,10 +175,10 @@ export function DistributionMutateDrawer({
                 name='description'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Description</FormLabel>
+                    <FormLabel>{t.form_labels.description}</FormLabel>
                     <FormControl>
                       <Textarea
-                        placeholder='Description ...'
+                        placeholder={t.form_placeholders.enter_description}
                         className='h-40 resize-none'
                         {...field}
                       />
@@ -173,7 +193,7 @@ export function DistributionMutateDrawer({
         <SheetFooter className='gap-2'>
           {isUpdate && (
             <Button onClick={handleDelete} size='sm' variant='destructive'>
-              Delete
+              {t.buttons.delete}
             </Button>
           )}
           <Button
@@ -190,8 +210,8 @@ export function DistributionMutateDrawer({
                 ? updateDistribution.isPending
                 : createDistribution.isPending
             )
-              ? 'Loading...'
-              : 'Save changes'}
+              ? t.buttons.loading
+              : t.buttons.save_changes}
           </Button>
         </SheetFooter>
       </SheetContent>

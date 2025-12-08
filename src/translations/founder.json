@@ -1,0 +1,47 @@
+{
+  "en": {
+    "founders": "Founders",
+    "list_founders": "Here's a list of founders!",
+    "search_by_founder": "Search by founder",
+    "create_founder": "Create founder",
+    "create_desc": "Add a new Founder by providing necessary info.",
+    "update_founder": "Update founder",
+    "update_desc": "Update the Founder by providing necessary info.",
+    "create": "Create",
+    "click_save": "Click save when you're done.",
+    "delete_title": "Delete this Founder with the name: {{name}} ?",
+    "delete_confirm": "You are about to delete a Founder with the name {{name}}",
+    "list_founder_expences": "Here's a list expences of {{name}}",
+    "search_by_expence": "Search by expence"
+  },
+  "ru": {
+    "founders": "Основатели",
+    "list_founders": "Список основателей!",
+    "search_by_founder": "Поиск по основателю",
+    "create_founder": "Создать основателя",
+    "create_desc": "Добавьте нового основателя, указав необходимую информацию.",
+    "update_founder": "Обновить основателя",
+    "update_desc": "Обновите основателя, указав необходимую информацию.",
+    "create": "Создать",
+    "click_save": "Нажмите «Сохранить», когда закончите.",
+    "delete_title": "Удалить основателя с именем: {{name}}?",
+    "delete_confirm": "Вы собираетесь удалить основателя с именем {{name}}",
+    "list_founder_expences": "Список расходов {{name}}",
+    "search_by_expence": "Поиск по расходу"
+  },
+  "uz": {
+    "founders": "Tashkilotchilar",
+    "list_founders": "Tashkilotchilar ro‘yxati!",
+    "search_by_founder": "Tashkilotchi bo‘yicha qidirish",
+    "create_founder": "Tashkilotchi yaratish",
+    "create_desc": "Kerakli ma’lumotlarni kiritib, yangi tashkilotchi qo‘shing.",
+    "update_founder": "Tashkilotchini yangilash",
+    "update_desc": "Kerakli ma’lumotlarni kiritib, tashkilotchini yangilang.",
+    "create": "Yaratish",
+    "click_save": "Tugatganingizdan so‘ng «Saqlash» tugmasini bosing.",
+    "delete_title": "Ushbu tashkilotchini nomi: {{name}} bilan o‘chirmoqchimisiz?",
+    "delete_confirm": "Siz {{name}} nomli tashkilotchini o‘chirmoqchisiz",
+    "list_founder_expences": "{{name}} ning xarajatlar ro‘yxati",
+    "search_by_expence": "Xarajat bo‘yicha qidirish"
+  }
+}

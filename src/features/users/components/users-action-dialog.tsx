@@ -1,9 +1,8 @@
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { getUserRoleOptions, UZ_PHONE_REGEX } from '@/constants'
-import { toast } from 'sonner'
 import { toNumber } from '@/lib/helpers'
 import { useLang } from '@/hooks/useLang'
 import { Button } from '@/components/ui/button'
@@ -33,97 +32,6 @@ import { useCreateUser, useUpdateUser } from '../data/hooks'
 import { User } from '../data/schema'
 import { UsersComboboxCompany } from './users-combobox-company'
 
-const formSchema = z
-  .object({
-    full_name: z.string().min(3, 'Please enter full name'),
-    phone_number: z
-      .string()
-      .min(1, 'Please enter your phone number')
-      .regex(UZ_PHONE_REGEX, 'Please enter valid phone number'),
-    role: z.union(
-      [
-        z.literal('admin', {
-          error: 'Required field',
-        }),
-        z.literal('user'),
-        z.literal('operator'),
-        z.literal('employee'),
-        z.literal('accountant'),
-        z.literal('account_manager'),
-      ],
-      {
-        error: 'Required field',
-      }
-    ),
-    password: z
-      .string()
-      .transform((pwd) => pwd.trim())
-      .optional(),
-    confirmPassword: z
-      .string()
-      .transform((pwd) => pwd.trim())
-      .optional(),
-    is_verified: z.boolean().optional(),
-    is_our_employee: z.boolean().optional(),
-    isUpdate: z.boolean().optional(),
-    salary: z.number().min(0, 'Invalid value').optional().nullable(),
-    employee_company_id: z.string().min(1, 'Employee company is required'),
-  })
-  .refine(
-    ({ password, isUpdate }) => {
-      // If updating and password is empty, skip validation
-      if (isUpdate && !password) return true
-      // If creating or password is provided, require it
-      return password && password.length > 0
-    },
-    {
-      message: 'Password is required.',
-      path: ['password'],
-    }
-  )
-  .refine(
-    ({ password, isUpdate }) => {
-      if (isUpdate && !password) return true
-      return password && password.length >= 6
-    },
-    {
-      message: 'Password must be at least 6 characters long.',
-      path: ['password'],
-    }
-  )
-  .refine(
-    ({ password, isUpdate }) => {
-      if (isUpdate && !password) return true
-      return password && /[a-z]/.test(password)
-    },
-    {
-      message: 'Password must contain at least one lowercase letter.',
-      path: ['password'],
-    }
-  )
-  .refine(
-    ({ password, isUpdate }) => {
-      if (isUpdate && !password) return true
-      return password && /\d/.test(password)
-    },
-    {
-      message: 'Password must contain at least one number.',
-      path: ['password'],
-    }
-  )
-  .refine(
-    ({ password, confirmPassword, isUpdate }) => {
-      if (isUpdate && !password) return true
-      return password === confirmPassword
-    },
-    {
-      message: "Passwords don't match.",
-      path: ['confirmPassword'],
-    }
-  )
-
-type UserForm = z.infer<typeof formSchema>
-
 interface Props {
   currentRow?: User
   open: boolean
@@ -134,9 +42,117 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
   const isUpdate = !!currentRow
   const createUser = useCreateUser()
   const updateUser = useUpdateUser()
-  const { lang, general } = useLang()
+  const { lang, general, tForm, tUser } = useLang()
   const t_general = general[lang].columns
   const userRoleOptions = getUserRoleOptions(t_general)
+  const t = tForm[lang]
+
+  const formSchema = useMemo(
+    () =>
+      z
+        .object({
+          full_name: z
+            .string({
+              error: t.form_validations.enter_name,
+            })
+            .min(3, {
+              error: t.form_validations.required_field,
+            }),
+          phone_number: z
+            .string()
+            .min(1, t.form_validations.enter_phone_number)
+            .regex(UZ_PHONE_REGEX, t.form_validations.invalid_phone_number),
+          role: z.union(
+            [
+              z.literal('admin', {
+                error: t.form_validations.required_field,
+              }),
+              z.literal('user'),
+              z.literal('operator'),
+              z.literal('employee'),
+              z.literal('accountant'),
+              z.literal('account_manager'),
+            ],
+            {
+              error: t.form_validations.required_field,
+            }
+          ),
+          password: z
+            .string()
+            .transform((pwd) => pwd.trim())
+            .optional(),
+          confirmPassword: z
+            .string()
+            .transform((pwd) => pwd.trim())
+            .optional(),
+          is_verified: z.boolean().optional(),
+          is_our_employee: z.boolean().optional(),
+          isUpdate: z.boolean().optional(),
+          salary: z
+            .number()
+            .min(0, t.form_validations.invalid_value)
+            .optional()
+            .nullable(),
+          employee_company_id: z
+            .string()
+            .min(1, t.form_validations.required_field),
+        })
+        .refine(
+          ({ password, isUpdate }) => {
+            // If updating and password is empty, skip validation
+            if (isUpdate && !password) return true
+            // If creating or password is provided, require it
+            return password && password.length > 0
+          },
+          {
+            message: t.form_validations.password,
+            path: ['password'],
+          }
+        )
+        .refine(
+          ({ password, isUpdate }) => {
+            if (isUpdate && !password) return true
+            return password && password.length >= 6
+          },
+          {
+            message: t.form_validations.password_length,
+            path: ['password'],
+          }
+        )
+        .refine(
+          ({ password, isUpdate }) => {
+            if (isUpdate && !password) return true
+            return password && /[a-z]/.test(password)
+          },
+          {
+            message: t.form_validations.password_lowercase,
+            path: ['password'],
+          }
+        )
+        .refine(
+          ({ password, isUpdate }) => {
+            if (isUpdate && !password) return true
+            return password && /\d/.test(password)
+          },
+          {
+            message: t.form_validations.password_number,
+            path: ['password'],
+          }
+        )
+        .refine(
+          ({ password, confirmPassword, isUpdate }) => {
+            if (isUpdate && !password) return true
+            return password === confirmPassword
+          },
+          {
+            message: t.form_validations.password_not_match,
+            path: ['confirmPassword'],
+          }
+        ),
+    [t]
+  )
+
+  type UserForm = z.infer<typeof formSchema>
 
   const form = useForm<UserForm>({
     resolver: zodResolver(formSchema),
@@ -205,7 +221,6 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
         },
         {
           onSuccess: () => {
-            toast.success('User updated successfully')
             onOpenChange(false)
             form.reset()
           },
@@ -233,10 +248,12 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
     >
       <DialogContent className='max-h-[90vh] max-w-full overflow-y-auto sm:max-w-lg'>
         <DialogHeader className='text-left'>
-          <DialogTitle>{isUpdate ? 'Edit User' : 'Add New User'}</DialogTitle>
+          <DialogTitle>
+            {isUpdate ? tUser[lang].update_user : tUser[lang].create_user}
+          </DialogTitle>
           <DialogDescription>
-            {isUpdate ? 'Update the user here. ' : 'Create new user here. '}
-            Click save when you&apos;re done.
+            {isUpdate ? tUser[lang].update_desc : tUser[lang].create_desc}
+            {tUser[lang].click_save}
           </DialogDescription>
         </DialogHeader>
         <div className='w-full py-1 pr-2 sm:pr-4'>
@@ -252,7 +269,7 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
                   name='is_verified'
                   render={({ field }) => (
                     <FormItem className='flex items-center'>
-                      <FormLabel>Is verified</FormLabel>
+                      <FormLabel>{t.form_labels.is_verified}</FormLabel>
                       <FormControl>
                         <Switch
                           defaultChecked
@@ -269,7 +286,7 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
                   name='is_our_employee'
                   render={({ field }) => (
                     <FormItem className='flex items-center'>
-                      <FormLabel>Our employee</FormLabel>
+                      <FormLabel>{t.form_labels.our_employee}</FormLabel>
                       <FormControl>
                         <Switch
                           checked={field.value}
@@ -292,11 +309,11 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
                 render={({ field }) => (
                   <FormItem className='flex flex-col space-y-2 sm:grid sm:grid-cols-6 sm:items-center sm:space-y-0 sm:gap-x-4 sm:gap-y-1'>
                     <FormLabel className='sm:col-span-2 sm:text-right'>
-                      Full Name
+                      {t.form_labels.full_name}
                     </FormLabel>
                     <FormControl>
                       <Input
-                        placeholder='Enter full name'
+                        placeholder={t.form_placeholders.enter_name}
                         className='sm:col-span-4'
                         autoComplete='off'
                         {...field}
@@ -313,7 +330,7 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
                 render={({ field }) => (
                   <FormItem className='flex flex-col space-y-2 sm:grid sm:grid-cols-6 sm:items-center sm:space-y-0 sm:gap-x-4 sm:gap-y-1'>
                     <FormLabel className='sm:col-span-2 sm:text-right'>
-                      Phone Number
+                      {t.form_labels.phone_number}
                     </FormLabel>
                     <FormControl>
                       <PhoneInput
@@ -333,12 +350,12 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
                 render={({ field }) => (
                   <FormItem className='flex flex-col space-y-2 sm:grid sm:grid-cols-6 sm:items-center sm:space-y-0 sm:gap-x-4 sm:gap-y-1'>
                     <FormLabel className='sm:col-span-2 sm:text-right'>
-                      Role
+                      {t.form_labels.role}
                     </FormLabel>
                     <SelectDropdown
                       defaultValue={field.value}
                       onValueChange={field.onChange}
-                      placeholder='Select a role'
+                      placeholder={t.form_placeholders.select_role}
                       className='sm:col-span-4'
                       items={userRoleOptions}
                     />
@@ -350,23 +367,23 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
               <UsersComboboxCompany
                 control={form.control}
                 name='employee_company_id'
-                label='Employee company'
+                label={t.form_labels.employee_company}
                 detail={currentRow?.employee_company ?? undefined}
                 filterOurCompany={isOurEmployee ? true : false}
               />
               {isOurEmployee && (
                 <div className='flex flex-col items-center space-y-2 sm:grid sm:grid-cols-6 sm:space-y-0 sm:gap-x-4 sm:gap-y-1'>
                   <div className='sm:col-span-2 sm:pt-2 sm:text-right'>
-                    <FormLabel>Salary</FormLabel>
+                    <FormLabel>{t.form_labels.salary}</FormLabel>
                   </div>
                   <div className='sm:col-span-4'>
                     <FormFieldWrapper
                       control={form.control}
                       name='salary'
                       label=''
-                      placeholder='Enter salary'
+                      placeholder={t.form_placeholders.enter_salary}
                       type='number'
-                      suffix='UZS'
+                      suffix={t.form_placeholders.uzs}
                       formatting={true}
                     />
                   </div>
@@ -378,14 +395,14 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
                 render={({ field }) => (
                   <FormItem className='flex flex-col space-y-2 sm:grid sm:grid-cols-6 sm:items-center sm:space-y-0 sm:gap-x-4 sm:gap-y-1'>
                     <FormLabel className='sm:col-span-2 sm:text-right'>
-                      Password
+                      {t.form_labels.password}
                     </FormLabel>
                     <div className='space-y-1 sm:col-span-4'>
                       <FormControl>
                         <PasswordInput
                           placeholder={
                             isUpdate
-                              ? 'Leave blank to keep current'
+                              ? t.form_placeholders.leave_blank
                               : 'e.g., S3cur3P@ssw0rd'
                           }
                           autoComplete='new-password'
@@ -394,7 +411,7 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
                       </FormControl>
                       {isUpdate && (
                         <p className='text-muted-foreground text-xs'>
-                          Leave blank to keep current password
+                          {t.form_placeholders.leave_blank}
                         </p>
                       )}
                     </div>
@@ -408,14 +425,14 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
                 render={({ field }) => (
                   <FormItem className='flex flex-col space-y-2 sm:grid sm:grid-cols-6 sm:items-center sm:space-y-0 sm:gap-x-4 sm:gap-y-1'>
                     <FormLabel className='sm:col-span-2 sm:text-right'>
-                      Confirm Password
+                      {t.form_labels.confirm_password}
                     </FormLabel>
                     <FormControl>
                       <PasswordInput
                         disabled={!isPasswordTouched}
                         placeholder={
                           isUpdate
-                            ? 'Leave blank to keep current'
+                            ? t.form_placeholders.leave_blank
                             : 'e.g., S3cur3P@ssw0rd'
                         }
                         className='sm:col-span-4'
@@ -438,8 +455,8 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
             className='w-full sm:w-auto'
           >
             {(isUpdate ? updateUser.isPending : createUser.isPending)
-              ? 'Loading...'
-              : 'Save changes'}
+              ? t.buttons.loading
+              : t.buttons.save_changes}
           </Button>
         </DialogFooter>
       </DialogContent>

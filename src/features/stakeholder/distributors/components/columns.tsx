@@ -11,7 +11,9 @@ import { DistributorSchema } from '../data/schema'
 import { DataTableColumnHeader } from './data-table-column-header'
 import { DataTableRowActions } from './data-table-row-actions'
 
-export const columns: ColumnDef<DistributorSchema>[] = [
+export const columns = (
+  t: (typeof import('@/translations/general.json'))['en']['columns']
+): ColumnDef<DistributorSchema>[] => [
   {
     id: 'select',
     header: ({ table }) => (
@@ -39,7 +41,7 @@ export const columns: ColumnDef<DistributorSchema>[] = [
   {
     accessorKey: 'founder',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Distributor' />
+      <DataTableColumnHeader column={column} title={t.distributor} />
     ),
     cell: ({ row }) => {
       const founder = row.original.founder.name
@@ -59,7 +61,7 @@ export const columns: ColumnDef<DistributorSchema>[] = [
   {
     accessorKey: 'percentage',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Percentage' />
+      <DataTableColumnHeader column={column} title={t.percentage} />
     ),
     cell: ({ row }) => <div>{row.getValue('percentage')} %</div>,
 
@@ -69,7 +71,7 @@ export const columns: ColumnDef<DistributorSchema>[] = [
   {
     accessorKey: 'created_at',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Created at' />
+      <DataTableColumnHeader column={column} title={t.created_at} />
     ),
     cell: ({ row }) => (
       <div>
@@ -83,7 +85,7 @@ export const columns: ColumnDef<DistributorSchema>[] = [
   {
     accessorKey: 'updated_at',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Updated at' />
+      <DataTableColumnHeader column={column} title={t.updated_at} />
     ),
     cell: ({ row }) => (
       <div>
@@ -97,7 +99,7 @@ export const columns: ColumnDef<DistributorSchema>[] = [
   {
     accessorKey: 'description',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Description' />
+      <DataTableColumnHeader column={column} title={t.description} />
     ),
     cell: ({ row }) => {
       const info = row.original.description

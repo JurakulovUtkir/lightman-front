@@ -1,4 +1,5 @@
 import { useSearch } from '@tanstack/react-router'
+import { useLang } from '@/hooks/useLang'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
@@ -12,6 +13,9 @@ import UsersProvider from './context/users-context'
 import { useGetUsers } from './data/hooks'
 
 export default function Users() {
+  const { lang, tUser, general } = useLang()
+  const t = tUser[lang]
+
   const { offset, limit } = useSearch({
     from: '/_authenticated/users/',
   })
@@ -36,17 +40,15 @@ export default function Users() {
       <Main>
         <div className='mb-2 flex flex-wrap items-center justify-between space-y-2'>
           <div>
-            <h2 className='text-2xl font-bold tracking-tight'>User List</h2>
-            <p className='text-muted-foreground'>
-              Manage your users and their roles here.
-            </p>
+            <h2 className='text-2xl font-bold tracking-tight'>{t.users}</h2>
+            <p className='text-muted-foreground'>{t.manage_users}</p>
           </div>
-          <UsersPrimaryButtons />
+          <UsersPrimaryButtons text={t.create} />
         </div>
         <div className='-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-y-0 lg:space-x-12'>
           <DataTable
             data={data?.data.items?.length ? data.data.items : []}
-            columns={columns}
+            columns={columns(general[lang].columns)}
             offset={offset}
             limit={limit}
             total={data?.data.total ?? 0}

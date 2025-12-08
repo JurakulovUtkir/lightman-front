@@ -9,6 +9,7 @@ import {
   IconUsers,
 } from '@tabler/icons-react'
 import { formatToYearMonthDay } from '@/lib/dateFormatter'
+import { useLang } from '@/hooks/useLang'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -23,6 +24,8 @@ import { useFounderContext } from '../context'
 import { FounderSchema } from '../data/schema'
 
 const FounderCards = ({ data }: { data: FounderSchema[] | undefined }) => {
+  const { lang, general } = useLang()
+  const t = general[lang].columns
   const { setOpen, setCurrentRow } = useFounderContext()
   const navigate = useNavigate()
   const handleEdit = (e: React.MouseEvent, payload: FounderSchema) => {
@@ -59,12 +62,12 @@ const FounderCards = ({ data }: { data: FounderSchema[] | undefined }) => {
                 {item.is_active ? (
                   <>
                     <IconCircleCheck className='h-3 w-3' />
-                    Active
+                    {t.active}
                   </>
                 ) : (
                   <>
                     <IconCircleX className='h-3 w-3' />
-                    Inactive
+                    {t.inactive}
                   </>
                 )}
               </Badge>
@@ -95,11 +98,11 @@ const FounderCards = ({ data }: { data: FounderSchema[] | undefined }) => {
               <div className='bg-muted/50 flex items-center gap-2 rounded-md p-2'>
                 <IconWallet className='text-muted-foreground h-4 w-4 shrink-0' />
                 <div className='min-w-0 flex-1'>
-                  <p className='text-muted-foreground text-xs'>Balance</p>
+                  <p className='text-muted-foreground text-xs'>{t.balance}</p>
                   <p className='truncate text-sm font-semibold'>
                     {formatBalance(item.balance)}{' '}
                     <span className='text-muted-foreground text-xs font-normal'>
-                      UZS
+                      {t.uzs}
                     </span>
                   </p>
                 </div>
@@ -122,10 +125,8 @@ const FounderCards = ({ data }: { data: FounderSchema[] | undefined }) => {
     <Card className='border-dashed'>
       <CardContent className='flex flex-col items-center justify-center py-12'>
         <IconUsers className='text-muted-foreground mb-4 h-12 w-12' />
-        <CardTitle className='mb-2 text-xl'>No Founders Found</CardTitle>
-        <p className='text-muted-foreground text-sm'>
-          Add founders to start tracking balances
-        </p>
+        <CardTitle className='mb-2 text-xl'>{t.no_founders}</CardTitle>
+        <p className='text-muted-foreground text-sm'>{t.add_founders}</p>
       </CardContent>
     </Card>
   )

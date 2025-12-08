@@ -9,33 +9,33 @@
     "update_desc": "Update the Expence by providing necessary info.",
     "create": "Create",
     "click_save": "Click save when you're done.",
-    "delete_title": "Delete this Contract with the amount: {{amount}} ?",
-    "delete_confirm": "You are about to delete a Contract with the amount {{amount}}"
+    "delete_title": "Delete this Expence with the amount: {{amount}} ?",
+    "delete_confirm": "You are about to delete a Expence with the amount {{amount}}"
   },
   "ru": {
     "expences": "Расходы",
-    "list_expences": "Вот список расходов!",
-    "search_by_expence": "Поиск по расходам",
+    "list_expences": "Список расходов!",
+    "search_by_expence": "Поиск по расходу",
     "create_expence": "Создать расход",
     "create_desc": "Добавьте новый расход, указав необходимую информацию.",
     "update_expence": "Обновить расход",
     "update_desc": "Обновите расход, указав необходимую информацию.",
     "create": "Создать",
     "click_save": "Нажмите «Сохранить», когда закончите.",
-    "delete_title": "Удалить этот контракт с суммой {{amount}}?",
-    "delete_confirm": "Вы собираетесь удалить контракт с суммой {{amount}}"
+    "delete_title": "Удалить расход с суммой: {{amount}}?",
+    "delete_confirm": "Вы собираетесь удалить расход на сумму {{amount}}"
   },
   "uz": {
     "expences": "Xarajatlar",
-    "list_expences": "Xarajatlar ro'yxati!",
-    "search_by_expence": "Xarajat bo'yicha qidirish",
-    "create_expence": "Xarajat qo'shish",
-    "create_desc": "Kerakli ma'lumotlarni kiritib yangi xarajat qo'shing.",
+    "list_expences": "Xarajatlar ro‘yxati!",
+    "search_by_expence": "Xarajat bo‘yicha qidirish",
+    "create_expence": "Xarajat yaratish",
+    "create_desc": "Kerakli ma’lumotlarni kiritib, yangi xarajat qo‘shing.",
     "update_expence": "Xarajatni yangilash",
-    "update_desc": "Kerakli ma'lumotlarni kiritib xarajatni yangilang.",
+    "update_desc": "Kerakli ma’lumotlarni kiritib, xarajatni yangilang.",
     "create": "Yaratish",
-    "click_save": "Tugatgach «Saqlash» tugmasini bosing.",
-    "delete_title": "{{amount}} miqdoridagi kontraktni o‘chirmoqchimisiz?",
-    "delete_confirm": "{{amount}} miqdoridagi kontraktni o‘chirish arafasidansiz"
+    "click_save": "Tugatganingizdan so‘ng «Saqlash» tugmasini bosing.",
+    "delete_title": "Ushbu xarajatni {{amount}} summada o‘chirmoqchimisiz?",
+    "delete_confirm": "Siz {{amount}} summadagi xarajatni o‘chirmoqchisiz"
   }
 }

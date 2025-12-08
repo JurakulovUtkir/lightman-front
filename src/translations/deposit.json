@@ -1,0 +1,41 @@
+{
+  "en": {
+    "deposits": "Deposits",
+    "list_deposits": "Here's a list of deposits!",
+    "search_by_deposit": "Search by deposit",
+    "create_deposit": "Create deposit",
+    "create_desc": "Add a new Deposit by providing necessary info.",
+    "update_deposit": "Update deposit",
+    "update_desc": "Update the Deposit by providing necessary info.",
+    "create": "Create",
+    "click_save": "Click save when you're done.",
+    "delete_title": "Delete this Deposit with the name: {{name}} ?",
+    "delete_confirm": "You are about to delete a Deposit with the name {{name}}"
+  },
+  "ru": {
+    "deposits": "Депозиты",
+    "list_deposits": "Список депозитов!",
+    "search_by_deposit": "Поиск по депозиту",
+    "create_deposit": "Создать депозит",
+    "create_desc": "Добавьте новый депозит, указав необходимую информацию.",
+    "update_deposit": "Обновить депозит",
+    "update_desc": "Обновите депозит, указав необходимую информацию.",
+    "create": "Создать",
+    "click_save": "Нажмите «Сохранить», когда закончите.",
+    "delete_title": "Удалить депозит с названием: {{name}}?",
+    "delete_confirm": "Вы собираетесь удалить депозит с названием {{name}}"
+  },
+  "uz": {
+    "deposits": "Depozitlar",
+    "list_deposits": "Bu yerda depozitlar ro‘yxati!",
+    "search_by_deposit": "Depozit bo‘yicha qidirish",
+    "create_deposit": "Depozit yaratish",
+    "create_desc": "Kerakli ma’lumotlarni kiritib, yangi depozit qo‘shing.",
+    "update_deposit": "Depozitni yangilash",
+    "update_desc": "Kerakli ma’lumotlarni kiritib, depozitni yangilang.",
+    "create": "Yaratish",
+    "click_save": "Tugatganingizdan so‘ng «Saqlash» tugmasini bosing.",
+    "delete_title": "Ushbu depozitni nomi: {{name}} bilan o‘chirmoqchimisiz?",
+    "delete_confirm": "Siz {{name}} nomli depozitni o‘chirmoqchisiz"
+  }
+}

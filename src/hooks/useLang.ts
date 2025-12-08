@@ -1,11 +1,16 @@
 import { ReactNode } from 'react'
 import companyJson from '@/translations/company.json'
 import contractJson from '@/translations/contract.json'
+import depositJson from '@/translations/deposit.json'
+import distributionJson from '@/translations/distribution.json'
+import distributorJson from '@/translations/distributor.json'
 import expenceJson from '@/translations/expence.json'
 import formJson from '@/translations/form.json'
+import founderJson from '@/translations/founder.json'
 import generalJson from '@/translations/general.json'
 import networkJson from '@/translations/network.json'
 import projectJson from '@/translations/project.json'
+import userJson from '@/translations/user.json'
 import { useUnit } from 'effector-react'
 import { $lang } from '@/context/lang'
 
@@ -39,6 +44,11 @@ export const useLang = () => {
   const tContract = contractJson
   const tCompany = companyJson
   const tExpence = expenceJson
+  const tDeposit = depositJson
+  const tFounder = founderJson
+  const tDistribution = distributionJson
+  const tDistributor = distributorJson
+  const tUser = userJson
 
   return {
     lang,
@@ -51,5 +61,10 @@ export const useLang = () => {
     tCompany,
     tContract,
     tExpence,
+    tDeposit,
+    tFounder,
+    tDistribution,
+    tDistributor,
+    tUser,
   }
 }

@@ -2,6 +2,7 @@ import { useState, type JSX } from 'react'
 import { useLocation, useNavigate } from '@tanstack/react-router'
 import { Link } from '@tanstack/react-router'
 import { cn } from '@/lib/utils'
+import { useLang } from '@/hooks/useLang'
 import { buttonVariants } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import {
@@ -25,6 +26,9 @@ export default function SidebarNav({
   items,
   ...props
 }: SidebarNavProps) {
+  const { lang, general } = useLang()
+  const t = general[lang].layout
+
   const { pathname } = useLocation()
   const navigate = useNavigate()
   const [val, setVal] = useState(pathname ?? '/settings')
@@ -79,7 +83,11 @@ export default function SidebarNav({
               )}
             >
               <span className='mr-2'>{item.icon}</span>
-              {item.title}
+              {
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                //@ts-ignore
+                t[item.title]
+              }
             </Link>
           ))}
         </nav>

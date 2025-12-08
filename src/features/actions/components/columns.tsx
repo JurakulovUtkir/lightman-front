@@ -5,7 +5,9 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { ActionSchema } from '../data/schema'
 import { DataTableColumnHeader } from './data-table-column-header'
 
-export const columns: ColumnDef<ActionSchema>[] = [
+export const columns = (
+  t: (typeof import('@/translations/general.json'))['en']['columns']
+): ColumnDef<ActionSchema>[] => [
   {
     id: 'select',
     header: ({ table }) => (
@@ -34,7 +36,7 @@ export const columns: ColumnDef<ActionSchema>[] = [
   {
     accessorKey: 'tag',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Tag' />
+      <DataTableColumnHeader column={column} title={t.tags} />
     ),
     cell: ({ row }) => {
       const tag = row.getValue('tag') as string
@@ -50,11 +52,10 @@ export const columns: ColumnDef<ActionSchema>[] = [
     enableSorting: false,
     enableHiding: false,
   },
-
   {
     accessorKey: 'method',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Method' />
+      <DataTableColumnHeader column={column} title={t.method} />
     ),
     cell: ({ row }) => {
       const method = row.getValue('method') as string
@@ -78,11 +79,10 @@ export const columns: ColumnDef<ActionSchema>[] = [
     enableSorting: false,
     enableHiding: false,
   },
-
   {
     accessorKey: 'path',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Path' />
+      <DataTableColumnHeader column={column} title={t.path} />
     ),
     cell: ({ row }) => {
       const path = row.getValue('path') as string
@@ -95,11 +95,10 @@ export const columns: ColumnDef<ActionSchema>[] = [
     enableSorting: false,
     enableHiding: false,
   },
-
   {
     accessorKey: 'status_code',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Status' />
+      <DataTableColumnHeader column={column} title={t.status} />
     ),
     cell: ({ row }) => {
       const statusCode = row.getValue('status_code') as number
@@ -123,11 +122,10 @@ export const columns: ColumnDef<ActionSchema>[] = [
     enableSorting: false,
     enableHiding: false,
   },
-
   {
     accessorKey: 'success',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Success' />
+      <DataTableColumnHeader column={column} title={t.success} />
     ),
     cell: ({ row }) => {
       const success = row.getValue('success') as boolean
@@ -143,11 +141,10 @@ export const columns: ColumnDef<ActionSchema>[] = [
     enableSorting: false,
     enableHiding: false,
   },
-
   {
     accessorKey: 'user',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='User' />
+      <DataTableColumnHeader column={column} title={t.user} />
     ),
     cell: ({ row }) => {
       const user = row.original.user
@@ -166,11 +163,10 @@ export const columns: ColumnDef<ActionSchema>[] = [
     enableSorting: false,
     enableHiding: false,
   },
-
   {
     accessorKey: 'ip',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='IP Address' />
+      <DataTableColumnHeader column={column} title={t.ip_address} />
     ),
     cell: ({ row }) => {
       const ip = row.getValue('ip') as string
@@ -179,11 +175,10 @@ export const columns: ColumnDef<ActionSchema>[] = [
     enableSorting: false,
     enableHiding: false,
   },
-
   {
     accessorKey: 'duration_ms',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Duration' />
+      <DataTableColumnHeader column={column} title={t.duration} />
     ),
     cell: ({ row }) => {
       const duration = row.getValue('duration_ms') as number
@@ -200,18 +195,17 @@ export const columns: ColumnDef<ActionSchema>[] = [
     enableSorting: false,
     enableHiding: false,
   },
-
   {
     accessorKey: 'user_agent',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='User Agent' />
+      <DataTableColumnHeader column={column} title={t.user_agent} />
     ),
     cell: ({ row }) => {
       const userAgent = row.getValue('user_agent') as string
       const browserMatch = userAgent?.match(
         /(Chrome|Firefox|Safari|Edge)\/[\d.]+/
       )
-      const browser = browserMatch ? browserMatch[0] : 'Unknown'
+      const browser = browserMatch ? browserMatch[0] : t.unknown
 
       return (
         <div
@@ -225,11 +219,10 @@ export const columns: ColumnDef<ActionSchema>[] = [
     enableSorting: false,
     enableHiding: false,
   },
-
   {
     accessorKey: 'error_message',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Error' />
+      <DataTableColumnHeader column={column} title={t.error} />
     ),
     cell: ({ row }) => {
       const error = row.getValue('error_message') as string | null
@@ -248,11 +241,10 @@ export const columns: ColumnDef<ActionSchema>[] = [
     enableSorting: false,
     enableHiding: false,
   },
-
   {
     accessorKey: 'created_at',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Created At' />
+      <DataTableColumnHeader column={column} title={t.created_at} />
     ),
     cell: ({ row }) => {
       const createdAt = row.original.created_at

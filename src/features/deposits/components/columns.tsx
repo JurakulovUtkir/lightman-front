@@ -6,7 +6,9 @@ import { FormatDateToLongString } from '@/components/date-formatter'
 import { DataTableColumnHeader } from '@/components/table/data-table-column-header'
 import { DepositSchema } from '../data/schema'
 
-export const columns: ColumnDef<DepositSchema>[] = [
+export const columns = (
+  t: (typeof import('@/translations/general.json'))['en']['columns']
+): ColumnDef<DepositSchema>[] => [
   {
     id: 'select',
     header: ({ table }) => (
@@ -40,7 +42,7 @@ export const columns: ColumnDef<DepositSchema>[] = [
   {
     accessorKey: 'name',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Deposit name' />
+      <DataTableColumnHeader column={column} title={t.deposit_name} />
     ),
     cell: ({ row }) => (
       <div className='flex items-center gap-2 lg:w-[700px]'>
@@ -53,16 +55,20 @@ export const columns: ColumnDef<DepositSchema>[] = [
   {
     accessorKey: 'balance',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Balance' />
+      <DataTableColumnHeader column={column} title={t.balance} />
     ),
-    cell: ({ row }) => <div>{formatPrice(row.getValue('balance'))} UZS</div>,
+    cell: ({ row }) => (
+      <div>
+        {formatPrice(row.getValue('balance'))} {t.uzs}
+      </div>
+    ),
     enableSorting: false,
   },
 
   {
     accessorKey: 'created_at',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Created At' />
+      <DataTableColumnHeader column={column} title={t.created_at} />
     ),
     cell: ({ row }) => {
       const createdAt = row.original.created_at
@@ -78,7 +84,7 @@ export const columns: ColumnDef<DepositSchema>[] = [
   {
     accessorKey: 'updated_at',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title='Updated At' />
+      <DataTableColumnHeader column={column} title={t.updated_at} />
     ),
     cell: ({ row }) => {
       const updated_at = row.original.updated_at

@@ -37,7 +37,13 @@ export function NavGroup({ title, items }: NavGroup) {
   const href = useLocation({ select: (location) => location.href })
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>{title}</SidebarGroupLabel>
+      <SidebarGroupLabel>
+        {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          //@ts-ignore
+          t[title]
+        }
+      </SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => {
           const key = `${item.title}-${item.url}`

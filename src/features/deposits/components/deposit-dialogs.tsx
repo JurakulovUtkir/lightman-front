@@ -1,3 +1,4 @@
+import { useLang } from '@/hooks/useLang'
 import { ConfirmDialog } from '@/components/confirm-dialog'
 import { useDepositContext } from '../context'
 import { useDeleteDeposit } from '../data/hooks'
@@ -6,6 +7,10 @@ import { DepositMutateDrawer } from './deposit-mutate-drawer'
 export function DepositDialogs() {
   const { open, setOpen, currentRow, setCurrentRow } = useDepositContext()
   const { mutate, isPending } = useDeleteDeposit()
+  const { lang, general, tDeposit, interpolate, interpolateWithComponents } =
+    useLang()
+  const t_general = general[lang].layout
+  const t = tDeposit[lang]
 
   const handleDelete = (id: string) => {
     mutate(id, {
@@ -52,16 +57,20 @@ export function DepositDialogs() {
             }}
             handleConfirm={() => handleDelete(currentRow.id)}
             className='max-w-md'
-            title={`Delete this Deposit with the name: ${currentRow.name} ?`}
+            title={interpolate(t.delete_title, {
+              name: currentRow.name,
+            })}
             desc={
               <>
-                You are about to delete a Deposit with the name{' '}
-                <strong>{currentRow.name}</strong>. <br />
-                This action cannot be undone.
+                {interpolateWithComponents(t.delete_confirm, {
+                  name: <strong>{currentRow.name}</strong>,
+                })}
+                <br />
+                {t_general.undone}
               </>
             }
             isLoading={isPending}
-            confirmText={isPending ? 'Deleting...' : 'Delete'}
+            confirmText={isPending ? t_general.deleting : t_general.delete}
           />
         </>
       )}

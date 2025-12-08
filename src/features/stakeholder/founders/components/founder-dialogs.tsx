@@ -1,3 +1,4 @@
+import { useLang } from '@/hooks/useLang'
 import { ConfirmDialog } from '@/components/confirm-dialog'
 import { useFounderContext } from '../context'
 import { useDeleteFounder } from '../data/hooks'
@@ -6,6 +7,10 @@ import { FounderMutateDrawer } from './founder-mutate-drawer'
 export function FounderDialogs() {
   const { open, setOpen, currentRow, setCurrentRow } = useFounderContext()
   const { mutate, isPending } = useDeleteFounder()
+  const { lang, general, tFounder, interpolate, interpolateWithComponents } =
+    useLang()
+  const t_general = general[lang].layout
+  const t = tFounder[lang]
 
   const handleDelete = (id: string) => {
     mutate(id, {
@@ -51,16 +56,20 @@ export function FounderDialogs() {
             }}
             handleConfirm={() => handleDelete(currentRow.id)}
             className='max-w-md'
-            title={`Delete this Founder with the name: ${currentRow.name} ?`}
+            title={interpolate(t.delete_title, {
+              name: currentRow.name,
+            })}
             desc={
               <>
-                You are about to delete a Founder with the name{' '}
-                <strong>{currentRow.name}</strong>. <br />
-                This action cannot be undone.
+                {interpolateWithComponents(t.delete_confirm, {
+                  name: <strong>{currentRow.name}</strong>,
+                })}
+                <br />
+                {t_general.undone}
               </>
             }
             isLoading={isPending}
-            confirmText={isPending ? 'Deleting...' : 'Delete'}
+            confirmText={isPending ? t_general.deleting : t_general.delete}
           />
         </>
       )}
