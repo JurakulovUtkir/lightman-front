@@ -36,7 +36,7 @@ export const useExpences = ({
     | 'deposit'
     | 'other'
     | 'transfer'
-  payment_type?: 'card' | 'bank_transfer' | 'cash' | 'deposit'
+  payment_type?: 'CARD' | 'BANK_TRANSFER' | 'CASH' | 'DEPOSIT'
   distribution_id?: string
   company_id?: string
   project_id?: string

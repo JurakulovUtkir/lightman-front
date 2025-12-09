@@ -47,13 +47,13 @@ export const getPriceTypeColor = (priceType: string): string => {
 }
 export const getPaymentTypeColor = (paymentType: string): string => {
   switch (paymentType) {
-    case 'cash':
+    case 'CASH':
       return 'border-green-200 bg-green-50 text-green-700 dark:border-green-800 dark:bg-green-950 dark:text-green-300'
-    case 'card':
+    case 'CARD':
       return 'border-blue-200 bg-blue-50 text-blue-700 dark:border-blue-800 dark:bg-blue-950 dark:text-blue-300'
-    case 'bank_transfer':
+    case 'BANK_TRANSFER':
       return 'border-purple-200 bg-purple-50 text-purple-700 dark:border-purple-800 dark:bg-purple-950 dark:text-purple-300'
-    case 'deposit':
+    case 'DEPOSIT':
       return 'border-amber-200 bg-amber-50 text-amber-700 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-300'
     default:
       return 'border-gray-200 bg-gray-50 text-gray-700 dark:border-gray-800 dark:bg-gray-950 dark:text-gray-300'

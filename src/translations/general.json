@@ -155,10 +155,10 @@
         "no_watermark": "No Watermark"
       },
       "paymentTypeOptions": {
-        "card": "Card",
-        "bank_transfer": "Bank transfer",
-        "cash": "Cash",
-        "deposit": "Deposit"
+        "CARD": "Card",
+        "BANK_TRANSFER": "Bank transfer",
+        "CASH": "Cash",
+        "DEPOSIT": "Deposit"
       },
       "expenceTypeOptions": {
         "salary": "Salary",
@@ -436,10 +436,10 @@
         "no_watermark": "Без водяного знака"
       },
       "paymentTypeOptions": {
-        "card": "Карта",
-        "bank_transfer": "Банковский перевод",
-        "cash": "Наличные",
-        "deposit": "Депозит"
+        "CARD": "Карта",
+        "BANK_TRANSFER": "Банковский перевод",
+        "CASH": "Наличные",
+        "DEPOSIT": "Депозит"
       },
       "expenceTypeOptions": {
         "salary": "Зарплата",
@@ -716,10 +716,10 @@
         "no_watermark": "Watermarksiz"
       },
       "paymentTypeOptions": {
-        "card": "Karta",
-        "bank_transfer": "Bank o‘tkazmasi",
-        "cash": "Naqd pul",
-        "deposit": "Depozit"
+        "CARD": "Karta",
+        "BANK_TRANSFER": "Bank o‘tkazmasi",
+        "CASH": "Naqd pul",
+        "DEPOSIT": "Depozit"
       },
       "expenceTypeOptions": {
         "salary": "Ish haqi",

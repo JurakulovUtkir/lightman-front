@@ -24,7 +24,7 @@ export const getFounderExpence = async ({
   search?: string
   type?: 'expence' | 'income' | 'deposit'
   expence_type?: 'salary' | 'avans' | 'project' | 'deposit' | 'other'
-  payment_type?: 'card' | 'bank_transfer' | 'cash' | 'deposit'
+  payment_type?: 'CARD' | 'BANK_TRANSFER' | 'CASH' | 'DEPOSIT'
   distribution_id?: string
   company_id?: string
   project_id?: string
