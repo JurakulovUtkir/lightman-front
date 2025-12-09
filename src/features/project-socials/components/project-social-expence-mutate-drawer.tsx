@@ -99,7 +99,7 @@ export function ProjectSocialExpenceMutateDrawer({
       created_at: z.date().optional(),
       user_id: z.string().optional(),
       deposit_id: z.string().optional(),
-      payment_type: z.enum(['card', 'bank_transfer', 'cash', 'deposit'], {
+      payment_type: z.enum(['CARD', 'BANK_TRANSFER', 'CASH', 'DEPOSIT'], {
         error: 'Required field',
       }),
       amount: z

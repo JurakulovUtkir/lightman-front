@@ -271,7 +271,13 @@
       "duration": "Duration",
       "user_agent": "User Agent",
       "unknown": "Unknown",
-      "error": "Error"
+      "error": "Error",
+      "no_cards_found": "No cards found",
+      "create_first_card": "Create your first card to get started",
+      "card_expired": "Card expires soon! Please renew your card.",
+      "available_balance": "Available Balance",
+      "card_holder": "Card Holder",
+      "expires": "Expires"
     }
   },
   "ru": {
@@ -545,7 +551,13 @@
       "duration": "Длительность",
       "user_agent": "User-Agent",
       "unknown": "Неизвестно",
-      "error": "Ошибка"
+      "error": "Ошибка",
+      "no_cards_found": "Карты не найдены",
+      "create_first_card": "Создайте свою первую карту, чтобы начать",
+      "card_expired": "Срок действия карты скоро истекает! Пожалуйста, продлите карту.",
+      "available_balance": "Доступный баланс",
+      "card_holder": "Держатель карты",
+      "expires": "Срок действия"
     }
   },
   "uz": {
@@ -819,7 +831,13 @@
       "duration": "Davomiylik",
       "user_agent": "User agent",
       "unknown": "Noma’lum",
-      "error": "Xato"
+      "error": "Xato",
+      "no_cards_found": "Karta topilmadi",
+      "create_first_card": "Boshlash uchun birinchi kartangizni yarating",
+      "card_expired": "Kartangizning muddati tez orada tugaydi! Iltimos, kartani yangilang.",
+      "available_balance": "Mavjud balans",
+      "card_holder": "Karta egasi",
+      "expires": "Amal qiladi"
     }
   }
 }

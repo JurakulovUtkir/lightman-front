@@ -11,7 +11,7 @@ const searchSchema = z.object({
     .optional()
     .catch(undefined),
   payment_type: z
-    .enum(['card', 'bank_transfer', 'cash', 'deposit'])
+    .enum(['CARD', 'BANK_TRANSFER', 'CASH', 'DEPOSIT'])
     .optional()
     .catch(undefined),
   distribution_id: z.string().optional().catch(''),

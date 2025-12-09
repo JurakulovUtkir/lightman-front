@@ -96,7 +96,7 @@ export function ProjectMutateDrawer({
           error: t.form_validations.required_field,
         }),
         payment_type: z
-          .enum(['cash', 'card', 'bank_transfer', 'deposit'])
+          .enum(['CASH', 'CARD', 'BANK_TRANSFER', 'DEPOSIT'])
           .optional(),
         is_active: z.boolean().optional(),
         is_qqs: z.boolean().optional(),

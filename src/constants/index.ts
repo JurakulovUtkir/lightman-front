@@ -58,10 +58,10 @@ export const getPriceTypeOptions = (
 export const getPaymentTypeOptions = (
   t: (typeof import('@/translations/general.json'))['en']['columns']
 ) => [
-  { value: 'card', label: t.paymentTypeOptions.card },
-  { value: 'bank_transfer', label: t.paymentTypeOptions.bank_transfer },
-  { value: 'cash', label: t.paymentTypeOptions.cash },
-  { value: 'deposit', label: t.paymentTypeOptions.deposit },
+  { value: 'CARD', label: t.paymentTypeOptions.card },
+  { value: 'BANK_TRANSFER', label: t.paymentTypeOptions.bank_transfer },
+  { value: 'CASH', label: t.paymentTypeOptions.cash },
+  { value: 'DEPOSIT', label: t.paymentTypeOptions.deposit },
 ]
 export const getExpenceTypeOptions = (
   t: (typeof import('@/translations/general.json'))['en']['columns']

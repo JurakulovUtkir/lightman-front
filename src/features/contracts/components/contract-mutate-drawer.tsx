@@ -84,7 +84,7 @@ export function ContractMutateDrawer({
             error: t.form_validations.required_field,
           })
           .min(0, t.form_validations.invalid_value),
-        payment_type: z.enum(['card', 'bank_transfer', 'cash', 'deposit'], {
+        payment_type: z.enum(['CARD', 'BANK_TRANSFER', 'CASH', 'DEPOSIT'], {
           error: t.form_validations.required_field,
         }),
         our_company_id: z.string({

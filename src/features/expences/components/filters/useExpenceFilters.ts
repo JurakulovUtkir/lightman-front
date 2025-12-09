@@ -59,7 +59,7 @@ export const useExpenceFilters = ({
           : '/expences',
       search: (prev) => ({
         ...prev,
-        payment_type: paymentType as 'card' | 'cash' | undefined,
+        payment_type: paymentType as 'CASH' | 'CARD' | undefined,
         offset: 0,
       }),
     })

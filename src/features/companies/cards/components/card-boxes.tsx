@@ -1,17 +1,21 @@
 import React, { useState } from 'react'
 import {
   IconCreditCard,
-  IconCalendar,
-  IconCircleCheck,
-  IconCircleX,
   IconEdit,
-  IconCpu2,
   IconEye,
   IconEyeOff,
+  IconInfoCircle,
+  IconAlertTriangle,
 } from '@tabler/icons-react'
-import { Badge } from '@/components/ui/badge'
+import { useLang } from '@/hooks/useLang'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
 import { CardsSchema } from '../data/schema'
 
 const formatCurrency = (amount: number) => {
@@ -34,7 +38,15 @@ const cardGradients = [
   'bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600',
 ]
 
-const CardBox = ({ card, index }: { card: CardsSchema; index: number }) => {
+const CardBox = ({
+  card,
+  index,
+  t,
+}: {
+  card: CardsSchema
+  index: number
+  t: (typeof import('@/translations/general.json'))['en']['columns']
+}) => {
   const [showBalance, setShowBalance] = useState(true)
   const gradientClass = cardGradients[index % cardGradients.length]
 
@@ -50,11 +62,15 @@ const CardBox = ({ card, index }: { card: CardsSchema; index: number }) => {
     setShowBalance(!showBalance)
   }
 
+  const expiringSoon = isExpiringSoon()
+
   return (
     <div className='group relative max-w-[380px] min-w-[340px]'>
       {/* Bank Card */}
       <div
-        className={`relative h-[220px] overflow-hidden rounded-2xl p-6 shadow-2xl transition-all duration-300 hover:scale-105 hover:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.5)] ${gradientClass}`}
+        className={`relative h-[220px] overflow-hidden rounded-2xl p-6 shadow-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl ${gradientClass} ${
+          expiringSoon ? 'ring-2 ring-yellow-400 ring-offset-2' : ''
+        }`}
       >
         {/* Card Background Pattern */}
         <div className='pointer-events-none absolute inset-0 opacity-10'>
@@ -67,12 +83,62 @@ const CardBox = ({ card, index }: { card: CardsSchema; index: number }) => {
           {/* Header */}
           <div className='flex items-start justify-between'>
             <div className='flex items-center gap-2'>
-              <IconCpu2
-                className='h-10 w-10 text-yellow-300'
-                strokeWidth={1.5}
-              />
+              {/* Active/Inactive Status Indicator */}
+              <div className='flex items-center gap-2'>
+                <div className='relative flex items-center'>
+                  <div
+                    className={`h-3 w-3 rounded-full ${
+                      card.is_active ? 'bg-green-400' : 'bg-red-400'
+                    } animate-pulse`}
+                  ></div>
+                  <div
+                    className={`absolute h-3 w-3 rounded-full ${
+                      card.is_active ? 'bg-green-400' : 'bg-red-400'
+                    } opacity-50 blur-sm`}
+                  ></div>
+                </div>
+                <span className='text-xs font-medium tracking-wide uppercase'>
+                  {card.is_active ? t.active : t.inactive}
+                </span>
+              </div>
             </div>
             <div className='flex gap-1'>
+              {expiringSoon && (
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        size='icon'
+                        variant='ghost'
+                        className='h-8 w-8 text-yellow-300 hover:bg-white/20'
+                      >
+                        <IconAlertTriangle className='h-4 w-4 animate-pulse' />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent className='max-w-xs border-yellow-200 bg-yellow-50 text-yellow-900'>
+                      <p className='text-sm font-medium'>{t.card_expired}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              )}
+              {card.description && (
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        size='icon'
+                        variant='ghost'
+                        className='h-8 w-8 text-white hover:bg-white/20'
+                      >
+                        <IconInfoCircle className='h-4 w-4' />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent className='max-w-xs'>
+                      <p className='text-sm'>{card.description}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              )}
               <Button
                 size='icon'
                 variant='ghost'
@@ -87,7 +153,7 @@ const CardBox = ({ card, index }: { card: CardsSchema; index: number }) => {
           <div className='space-y-1'>
             <div className='flex items-center justify-between'>
               <p className='text-xs tracking-wide text-white/70 uppercase'>
-                Available Balance
+                {t.available_balance}
               </p>
               <Button
                 size='icon'
@@ -107,7 +173,7 @@ const CardBox = ({ card, index }: { card: CardsSchema; index: number }) => {
                 <>
                   {formatCurrency(card.balance)}{' '}
                   <span className='text-base font-normal text-white/80'>
-                    UZS
+                    {t.uzs}
                   </span>
                 </>
               ) : (
@@ -120,7 +186,7 @@ const CardBox = ({ card, index }: { card: CardsSchema; index: number }) => {
           <div className='flex items-end justify-between'>
             <div className='space-y-1'>
               <p className='text-xs tracking-wide text-white/70 uppercase'>
-                Card Holder
+                {t.card_holder}
               </p>
               <p className='truncate text-base font-semibold tracking-wide uppercase'>
                 {card.name}
@@ -128,70 +194,17 @@ const CardBox = ({ card, index }: { card: CardsSchema; index: number }) => {
             </div>
             <div className='space-y-1 text-right'>
               <p className='text-xs tracking-wide text-white/70 uppercase'>
-                Expires
+                {t.expires}
               </p>
-              <p className='font-mono text-base font-semibold'>
+              <p
+                className={`font-mono text-base font-semibold ${expiringSoon ? 'text-yellow-300' : ''}`}
+              >
                 {formatDate(card.expiration_date)}
               </p>
             </div>
           </div>
         </div>
       </div>
-
-      {/* Card Details Below */}
-      <Card className='hover:border-primary/50 mt-4 border-2 transition-all'>
-        <CardContent className='p-4'>
-          <div className='space-y-3'>
-            {/* Status Badge */}
-            <div className='flex items-center justify-between'>
-              <Badge
-                variant={card.is_active ? 'success' : 'destructive'}
-                className='gap-1'
-              >
-                {card.is_active ? (
-                  <>
-                    <IconCircleCheck className='h-3 w-3' />
-                    Active
-                  </>
-                ) : (
-                  <>
-                    <IconCircleX className='h-3 w-3' />
-                    Inactive
-                  </>
-                )}
-              </Badge>
-              {isExpiringSoon() && (
-                <Badge
-                  variant='outline'
-                  className='border-orange-600 text-orange-600'
-                >
-                  Expiring Soon
-                </Badge>
-              )}
-            </div>
-
-            {/* Description */}
-            {card.description && (
-              <p className='text-muted-foreground text-xs'>
-                {card.description}
-              </p>
-            )}
-
-            {/* Last Updated */}
-            <div className='text-muted-foreground flex items-center gap-1.5 border-t pt-3 text-xs'>
-              <IconCalendar className='h-3.5 w-3.5' />
-              <span>
-                Updated:{' '}
-                {new Date(card.updated_at).toLocaleDateString('en-US', {
-                  month: 'short',
-                  day: 'numeric',
-                  year: 'numeric',
-                })}
-              </span>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
     </div>
   )
 }
@@ -201,15 +214,16 @@ export const CardBoxes = ({
 }: {
   data: { data: CardsSchema[]; total: number } | undefined
 }) => {
+  const { lang, general } = useLang()
+  const t = general[lang].columns
+
   if (!data?.data || data?.data?.length === 0) {
     return (
       <Card className='border-dashed'>
         <CardContent className='flex flex-col items-center justify-center py-12'>
           <IconCreditCard className='text-muted-foreground mb-4 h-12 w-12' />
-          <h3 className='mb-2 text-xl font-semibold'>No cards found</h3>
-          <p className='text-muted-foreground text-sm'>
-            Create your first card to get started
-          </p>
+          <h3 className='mb-2 text-xl font-semibold'>{t.no_cards_found}</h3>
+          <p className='text-muted-foreground text-sm'>{t.create_first_card}</p>
         </CardContent>
       </Card>
     )
@@ -218,7 +232,7 @@ export const CardBoxes = ({
   return (
     <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3'>
       {data?.data.map((card, index) => (
-        <CardBox key={card.id} card={card} index={index} />
+        <CardBox key={card.id} card={card} index={index} t={t} />
       ))}
     </div>
   )

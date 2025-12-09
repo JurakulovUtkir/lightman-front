@@ -21,7 +21,7 @@ export const expenceSchema = z.object({
   company_id: z.string(),
   user_id: z.string(),
   deposit_id: z.string(),
-  payment_type: z.enum(['card', 'bank_transfer', 'cash', 'deposit']),
+  payment_type: z.enum(['CARD', 'BANK_TRANSFER', 'CASH', 'DEPOSIT']),
   amount: z.union([z.string(), z.number()]).optional(),
   description: z.string(),
   file_url: z.string(),

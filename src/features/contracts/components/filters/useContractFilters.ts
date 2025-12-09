@@ -50,10 +50,10 @@ export const useContractFilters = () => {
       search: (prev) => ({
         ...prev,
         payment_type: paymentType as
-          | 'card'
-          | 'bank_transfer'
-          | 'cash'
-          | 'deposit'
+          | 'CARD'
+          | 'BANK_TRANSFER'
+          | 'CASH'
+          | 'DEPOSIT'
           | undefined,
         offset: 0,
       }),
