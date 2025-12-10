@@ -99,6 +99,12 @@ export const getProjectSocialStatusOptions = (
   { value: 'pending', label: t.projectSocial.pending },
   { value: 'risked', label: t.projectSocial.risked },
 ]
+export const getDirectionOptions = (
+  t: (typeof import('@/translations/general.json'))['en']['columns']
+) => [
+  { value: 'WE_GAVE', label: t.direction.WE_GAVE },
+  { value: 'WE_TOOK', label: t.direction.WE_TOOK },
+]
 
 export enum PriceType {
   STANDARD = 'standard',

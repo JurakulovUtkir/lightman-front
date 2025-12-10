@@ -131,7 +131,8 @@
       "display": "Display",
       "localization": "Localization",
       "help_center": "Help Center",
-      "cards": "Cards"
+      "cards": "Cards",
+      "loans": "Loans"
     },
     "columns": {
       "statusOptions": {
@@ -189,6 +190,10 @@
       },
       "userStatus": {
         "web-user": "Web user"
+      },
+      "direction": {
+        "WE_GAVE": "We gave",
+        "WE_TOOK": "We took"
       },
       "project_name": "Project name",
       "our_company": "Our company",
@@ -283,7 +288,16 @@
       "available_balance": "Available Balance",
       "card_holder": "Card Holder",
       "expires": "Expires",
-      "posted_date": "Posted date"
+      "posted_date": "Posted date",
+
+      "counterparty": "Counterparty",
+      "direction_name": "Direction",
+      "planned_amount": "Planned amount",
+      "given_amount": "Given amount",
+      "start_date": "Start date",
+      "due_date": "Due date",
+      "closed_date": "Closed date",
+      "notes": "Notes"
     }
   },
   "ru": {
@@ -418,7 +432,8 @@
       "display": "Отображение",
       "localization": "Локализация",
       "help_center": "Центр помощи",
-      "cards": "Карты"
+      "cards": "Карты",
+      "loans": "Займы"
     },
     "columns": {
       "statusOptions": {
@@ -476,6 +491,10 @@
         "deleted": "Удалено",
         "pending": "В ожидании",
         "risked": "Под угрозой"
+      },
+      "direction": {
+        "WE_GAVE": "Мы выдали",
+        "WE_TOOK": "Мы взяли"
       },
       "project_name": "Название проекта",
       "our_company": "Наша компания",
@@ -570,7 +589,15 @@
       "available_balance": "Доступный баланс",
       "card_holder": "Держатель карты",
       "expires": "Срок действия",
-      "posted_date": "Дата публикации"
+      "posted_date": "Дата публикации",
+      "counterparty": "Контрагент",
+      "direction_name": "Направление",
+      "planned_amount": "Плановая сумма",
+      "given_amount": "Выданная сумма",
+      "start_date": "Дата начала",
+      "due_date": "Срок выполнения",
+      "closed_date": "Дата закрытия",
+      "notes": "Заметки"
     }
   },
   "uz": {
@@ -705,7 +732,8 @@
       "display": "Ko‘rsatish",
       "localization": "Lokalizatsiya",
       "help_center": "Yordam markazi",
-      "cards": "Kartalar"
+      "cards": "Kartalar",
+      "loans": "Qarzlar"
     },
     "columns": {
       "statusOptions": {
@@ -763,6 +791,10 @@
         "deleted": "O‘chirildi",
         "pending": "Kutilmoqda",
         "risked": "Xavf ostida"
+      },
+      "direction": {
+        "WE_GAVE": "Biz berdik",
+        "WE_TOOK": "Biz oldik"
       },
       "project_name": "Loyiha nomi",
       "our_company": "Kompaniyamiz",
@@ -857,7 +889,15 @@
       "available_balance": "Mavjud balans",
       "card_holder": "Karta egasi",
       "expires": "Amal qiladi",
-      "posted_date": "E’lon qilingan sana"
+      "posted_date": "E’lon qilingan sana",
+      "counterparty": "Kontragent",
+      "direction_name": "Yo‘nalish",
+      "planned_amount": "Rejalashtirilgan summa",
+      "given_amount": "Berilgan summa",
+      "start_date": "Boshlanish sanasi",
+      "due_date": "Tugash sanasi",
+      "closed_date": "Yopilgan sana",
+      "notes": "Eslatmalar"
     }
   }
 }

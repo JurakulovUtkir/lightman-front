@@ -341,8 +341,8 @@ export function ProjectSocialMutateDrawer({
                     <FormFieldSelect
                       control={form.control}
                       name='project_social_status_type'
-                      label={t.form_labels.expence_type}
-                      placeholder={t.form_placeholders.select_type}
+                      label={t.form_labels.status}
+                      placeholder={t.form_placeholders.select_status}
                       options={getProjectSocialStatusOptions(t_general)}
                     />
                   </div>

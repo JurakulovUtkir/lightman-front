@@ -30,8 +30,6 @@ const Cards = () => {
     limit: currentLimit,
     // search: debouncedSearch.length >= 2 ? debouncedSearch : undefined,
   })
-  // eslint-disable-next-line no-console
-  console.log('data', data)
 
   return (
     <CardsProvider>

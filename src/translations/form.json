@@ -97,7 +97,16 @@
       "card_name": "Card name",
       "expiration_date": "Expiration date",
       "clone": "Clone",
-      "posted_date": "Posted date"
+      "posted_date": "Posted date",
+      "status": "Status",
+      "direction": "Direction",
+      "counterparty": "Counterparty name",
+      "planned_amount": "Planned amount",
+      "given_amount": "Given amount",
+      "notes": "Notes",
+      "start_date": "Start date",
+      "due_date": "Due date",
+      "closed_date": "Closed date"
     },
     "form_placeholders": {
       "select_project": "Select project",
@@ -127,7 +136,12 @@
       "select_role": "Select a role",
       "enter_salary": "Enter salary",
       "leave_blank": "Leave blank to keep current password",
-      "enter_balance": "Enter a balance"
+      "enter_balance": "Enter a balance",
+      "select_status": "Select status",
+      "select_direction": "Select direction",
+      "enter_counterparty": "Enter counterparty name",
+      "enter_planned_amount": "Enter planned amount",
+      "enter_given_amount": "Enter given amount"
     },
     "form_validations": {
       "required_field": "Required field",
@@ -171,7 +185,14 @@
       "password_length": "Password must be at least 6 characters long.",
       "password_lowercase": "Password must contain at least one lowercase letter.",
       "password_number": "Password must contain at least one number.",
-      "password_not_match": "Passwords don't match."
+      "password_not_match": "Passwords don't match.",
+
+      "direction": "Direction is required",
+      "enter_a_direction": "Enter a direction",
+      "invalid_direction": "Direction cannot exceed 150 characters",
+      "counterparty": "Counterparty name is required",
+      "enter_a_counterparty": "Enter a counterparty name",
+      "invalid_counterparty": "Counterparty name cannot exceed 150 characters"
     },
     "buttons": {
       "save": "Save",
@@ -291,7 +312,16 @@
       "card_name": "Название карты",
       "expiration_date": "Срок действия",
       "clone": "Клон",
-      "posted_date": "Дата публикации"
+      "posted_date": "Дата публикации",
+      "status": "Статус",
+      "direction": "Направление",
+      "counterparty": "Название контрагента",
+      "planned_amount": "Плановая сумма",
+      "given_amount": "Выданная сумма",
+      "notes": "Заметки",
+      "start_date": "Дата начала",
+      "due_date": "Срок выполнения",
+      "closed_date": "Дата закрытия"
     },
     "form_placeholders": {
       "select_project": "Выберите проект",
@@ -321,7 +351,12 @@
       "select_role": "Выберите роль",
       "enter_salary": "Введите зарплату",
       "leave_blank": "Оставьте пустым, чтобы сохранить текущий пароль",
-      "enter_balance": "Введите баланс"
+      "enter_balance": "Введите баланс",
+      "select_status": "Выберите статус",
+      "select_direction": "Выберите направление",
+      "enter_counterparty": "Введите название контрагента",
+      "enter_planned_amount": "Введите плановую сумму",
+      "enter_given_amount": "Введите выданную сумму"
     },
     "form_validations": {
       "required_field": "Обязательное поле",
@@ -365,7 +400,13 @@
       "password_length": "Password must be at least 6 characters long.",
       "password_lowercase": "Password must contain at least one lowercase letter.",
       "password_number": "Password must contain at least one number.",
-      "password_not_match": "Passwords don't match."
+      "password_not_match": "Passwords don't match.",
+      "direction": "Необходимо указать направление",
+      "enter_a_direction": "Введите направление",
+      "invalid_direction": "Направление не может превышать 150 символов",
+      "counterparty": "Необходимо указать название контрагента",
+      "enter_a_counterparty": "Введите название контрагента",
+      "invalid_counterparty": "Название контрагента не может превышать 150 символов"
     },
     "buttons": {
       "save": "Сохранить",
@@ -485,7 +526,16 @@
       "card_name": "Karta nomi",
       "expiration_date": "Amal qilish muddati",
       "clone": "Klon",
-      "posted_date": "E’lon qilingan sana"
+      "posted_date": "E’lon qilingan sana",
+      "status": "Holat",
+      "direction": "Yo‘nalish",
+      "counterparty": "Kontragent nomi",
+      "planned_amount": "Rejalashtirilgan summa",
+      "given_amount": "Berilgan summa",
+      "notes": "Eslatmalar",
+      "start_date": "Boshlanish sanasi",
+      "due_date": "Tugash sanasi",
+      "closed_date": "Yopilgan sana"
     },
     "form_placeholders": {
       "select_project": "Loyihani tanlang",
@@ -515,7 +565,12 @@
       "select_role": "Rolni tanlang",
       "enter_salary": "Maoshni kiriting",
       "leave_blank": "Joriy parolni saqlab qolish uchun bo‘sh qoldiring",
-      "enter_balance": "Balansni kiriting"
+      "enter_balance": "Balansni kiriting",
+      "select_status": "Holatni tanlang",
+      "select_direction": "Yo‘nalishni tanlang",
+      "enter_counterparty": "Kontragent nomini kiriting",
+      "enter_planned_amount": "Rejalashtirilgan summani kiriting",
+      "enter_given_amount": "Berilgan summani kiriting"
     },
     "form_validations": {
       "required_field": "Majburiy maydon",
@@ -559,7 +614,13 @@
       "password_length": "Пароль должен содержать не менее 6 символов.",
       "password_lowercase": "Пароль должен содержать хотя бы одну строчную букву.",
       "password_number": "Пароль должен содержать хотя бы одну цифру.",
-      "password_not_match": "Пароли не совпадают."
+      "password_not_match": "Пароли не совпадают.",
+      "direction": "Yo‘nalish kiritilishi shart",
+      "enter_a_direction": "Yo‘nalishni kiriting",
+      "invalid_direction": "Yo‘nalish 150 belgidan oshmasligi kerak",
+      "counterparty": "Kontragent nomi kiritilishi shart",
+      "enter_a_counterparty": "Kontragent nomini kiriting",
+      "invalid_counterparty": "Kontragent nomi 150 belgidan oshmasligi kerak"
     },
     "buttons": {
       "save": "Saqlash",

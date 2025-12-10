@@ -9,6 +9,7 @@ import expenceJson from '@/translations/expence.json'
 import formJson from '@/translations/form.json'
 import founderJson from '@/translations/founder.json'
 import generalJson from '@/translations/general.json'
+import loanJson from '@/translations/loan.json'
 import networkJson from '@/translations/network.json'
 import projectJson from '@/translations/project.json'
 import userJson from '@/translations/user.json'
@@ -51,6 +52,7 @@ export const useLang = () => {
   const tDistributor = distributorJson
   const tUser = userJson
   const tCard = cardJson
+  const tLoan = loanJson
 
   return {
     lang,
@@ -69,5 +71,6 @@ export const useLang = () => {
     tDistributor,
     tUser,
     tCard,
+    tLoan,
   }
 }

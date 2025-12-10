@@ -1,0 +1,41 @@
+{
+  "en": {
+    "loans": "Loans",
+    "list_loans": "Here's a list of loans!",
+    "search_by_loan": "Search by loan",
+    "create_loan": "Create loan",
+    "create_desc": "Add a new Loan by providing necessary info.",
+    "update_loan": "Update loan",
+    "update_desc": "Update the Loan by providing necessary info.",
+    "create": "Create",
+    "click_save": "Click save when you're done.",
+    "delete_title": "Delete this Loan with the amount: {{amount}} ?",
+    "delete_confirm": "You are about to delete a Loan with the amount {{amount}}"
+  },
+  "ru": {
+    "loans": "Займы",
+    "list_loans": "Вот список займов!",
+    "search_by_loan": "Поиск по займу",
+    "create_loan": "Создать займ",
+    "create_desc": "Добавьте новый займ, предоставив необходимую информацию.",
+    "update_loan": "Обновить займ",
+    "update_desc": "Обновите займ, предоставив необходимую информацию.",
+    "create": "Создать",
+    "click_save": "Нажмите «Сохранить», когда закончите.",
+    "delete_title": "Удалить этот займ на сумму: {{amount}}?",
+    "delete_confirm": "Вы собираетесь удалить займ на сумму {{amount}}"
+  },
+  "uz": {
+    "loans": "Qarzlar",
+    "list_loans": "Qarzlar ro‘yxati!",
+    "search_by_loan": "Qarzni qidirish",
+    "create_loan": "Qarz yaratish",
+    "create_desc": "Zarur ma'lumotlarni kiritib yangi qarz qo‘shing.",
+    "update_loan": "Qarzni yangilash",
+    "update_desc": "Kerakli ma'lumotlarni kiritib qarzni yangilang.",
+    "create": "Yaratish",
+    "click_save": "Tugatganingizdan so‘ng «Saqlash» tugmasini bosing.",
+    "delete_title": "Ushbu qarzni {{amount}} summa bilan o‘chirmoqchimisiz?",
+    "delete_confirm": "Siz {{amount}} summadagi qarzni o‘chirmoqchisiz"
+  }
+}
