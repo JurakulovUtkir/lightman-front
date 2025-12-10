@@ -213,7 +213,7 @@ export const columns = (
   {
     accessorKey: 'created_at',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title={t.created_at} />
+      <DataTableColumnHeader column={column} title={t.posted_date} />
     ),
     cell: ({ row }) => {
       const createdAt = row.original.created_at
@@ -226,22 +226,22 @@ export const columns = (
     enableSorting: false,
     enableHiding: false,
   },
-  {
-    accessorKey: 'updated_at',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title={t.updated_at} />
-    ),
-    cell: ({ row }) => {
-      const updatedAt = row.original.updated_at
-      return (
-        <div className='whitespace-nowrap'>
-          <FormatDateToLongString dateString={updatedAt} />
-        </div>
-      )
-    },
-    enableSorting: false,
-    enableHiding: false,
-  },
+  // {
+  //   accessorKey: 'updated_at',
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader column={column} title={t.updated_at} />
+  //   ),
+  //   cell: ({ row }) => {
+  //     const updatedAt = row.original.updated_at
+  //     return (
+  //       <div className='whitespace-nowrap'>
+  //         <FormatDateToLongString dateString={updatedAt} />
+  //       </div>
+  //     )
+  //   },
+  //   enableSorting: false,
+  //   enableHiding: false,
+  // },
   // {
   //   id: 'actions',
   //   cell: ({ row }) => <DataTableRowActions row={row} />,

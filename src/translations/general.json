@@ -181,10 +181,15 @@
         "accountant": "Accountant",
         "account_manager": "Account manager"
       },
+      "projectSocial": {
+        "posted": "Posted",
+        "deleted": "Deleted",
+        "pending": "Pending",
+        "risked": "Risked"
+      },
       "userStatus": {
         "web-user": "Web user"
       },
-
       "project_name": "Project name",
       "our_company": "Our company",
       "customer": "Customer",
@@ -277,7 +282,8 @@
       "card_expired": "Card expires soon! Please renew your card.",
       "available_balance": "Available Balance",
       "card_holder": "Card Holder",
-      "expires": "Expires"
+      "expires": "Expires",
+      "posted_date": "Posted date"
     }
   },
   "ru": {
@@ -465,6 +471,12 @@
       "userStatus": {
         "web-user": "Веб-пользователь"
       },
+      "projectSocial": {
+        "posted": "Опубликовано",
+        "deleted": "Удалено",
+        "pending": "В ожидании",
+        "risked": "Под угрозой"
+      },
       "project_name": "Название проекта",
       "our_company": "Наша компания",
       "customer": "Клиент",
@@ -557,7 +569,8 @@
       "card_expired": "Срок действия карты скоро истекает! Пожалуйста, продлите карту.",
       "available_balance": "Доступный баланс",
       "card_holder": "Держатель карты",
-      "expires": "Срок действия"
+      "expires": "Срок действия",
+      "posted_date": "Дата публикации"
     }
   },
   "uz": {
@@ -745,6 +758,12 @@
       "userStatus": {
         "web-user": "Veb foydalanuvchi"
       },
+      "projectSocial": {
+        "posted": "Joylandi",
+        "deleted": "O‘chirildi",
+        "pending": "Kutilmoqda",
+        "risked": "Xavf ostida"
+      },
       "project_name": "Loyiha nomi",
       "our_company": "Kompaniyamiz",
       "customer": "Mijoz",
@@ -837,7 +856,8 @@
       "card_expired": "Kartangizning muddati tez orada tugaydi! Iltimos, kartani yangilang.",
       "available_balance": "Mavjud balans",
       "card_holder": "Karta egasi",
-      "expires": "Amal qiladi"
+      "expires": "Amal qiladi",
+      "posted_date": "E’lon qilingan sana"
     }
   }
 }

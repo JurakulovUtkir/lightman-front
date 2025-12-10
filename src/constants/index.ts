@@ -91,6 +91,14 @@ export const getUserRoleOptions = (
   { value: 'accountant', label: t.userRoleOptions.accountant },
   { value: 'account_manager', label: t.userRoleOptions.account_manager },
 ]
+export const getProjectSocialStatusOptions = (
+  t: (typeof import('@/translations/general.json'))['en']['columns']
+) => [
+  { value: 'posted', label: t.projectSocial.posted },
+  { value: 'deleted', label: t.projectSocial.deleted },
+  { value: 'pending', label: t.projectSocial.pending },
+  { value: 'risked', label: t.projectSocial.risked },
+]
 
 export enum PriceType {
   STANDARD = 'standard',
@@ -121,4 +129,11 @@ export enum UserRoles {
   EMPLOYEE = 'employee',
   ACCOUNTANT = 'accountant',
   ACCOUNT_MANAGER = 'account_manager',
+}
+
+export enum ProjectSocialStatusType {
+  POSTED = 'posted',
+  DELETED = 'deleted',
+  PENDING = 'pending',
+  RISKED = 'risked',
 }

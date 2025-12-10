@@ -1,5 +1,6 @@
 import { useSearch } from '@tanstack/react-router'
 import { useLang } from '@/hooks/useLang'
+import { CustomPagination } from '@/components/custom-pagination'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
@@ -65,6 +66,13 @@ const Cards = () => {
         <div className='-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-y-0 lg:space-x-12'>
           <CardBoxes data={data?.data} />
         </div>
+        {data?.data.total ? (
+          <CustomPagination
+            offset={currentOffset}
+            limit={currentLimit}
+            total={data.data.total}
+          />
+        ) : null}
       </Main>
       <CardDialogs />
     </CardsProvider>

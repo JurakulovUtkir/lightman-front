@@ -95,7 +95,9 @@
       "password": "Password",
       "confirm_password": "Confirm Password",
       "card_name": "Card name",
-      "expiration_date": "Expiration date"
+      "expiration_date": "Expiration date",
+      "clone": "Clone",
+      "posted_date": "Posted date"
     },
     "form_placeholders": {
       "select_project": "Select project",
@@ -187,7 +189,8 @@
       "failed_to_remove": "Failed to remove file",
       "unable_delete_previous": "Unable to delete previous file",
       "total_percentage": "Total percentage would be {{finalPercentage}}%. Maximum is 100%.",
-      "unable_find_distribution": "Unable to find Distribution ID"
+      "unable_find_distribution": "Unable to find Distribution ID",
+      "failed_create_expence": "Failed to create expence to this project social!"
     }
   },
   "ru": {
@@ -286,7 +289,9 @@
       "password": "Пароль",
       "confirm_password": "Подтвердите пароль",
       "card_name": "Название карты",
-      "expiration_date": "Срок действия"
+      "expiration_date": "Срок действия",
+      "clone": "Клон",
+      "posted_date": "Дата публикации"
     },
     "form_placeholders": {
       "select_project": "Выберите проект",
@@ -378,7 +383,8 @@
       "failed_to_remove": "Не удалось удалить файл",
       "unable_delete_previous": "Не удалось удалить предыдущий файл",
       "total_percentage": "Общий процент будет {{finalPercentage}}%. Максимум — 100%.",
-      "unable_find_distribution": "Не удалось найти идентификатор распределения"
+      "unable_find_distribution": "Не удалось найти идентификатор распределения",
+      "failed_create_expence": "Не удалось создать расход для этого социального проекта!"
     }
   },
   "uz": {
@@ -477,7 +483,9 @@
       "password": "Parol",
       "confirm_password": "Parolni tasdiqlang",
       "card_name": "Karta nomi",
-      "expiration_date": "Amal qilish muddati"
+      "expiration_date": "Amal qilish muddati",
+      "clone": "Klon",
+      "posted_date": "E’lon qilingan sana"
     },
     "form_placeholders": {
       "select_project": "Loyihani tanlang",
@@ -569,7 +577,8 @@
       "failed_to_remove": "Faylni o‘chirish muvaffaqiyatsiz tugadi",
       "unable_delete_previous": "Oldingi faylni o‘chirishning iloji yo‘q",
       "total_percentage": "Umumiy foiz {{finalPercentage}}% bo‘ladi. Maksimal qiymat 100%.",
-      "unable_find_distribution": "Ta’qsimot ID sini topib bo‘lmadi"
+      "unable_find_distribution": "Ta’qsimot ID sini topib bo‘lmadi",
+      "failed_create_expence": "Ushbu social loyiha uchun xarajat yaratib bo‘lmadi!"
     }
   }
 }

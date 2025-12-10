@@ -41,13 +41,13 @@ import { FormFieldSelect } from '@/components/form-field-select'
 import { FormFieldWrapper } from '@/components/form-field-wrapper'
 import { FormFileUploadField } from '@/features/project-socials/components/form-file-upload'
 import { useDeleteFile } from '@/features/project-socials/data/hooks'
-import { FormComboboxProject } from '@/features/projects/components/form-combobox-projects'
 import { useDistributions } from '@/features/stakeholder/distributions/data/hooks'
 import { ExpenceDialogType } from '../context'
 import { useCreateExpence, useUpdateExpence } from '../data/hooks'
 import { ExpenceSchema } from '../data/schema'
 import { FormComboboxCompany } from './form-combobox-company'
 import { FormComboboxDeposit } from './form-combobox-deposit'
+import { FormComboboxProject } from './form-combobox-projects'
 import { FormComboboxUser } from './form-combobox-users'
 
 interface Props {
@@ -367,7 +367,7 @@ export function ExpenceMutateDrawer({
                 control={form.control}
                 name='created_at'
                 render={({ field }) => (
-                  <FormItem className='flex flex-col'>
+                  <FormItem className='flex flex-col space-y-1'>
                     <FormLabel>{t.form_labels.creation_date}</FormLabel>
                     <Popover open={openDate} onOpenChange={setOpenDate}>
                       <PopoverTrigger asChild>

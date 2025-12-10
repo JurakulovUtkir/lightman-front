@@ -1,12 +1,28 @@
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { IconCalendar } from '@tabler/icons-react'
+import { getProjectSocialStatusOptions } from '@/constants'
 import { Route } from '@/routes/_authenticated/projects/socials/$id'
 import { toast } from 'sonner'
+import { cn } from '@/lib/utils'
 import { useLang } from '@/hooks/useLang'
 import { Button } from '@/components/ui/button'
-import { Form } from '@/components/ui/form'
+import { Calendar } from '@/components/ui/calendar'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover'
 import {
   Sheet,
   SheetContent,
@@ -15,6 +31,8 @@ import {
   SheetHeader,
   SheetTitle,
 } from '@/components/ui/sheet'
+import { FormatDateToLongString } from '@/components/date-formatter'
+import { FormFieldSelect } from '@/components/form-field-select'
 import { FormFieldWrapper } from '@/components/form-field-wrapper'
 import { FormComboboxNetworkTypes } from '@/features/network/socials/components/form-combobox-network-types'
 import { NetworkTypeSchema } from '@/features/network/types/data/schema'
@@ -48,8 +66,10 @@ export function ProjectSocialMutateDrawer({
   const createProjectSocial = useCreateProjectSocial()
   const updateProjectSocial = useUpdateProjectSocial()
   const isUpdate = !!currentRow
-  const { lang, tForm, tProject } = useLang()
+  const { lang, tForm, tProject, general } = useLang()
   const t = tForm[lang]
+  const [openDate, setOpenDate] = useState(false)
+  const t_general = general[lang].columns
 
   const formSchema = useMemo(
     () =>
@@ -74,9 +94,14 @@ export function ProjectSocialMutateDrawer({
         post_views: z.number().optional().nullable(),
         payment: z.string().nullable().optional(),
         post_screenshot: z.string().nullable().optional(),
-
         post_count: z.number().optional(),
+
+        created_at: z.date().optional(),
+        project_social_status_type: z
+          .enum(['posted', 'deleted', 'pending', 'risked'])
+          .optional(),
       }),
+
     [t]
   )
 
@@ -158,7 +183,7 @@ export function ProjectSocialMutateDrawer({
         form.reset()
       }}
     >
-      <SheetContent className='flex flex-col'>
+      <SheetContent className='flex flex-col sm:max-w-[540px]'>
         <SheetHeader className='text-left'>
           <SheetTitle>
             {isUpdate
@@ -179,72 +204,148 @@ export function ProjectSocialMutateDrawer({
               onSubmit={form.handleSubmit(onSubmit)}
               className='flex-1 space-y-5 px-4'
             >
-              <FormComboboxNetworkTypes
-                name='network_type_id'
-                label={t.form_labels.network_type}
-                control={form.control}
-                detail={
-                  currentRow?.social.social_network_type as
-                    | NetworkTypeSchema
-                    | undefined
-                }
-              />
-              <FormComboboxNetworkSocial
-                name='social_id'
-                label={t.form_labels.social_network}
-                control={form.control}
-                detail={currentRow?.social ?? undefined}
-                socialNetworkTypeId={selectedNetworkTypeId}
-                disabled={!selectedNetworkTypeId}
-                setValue={form.setValue}
-                priceType={
-                  project?.price_type as
-                    | 'standard'
-                    | 'vip'
-                    | 'no_watermark'
-                    | undefined
-                }
-              />
-              {!isUpdate && (
-                <FormFieldWrapper
+              <div className='grid grid-cols-1 items-baseline gap-4 sm:grid-cols-2'>
+                <FormComboboxNetworkTypes
+                  name='network_type_id'
+                  label={t.form_labels.network_type}
                   control={form.control}
-                  name='post_count'
-                  label={t.form_labels.post_count}
-                  placeholder={t.form_placeholders.enter_count}
-                  type='number'
+                  detail={
+                    currentRow?.social.social_network_type as
+                      | NetworkTypeSchema
+                      | undefined
+                  }
                 />
-              )}
-              <FormFieldWrapper
-                control={form.control}
-                name='buy_price'
-                label={t.form_labels.buy_price}
-                placeholder={t.form_placeholders.enter_price}
-                type='number'
-                suffix={t.form_placeholders.uzs}
-              />
-              <FormFieldWrapper
-                control={form.control}
-                name='sell_price'
-                label={t.form_labels.sell_price}
-                placeholder={t.form_placeholders.enter_price}
-                type='number'
-                suffix={t.form_placeholders.uzs}
-              />
-              {isUpdate && (
-                <>
+                <FormComboboxNetworkSocial
+                  name='social_id'
+                  label={t.form_labels.social_network}
+                  control={form.control}
+                  detail={currentRow?.social ?? undefined}
+                  socialNetworkTypeId={selectedNetworkTypeId}
+                  disabled={!selectedNetworkTypeId}
+                  setValue={form.setValue}
+                  priceType={
+                    project?.price_type as
+                      | 'standard'
+                      | 'vip'
+                      | 'no_watermark'
+                      | undefined
+                  }
+                />
+                {!isUpdate && (
                   <FormFieldWrapper
                     control={form.control}
-                    name='post_link'
-                    label={t.form_labels.post_link}
-                    placeholder={t.form_placeholders.enter_link}
-                  />
-                  <FormFieldWrapper
-                    control={form.control}
-                    name='post_views'
-                    label={t.form_labels.post_views}
-                    placeholder={t.form_placeholders.enter_views}
+                    name='post_count'
+                    label={t.form_labels.post_count}
+                    placeholder={t.form_placeholders.enter_count}
                     type='number'
                   />
+                )}
+                <FormFieldWrapper
+                  control={form.control}
+                  name='buy_price'
+                  label={t.form_labels.buy_price}
+                  placeholder={t.form_placeholders.enter_price}
+                  type='number'
+                  suffix={t.form_placeholders.uzs}
+                />
+                <FormFieldWrapper
+                  control={form.control}
+                  name='sell_price'
+                  label={t.form_labels.sell_price}
+                  placeholder={t.form_placeholders.enter_price}
+                  type='number'
+                  suffix={t.form_placeholders.uzs}
+                />
+              </div>
+              {isUpdate && (
+                <>
+                  <div className='grid grid-cols-1 items-baseline gap-4 sm:grid-cols-2'>
+                    <FormFieldWrapper
+                      control={form.control}
+                      name='post_link'
+                      label={t.form_labels.post_link}
+                      placeholder={t.form_placeholders.enter_link}
+                    />
+                    <FormFieldWrapper
+                      control={form.control}
+                      name='post_views'
+                      label={t.form_labels.post_views}
+                      placeholder={t.form_placeholders.enter_views}
+                      type='number'
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name='created_at'
+                      render={({ field }) => (
+                        <FormItem className='flex flex-col space-y-1'>
+                          <FormLabel>{t.form_labels.posted_date}</FormLabel>
+                          <Popover open={openDate} onOpenChange={setOpenDate}>
+                            <PopoverTrigger asChild>
+                              <FormControl>
+                                <Button
+                                  variant={'outline'}
+                                  className={cn(
+                                    'text-left font-normal',
+                                    !field.value && 'text-muted-foreground'
+                                  )}
+                                  onClick={() => setOpenDate(true)}
+                                >
+                                  {field.value ? (
+                                    <FormatDateToLongString
+                                      dateString={field.value}
+                                    />
+                                  ) : (
+                                    <span>{t.form_labels.posted_date}</span>
+                                  )}
+                                  <IconCalendar className='ml-auto h-4 w-4 opacity-50' />
+                                </Button>
+                              </FormControl>
+                            </PopoverTrigger>
+                            <PopoverContent
+                              className='w-auto p-0'
+                              align='start'
+                            >
+                              <Calendar
+                                mode='single'
+                                selected={field.value}
+                                onSelect={(date) => {
+                                  field.onChange(date)
+                                  setOpenDate(false)
+                                }}
+                                startMonth={
+                                  new Date(new Date().getFullYear() - 1, 0, 1)
+                                }
+                                endMonth={
+                                  new Date(
+                                    new Date().getFullYear() + 10,
+                                    11,
+                                    31
+                                  )
+                                }
+                                captionLayout='dropdown'
+                                disabled={(date) => {
+                                  const oneWeekAgo = new Date()
+                                  oneWeekAgo.setDate(oneWeekAgo.getDate() - 7)
+                                  oneWeekAgo.setHours(0, 0, 0, 0)
+                                  return date < oneWeekAgo
+                                }}
+                              />
+                            </PopoverContent>
+                          </Popover>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormFieldSelect
+                      control={form.control}
+                      name='project_social_status_type'
+                      label={t.form_labels.expence_type}
+                      placeholder={t.form_placeholders.select_type}
+                      options={getProjectSocialStatusOptions(t_general)}
+                    />
+                  </div>
 
                   <FormFileUploadField
                     control={form.control}

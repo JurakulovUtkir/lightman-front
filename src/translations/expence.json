@@ -1,6 +1,7 @@
 {
   "en": {
     "expences": "Expences",
+    "expence": "Expence",
     "list_expences": "Here's a list of expences!",
     "search_by_expence": "Search by expence",
     "create_expence": "Create expence",
@@ -14,6 +15,7 @@
   },
   "ru": {
     "expences": "Расходы",
+    "expence": "Расход",
     "list_expences": "Список расходов!",
     "search_by_expence": "Поиск по расходу",
     "create_expence": "Создать расход",
@@ -27,6 +29,7 @@
   },
   "uz": {
     "expences": "Xarajatlar",
+    "expence": "Xarajat",
     "list_expences": "Xarajatlar ro‘yxati!",
     "search_by_expence": "Xarajat bo‘yicha qidirish",
     "create_expence": "Xarajat yaratish",

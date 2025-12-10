@@ -126,9 +126,7 @@ export const FormComboboxProject = <T extends FieldValues>({
                       !field.value && 'text-muted-foreground'
                     )}
                   >
-                    {field.value
-                      ? `${displayLabel} (${t.clone})`
-                      : t.select_value}
+                    {field.value ? displayLabel : t.select_value}
                     <IconSelector className='opacity-50' />
                   </Button>
                 </FormControl>

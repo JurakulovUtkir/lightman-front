@@ -13,7 +13,10 @@ export const projectSocialSchema = z.object({
   post_screenshot: z.string().optional().nullable(),
   is_paid: z.boolean(),
   updated_at: z.string(),
-  created_at: z.string(),
+  created_at: z.date(),
+  project_social_status_type: z
+    .enum(['posted', 'deleted', 'pending', 'risked'])
+    .optional(),
   social: networkSocialSchema,
 })
 export type ProjectSocialSchema = z.infer<typeof projectSocialSchema>

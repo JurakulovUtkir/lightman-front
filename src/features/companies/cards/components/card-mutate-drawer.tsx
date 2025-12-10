@@ -201,7 +201,7 @@ export function CardMutateDrawer({
                 control={form.control}
                 name='expiration_date'
                 render={({ field }) => (
-                  <FormItem className='flex flex-col'>
+                  <FormItem className='flex flex-col space-y-1'>
                     <FormLabel>{t.form_labels.expiration_date}</FormLabel>
                     <Popover open={openDate} onOpenChange={setOpenDate}>
                       <PopoverTrigger asChild>
