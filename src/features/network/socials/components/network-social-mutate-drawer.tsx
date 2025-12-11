@@ -116,6 +116,7 @@ export function NetworkSocialMutateDrawer({
       vip_sell_price: toNumber(currentRow?.vip_sell_price),
       no_watermark_sell_price: toNumber(currentRow?.no_watermark_sell_price),
       tags: currentRow?.tags || [],
+      category_id: currentRow?.category_id ?? undefined,
     },
   })
 

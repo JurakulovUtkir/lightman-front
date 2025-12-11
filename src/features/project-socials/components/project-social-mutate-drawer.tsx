@@ -234,15 +234,7 @@ export function ProjectSocialMutateDrawer({
                       | undefined
                   }
                 />
-                {!isUpdate && (
-                  <FormFieldWrapper
-                    control={form.control}
-                    name='post_count'
-                    label={t.form_labels.post_count}
-                    placeholder={t.form_placeholders.enter_count}
-                    type='number'
-                  />
-                )}
+
                 <FormFieldWrapper
                   control={form.control}
                   name='buy_price'
@@ -259,6 +251,15 @@ export function ProjectSocialMutateDrawer({
                   type='number'
                   suffix={t.form_placeholders.uzs}
                 />
+                {!isUpdate && (
+                  <FormFieldWrapper
+                    control={form.control}
+                    name='post_count'
+                    label={t.form_labels.post_count}
+                    placeholder={t.form_placeholders.enter_count}
+                    type='number'
+                  />
+                )}
               </div>
               {isUpdate && (
                 <>
@@ -328,10 +329,12 @@ export function ProjectSocialMutateDrawer({
                                 }
                                 captionLayout='dropdown'
                                 disabled={(date) => {
-                                  const oneWeekAgo = new Date()
-                                  oneWeekAgo.setDate(oneWeekAgo.getDate() - 7)
-                                  oneWeekAgo.setHours(0, 0, 0, 0)
-                                  return date < oneWeekAgo
+                                  const twoMonthsAgo = new Date()
+                                  twoMonthsAgo.setMonth(
+                                    twoMonthsAgo.getMonth() - 2
+                                  )
+                                  twoMonthsAgo.setHours(0, 0, 0, 0)
+                                  return date < twoMonthsAgo
                                 }}
                               />
                             </PopoverContent>

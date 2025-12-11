@@ -110,7 +110,7 @@ const ProjectSocials = () => {
             </h2>
             <p className='text-muted-foreground'>{t.list_project_socials}</p>
           </div>
-          <ProjectSocialPrimaryButtons id={id} />
+          <ProjectSocialPrimaryButtons project={project} />
         </div>
         {data && data?.data?.length > 0 && (
           <PriceCards data={data} statistics={statistics?.data} />

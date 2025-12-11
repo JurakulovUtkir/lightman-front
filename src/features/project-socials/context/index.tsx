@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import useDialogState from '@/hooks/use-dialog-state'
+import { ProjectSchema } from '@/features/projects/data/schema'
 import { ProjectSocialSchema } from '../data/schema'
 
 export type ProjectSocialDialogType =
@@ -8,6 +9,7 @@ export type ProjectSocialDialogType =
   | 'delete'
   | 'import'
   | 'paid'
+  | 'status'
 
 interface ProjectSocialContextType {
   open: ProjectSocialDialogType | null
@@ -16,6 +18,8 @@ interface ProjectSocialContextType {
   setCurrentRow: React.Dispatch<
     React.SetStateAction<ProjectSocialSchema | null>
   >
+  projectData: ProjectSchema | null
+  setProjectData: React.Dispatch<React.SetStateAction<ProjectSchema | null>>
 }
 
 const ProjectSocialContext =
@@ -28,9 +32,17 @@ interface Props {
 export default function ProjectSocialProvider({ children }: Props) {
   const [open, setOpen] = useDialogState<ProjectSocialDialogType>(null)
   const [currentRow, setCurrentRow] = useState<ProjectSocialSchema | null>(null)
+  const [projectData, setProjectData] = useState<ProjectSchema | null>(null)
   return (
     <ProjectSocialContext.Provider
-      value={{ open, setOpen, currentRow, setCurrentRow }}
+      value={{
+        open,
+        setOpen,
+        currentRow,
+        setCurrentRow,
+        projectData,
+        setProjectData,
+      }}
     >
       {children}
     </ProjectSocialContext.Provider>

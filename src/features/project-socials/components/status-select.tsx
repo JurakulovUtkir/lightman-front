@@ -9,13 +9,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { useProjectContext } from '../context'
-import { ProjectSchema } from '../data/schema'
+import { ProjectSchema } from '@/features/projects/data/schema'
+import { useProjectSocialContext } from '../context'
 
 const StatusSelect = ({ project }: { project: ProjectSchema }) => {
   const { lang, general } = useLang()
   const t = general[lang].columns
-  const { setOpen, setCurrentRow } = useProjectContext()
+  const { setOpen, setProjectData } = useProjectSocialContext()
 
   // Remove local state - use project.status directly
   const status = project.status as ProjectStatus
@@ -45,7 +45,7 @@ const StatusSelect = ({ project }: { project: ProjectSchema }) => {
     const statusValue = newStatus as ProjectStatus
 
     // Set the pending status and open confirmation dialog
-    setCurrentRow({
+    setProjectData({
       ...project,
       pendingStatus: statusValue,
     })

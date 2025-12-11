@@ -103,6 +103,18 @@ export const useUpdateProject = () => {
     },
   })
 }
+export const useUpdateProjectStatus = () => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: ({ id, data }: { id: string; data: Partial<ProjectSchema> }) =>
+      updateProject(id, data),
+    onSuccess: (_, variables) => {
+      queryClient.invalidateQueries({ queryKey: ['project', variables.id] })
+      queryClient.invalidateQueries({ queryKey: ['projects'] })
+      toast.success('Project updated successfully!')
+    },
+  })
+}
 
 export const useDeleteProject = () => {
   const queryClient = useQueryClient()
