@@ -4,7 +4,7 @@ import { useLang } from '@/hooks/useLang'
 import { Button } from '@/components/ui/button'
 import { ProjectSchema } from '@/features/projects/data/schema'
 import { useProjectSocialContext } from '../context'
-import StatusSelect from './status-select'
+import StatusSelectProjectSocial from './status-select-project-social'
 
 export function ProjectSocialPrimaryButtons({
   project,
@@ -18,7 +18,7 @@ export function ProjectSocialPrimaryButtons({
 
   return (
     <div className='flex gap-2'>
-      {project && <StatusSelect project={project} />}
+      {project && <StatusSelectProjectSocial project={project} />}
 
       {project?.id && (
         <Button

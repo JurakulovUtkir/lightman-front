@@ -9,15 +9,30 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { ProjectSchema } from '@/features/projects/data/schema'
-import { useProjectSocialContext } from '../context'
+import { useProjectContext } from '../context'
+import { ProjectSchema } from '../data/schema'
 
-const StatusSelect = ({ project }: { project: ProjectSchema }) => {
+// Define status flow - which statuses can transition to which
+const projectStatusFlow: Record<ProjectStatus, ProjectStatus[]> = {
+  [ProjectStatus.DRAFT]: [
+    ProjectStatus.REQUESTED,
+    ProjectStatus.REQUESTED_TO_DONE,
+  ],
+  [ProjectStatus.APPROVED]: [ProjectStatus.REQUESTED_TO_DONE],
+  [ProjectStatus.ACTIVE]: [],
+  [ProjectStatus.ON_HOLD]: [],
+  [ProjectStatus.REQUESTED]: [],
+  [ProjectStatus.DONE]: [],
+  [ProjectStatus.CANCELED]: [],
+  [ProjectStatus.REQUESTED_TO_DONE]: [],
+}
+
+const StatusSelectProject = ({ project }: { project: ProjectSchema }) => {
   const { lang, general } = useLang()
   const t = general[lang].columns
-  const { setOpen, setProjectData } = useProjectSocialContext()
+  const { setOpen, setCurrentRow } = useProjectContext()
 
-  // Remove local state - use project.status directly
+  // Use project.status directly
   const status = project.status as ProjectStatus
 
   const statusOptions = [
@@ -34,18 +49,23 @@ const StatusSelect = ({ project }: { project: ProjectSchema }) => {
     },
   ]
 
-  // Filter options based on current status
-  const availableOptions = statusOptions.filter(
-    (opt) =>
-      opt.value === ProjectStatus.REQUESTED ||
-      opt.value === ProjectStatus.REQUESTED_TO_DONE
+  // Get allowed next statuses based on current status
+  const getAllowedStatuses = (
+    currentStatus: ProjectStatus
+  ): ProjectStatus[] => {
+    return projectStatusFlow[currentStatus] || []
+  }
+
+  const allowedStatuses = getAllowedStatuses(status)
+  const availableOptions = statusOptions.filter((opt) =>
+    allowedStatuses.includes(opt.value as ProjectStatus)
   )
 
   const handleStatusChange = (newStatus: string) => {
     const statusValue = newStatus as ProjectStatus
 
     // Set the pending status and open confirmation dialog
-    setProjectData({
+    setCurrentRow({
       ...project,
       pendingStatus: statusValue,
     })
@@ -55,8 +75,8 @@ const StatusSelect = ({ project }: { project: ProjectSchema }) => {
   const currentLabel =
     statusOptions.find((opt) => opt.value === status)?.label || status
 
-  // Render Badge if status is not draft
-  if (status !== ProjectStatus.DRAFT) {
+  // If no allowed transitions, render Badge only
+  if (allowedStatuses.length === 0) {
     return (
       <Badge className={`capitalize ${getStatusColorWithBg(status)}`}>
         {currentLabel}
@@ -64,7 +84,7 @@ const StatusSelect = ({ project }: { project: ProjectSchema }) => {
     )
   }
 
-  // Render Select only when status is draft
+  // Render Select when there are allowed transitions
   return (
     <Select value={status} onValueChange={handleStatusChange}>
       <SelectTrigger
@@ -77,6 +97,12 @@ const StatusSelect = ({ project }: { project: ProjectSchema }) => {
         </SelectValue>
       </SelectTrigger>
       <SelectContent>
+        {/* Show current status as disabled first option */}
+        <SelectItem value={status} disabled>
+          {currentLabel}
+        </SelectItem>
+
+        {/* Show available transition options */}
         {availableOptions.map((option) => (
           <SelectItem key={option.value} value={option.value}>
             <div
@@ -91,4 +117,4 @@ const StatusSelect = ({ project }: { project: ProjectSchema }) => {
   )
 }
 
-export default StatusSelect
+export default StatusSelectProject

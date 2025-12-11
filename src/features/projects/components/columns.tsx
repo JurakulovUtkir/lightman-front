@@ -11,7 +11,7 @@ import LongText from '@/components/long-text'
 import { DataTableColumnHeader } from '@/components/table/data-table-column-header'
 import { ProjectSchema } from '../data/schema'
 import { DataTableRowActions } from './data-table-row-actions'
-import StatusSelect from './status-select'
+import StatusSelectProject from './status-select-project'
 
 export const columns = (
   t: (typeof import('@/translations/general.json'))['en']['columns']
@@ -226,7 +226,7 @@ export const columns = (
         // >
         //   {t.statusOptions[status]}
         // </div>
-        <StatusSelect project={row.original} />
+        <StatusSelectProject project={row.original} />
       )
     },
     enableSorting: false,
