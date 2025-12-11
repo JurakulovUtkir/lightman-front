@@ -1,17 +1,15 @@
 import { ColumnDef } from '@tanstack/react-table'
 import {
-  // getStatusColor,
   getPriceTypeColor,
   getPaymentStatusColor,
   getPaymentTypeColor,
+  getStatusColorWithBg,
 } from '@/lib/statusHelpers'
 import { cn } from '@/lib/utils'
 import { Checkbox } from '@/components/ui/checkbox'
 import LongText from '@/components/long-text'
 import { DataTableColumnHeader } from '@/components/table/data-table-column-header'
-import { ProjectSchema } from '../data/schema'
-import { DataTableRowActions } from './data-table-row-actions'
-import StatusSelect from './status-select'
+import { ProjectSchema } from '../../data/schema'
 
 export const columns = (
   t: (typeof import('@/translations/general.json'))['en']['columns']
@@ -46,6 +44,7 @@ export const columns = (
     enableSorting: false,
     enableHiding: false,
   },
+
   {
     accessorKey: 'name',
     header: ({ column }) => (
@@ -61,6 +60,23 @@ export const columns = (
         </LongText>
       </div>
     ),
+    enableSorting: false,
+  },
+  {
+    accessorKey: 'status',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title={t.status} />
+    ),
+    cell: ({ row }) => {
+      const status = row.getValue('status') as keyof typeof t.statusOptions
+      return (
+        <div
+          className={`inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-medium capitalize ${getStatusColorWithBg(status)}`}
+        >
+          {t.statusOptions[status]}
+        </div>
+      )
+    },
     enableSorting: false,
   },
   // {
@@ -213,24 +229,7 @@ export const columns = (
     },
     enableSorting: false,
   },
-  {
-    accessorKey: 'status',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title={t.status} />
-    ),
-    cell: ({ row }) => {
-      // const status = row.getValue('status') as keyof typeof t.statusOptions
-      return (
-        // <div
-        //   className={`inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-medium capitalize ${getStatusColor(status)}`}
-        // >
-        //   {t.statusOptions[status]}
-        // </div>
-        <StatusSelect project={row.original} />
-      )
-    },
-    enableSorting: false,
-  },
+
   {
     accessorKey: 'payment_status',
     header: ({ column }) => (
@@ -299,9 +298,5 @@ export const columns = (
       />
     ),
     enableSorting: false,
-  },
-  {
-    id: 'actions',
-    cell: ({ row }) => <DataTableRowActions row={row} />,
   },
 ]

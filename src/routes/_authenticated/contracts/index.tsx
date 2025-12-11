@@ -6,7 +6,7 @@ const searchSchema = z.object({
   offset: z.number().optional().catch(0),
   limit: z.number().optional().catch(20),
   payment_status: z
-    .enum(['pending', 'paid', 'cancelled', 'unpaid'])
+    .enum(['PENDING', 'PAID', 'UNPAID', 'CANCELLED'])
     .optional()
     .catch(undefined),
   payment_type: z

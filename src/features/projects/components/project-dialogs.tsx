@@ -1,24 +1,47 @@
 import { useLang } from '@/hooks/useLang'
 import { ConfirmDialog } from '@/components/confirm-dialog'
 import { useProjectContext } from '../context'
-import { useDeleteProject } from '../data/hooks'
+import { useDeleteProject, useUpdateProject } from '../data/hooks'
 import { ProjectMutateDrawer } from './project-mutate-drawer'
 
 export function ProjectDialogs() {
   const { open, setOpen, currentRow, setCurrentRow } = useProjectContext()
-  const { mutate, isPending } = useDeleteProject()
+  const { mutate: deleteProject, isPending: isDeleting } = useDeleteProject()
+  const { mutate: updateProject, isPending: isUpdating } = useUpdateProject()
   const { lang, general, tProject, interpolate, interpolateWithComponents } =
     useLang()
   const t_general = general[lang].layout
   const t = tProject[lang]
+
   const handleDelete = (id: string) => {
-    mutate(id, {
+    deleteProject(id, {
       onSuccess: () => {
         setOpen(null)
         setCurrentRow(null)
       },
     })
   }
+
+  const handleStatusChange = () => {
+    if (!currentRow || !currentRow.pendingStatus) return
+
+    updateProject(
+      {
+        id: currentRow.id,
+        data: {
+          ...currentRow,
+          status: currentRow.pendingStatus,
+        },
+      },
+      {
+        onSuccess: () => {
+          setOpen(null)
+          setCurrentRow(null)
+        },
+      }
+    )
+  }
+
   return (
     <>
       <ProjectMutateDrawer
@@ -67,8 +90,40 @@ export function ProjectDialogs() {
                 {t_general.undone}
               </>
             }
-            isLoading={isPending}
-            confirmText={isPending ? t_general.deleting : t_general.delete}
+            isLoading={isDeleting}
+            confirmText={isDeleting ? t_general.deleting : t_general.delete}
+          />
+
+          <ConfirmDialog
+            key='project-status-change'
+            open={open === 'status'}
+            onOpenChange={() => {
+              setOpen('status')
+              setTimeout(() => {
+                setCurrentRow(null)
+              }, 500)
+            }}
+            handleConfirm={handleStatusChange}
+            className='max-w-md'
+            title={t.status_change_title}
+            desc={
+              <>
+                {interpolateWithComponents(t.status_change_confirm, {
+                  name: <strong>{currentRow.name}</strong>,
+                  status: (
+                    <strong>
+                      {
+                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                        // @ts-ignore
+                        t[currentRow.pendingStatus]
+                      }
+                    </strong>
+                  ),
+                })}
+              </>
+            }
+            isLoading={isUpdating}
+            confirmText={isUpdating ? t.updating : t.confirm}
           />
         </>
       )}

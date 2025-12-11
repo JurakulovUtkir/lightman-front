@@ -33,6 +33,7 @@ export const useProjects = ({
     | 'requested'
     | 'done'
     | 'canceled'
+    | 'requested_to_done'
   price_type?: 'standard' | 'vip' | 'no_watermark'
   customer_company_id?: string
   our_company_id?: string

@@ -127,6 +127,7 @@ export enum ProjectStatus {
   REQUESTED = 'requested',
   DONE = 'done',
   CANCELED = 'canceled',
+  REQUESTED_TO_DONE = 'requested_to_done',
 }
 export enum UserRoles {
   ADMIN = 'admin',

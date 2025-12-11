@@ -132,7 +132,8 @@
       "localization": "Localization",
       "help_center": "Help Center",
       "cards": "Cards",
-      "loans": "Loans"
+      "loans": "Loans",
+      "requested_projects": "Requested projects"
     },
     "columns": {
       "statusOptions": {
@@ -142,13 +143,14 @@
         "approved": "Approved",
         "requested": "Requested",
         "done": "Done",
-        "canceled": "Canceled"
+        "canceled": "Canceled",
+        "requested_to_done": "Request to done"
       },
       "paymentStatusOprions": {
-        "pending": "Pending",
-        "paid": "Paid",
-        "cancelled": "Cancelled",
-        "unpaid": "Unpaid"
+        "PENDING": "Pending",
+        "PAID": "Paid",
+        "CANCELLED": "Cancelled",
+        "UNPAID": "Unpaid"
       },
       "priceTypeOptions": {
         "standard": "Standard",
@@ -433,7 +435,8 @@
       "localization": "Локализация",
       "help_center": "Центр помощи",
       "cards": "Карты",
-      "loans": "Займы"
+      "loans": "Займы",
+      "requested_projects": "Запрошенные проекты"
     },
     "columns": {
       "statusOptions": {
@@ -443,13 +446,14 @@
         "approved": "Утверждено",
         "requested": "Запрошено",
         "done": "Завершено",
-        "canceled": "Отменено"
+        "canceled": "Отменено",
+        "requested_to_done": "Запрос на выполнение"
       },
       "paymentStatusOprions": {
-        "pending": "В ожидании",
-        "paid": "Оплачено",
-        "cancelled": "Отменено",
-        "unpaid": "Не оплачено"
+        "PENDING": "В ожидании",
+        "PAID": "Оплачено",
+        "CANCELLED": "Отменено",
+        "UNPAID": "Не оплачено"
       },
       "priceTypeOptions": {
         "standard": "Стандартный",
@@ -733,7 +737,8 @@
       "localization": "Lokalizatsiya",
       "help_center": "Yordam markazi",
       "cards": "Kartalar",
-      "loans": "Qarzlar"
+      "loans": "Qarzlar",
+      "requested_projects": "So‘ralgan loyihalar"
     },
     "columns": {
       "statusOptions": {
@@ -743,13 +748,14 @@
         "approved": "Tasdiqlangan",
         "requested": "So‘ralgan",
         "done": "Yakunlangan",
-        "canceled": "Bekor qilingan"
+        "canceled": "Bekor qilingan",
+        "requested_to_done": "Bajarish uchun so‘rov"
       },
       "paymentStatusOprions": {
-        "pending": "Kutilmoqda",
-        "paid": "To‘langan",
-        "cancelled": "Bekor qilingan",
-        "unpaid": "To‘lanmagan"
+        "PENDING": "Kutilmoqda",
+        "PAID": "To‘langan",
+        "CANCELLED": "Bekor qilingan",
+        "UNPAID": "To‘lanmagan"
       },
       "priceTypeOptions": {
         "standard": "Standart",

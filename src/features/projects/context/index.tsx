@@ -2,7 +2,12 @@ import React, { useState } from 'react'
 import useDialogState from '@/hooks/use-dialog-state'
 import { ProjectSchema } from '../data/schema'
 
-export type ProjectDialogType = 'create' | 'update' | 'delete' | 'import'
+export type ProjectDialogType =
+  | 'create'
+  | 'update'
+  | 'delete'
+  | 'import'
+  | 'status'
 
 interface ProjectContextType {
   open: ProjectDialogType | null

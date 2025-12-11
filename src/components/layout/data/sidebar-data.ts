@@ -65,10 +65,20 @@ export const sidebarData: SidebarData = {
           url: '/',
           icon: IconLayoutDashboard,
         },
+
         {
           title: 'projects',
-          url: '/projects',
           icon: IconBriefcase2,
+          items: [
+            {
+              title: 'projects',
+              url: '/projects',
+            },
+            {
+              title: 'requested_projects',
+              url: '/projects/requested',
+            },
+          ],
         },
         {
           title: 'network',

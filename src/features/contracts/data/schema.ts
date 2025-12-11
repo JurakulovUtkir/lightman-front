@@ -10,7 +10,7 @@ export const contractSchema = z.object({
   is_qqs: z.boolean(),
   is_active: z.boolean(),
   payment_type: z.enum(['CASH', 'CARD', 'BANK_TRANSFER', 'DEPOSIT']),
-  payment_status: z.enum(['pending']).optional(),
+  payment_status: z.enum(['PENDING', 'PAID', 'UNPAID', 'CANCELLED']).optional(),
   our_company_id: z.string(),
   file: z.string(),
   customer_company_id: z.string(),

@@ -35,10 +35,10 @@ export const useContractFilters = () => {
       search: (prev) => ({
         ...prev,
         payment_status: paymentStatus as
-          | 'pending'
-          | 'paid'
-          | 'cancelled'
-          | 'unpaid'
+          | 'PENDING'
+          | 'PAID'
+          | 'CANCELLED'
+          | 'UNPAID'
           | undefined,
         offset: 0,
       }),

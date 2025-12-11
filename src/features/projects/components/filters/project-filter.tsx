@@ -19,7 +19,7 @@ import { DistributionFilter } from './distribution-filter'
 import { EnumFilter } from './enum-filters'
 import { useProjectFilters } from './useProjectFilters'
 
-const ProjectFilter = () => {
+const ProjectFilter = ({ requested = false }: { requested?: boolean }) => {
   const { lang, general } = useLang()
   const t_general = general[lang].columns
   const statusOptions = getstatusOptions(t_general)
@@ -33,7 +33,9 @@ const ProjectFilter = () => {
     max_price,
     min_price,
   } = useSearch({
-    from: '/_authenticated/projects/',
+    from: !requested
+      ? '/_authenticated/projects/'
+      : '/_authenticated/projects/requested/',
   })
 
   const {

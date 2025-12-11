@@ -25,7 +25,13 @@
     "search_by_expence": "Search by expence",
     "all": "All",
     "delete_project_social": "Delete this Project social ?",
-    "delete_confirm_project_social": " You are about to delete a Project social. This action cannot be undone."
+    "delete_confirm_project_social": " You are about to delete a Project social. This action cannot be undone.",
+    "status_change_title": "Change Project Status",
+    "status_change_confirm": "Are you sure you want to change the status of {{name}} to {{status}}?",
+    "updating": "Updating",
+    "confirm": "Confirm",
+    "requested_to_done": "Request to done",
+    "requested": "Requested"
   },
   "ru": {
     "projects": "Проекты",
@@ -53,7 +59,13 @@
     "search_by_expence": "Поиск по расходам",
     "all": "Все",
     "delete_project_social": "Удалить эту социальную сеть проекта?",
-    "delete_confirm_project_social": "Вы собираетесь удалить социальную сеть проекта. Это действие нельзя отменить."
+    "delete_confirm_project_social": "Вы собираетесь удалить социальную сеть проекта. Это действие нельзя отменить.",
+    "status_change_title": "Изменить статус проекта",
+    "status_change_confirm": "Вы уверены, что хотите изменить статус {{name}} на {{status}}?",
+    "updating": "Обновление",
+    "confirm": "Подтвердить",
+    "requested_to_done": "Запрос на выполнение",
+    "requested": "Запрошено"
   },
   "uz": {
     "projects": "Loyihalar",
@@ -81,6 +93,12 @@
     "search_by_expence": "Xarajat bo‘yicha qidirish",
     "all": "Barchasi",
     "delete_project_social": "Ushbu loyiha ijtimoiy sahifasini o‘chirmoqchimisiz?",
-    "delete_confirm_project_social": "Siz loyiha ijtimoiy sahifasini o‘chirish arafasidansiz. Bu amalni bekor qilib bo‘lmaydi."
+    "delete_confirm_project_social": "Siz loyiha ijtimoiy sahifasini o‘chirish arafasidansiz. Bu amalni bekor qilib bo‘lmaydi.",
+    "status_change_title": "Loyiha holatini o‘zgartirish",
+    "status_change_confirm": "Haqiqatan ham {{name}} loyihasining holatini {{status}} ga o‘zgartirmoqchimisiz?",
+    "updating": "Yangilanmoqda",
+    "confirm": "Tasdiqlash",
+    "requested_to_done": "Bajarish uchun so‘rov",
+    "requested": "So‘ralgan"
   }
 }

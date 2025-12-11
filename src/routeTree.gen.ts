@@ -52,6 +52,7 @@ import { Route as AuthenticatedNetworkTagsRouteImport } from './routes/_authenti
 import { Route as AuthenticatedNetworkSocialsRouteImport } from './routes/_authenticated/network/socials'
 import { Route as AuthenticatedNetworkCategoriesRouteImport } from './routes/_authenticated/network/categories'
 import { Route as AuthenticatedStakeholderFoundersIndexRouteImport } from './routes/_authenticated/stakeholder/founders/index'
+import { Route as AuthenticatedProjectsRequestedIndexRouteImport } from './routes/_authenticated/projects/requested/index'
 import { Route as AuthenticatedCompaniesCardsIndexRouteImport } from './routes/_authenticated/companies/cards/index'
 import { Route as AuthenticatedStakeholderDistributorsIdRouteImport } from './routes/_authenticated/stakeholder/distributors/$id'
 import { Route as AuthenticatedProjectsSocialsIdRouteImport } from './routes/_authenticated/projects/socials/$id'
@@ -291,6 +292,12 @@ const AuthenticatedStakeholderFoundersIndexRoute =
     path: '/stakeholder/founders/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedProjectsRequestedIndexRoute =
+  AuthenticatedProjectsRequestedIndexRouteImport.update({
+    id: '/projects/requested/',
+    path: '/projects/requested/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedCompaniesCardsIndexRoute =
   AuthenticatedCompaniesCardsIndexRouteImport.update({
     id: '/companies/cards/',
@@ -366,6 +373,7 @@ export interface FileRoutesByFullPath {
   '/projects/socials/$id': typeof AuthenticatedProjectsSocialsIdRoute
   '/stakeholder/distributors/$id': typeof AuthenticatedStakeholderDistributorsIdRoute
   '/companies/cards': typeof AuthenticatedCompaniesCardsIndexRoute
+  '/projects/requested': typeof AuthenticatedProjectsRequestedIndexRoute
   '/stakeholder/founders': typeof AuthenticatedStakeholderFoundersIndexRoute
   '/stakeholder/founders/expence/$id': typeof AuthenticatedStakeholderFoundersExpenceIdRoute
 }
@@ -412,6 +420,7 @@ export interface FileRoutesByTo {
   '/projects/socials/$id': typeof AuthenticatedProjectsSocialsIdRoute
   '/stakeholder/distributors/$id': typeof AuthenticatedStakeholderDistributorsIdRoute
   '/companies/cards': typeof AuthenticatedCompaniesCardsIndexRoute
+  '/projects/requested': typeof AuthenticatedProjectsRequestedIndexRoute
   '/stakeholder/founders': typeof AuthenticatedStakeholderFoundersIndexRoute
   '/stakeholder/founders/expence/$id': typeof AuthenticatedStakeholderFoundersExpenceIdRoute
 }
@@ -463,6 +472,7 @@ export interface FileRoutesById {
   '/_authenticated/projects/socials/$id': typeof AuthenticatedProjectsSocialsIdRoute
   '/_authenticated/stakeholder/distributors/$id': typeof AuthenticatedStakeholderDistributorsIdRoute
   '/_authenticated/companies/cards/': typeof AuthenticatedCompaniesCardsIndexRoute
+  '/_authenticated/projects/requested/': typeof AuthenticatedProjectsRequestedIndexRoute
   '/_authenticated/stakeholder/founders/': typeof AuthenticatedStakeholderFoundersIndexRoute
   '/_authenticated/stakeholder/founders/expence/$id': typeof AuthenticatedStakeholderFoundersExpenceIdRoute
 }
@@ -512,6 +522,7 @@ export interface FileRouteTypes {
     | '/projects/socials/$id'
     | '/stakeholder/distributors/$id'
     | '/companies/cards'
+    | '/projects/requested'
     | '/stakeholder/founders'
     | '/stakeholder/founders/expence/$id'
   fileRoutesByTo: FileRoutesByTo
@@ -558,6 +569,7 @@ export interface FileRouteTypes {
     | '/projects/socials/$id'
     | '/stakeholder/distributors/$id'
     | '/companies/cards'
+    | '/projects/requested'
     | '/stakeholder/founders'
     | '/stakeholder/founders/expence/$id'
   id:
@@ -608,6 +620,7 @@ export interface FileRouteTypes {
     | '/_authenticated/projects/socials/$id'
     | '/_authenticated/stakeholder/distributors/$id'
     | '/_authenticated/companies/cards/'
+    | '/_authenticated/projects/requested/'
     | '/_authenticated/stakeholder/founders/'
     | '/_authenticated/stakeholder/founders/expence/$id'
   fileRoutesById: FileRoutesById
@@ -930,6 +943,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedStakeholderFoundersIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/projects/requested/': {
+      id: '/_authenticated/projects/requested/'
+      path: '/projects/requested'
+      fullPath: '/projects/requested'
+      preLoaderRoute: typeof AuthenticatedProjectsRequestedIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/companies/cards/': {
       id: '/_authenticated/companies/cards/'
       path: '/companies/cards'
@@ -1018,6 +1038,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedProjectsSocialsIdRoute: typeof AuthenticatedProjectsSocialsIdRoute
   AuthenticatedStakeholderDistributorsIdRoute: typeof AuthenticatedStakeholderDistributorsIdRoute
   AuthenticatedCompaniesCardsIndexRoute: typeof AuthenticatedCompaniesCardsIndexRoute
+  AuthenticatedProjectsRequestedIndexRoute: typeof AuthenticatedProjectsRequestedIndexRoute
   AuthenticatedStakeholderFoundersIndexRoute: typeof AuthenticatedStakeholderFoundersIndexRoute
   AuthenticatedStakeholderFoundersExpenceIdRoute: typeof AuthenticatedStakeholderFoundersExpenceIdRoute
 }
@@ -1048,6 +1069,8 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedStakeholderDistributorsIdRoute:
     AuthenticatedStakeholderDistributorsIdRoute,
   AuthenticatedCompaniesCardsIndexRoute: AuthenticatedCompaniesCardsIndexRoute,
+  AuthenticatedProjectsRequestedIndexRoute:
+    AuthenticatedProjectsRequestedIndexRoute,
   AuthenticatedStakeholderFoundersIndexRoute:
     AuthenticatedStakeholderFoundersIndexRoute,
   AuthenticatedStakeholderFoundersExpenceIdRoute:
