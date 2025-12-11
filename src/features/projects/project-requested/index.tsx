@@ -126,8 +126,8 @@ const Projects = () => {
             </TabsTrigger>
           </TabsList>
 
-          <TabsContent value='requested' className='mt-4'>
-            <div className='-mx-4 flex-1 overflow-auto px-4 pt-4 pb-1'>
+          <TabsContent value='requested'>
+            <div className='-mx-4 flex-1 overflow-auto px-4 pb-1'>
               <DataTable
                 data={
                   requestedData?.data.items?.length
@@ -143,8 +143,8 @@ const Projects = () => {
             </div>
           </TabsContent>
 
-          <TabsContent value='requested_to_done' className='mt-4'>
-            <div className='-mx-4 flex-1 overflow-auto px-4 pt-4 pb-1'>
+          <TabsContent value='requested_to_done'>
+            <div className='-mx-4 flex-1 overflow-auto px-4 pb-1'>
               <DataTable
                 data={
                   requestedToDoneData?.data.items?.length
