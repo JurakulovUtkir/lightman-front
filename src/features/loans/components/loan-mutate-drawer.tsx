@@ -110,6 +110,7 @@ export function LoanMutateDrawer({
       closed_date: currentRow?.closed_date
         ? new Date(currentRow.closed_date)
         : undefined,
+      note: currentRow?.note ?? undefined,
     },
   })
 
