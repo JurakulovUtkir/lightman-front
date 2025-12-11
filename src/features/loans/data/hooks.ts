@@ -7,18 +7,21 @@ export const useLoans = ({
   limit,
   offset,
   search,
+  direction,
 }: {
   limit?: number
   offset?: number
   search?: string
+  direction?: 'WE_GAVE' | 'WE_TOOK'
 }) => {
   return useQuery({
-    queryKey: ['loans', limit, offset, search],
+    queryKey: ['loans', limit, offset, search, direction],
     queryFn: () =>
       getLoans({
         limit,
         offset,
         search,
+        direction,
       }),
   })
 }

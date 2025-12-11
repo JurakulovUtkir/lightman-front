@@ -106,7 +106,15 @@
       "notes": "Notes",
       "start_date": "Start date",
       "due_date": "Due date",
-      "closed_date": "Closed date"
+      "closed_date": "Closed date",
+      "no_cards": "No cards found",
+      "select_card": "Select card",
+      "from_company_id": "From company",
+      "to_company_id": "To company",
+      "no_loans": "No loans found",
+      "loan": "Loan",
+      "deadline_at": "Deadline at",
+      "counterparty_name": "Counterparty name"
     },
     "form_placeholders": {
       "select_project": "Select project",
@@ -321,7 +329,15 @@
       "notes": "Заметки",
       "start_date": "Дата начала",
       "due_date": "Срок выполнения",
-      "closed_date": "Дата закрытия"
+      "closed_date": "Дата закрытия",
+      "no_cards": "Карты не найдены",
+      "select_card": "Выберите карту",
+      "from_company_id": "От компании",
+      "to_company_id": "К компании",
+      "no_loans": "Займы не найдены",
+      "loan": "Займ",
+      "deadline_at": "Крайний срок",
+      "counterparty_name": "Название контрагента"
     },
     "form_placeholders": {
       "select_project": "Выберите проект",
@@ -535,7 +551,15 @@
       "notes": "Eslatmalar",
       "start_date": "Boshlanish sanasi",
       "due_date": "Tugash sanasi",
-      "closed_date": "Yopilgan sana"
+      "closed_date": "Yopilgan sana",
+      "no_cards": "Kartalar topilmadi",
+      "select_card": "Karta tanlang",
+      "from_company_id": "Kompaniyadan",
+      "to_company_id": "Kompaniyaga",
+      "no_loans": "Qarzlar topilmadi",
+      "loan": "Qarz",
+      "deadline_at": "Muddat",
+      "counterparty_name": "Kontragent nomi"
     },
     "form_placeholders": {
       "select_project": "Loyihani tanlang",

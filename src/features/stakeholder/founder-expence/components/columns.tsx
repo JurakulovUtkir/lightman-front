@@ -1,5 +1,5 @@
 import { ColumnDef } from '@tanstack/react-table'
-import { getPaymentTypeColor } from '@/lib/statusHelpers'
+import { getExpenceTypeColor, getPaymentTypeColor } from '@/lib/statusHelpers'
 import { formatPrice } from '@/utils/formatPrice'
 import { Badge } from '@/components/ui/badge'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -48,13 +48,15 @@ export const columns = (
       ) as keyof typeof t.expenceTypeOptions
       return (
         <div className='flex items-center gap-2'>
+          {/* Need to check */}
           <div
-            className={`${
-              expenceType === 'salary'
-                ? 'bg-blue-500'
-                : expenceType === 'avans'
-                  ? 'bg-amber-500'
-                  : 'bg-gray-500'
+            className={` ${
+              getExpenceTypeColor(expenceType)
+              // expenceType === 'salary'
+              // ? 'bg-blue-500'
+              // : expenceType === 'avans'
+              //   ? 'bg-amber-500'
+              //   : 'bg-gray-500'
             } h-2 w-2 rounded-full`}
           />
           <span className='capitalize'>

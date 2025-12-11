@@ -1,5 +1,5 @@
-import { ProjectStatus } from '@/constants'
 import { getStatusColor, getStatusColorWithBg } from '@/lib/statusHelpers'
+import { ProjectStatus } from '@/constants/enums'
 import { useLang } from '@/hooks/useLang'
 import { Badge } from '@/components/ui/badge'
 import {

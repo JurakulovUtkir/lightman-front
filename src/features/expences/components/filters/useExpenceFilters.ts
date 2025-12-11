@@ -1,4 +1,10 @@
+// Need to check urgent
 import { useNavigate } from '@tanstack/react-router'
+import {
+  CorporateExpenceType,
+  ExpenceType,
+  PaymentType,
+} from '@/constants/enums'
 
 /**
  * Custom hook for managing expense filter handlers
@@ -20,9 +26,11 @@ export const useExpenceFilters = ({
         : isProject
           ? '/projects/expence/$id'
           : '/expences',
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore
       search: (prev) => ({
         ...prev,
-        type: type as 'expence' | 'income' | 'deposit' | undefined,
+        type: type as CorporateExpenceType | undefined,
         offset: 0,
       }),
     })
@@ -35,16 +43,11 @@ export const useExpenceFilters = ({
         : isProject
           ? '/projects/expence/$id'
           : '/expences',
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore
       search: (prev) => ({
         ...prev,
-        expence_type: expenceType as
-          | 'salary'
-          | 'avans'
-          | 'project'
-          | 'deposit'
-          | 'other'
-          | 'transfer'
-          | undefined,
+        expence_type: expenceType as ExpenceType | undefined,
         offset: 0,
       }),
     })
@@ -59,7 +62,7 @@ export const useExpenceFilters = ({
           : '/expences',
       search: (prev) => ({
         ...prev,
-        payment_type: paymentType as 'CASH' | 'CARD' | undefined,
+        payment_type: paymentType as PaymentType | undefined,
         offset: 0,
       }),
     })
@@ -72,6 +75,8 @@ export const useExpenceFilters = ({
         : isProject
           ? '/projects/expence/$id'
           : '/expences',
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore
       search: (prev) => ({
         ...prev,
         distribution_id: distributionId || undefined,
@@ -87,6 +92,8 @@ export const useExpenceFilters = ({
         : isProject
           ? '/projects/expence/$id'
           : '/expences',
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore
       search: (prev) => ({
         ...prev,
         company_id: companyId || undefined,
@@ -102,6 +109,8 @@ export const useExpenceFilters = ({
         : isProject
           ? '/projects/expence/$id'
           : '/expences',
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore
       search: (prev) => ({
         ...prev,
         project_id: projectId || undefined,
@@ -117,6 +126,8 @@ export const useExpenceFilters = ({
         : isProject
           ? '/projects/expence/$id'
           : '/expences',
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore
       search: (prev) => ({
         ...prev,
         user_id: userId || undefined,
@@ -132,6 +143,8 @@ export const useExpenceFilters = ({
         : isProject
           ? '/projects/expence/$id'
           : '/expences',
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore
       search: (prev) => ({
         ...prev,
         date_from: dateFrom || undefined,
@@ -147,6 +160,8 @@ export const useExpenceFilters = ({
         : isProject
           ? '/projects/expence/$id'
           : '/expences',
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore
       search: (prev) => ({
         ...prev,
         date_to: dateTo || undefined,
@@ -162,6 +177,8 @@ export const useExpenceFilters = ({
         : isProject
           ? '/projects/expence/$id'
           : '/expences',
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore
       search: (prev) => ({
         ...prev,
         max_amount: maxAmount || undefined,
@@ -177,6 +194,8 @@ export const useExpenceFilters = ({
         : isProject
           ? '/projects/expence/$id'
           : '/expences',
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore
       search: (prev) => ({
         ...prev,
         min_amount: minAmount || undefined,

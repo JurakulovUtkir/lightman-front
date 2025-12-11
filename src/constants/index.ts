@@ -1,3 +1,5 @@
+import { CorporateExpenceType, ExpenceType } from './enums'
+
 export enum AllowedLangs {
   UZ = 'uz',
   RU = 'ru',
@@ -66,20 +68,69 @@ export const getPaymentTypeOptions = (
 export const getExpenceTypeOptions = (
   t: (typeof import('@/translations/general.json'))['en']['columns']
 ) => [
-  { value: 'salary', label: t.expenceTypeOptions.salary },
-  { value: 'avans', label: t.expenceTypeOptions.avans },
-  { value: 'project', label: t.expenceTypeOptions.project },
-  { value: 'deposit', label: t.expenceTypeOptions.deposit },
-  { value: 'transfer', label: t.expenceTypeOptions.transfer },
-  { value: 'other', label: t.expenceTypeOptions.other },
+  { value: ExpenceType.CHANNEL_POST, label: t.expenceTypeOptions.CHANNEL_POST },
+  {
+    value: ExpenceType.CHANNEL_DEPOSIT_TOPUP,
+    label: t.expenceTypeOptions.CHANNEL_DEPOSIT_TOPUP,
+  },
+  {
+    value: ExpenceType.CHANNEL_POST_FROM_DEPOSIT,
+    label: t.expenceTypeOptions.CHANNEL_POST_FROM_DEPOSIT,
+  },
+  { value: ExpenceType.SALARY, label: t.expenceTypeOptions.SALARY },
+  {
+    value: ExpenceType.SALARY_ADVANCE,
+    label: t.expenceTypeOptions.SALARY_ADVANCE,
+  },
+  { value: ExpenceType.BONUS, label: t.expenceTypeOptions.BONUS },
+  { value: ExpenceType.LOAN_GIVEN, label: t.expenceTypeOptions.LOAN_GIVEN },
+  { value: ExpenceType.LOAN_TAKEN, label: t.expenceTypeOptions.LOAN_TAKEN },
+  {
+    value: ExpenceType.LOAN_REPAYMENT,
+    label: t.expenceTypeOptions.LOAN_REPAYMENT,
+  },
+  {
+    value: ExpenceType.COMPANY_TRANSFER,
+    label: t.expenceTypeOptions.COMPANY_TRANSFER,
+  },
+  {
+    value: ExpenceType.CARD_WITHDRAW,
+    label: t.expenceTypeOptions.CARD_WITHDRAW,
+  },
+  {
+    value: ExpenceType.CASH_WITHDRAW,
+    label: t.expenceTypeOptions.CASH_WITHDRAW,
+  },
+  {
+    value: ExpenceType.SERVICE_EXPENCE,
+    label: t.expenceTypeOptions.SERVICE_EXPENCE,
+  },
+  {
+    value: ExpenceType.CLIENT_PAYMENT,
+    label: t.expenceTypeOptions.CLIENT_PAYMENT,
+  },
+  {
+    value: ExpenceType.FOUNDER_INPUT,
+    label: t.expenceTypeOptions.FOUNDER_INPUT,
+  },
+  { value: ExpenceType.OTHER, label: t.expenceTypeOptions.OTHER },
 ]
 
 export const getExpenceOriginTypeOptions = (
   t: (typeof import('@/translations/general.json'))['en']['columns']
 ) => [
-  { value: 'expence', label: t.expenceOriginTypeOptions.expence },
-  { value: 'income', label: t.expenceOriginTypeOptions.income },
-  { value: 'deposit', label: t.expenceOriginTypeOptions.deposit },
+  {
+    value: CorporateExpenceType.EXPENCE,
+    label: t.expenceOriginTypeOptions.EXPENCE,
+  },
+  {
+    value: CorporateExpenceType.INCOME,
+    label: t.expenceOriginTypeOptions.INCOME,
+  },
+  {
+    value: CorporateExpenceType.TRANSFER,
+    label: t.expenceOriginTypeOptions.TRANSFER,
+  },
 ]
 export const getUserRoleOptions = (
   t: (typeof import('@/translations/general.json'))['en']['columns']
@@ -105,42 +156,3 @@ export const getDirectionOptions = (
   { value: 'WE_GAVE', label: t.direction.WE_GAVE },
   { value: 'WE_TOOK', label: t.direction.WE_TOOK },
 ]
-
-export enum PriceType {
-  STANDARD = 'standard',
-  VIP = 'vip',
-  NO_WATERMARK = 'no_watermark',
-}
-
-export enum PaymentStatus {
-  PENDING = 'pending',
-  PAID = 'paid',
-  CANCELLED = 'cancelled',
-  UNPAID = 'unpaid',
-}
-
-export enum ProjectStatus {
-  DRAFT = 'draft',
-  ACTIVE = 'active',
-  ON_HOLD = 'on_hold',
-  APPROVED = 'approved',
-  REQUESTED = 'requested',
-  DONE = 'done',
-  CANCELED = 'canceled',
-  REQUESTED_TO_DONE = 'requested_to_done',
-}
-export enum UserRoles {
-  ADMIN = 'admin',
-  USER = 'user',
-  OPERATOR = 'operator',
-  EMPLOYEE = 'employee',
-  ACCOUNTANT = 'accountant',
-  ACCOUNT_MANAGER = 'account_manager',
-}
-
-export enum ProjectSocialStatusType {
-  POSTED = 'posted',
-  DELETED = 'deleted',
-  PENDING = 'pending',
-  RISKED = 'risked',
-}

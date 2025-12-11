@@ -15,7 +15,6 @@ import {
   getPaymentStatusColor,
   getPriceTypeColor,
   getStatusColor,
-  getPaymentTypeColor,
 } from '@/lib/statusHelpers'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -108,7 +107,7 @@ const ProjectCards = ({
               </Badge>
               <Badge
                 variant='outline'
-                className={`${getPaymentTypeColor(item.payment_type)} font-medium`}
+                // className={`${getPaymentTypeColor(item.payment_type)} font-medium`}
               >
                 <IconWallet className='mr-1 h-3 w-3' />
                 {item.payment_type}

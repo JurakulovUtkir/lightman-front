@@ -7,18 +7,21 @@ export const useCards = ({
   limit,
   offset,
   search,
+  company_id,
 }: {
   limit?: number
   offset?: number
   search?: string
+  company_id?: string
 }) => {
   return useQuery({
-    queryKey: ['cards', limit, offset, search],
+    queryKey: ['cards', limit, offset, search, company_id],
     queryFn: () =>
       getCards({
         limit,
         offset,
         search,
+        company_id,
       }),
   })
 }

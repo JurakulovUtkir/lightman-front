@@ -1,17 +1,51 @@
 import z from 'zod'
 import { createFileRoute } from '@tanstack/react-router'
+import {
+  CorporateExpenceType,
+  ExpenceType,
+  PaymentType,
+} from '@/constants/enums'
 import Expences from '@/features/expences'
 
 const searchSchema = z.object({
   offset: z.number().optional().catch(0),
   limit: z.number().optional().catch(20),
-  type: z.enum(['expence', 'income', 'deposit']).optional().catch(undefined),
+  type: z
+    .enum([
+      CorporateExpenceType.EXPENCE,
+      CorporateExpenceType.INCOME,
+      CorporateExpenceType.TRANSFER,
+    ])
+    .optional()
+    .catch(undefined),
   expence_type: z
-    .enum(['salary', 'avans', 'project', 'deposit', 'other', 'transfer'])
+    .enum([
+      ExpenceType.CHANNEL_POST,
+      ExpenceType.CHANNEL_DEPOSIT_TOPUP,
+      ExpenceType.CHANNEL_POST_FROM_DEPOSIT,
+      ExpenceType.SALARY,
+      ExpenceType.SALARY_ADVANCE,
+      ExpenceType.BONUS,
+      ExpenceType.LOAN_GIVEN,
+      ExpenceType.LOAN_TAKEN,
+      ExpenceType.LOAN_REPAYMENT,
+      ExpenceType.COMPANY_TRANSFER,
+      ExpenceType.CARD_WITHDRAW,
+      ExpenceType.CASH_WITHDRAW,
+      ExpenceType.SERVICE_EXPENCE,
+      ExpenceType.CLIENT_PAYMENT,
+      ExpenceType.FOUNDER_INPUT,
+      ExpenceType.OTHER,
+    ])
     .optional()
     .catch(undefined),
   payment_type: z
-    .enum(['CARD', 'BANK_TRANSFER', 'CASH', 'DEPOSIT'])
+    .enum([
+      PaymentType.CARD,
+      PaymentType.CASH,
+      PaymentType.BANK_TRANSFER,
+      PaymentType.DEPOSIT,
+    ])
     .optional()
     .catch(undefined),
   distribution_id: z.string().optional().catch(''),

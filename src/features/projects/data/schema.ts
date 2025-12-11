@@ -1,4 +1,5 @@
 import { z } from 'zod'
+import { PaymentType } from '@/constants/enums'
 import { companySchema } from '@/features/companies/data/schema'
 import { contractSchema } from '@/features/contracts/data/schema'
 import { networkCategorySchema } from '@/features/network/categories/data/schema'
@@ -46,7 +47,15 @@ export const projectSchema = z.object({
   distribution: distributionSchema,
   our_company: companySchema,
   payment_status: z.enum(['PENDING', 'PAID', 'UNPAID', 'CANCELLED']),
-  payment_type: z.enum(['CASH', 'CARD', 'BANK_TRANSFER', 'DEPOSIT']),
+  payment_type: z
+    .enum([
+      PaymentType.CARD,
+      PaymentType.CASH,
+      PaymentType.BANK_TRANSFER,
+      PaymentType.DEPOSIT,
+    ])
+    .optional()
+    .catch(undefined),
   contract: contractSchema,
   tags: z.array(z.string()).optional(),
   clone_project_id: z.string().optional().nullable(),

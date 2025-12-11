@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Control, FieldValues, Path } from 'react-hook-form'
 import { IconCheck, IconSelector } from '@tabler/icons-react'
 import { cn } from '@/lib/utils'
+import { useDebounce } from '@/hooks/useDebounce'
 import { useLang } from '@/hooks/useLang'
 import { Button } from '@/components/ui/button'
 import {
@@ -25,40 +26,54 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import { Skeleton } from '@/components/ui/skeleton'
-import { useGetUsers } from '@/features/users/data/hooks'
-import { User } from '@/features/users/data/schema'
+import { useLoans } from '@/features/loans/data/hooks'
+import { LoanSchema } from '@/features/loans/data/schema'
 
 type ComboboxOption = {
   value: string
   label: string
+  direction?: string
+  //   status?: string
+  planned_amount?: string
+  given_amount?: string
 }
 
-interface FormComboboxProps<T extends FieldValues> {
+interface FormComboboxLoansProps<T extends FieldValues> {
   name: Path<T>
   label: string
   control: Control<T>
-  detail?: Pick<User, 'id' | 'full_name'>
-  isOurEmployee?: boolean
+  detail?: Pick<LoanSchema, 'id' | 'counterparty_name'>
+  direction?: 'WE_GAVE' | 'WE_TOOK' // Optional filter by direction
+  //   status?: 'ACTIVE' | 'CLOSED' // Optional filter by status
 }
 
-export const FormComboboxUser = <T extends FieldValues>({
+export const FormComboboxLoans = <T extends FieldValues>({
   name,
   label,
   control,
   detail,
-  isOurEmployee,
-}: FormComboboxProps<T>) => {
+  direction,
+  //   status,
+}: FormComboboxLoansProps<T>) => {
   const [open, setOpen] = useState(false)
   const [search, setSearch] = useState('')
+  const debouncedSearch = useDebounce(search, 300)
   const { lang, tForm } = useLang()
   const t = tForm[lang].form_labels
-  const {
-    data: usersResponse,
-    isLoading: isLoadingUsers,
-    isFetching: isFetchingUsers,
-  } = useGetUsers({ limit: 100, offset: 0, is_our_employee: isOurEmployee })
 
-  const isLoading = isLoadingUsers || isFetchingUsers
+  const {
+    data: loansResponse,
+    isLoading: isLoadingLoans,
+    isFetching: isFetchingLoans,
+  } = useLoans({
+    offset: 0,
+    limit: 50,
+    search: debouncedSearch.length >= 2 ? debouncedSearch : undefined,
+    direction,
+    // status,
+  })
+
+  const isLoading = isLoadingLoans || isFetchingLoans
 
   return (
     <FormField
@@ -76,9 +91,13 @@ export const FormComboboxUser = <T extends FieldValues>({
         }
 
         let options: ComboboxOption[] =
-          usersResponse?.data?.items?.map((user) => ({
-            value: user.id,
-            label: user.full_name,
+          loansResponse?.data?.data?.map((loan) => ({
+            value: loan.id,
+            label: loan.counterparty_name,
+            direction: loan.direction,
+            // status: loan.status,
+            planned_amount: loan.planned_amount?.toString(),
+            given_amount: loan.given_amount?.toString(),
           })) ?? []
 
         // Handle fallback from detail
@@ -90,7 +109,7 @@ export const FormComboboxUser = <T extends FieldValues>({
         ) {
           const fallbackOption: ComboboxOption = {
             value: detail.id,
-            label: detail.full_name,
+            label: detail.counterparty_name,
           }
 
           if (!options.some((opt) => opt.value === fallbackOption.value)) {
@@ -152,7 +171,9 @@ export const FormComboboxUser = <T extends FieldValues>({
                     ) : (
                       <>
                         {filteredOptions.length === 0 && (
-                          <CommandEmpty>{t.no_users}</CommandEmpty>
+                          <CommandEmpty>
+                            {search.length < 2 ? t.at_least_two : t.no_loans}
+                          </CommandEmpty>
                         )}
                         {filteredOptions.length > 0 && (
                           <CommandGroup>
@@ -166,7 +187,35 @@ export const FormComboboxUser = <T extends FieldValues>({
                                   setOpen(false)
                                 }}
                               >
-                                {item.label}
+                                <div className='flex flex-col gap-0.5'>
+                                  <span>{item.label}</span>
+                                  <div className='text-muted-foreground flex gap-2 text-xs'>
+                                    {item.direction && (
+                                      <span>
+                                        {item.direction === 'WE_GAVE'
+                                          ? 'We Gave'
+                                          : 'We Took'}
+                                      </span>
+                                    )}
+                                    {/* {item.status && (
+                                      <span className='capitalize'>
+                                        • {item.status.toLowerCase()}
+                                      </span>
+                                    )} */}
+                                  </div>
+                                  {item.planned_amount && (
+                                    <span className='text-muted-foreground text-xs'>
+                                      Planned:{' '}
+                                      {parseFloat(
+                                        item.planned_amount
+                                      ).toLocaleString()}{' '}
+                                      | Given:{' '}
+                                      {parseFloat(
+                                        item.given_amount || '0'
+                                      ).toLocaleString()}
+                                    </span>
+                                  )}
+                                </div>
                                 <IconCheck
                                   className={cn(
                                     'ml-auto',

@@ -6,15 +6,19 @@ export const getUsers = async ({
   limit,
   offset,
   search,
+  is_our_employee,
 }: {
   limit?: number
   offset?: number
   search?: string
+  is_our_employee?: boolean
 }): Promise<UsersResponse> => {
   const params = new URLSearchParams()
 
   if (limit !== undefined) params.append('limit', limit.toString())
   if (offset !== undefined) params.append('offset', offset.toString())
+  if (is_our_employee !== undefined)
+    params.append('is_our_employee', is_our_employee.toString())
   if (search) params.append('search', search)
 
   const response = await api.get(`/users?${params.toString()}`)

@@ -1,4 +1,9 @@
 import api from '@/lib/axios'
+import {
+  CorporateExpenceType,
+  ExpenceType,
+  PaymentType,
+} from '@/constants/enums'
 import { ExpenceSchemaResponse } from '@/features/expences/data/types'
 
 export const getFounderExpence = async ({
@@ -22,9 +27,9 @@ export const getFounderExpence = async ({
   limit?: number
   offset?: number
   search?: string
-  type?: 'expence' | 'income' | 'deposit'
-  expence_type?: 'salary' | 'avans' | 'project' | 'deposit' | 'other'
-  payment_type?: 'CARD' | 'BANK_TRANSFER' | 'CASH' | 'DEPOSIT'
+  type?: CorporateExpenceType
+  expence_type?: ExpenceType
+  payment_type?: PaymentType
   distribution_id?: string
   company_id?: string
   project_id?: string

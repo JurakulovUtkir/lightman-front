@@ -1,4 +1,9 @@
 import { useQuery } from '@tanstack/react-query'
+import {
+  CorporateExpenceType,
+  ExpenceType,
+  PaymentType,
+} from '@/constants/enums'
 import { getFounderExpence } from './api'
 
 export const useFounderExpence = ({
@@ -22,9 +27,9 @@ export const useFounderExpence = ({
   limit?: number
   offset?: number
   search?: string
-  type?: 'expence' | 'income' | 'deposit'
-  expence_type?: 'salary' | 'avans' | 'project' | 'deposit' | 'other'
-  payment_type?: 'CARD' | 'BANK_TRANSFER' | 'CASH' | 'DEPOSIT'
+  type?: CorporateExpenceType
+  expence_type?: ExpenceType
+  payment_type?: PaymentType
   distribution_id?: string
   company_id?: string
   project_id?: string

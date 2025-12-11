@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { getPaymentTypeOptions, getPriceTypeOptions } from '@/constants'
 import { toNumber } from '@/lib/helpers'
+import { PaymentType } from '@/constants/enums'
 import { useLang } from '@/hooks/useLang'
 import { Button } from '@/components/ui/button'
 import {
@@ -96,7 +97,12 @@ export function ProjectMutateDrawer({
           error: t.form_validations.required_field,
         }),
         payment_type: z
-          .enum(['CASH', 'CARD', 'BANK_TRANSFER', 'DEPOSIT'])
+          .enum([
+            PaymentType.CARD,
+            PaymentType.CASH,
+            PaymentType.BANK_TRANSFER,
+            PaymentType.DEPOSIT,
+          ])
           .optional(),
         is_active: z.boolean().optional(),
         is_qqs: z.boolean().optional(),

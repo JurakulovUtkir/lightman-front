@@ -12,6 +12,11 @@ import { toast } from 'sonner'
 import { toNumber } from '@/lib/helpers'
 import { getExpenceOriginTypeColor } from '@/lib/statusHelpers'
 import { cn } from '@/lib/utils'
+import {
+  CorporateExpenceType,
+  ExpenceType,
+  PaymentType,
+} from '@/constants/enums'
 import { useLang } from '@/hooks/useLang'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
@@ -39,14 +44,16 @@ import {
 import { FormatDateToLongString } from '@/components/date-formatter'
 import { FormFieldSelect } from '@/components/form-field-select'
 import { FormFieldWrapper } from '@/components/form-field-wrapper'
+import { FormComboboxNetworkSocial } from '@/features/project-socials/components/form-combobox-network-social'
 import { FormFileUploadField } from '@/features/project-socials/components/form-file-upload'
 import { useDeleteFile } from '@/features/project-socials/data/hooks'
-import { useDistributions } from '@/features/stakeholder/distributions/data/hooks'
+import { FormComboboxFounders } from '@/features/stakeholder/distributors/components/form-combobox-founders'
 import { ExpenceDialogType } from '../context'
 import { useCreateExpence, useUpdateExpence } from '../data/hooks'
 import { ExpenceSchema } from '../data/schema'
+import { FormComboboxCards } from './form-combobox-cards'
 import { FormComboboxCompany } from './form-combobox-company'
-import { FormComboboxDeposit } from './form-combobox-deposit'
+import { FormComboboxLoans } from './form-combobox-loan'
 import { FormComboboxProject } from './form-combobox-projects'
 import { FormComboboxUser } from './form-combobox-users'
 
@@ -72,7 +79,6 @@ export function ExpenceMutateDrawer({
   const createExpence = useCreateExpence()
   const updateExpence = useUpdateExpence()
   const deleteFile = useDeleteFile()
-  const { data: distribution } = useDistributions()
 
   const isUpdate = !!currentRow
 
@@ -83,73 +89,87 @@ export function ExpenceMutateDrawer({
 
   const formSchema = useMemo(
     () =>
-      z
-        .object({
-          project_id: z.string({
-            error: t.form_validations.required_field,
-          }),
-          expence_type: z.enum(
-            ['salary', 'avans', 'project', 'deposit', 'other', 'transfer'],
-            {
-              error: t.form_validations.required_field,
-            }
-          ),
-          type: z.enum(['expence', 'income', 'deposit'], {
-            error: t.form_validations.required_field,
-          }),
-          distribution_id: z.string({
-            error: t.form_validations.required_field,
-          }),
-          company_id: z.string({ error: t.form_validations.required_field }),
-          to_company_id: z.string().optional(),
-          created_at: z.date().optional(),
-          user_id: z.string().optional(),
-          deposit_id: z.string().optional(),
-          payment_type: z.enum(['CARD', 'BANK_TRANSFER', 'CASH', 'DEPOSIT'], {
-            error: t.form_validations.required_field,
-          }),
-          amount: z
-            .number({
-              error: t.form_validations.amount,
-            })
-            .min(0, t.form_validations.invalid_value),
-          description: z
-            .string()
-            .max(150, t.form_validations.invalid_description)
-            .optional(),
-          file_url: z.string().optional(),
-        })
-        .superRefine((data, ctx) => {
-          // If expence_type is 'transfer', to_company_id is required
-          if (data.expence_type === 'transfer' && !data.to_company_id) {
-            ctx.addIssue({
-              code: z.ZodIssueCode.custom,
-              message: t.form_validations.required_transfer,
-              path: ['to_company_id'],
-            })
-          }
-
-          // If expence_type is 'salary' or 'avans', user_id is required
-          if (
-            (data.expence_type === 'salary' || data.expence_type === 'avans') &&
-            !data.user_id
-          ) {
-            ctx.addIssue({
-              code: z.ZodIssueCode.custom,
-              message: t.form_validations.required_user,
-              path: ['user_id'],
-            })
-          }
-
-          // If expence_type is 'deposit', deposit_id is required
-          if (data.expence_type === 'deposit' && !data.deposit_id) {
-            ctx.addIssue({
-              code: z.ZodIssueCode.custom,
-              message: t.form_validations.required_deposit,
-              path: ['deposit_id'],
-            })
-          }
+      z.object({
+        project_id: z.string({
+          error: t.form_validations.required_field,
         }),
+        expence_type: z.enum(
+          [
+            ExpenceType.CHANNEL_POST,
+            ExpenceType.CHANNEL_DEPOSIT_TOPUP,
+            ExpenceType.CHANNEL_POST_FROM_DEPOSIT,
+            ExpenceType.SALARY,
+            ExpenceType.SALARY_ADVANCE,
+            ExpenceType.BONUS,
+            ExpenceType.LOAN_GIVEN,
+            ExpenceType.LOAN_TAKEN,
+            ExpenceType.LOAN_REPAYMENT,
+            ExpenceType.COMPANY_TRANSFER,
+            ExpenceType.CARD_WITHDRAW,
+            ExpenceType.CASH_WITHDRAW,
+            ExpenceType.SERVICE_EXPENCE,
+            ExpenceType.CLIENT_PAYMENT,
+            ExpenceType.FOUNDER_INPUT,
+            ExpenceType.OTHER,
+          ],
+          {
+            error: t.form_validations.required_field,
+          }
+        ),
+        type: z.enum(
+          [
+            CorporateExpenceType.EXPENCE,
+            CorporateExpenceType.INCOME,
+            CorporateExpenceType.TRANSFER,
+          ],
+          {
+            error: t.form_validations.required_field,
+          }
+        ),
+        payment_type: z
+          .enum([
+            PaymentType.CARD,
+            PaymentType.CASH,
+            PaymentType.BANK_TRANSFER,
+            PaymentType.DEPOSIT,
+          ])
+          .optional(),
+        company_id: z.string({ error: t.form_validations.required_field }),
+        from_company_id: z.string({
+          error: t.form_validations.required_field,
+        }),
+        to_company_id: z.string({ error: t.form_validations.required_field }),
+        card_id: z.string({ error: t.form_validations.required_field }),
+        loan_id: z.string({ error: t.form_validations.required_field }),
+        social_id: z.string({ error: t.form_validations.required_field }),
+        founder_id: z.string({ error: t.form_validations.required_field }),
+        project_social_id: z.string({
+          error: t.form_validations.required_field,
+        }),
+        amount: z
+          .number({
+            error: t.form_validations.amount,
+          })
+          .min(0, t.form_validations.invalid_value),
+        counterparty_name: z.string({
+          error: t.form_validations.required_field,
+        }),
+
+        deadline_at: z.date(),
+
+        distribution_id: z.string({
+          error: t.form_validations.required_field,
+        }),
+        created_at: z.date().optional(),
+        user_id: z.string().optional(),
+        deposit_id: z.string().optional(),
+
+        description: z
+          .string()
+          .max(150, t.form_validations.invalid_description)
+          .optional(),
+        file_url: z.string().optional(),
+      }),
     [t]
   )
 
@@ -169,22 +189,91 @@ export function ExpenceMutateDrawer({
     },
   })
 
+  // Newwww
+  const selectedType = form.watch('type')
   const checkExpenceType = form.watch('expence_type')
   const selectedCompanyId = form.watch('company_id')
 
-  // Reset to_company_id whenever company_id changes
-  useEffect(() => {
-    if (checkExpenceType === 'transfer') {
-      form.setValue('to_company_id', undefined)
+  const filteredExpenceTypeOptions = useMemo(() => {
+    const allOptions = getExpenceTypeOptions(t_general)
+    // If type is TRANSFER, only show COMPANY_TRANSFER and CARD_WITHDRAW
+    if (selectedType === CorporateExpenceType.TRANSFER) {
+      return allOptions.filter(
+        (option) =>
+          option.value === ExpenceType.COMPANY_TRANSFER ||
+          option.value === ExpenceType.CARD_WITHDRAW
+      )
     }
-  }, [selectedCompanyId, checkExpenceType, form])
+
+    // If type is INCOME, only show CLIENT_PAYMENT, LOAN_REPAYMENT, LOAN_TAKEN, FOUNDER_INPUT
+    if (selectedType === CorporateExpenceType.INCOME) {
+      return allOptions.filter(
+        (option) =>
+          option.value === ExpenceType.CLIENT_PAYMENT ||
+          option.value === ExpenceType.LOAN_REPAYMENT ||
+          option.value === ExpenceType.LOAN_TAKEN ||
+          option.value === ExpenceType.FOUNDER_INPUT
+      )
+    }
+
+    // If type is EXPENCE, only show CHANNEL_POST, CHANNEL_DEPOSIT_TOPUP, CHANNEL_POST_FROM_DEPOSIT, SALARY ...
+    if (selectedType === CorporateExpenceType.EXPENCE) {
+      return allOptions.filter(
+        (option) =>
+          // option.value === ExpenceType.CHANNEL_POST ||
+          // option.value === ExpenceType.CHANNEL_POST_FROM_DEPOSIT ||
+          option.value === ExpenceType.CHANNEL_DEPOSIT_TOPUP ||
+          option.value === ExpenceType.SALARY ||
+          option.value === ExpenceType.SALARY_ADVANCE ||
+          option.value === ExpenceType.LOAN_GIVEN ||
+          option.value === ExpenceType.LOAN_REPAYMENT ||
+          option.value === ExpenceType.SERVICE_EXPENCE
+      )
+    }
+    // Return all options for other types
+    return allOptions
+  }, [selectedType, t_general])
+
+  const filteredPaymentTypeOptions = useMemo(() => {
+    const allOptions = getPaymentTypeOptions(t_general)
+
+    if (selectedType === CorporateExpenceType.INCOME) {
+      return allOptions.filter(
+        (option) =>
+          option.value === PaymentType.CARD ||
+          option.value === PaymentType.CASH ||
+          option.value === PaymentType.BANK_TRANSFER
+      )
+    }
+
+    return allOptions
+  }, [selectedType, t_general])
+
+  useEffect(() => {
+    const currentExpenceType = form.getValues('expence_type')
+    const isCurrentValid = filteredExpenceTypeOptions.some(
+      (opt) => opt.value === currentExpenceType
+    )
+
+    // If current selection is not valid for new type, reset it
+    if (currentExpenceType && !isCurrentValid) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      form.setValue('expence_type', undefined as any)
+    }
+  }, [selectedType, filteredExpenceTypeOptions, form])
+  ////////////
 
   const handlePendingDelete = (filePath: string | null) => {
     setPendingDeleteFile(filePath)
   }
 
   const onSubmit = async (values: ExpenceForm) => {
-    // If updating and there's a pending file deletion, delete it first
+    if (
+      checkExpenceType === ExpenceType.CARD_WITHDRAW ||
+      checkExpenceType === ExpenceType.COMPANY_TRANSFER
+    ) {
+      form.setValue('payment_type', PaymentType.BANK_TRANSFER)
+    }
     if (isUpdate && pendingDeleteFile) {
       try {
         await deleteFile.mutateAsync(pendingDeleteFile)
@@ -226,6 +315,16 @@ export function ExpenceMutateDrawer({
     }
   }
 
+  const bothCompanies = [
+    {
+      value: 'from_company_id',
+      label: t.form_labels.from_company_id,
+    },
+    {
+      value: 'to_company_id',
+      label: t.form_labels.to_company_id,
+    },
+  ] as const
   return (
     <Sheet
       open={open}
@@ -289,139 +388,514 @@ export function ExpenceMutateDrawer({
                 name='expence_type'
                 label={t.form_labels.expence_type}
                 placeholder={t.form_placeholders.select_type}
-                options={getExpenceTypeOptions(t_general)}
+                options={filteredExpenceTypeOptions}
               />
-              <FormFieldSelect
-                control={form.control}
-                name='distribution_id'
-                label={t.form_labels.distribution}
-                placeholder={t.form_placeholders.select_distribution}
-                options={
-                  distribution?.data?.map((item) => ({
-                    value: item.id,
-                    label: item.name,
-                  })) ?? []
-                }
-              />
-              <FormFieldSelect
-                control={form.control}
-                name='payment_type'
-                label={t.form_labels.payment_type}
-                placeholder={t.form_placeholders.select_payment_type}
-                options={getPaymentTypeOptions(t_general)}
-              />
-              <FormFieldWrapper
-                control={form.control}
-                name='amount'
-                label={t.form_labels.amount}
-                placeholder={t.form_placeholders.enter_amount}
-                type='number'
-                suffix={t.form_placeholders.uzs}
-              />
-              <FormComboboxProject
-                control={form.control}
-                name='project_id'
-                label={t.form_placeholders.select_project}
-                detail={currentRow?.project ?? undefined}
-              />
-              <FormComboboxCompany
-                control={form.control}
-                name='company_id'
-                label={t.form_labels.company}
-                detail={currentRow?.company ?? undefined}
-                filterOurCompany={true}
-                setValue={form.setValue}
-              />
-
-              {checkExpenceType === 'transfer' && (
-                <FormComboboxCompany
-                  control={form.control}
-                  name='to_company_id'
-                  label={t.form_labels.transfer_company}
-                  detail={currentRow?.company ?? undefined}
-                  filterOurCompany={true}
-                  setValue={form.setValue}
-                  disabled={!selectedCompanyId}
-                  excludeCompanyId={selectedCompanyId}
-                />
+              {/* Transfer */}
+              {checkExpenceType === ExpenceType.CARD_WITHDRAW && (
+                <>
+                  <FormComboboxCompany
+                    control={form.control}
+                    name='company_id'
+                    label={t.form_labels.company}
+                    detail={currentRow?.company ?? undefined}
+                    filterOurCompany={true}
+                    setValue={form.setValue}
+                  />
+                  <FormComboboxCards
+                    name='card_id'
+                    label={t.form_labels.select_card}
+                    control={form.control}
+                    companyId={selectedCompanyId}
+                    // detail={currentRow?.card}
+                  />
+                  <FormFieldWrapper
+                    control={form.control}
+                    name='amount'
+                    label={t.form_labels.amount}
+                    placeholder={t.form_placeholders.enter_amount}
+                    type='number'
+                    suffix={t.form_placeholders.uzs}
+                  />
+                </>
               )}
-
-              {(checkExpenceType === 'salary' ||
-                checkExpenceType === 'avans') && (
-                <FormComboboxUser
-                  control={form.control}
-                  name='user_id'
-                  label={t.form_labels.select_user}
-                  detail={currentRow?.user ?? undefined}
-                />
+              {checkExpenceType === ExpenceType.COMPANY_TRANSFER && (
+                <>
+                  {bothCompanies.map((item) => (
+                    <FormComboboxCompany
+                      control={form.control}
+                      name={item.value}
+                      label={item.label}
+                      detail={currentRow?.company ?? undefined}
+                      filterOurCompany={true}
+                      setValue={form.setValue}
+                      //       disabled={!selectedCompanyId}
+                      // excludeCompanyId={selectedCompanyId}
+                    />
+                  ))}
+                  <FormFieldWrapper
+                    control={form.control}
+                    name='amount'
+                    label={t.form_labels.amount}
+                    placeholder={t.form_placeholders.enter_amount}
+                    type='number'
+                    suffix={t.form_placeholders.uzs}
+                  />
+                </>
               )}
-
-              {checkExpenceType === 'deposit' && (
-                <FormComboboxDeposit
-                  name='deposit_id'
-                  label={t.form_labels.select_deposit}
-                  control={form.control}
-                  detail={currentRow?.deposit ?? undefined}
-                />
+              {/* Income */}
+              {checkExpenceType === ExpenceType.CLIENT_PAYMENT && (
+                <>
+                  <FormFieldSelect
+                    control={form.control}
+                    name='payment_type'
+                    label={t.form_labels.payment_type}
+                    placeholder={t.form_placeholders.select_payment_type}
+                    options={filteredPaymentTypeOptions}
+                  />
+                  <FormComboboxCompany
+                    control={form.control}
+                    name='company_id'
+                    label={t.form_labels.company}
+                    detail={currentRow?.company ?? undefined}
+                    filterOurCompany={true}
+                    setValue={form.setValue}
+                  />
+                  <FormComboboxProject
+                    control={form.control}
+                    name='project_id'
+                    label={t.form_placeholders.select_project}
+                    detail={currentRow?.project ?? undefined}
+                  />
+                  <FormFieldWrapper
+                    control={form.control}
+                    name='amount'
+                    label={t.form_labels.amount}
+                    placeholder={t.form_placeholders.enter_amount}
+                    type='number'
+                    suffix={t.form_placeholders.uzs}
+                  />
+                </>
               )}
+              {checkExpenceType === ExpenceType.LOAN_REPAYMENT && (
+                <>
+                  <FormFieldSelect
+                    control={form.control}
+                    name='payment_type'
+                    label={t.form_labels.payment_type}
+                    placeholder={t.form_placeholders.select_payment_type}
+                    options={filteredPaymentTypeOptions}
+                  />
+                  <FormComboboxLoans
+                    control={form.control}
+                    name='loan_id'
+                    label={t.form_labels.loan}
+                    direction='WE_GAVE'
+                    // detail={currentRow?.loan ?? undefined}
+                  />
+                  <FormFieldWrapper
+                    control={form.control}
+                    name='amount'
+                    label={t.form_labels.amount}
+                    placeholder={t.form_placeholders.enter_amount}
+                    type='number'
+                    suffix={t.form_placeholders.uzs}
+                  />
+                </>
+              )}
+              {checkExpenceType === ExpenceType.LOAN_TAKEN && (
+                <>
+                  <FormFieldSelect
+                    control={form.control}
+                    name='payment_type'
+                    label={t.form_labels.payment_type}
+                    placeholder={t.form_placeholders.select_payment_type}
+                    options={filteredPaymentTypeOptions}
+                  />
+                  <FormComboboxCompany
+                    control={form.control}
+                    name='company_id'
+                    label={t.form_labels.company}
+                    detail={currentRow?.company ?? undefined}
+                    filterOurCompany={true}
+                    setValue={form.setValue}
+                  />
+                  <FormFieldWrapper
+                    control={form.control}
+                    name='amount'
+                    label={t.form_labels.amount}
+                    placeholder={t.form_placeholders.enter_amount}
+                    type='number'
+                    suffix={t.form_placeholders.uzs}
+                  />
+                  <FormField
+                    control={form.control}
+                    name='deadline_at'
+                    render={({ field }) => (
+                      <FormItem className='flex flex-col space-y-1'>
+                        <FormLabel>{t.form_labels.deadline_at}</FormLabel>
+                        <Popover open={openDate} onOpenChange={setOpenDate}>
+                          <PopoverTrigger asChild>
+                            <FormControl>
+                              <Button
+                                variant={'outline'}
+                                className={cn(
+                                  'text-left font-normal',
+                                  !field.value && 'text-muted-foreground'
+                                )}
+                                onClick={() => setOpenDate(true)}
+                              >
+                                {field.value ? (
+                                  <FormatDateToLongString
+                                    dateString={field.value}
+                                  />
+                                ) : (
+                                  <span>{t.form_labels.deadline_at}</span>
+                                )}
+                                <IconCalendar className='ml-auto h-4 w-4 opacity-50' />
+                              </Button>
+                            </FormControl>
+                          </PopoverTrigger>
+                          <PopoverContent className='w-auto p-0' align='start'>
+                            <Calendar
+                              mode='single'
+                              selected={field.value}
+                              onSelect={(date) => {
+                                field.onChange(date)
+                                setOpenDate(false)
+                              }}
+                              startMonth={
+                                new Date(new Date().getFullYear() - 1, 0, 1)
+                              }
+                              endMonth={
+                                new Date(new Date().getFullYear() + 10, 11, 31)
+                              }
+                              captionLayout='dropdown'
+                              disabled={(date) => {
+                                const oneWeekAgo = new Date()
+                                oneWeekAgo.setDate(oneWeekAgo.getDate() - 7)
+                                oneWeekAgo.setHours(0, 0, 0, 0)
+                                return date < oneWeekAgo
+                              }}
+                            />
+                          </PopoverContent>
+                        </Popover>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </>
+              )}
+              {checkExpenceType === ExpenceType.FOUNDER_INPUT && (
+                <>
+                  <FormFieldSelect
+                    control={form.control}
+                    name='payment_type'
+                    label={t.form_labels.payment_type}
+                    placeholder={t.form_placeholders.select_payment_type}
+                    options={filteredPaymentTypeOptions}
+                  />
+                  <FormComboboxFounders
+                    control={form.control}
+                    name='founder_id'
+                    label={t.form_labels.founder}
+                    // detail={currentRow?.founder}
+                  />
+                  <FormComboboxCompany
+                    control={form.control}
+                    name='company_id'
+                    label={t.form_labels.company}
+                    detail={currentRow?.company ?? undefined}
+                    filterOurCompany={true}
+                    setValue={form.setValue}
+                  />
+                  <FormFieldWrapper
+                    control={form.control}
+                    name='amount'
+                    label={t.form_labels.amount}
+                    placeholder={t.form_placeholders.enter_amount}
+                    type='number'
+                    suffix={t.form_placeholders.uzs}
+                  />
+                </>
+              )}
+              {/* OutCome */}
+              {checkExpenceType === ExpenceType.CHANNEL_DEPOSIT_TOPUP && (
+                <>
+                  <FormFieldSelect
+                    control={form.control}
+                    name='payment_type'
+                    label={t.form_labels.payment_type}
+                    placeholder={t.form_placeholders.select_payment_type}
+                    options={filteredPaymentTypeOptions}
+                  />
+                  <FormComboboxCompany
+                    control={form.control}
+                    name='company_id'
+                    label={t.form_labels.company}
+                    detail={currentRow?.company ?? undefined}
+                    filterOurCompany={true}
+                    setValue={form.setValue}
+                  />
+                  <FormComboboxProject
+                    control={form.control}
+                    name='project_id'
+                    label={t.form_placeholders.select_project}
+                    detail={currentRow?.project ?? undefined}
+                  />
+                  <FormComboboxNetworkSocial
+                    control={form.control}
+                    name='social_id'
+                    label={t.form_labels.social_network}
+                    // detail={currentRow?.social ?? undefined}
+                    setValue={form.setValue}
+                  />
+                  <FormFieldWrapper
+                    control={form.control}
+                    name='amount'
+                    label={t.form_labels.amount}
+                    placeholder={t.form_placeholders.enter_amount}
+                    type='number'
+                    suffix={t.form_placeholders.uzs}
+                  />
+                </>
+              )}
+              {checkExpenceType === ExpenceType.SALARY && (
+                <>
+                  <FormFieldSelect
+                    control={form.control}
+                    name='payment_type'
+                    label={t.form_labels.payment_type}
+                    placeholder={t.form_placeholders.select_payment_type}
+                    options={filteredPaymentTypeOptions}
+                  />
+                  <FormComboboxCompany
+                    control={form.control}
+                    name='company_id'
+                    label={t.form_labels.company}
+                    detail={currentRow?.company ?? undefined}
+                    filterOurCompany={true}
+                    setValue={form.setValue}
+                  />
+                  <FormComboboxProject
+                    control={form.control}
+                    name='project_id'
+                    label={t.form_placeholders.select_project}
+                    detail={currentRow?.project ?? undefined}
+                  />
 
-              <FormField
-                control={form.control}
-                name='created_at'
-                render={({ field }) => (
-                  <FormItem className='flex flex-col space-y-1'>
-                    <FormLabel>{t.form_labels.creation_date}</FormLabel>
-                    <Popover open={openDate} onOpenChange={setOpenDate}>
-                      <PopoverTrigger asChild>
-                        <FormControl>
-                          <Button
-                            variant={'outline'}
-                            className={cn(
-                              'text-left font-normal',
-                              !field.value && 'text-muted-foreground'
-                            )}
-                            onClick={() => setOpenDate(true)}
-                          >
-                            {field.value ? (
-                              <FormatDateToLongString
-                                dateString={field.value}
-                              />
-                            ) : (
-                              <span>{t.form_labels.creation_date}</span>
-                            )}
-                            <IconCalendar className='ml-auto h-4 w-4 opacity-50' />
-                          </Button>
-                        </FormControl>
-                      </PopoverTrigger>
-                      <PopoverContent className='w-auto p-0' align='start'>
-                        <Calendar
-                          mode='single'
-                          selected={field.value}
-                          onSelect={(date) => {
-                            field.onChange(date)
-                            setOpenDate(false)
-                          }}
-                          startMonth={
-                            new Date(new Date().getFullYear() - 1, 0, 1)
-                          }
-                          endMonth={
-                            new Date(new Date().getFullYear() + 10, 11, 31)
-                          }
-                          captionLayout='dropdown'
-                          disabled={(date) => {
-                            const oneWeekAgo = new Date()
-                            oneWeekAgo.setDate(oneWeekAgo.getDate() - 7)
-                            oneWeekAgo.setHours(0, 0, 0, 0)
-                            return date < oneWeekAgo
-                          }}
-                        />
-                      </PopoverContent>
-                    </Popover>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                  <FormComboboxUser
+                    control={form.control}
+                    name='user_id'
+                    label={t.form_labels.select_user}
+                    detail={currentRow?.user ?? undefined}
+                  />
 
+                  <FormFieldWrapper
+                    control={form.control}
+                    name='amount'
+                    label={t.form_labels.amount}
+                    placeholder={t.form_placeholders.enter_amount}
+                    type='number'
+                    suffix={t.form_placeholders.uzs}
+                  />
+                </>
+              )}
+              {checkExpenceType === ExpenceType.SALARY_ADVANCE && (
+                <>
+                  <FormFieldSelect
+                    control={form.control}
+                    name='payment_type'
+                    label={t.form_labels.payment_type}
+                    placeholder={t.form_placeholders.select_payment_type}
+                    options={filteredPaymentTypeOptions}
+                  />
+                  <FormComboboxCompany
+                    control={form.control}
+                    name='company_id'
+                    label={t.form_labels.company}
+                    detail={currentRow?.company ?? undefined}
+                    filterOurCompany={true}
+                    setValue={form.setValue}
+                  />
+                  <FormComboboxUser
+                    control={form.control}
+                    name='user_id'
+                    label={t.form_labels.select_user}
+                    detail={currentRow?.user ?? undefined}
+                  />
+
+                  <FormFieldWrapper
+                    control={form.control}
+                    name='amount'
+                    label={t.form_labels.amount}
+                    placeholder={t.form_placeholders.enter_amount}
+                    type='number'
+                    suffix={t.form_placeholders.uzs}
+                  />
+                </>
+              )}
+              {checkExpenceType === ExpenceType.LOAN_GIVEN && (
+                <>
+                  <FormFieldSelect
+                    control={form.control}
+                    name='payment_type'
+                    label={t.form_labels.payment_type}
+                    placeholder={t.form_placeholders.select_payment_type}
+                    options={filteredPaymentTypeOptions}
+                  />
+                  <FormComboboxCompany
+                    control={form.control}
+                    name='company_id'
+                    label={t.form_labels.company}
+                    detail={currentRow?.company ?? undefined}
+                    filterOurCompany={true}
+                    setValue={form.setValue}
+                  />
+                  <FormFieldWrapper
+                    control={form.control}
+                    name='counterparty_name'
+                    label={t.form_labels.counterparty_name}
+                    placeholder={t.form_placeholders.enter_name}
+                  />
+                  <FormFieldWrapper
+                    control={form.control}
+                    name='amount'
+                    label={t.form_labels.amount}
+                    placeholder={t.form_placeholders.enter_amount}
+                    type='number'
+                    suffix={t.form_placeholders.uzs}
+                  />
+                  <FormField
+                    control={form.control}
+                    name='deadline_at'
+                    render={({ field }) => (
+                      <FormItem className='flex flex-col space-y-1'>
+                        <FormLabel>{t.form_labels.deadline_at}</FormLabel>
+                        <Popover open={openDate} onOpenChange={setOpenDate}>
+                          <PopoverTrigger asChild>
+                            <FormControl>
+                              <Button
+                                variant={'outline'}
+                                className={cn(
+                                  'text-left font-normal',
+                                  !field.value && 'text-muted-foreground'
+                                )}
+                                onClick={() => setOpenDate(true)}
+                              >
+                                {field.value ? (
+                                  <FormatDateToLongString
+                                    dateString={field.value}
+                                  />
+                                ) : (
+                                  <span>{t.form_labels.deadline_at}</span>
+                                )}
+                                <IconCalendar className='ml-auto h-4 w-4 opacity-50' />
+                              </Button>
+                            </FormControl>
+                          </PopoverTrigger>
+                          <PopoverContent className='w-auto p-0' align='start'>
+                            <Calendar
+                              mode='single'
+                              selected={field.value}
+                              onSelect={(date) => {
+                                field.onChange(date)
+                                setOpenDate(false)
+                              }}
+                              startMonth={
+                                new Date(new Date().getFullYear() - 1, 0, 1)
+                              }
+                              endMonth={
+                                new Date(new Date().getFullYear() + 10, 11, 31)
+                              }
+                              captionLayout='dropdown'
+                              disabled={(date) => {
+                                const oneWeekAgo = new Date()
+                                oneWeekAgo.setDate(oneWeekAgo.getDate() - 7)
+                                oneWeekAgo.setHours(0, 0, 0, 0)
+                                return date < oneWeekAgo
+                              }}
+                            />
+                          </PopoverContent>
+                        </Popover>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </>
+              )}
+              {checkExpenceType === ExpenceType.LOAN_REPAYMENT && (
+                <>
+                  <FormFieldSelect
+                    control={form.control}
+                    name='payment_type'
+                    label={t.form_labels.payment_type}
+                    placeholder={t.form_placeholders.select_payment_type}
+                    options={filteredPaymentTypeOptions}
+                  />
+                  <FormComboboxCompany
+                    control={form.control}
+                    name='company_id'
+                    label={t.form_labels.company}
+                    detail={currentRow?.company ?? undefined}
+                    filterOurCompany={true}
+                    setValue={form.setValue}
+                  />
+                  <FormComboboxLoans
+                    control={form.control}
+                    name='loan_id'
+                    label={t.form_labels.loan}
+                    direction='WE_TOOK'
+                    // detail={currentRow?.loan ?? undefined}
+                  />
+                  <FormFieldWrapper
+                    control={form.control}
+                    name='amount'
+                    label={t.form_labels.amount}
+                    placeholder={t.form_placeholders.enter_amount}
+                    type='number'
+                    suffix={t.form_placeholders.uzs}
+                  />
+                </>
+              )}
+              {checkExpenceType === ExpenceType.SERVICE_EXPENCE && (
+                <>
+                  <FormFieldSelect
+                    control={form.control}
+                    name='payment_type'
+                    label={t.form_labels.payment_type}
+                    placeholder={t.form_placeholders.select_payment_type}
+                    options={filteredPaymentTypeOptions}
+                  />
+                  <FormComboboxCompany
+                    control={form.control}
+                    name='company_id'
+                    label={t.form_labels.company}
+                    detail={currentRow?.company ?? undefined}
+                    filterOurCompany={true}
+                    setValue={form.setValue}
+                  />
+                  <FormComboboxProject
+                    control={form.control}
+                    name='project_id'
+                    label={t.form_placeholders.select_project}
+                    detail={currentRow?.project ?? undefined}
+                  />
+                  <FormFieldWrapper
+                    control={form.control}
+                    name='counterparty_name'
+                    label={t.form_labels.counterparty_name}
+                    placeholder={t.form_placeholders.enter_name}
+                  />
+                  <FormFieldWrapper
+                    control={form.control}
+                    name='amount'
+                    label={t.form_labels.amount}
+                    placeholder={t.form_placeholders.enter_amount}
+                    type='number'
+                    suffix={t.form_placeholders.uzs}
+                  />
+                </>
+              )}
               <FormFileUploadField
                 control={form.control}
                 name='file_url'
@@ -463,3 +937,47 @@ export function ExpenceMutateDrawer({
     </Sheet>
   )
 }
+
+// Reset to_company_id whenever company_id changes
+// useEffect(() => {
+//   if (selectedType !== CorporateExpenceType.TRANSFER) {
+//     form.setValue('to_company_id', undefined)
+//     form.setValue('card_id', undefined)
+//   }
+// }, [selectedCompanyId, selectedType, form])
+
+// .superRefine((data, ctx) => {
+//         // If type is 'transfer', to_company_id is required
+//         if (
+//           data.type === CorporateExpenceType.TRANSFER &&
+//           !data.expence_type
+//         ) {
+//           ctx.addIssue({
+//             code: z.ZodIssueCode.custom,
+//             message: t.form_validations.required_field,
+//             path: ['expence_type'],
+//           })
+//         }
+
+//         // If expence_type is *** is required
+//         if (
+//           data.expence_type === ExpenceType.CARD_WITHDRAW &&
+//           !data.company_id
+//         ) {
+//           ctx.addIssue({
+//             code: z.ZodIssueCode.custom,
+//             message: t.form_validations.required_field,
+//             path: ['company_id'],
+//           })
+//         }
+//         if (
+//           data.expence_type === ExpenceType.CARD_WITHDRAW &&
+//           !data.card_id
+//         ) {
+//           ctx.addIssue({
+//             code: z.ZodIssueCode.custom,
+//             message: t.form_validations.required_field,
+//             path: ['card_id'],
+//           })
+//         }
+//       }),

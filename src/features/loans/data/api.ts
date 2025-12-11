@@ -6,15 +6,18 @@ export const getLoans = async ({
   limit,
   offset,
   search,
+  direction,
 }: {
   limit?: number
   offset?: number
   search?: string
+  direction?: 'WE_GAVE' | 'WE_TOOK'
 }): Promise<LoanSchemaResponse> => {
   const params = new URLSearchParams()
 
   if (limit !== undefined) params.append('limit', limit.toString())
   if (offset !== undefined) params.append('offset', offset.toString())
+  if (direction !== undefined) params.append('direction', direction)
   if (search) params.append('search', search)
 
   const response = await api.get(`/loans?${params.toString()}`)

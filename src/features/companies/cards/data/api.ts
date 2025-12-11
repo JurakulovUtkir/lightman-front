@@ -6,15 +6,18 @@ export const getCards = async ({
   limit,
   offset,
   search,
+  company_id,
 }: {
   limit?: number
   offset?: number
   search?: string
+  company_id?: string
 }): Promise<CardsSchemaResponse> => {
   const params = new URLSearchParams()
 
   if (limit !== undefined) params.append('limit', limit.toString())
   if (offset !== undefined) params.append('offset', offset.toString())
+  if (company_id !== undefined) params.append('company_id', company_id)
   if (search) params.append('search', search)
 
   const response = await api.get(`/cards?${params.toString()}`)

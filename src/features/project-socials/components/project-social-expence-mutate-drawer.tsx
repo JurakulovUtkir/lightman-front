@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useMemo } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -11,6 +11,11 @@ import {
 import { toast } from 'sonner'
 import { getExpenceOriginTypeColor } from '@/lib/statusHelpers'
 import { cn } from '@/lib/utils'
+import {
+  CorporateExpenceType,
+  ExpenceType,
+  PaymentType,
+} from '@/constants/enums'
 import { useLang } from '@/hooks/useLang'
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
@@ -39,8 +44,8 @@ import { FormatDateToLongString } from '@/components/date-formatter'
 import { FormFieldSelect } from '@/components/form-field-select'
 import { FormFieldWrapper } from '@/components/form-field-wrapper'
 import { FormComboboxCompany } from '@/features/expences/components/form-combobox-company'
-import { FormComboboxDeposit } from '@/features/expences/components/form-combobox-deposit'
-import { FormComboboxUser } from '@/features/expences/components/form-combobox-users'
+// import { FormComboboxDeposit } from '@/features/expences/components/form-combobox-deposit'
+// import { FormComboboxUser } from '@/features/expences/components/form-combobox-users'
 import { useCreateExpence } from '@/features/expences/data/hooks'
 import { FormFileUploadField } from '@/features/project-socials/components/form-file-upload'
 import {
@@ -81,14 +86,38 @@ export function ProjectSocialExpenceMutateDrawer({
     () =>
       z.object({
         expence_type: z.enum(
-          ['salary', 'avans', 'project', 'deposit', 'other', 'transfer'],
+          [
+            ExpenceType.CHANNEL_POST,
+            ExpenceType.CHANNEL_DEPOSIT_TOPUP,
+            ExpenceType.CHANNEL_POST_FROM_DEPOSIT,
+            ExpenceType.SALARY,
+            ExpenceType.SALARY_ADVANCE,
+            ExpenceType.BONUS,
+            ExpenceType.LOAN_GIVEN,
+            ExpenceType.LOAN_TAKEN,
+            ExpenceType.LOAN_REPAYMENT,
+            ExpenceType.COMPANY_TRANSFER,
+            ExpenceType.CARD_WITHDRAW,
+            ExpenceType.CASH_WITHDRAW,
+            ExpenceType.SERVICE_EXPENCE,
+            ExpenceType.CLIENT_PAYMENT,
+            ExpenceType.FOUNDER_INPUT,
+            ExpenceType.OTHER,
+          ],
           {
             error: t.form_validations.required_field,
           }
         ),
-        type: z.enum(['expence', 'income', 'deposit'], {
-          error: t.form_validations.required_field,
-        }),
+        type: z.enum(
+          [
+            CorporateExpenceType.EXPENCE,
+            CorporateExpenceType.INCOME,
+            CorporateExpenceType.TRANSFER,
+          ],
+          {
+            error: t.form_validations.required_field,
+          }
+        ),
         distribution_id: z.string({
           error: t.form_validations.required_field,
         }),
@@ -97,9 +126,17 @@ export function ProjectSocialExpenceMutateDrawer({
         created_at: z.date().optional(),
         user_id: z.string().optional(),
         deposit_id: z.string().optional(),
-        payment_type: z.enum(['CARD', 'BANK_TRANSFER', 'CASH', 'DEPOSIT'], {
-          error: t.form_validations.required_field,
-        }),
+        payment_type: z.enum(
+          [
+            PaymentType.CARD,
+            PaymentType.CASH,
+            PaymentType.BANK_TRANSFER,
+            PaymentType.DEPOSIT,
+          ],
+          {
+            error: t.form_validations.required_field,
+          }
+        ),
         amount: z
           .number({
             error: t.form_validations.amount,
@@ -112,37 +149,7 @@ export function ProjectSocialExpenceMutateDrawer({
         file_url: z.string().optional(),
       }),
     [t]
-  ).superRefine((data, ctx) => {
-    // If expence_type is 'transfer', to_company_id is required
-    if (data.expence_type === 'transfer' && !data.to_company_id) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: t.form_validations.required_transfer,
-        path: ['to_company_id'],
-      })
-    }
-
-    // If expence_type is 'salary' or 'avans', user_id is required
-    if (
-      (data.expence_type === 'salary' || data.expence_type === 'avans') &&
-      !data.user_id
-    ) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: t.form_validations.required_user,
-        path: ['user_id'],
-      })
-    }
-
-    // If expence_type is 'deposit', deposit_id is required
-    if (data.expence_type === 'deposit' && !data.deposit_id) {
-      ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: t.form_validations.required_deposit,
-        path: ['deposit_id'],
-      })
-    }
-  })
+  )
 
   type ExpenceForm = z.infer<typeof formSchema>
 
@@ -150,15 +157,8 @@ export function ProjectSocialExpenceMutateDrawer({
     resolver: zodResolver(formSchema),
   })
 
-  const checkExpenceType = form.watch('expence_type')
-  const selectedCompanyId = form.watch('company_id')
-
-  // Reset to_company_id whenever company_id changes
-  useEffect(() => {
-    if (checkExpenceType === 'transfer') {
-      form.setValue('to_company_id', undefined)
-    }
-  }, [selectedCompanyId, checkExpenceType, form])
+  // const checkExpenceType = form.watch('expence_type')
+  // const selectedCompanyId = form.watch('company_id')
 
   const handlePendingDelete = (filePath: string | null) => {
     setPendingDeleteFile(filePath)
@@ -307,7 +307,7 @@ export function ProjectSocialExpenceMutateDrawer({
                 filterOurCompany={true}
                 setValue={form.setValue}
               />
-
+              {/* 
               {checkExpenceType === 'transfer' && (
                 <FormComboboxCompany
                   control={form.control}
@@ -319,9 +319,9 @@ export function ProjectSocialExpenceMutateDrawer({
                   disabled={!selectedCompanyId}
                   excludeCompanyId={selectedCompanyId}
                 />
-              )}
+              )} */}
 
-              {(checkExpenceType === 'salary' ||
+              {/* {(checkExpenceType === 'salary' ||
                 checkExpenceType === 'avans') && (
                 <FormComboboxUser
                   control={form.control}
@@ -338,7 +338,7 @@ export function ProjectSocialExpenceMutateDrawer({
                   control={form.control}
                   detail={undefined}
                 />
-              )}
+              )} */}
 
               <FormField
                 control={form.control}
@@ -430,3 +430,42 @@ export function ProjectSocialExpenceMutateDrawer({
     </Sheet>
   )
 }
+
+// Reset to_company_id whenever company_id changes
+// useEffect(() => {
+//   if (checkExpenceType === 'transfer') {
+//     form.setValue('to_company_id', undefined)
+//   }
+// }, [selectedCompanyId, checkExpenceType, form])
+
+// .superRefine((data, ctx) => {
+//     // If expence_type is 'transfer', to_company_id is required
+//     if (data.expence_type === 'transfer' && !data.to_company_id) {
+//       ctx.addIssue({
+//         code: z.ZodIssueCode.custom,
+//         message: t.form_validations.required_transfer,
+//         path: ['to_company_id'],
+//       })
+//     }
+
+//     // If expence_type is 'salary' or 'avans', user_id is required
+//     if (
+//       (data.expence_type === 'salary' || data.expence_type === 'avans') &&
+//       !data.user_id
+//     ) {
+//       ctx.addIssue({
+//         code: z.ZodIssueCode.custom,
+//         message: t.form_validations.required_user,
+//         path: ['user_id'],
+//       })
+//     }
+
+//     // If expence_type is 'deposit', deposit_id is required
+//     if (data.expence_type === 'deposit' && !data.deposit_id) {
+//       ctx.addIssue({
+//         code: z.ZodIssueCode.custom,
+//         message: t.form_validations.required_deposit,
+//         path: ['deposit_id'],
+//       })
+//     }
+//   })

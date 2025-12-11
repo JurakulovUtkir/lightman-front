@@ -1,6 +1,11 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import {
+  CorporateExpenceType,
+  ExpenceType,
+  PaymentType,
+} from '@/constants/enums'
+import {
   getExpences,
   getExpence,
   createExpence,
@@ -28,15 +33,9 @@ export const useExpences = ({
   limit?: number
   offset?: number
   search?: string
-  type?: 'expence' | 'income' | 'deposit'
-  expence_type?:
-    | 'salary'
-    | 'avans'
-    | 'project'
-    | 'deposit'
-    | 'other'
-    | 'transfer'
-  payment_type?: 'CARD' | 'BANK_TRANSFER' | 'CASH' | 'DEPOSIT'
+  type?: CorporateExpenceType
+  expence_type?: ExpenceType
+  payment_type?: PaymentType
   distribution_id?: string
   company_id?: string
   project_id?: string

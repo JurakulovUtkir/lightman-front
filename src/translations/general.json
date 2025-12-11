@@ -164,17 +164,27 @@
         "DEPOSIT": "Deposit"
       },
       "expenceTypeOptions": {
-        "salary": "Salary",
-        "avans": "Avans",
-        "project": "Project",
-        "deposit": "Deposit",
-        "transfer": "Transfer",
-        "other": "Other"
+        "CHANNEL_POST": "Channel Post",
+        "CHANNEL_DEPOSIT_TOPUP": "Channel Deposit Top-up",
+        "CHANNEL_POST_FROM_DEPOSIT": "Channel Post from Deposit",
+        "SALARY": "Salary",
+        "SALARY_ADVANCE": "Salary Advance",
+        "BONUS": "Bonus",
+        "LOAN_GIVEN": "Loan Given",
+        "LOAN_TAKEN": "Loan Taken",
+        "LOAN_REPAYMENT": "Loan Repayment",
+        "COMPANY_TRANSFER": "Company Transfer",
+        "CARD_WITHDRAW": "Card Withdraw",
+        "CASH_WITHDRAW": "Cash Withdraw",
+        "SERVICE_EXPENCE": "Service Expense",
+        "CLIENT_PAYMENT": "Client Payment",
+        "FOUNDER_INPUT": "Founder Input",
+        "OTHER": "Other"
       },
       "expenceOriginTypeOptions": {
-        "expence": "Expence",
-        "income": "Income",
-        "deposit": "Deposit"
+        "EXPENCE": "Expence",
+        "INCOME": "Income",
+        "TRANSFER": "Transfer"
       },
       "userRoleOptions": {
         "admin": "Admin",
@@ -467,17 +477,27 @@
         "DEPOSIT": "Депозит"
       },
       "expenceTypeOptions": {
-        "salary": "Зарплата",
-        "avans": "Аванс",
-        "project": "Проект",
-        "deposit": "Депозит",
-        "transfer": "Перевод",
-        "other": "Другое"
+        "CHANNEL_POST": "Пост в канале",
+        "CHANNEL_DEPOSIT_TOPUP": "Пополнение депозита канала",
+        "CHANNEL_POST_FROM_DEPOSIT": "Пост из депозита канала",
+        "SALARY": "Зарплата",
+        "SALARY_ADVANCE": "Аванс по зарплате",
+        "BONUS": "Бонус",
+        "LOAN_GIVEN": "Выданный займ",
+        "LOAN_TAKEN": "Взятый займ",
+        "LOAN_REPAYMENT": "Погашение займа",
+        "COMPANY_TRANSFER": "Перевод компании",
+        "CARD_WITHDRAW": "Снятие с карты",
+        "CASH_WITHDRAW": "Снятие наличных",
+        "SERVICE_EXPENCE": "Расход на услуги",
+        "CLIENT_PAYMENT": "Платёж клиента",
+        "FOUNDER_INPUT": "Вклад учредителя",
+        "OTHER": "Другое"
       },
       "expenceOriginTypeOptions": {
-        "expence": "Расход",
-        "income": "Доход",
-        "deposit": "Депозит"
+        "EXPENCE": "Расход",
+        "INCOME": "Доход",
+        "TRANSFER": "Перевод"
       },
       "userRoleOptions": {
         "admin": "Администратор",
@@ -769,17 +789,27 @@
         "DEPOSIT": "Depozit"
       },
       "expenceTypeOptions": {
-        "salary": "Ish haqi",
-        "avans": "Avans",
-        "project": "Loyiha",
-        "deposit": "Depozit",
-        "transfer": "O‘tkazma",
-        "other": "Boshqa"
+        "CHANNEL_POST": "Kanal posti",
+        "CHANNEL_DEPOSIT_TOPUP": "Kanal depozitini to‘ldirish",
+        "CHANNEL_POST_FROM_DEPOSIT": "Depozitdan kanal posti",
+        "SALARY": "Maosh",
+        "SALARY_ADVANCE": "Avans",
+        "BONUS": "Bonus",
+        "LOAN_GIVEN": "Berilgan qarz",
+        "LOAN_TAKEN": "Olingan qarz",
+        "LOAN_REPAYMENT": "Qarz to‘lovi",
+        "COMPANY_TRANSFER": "Kompaniya o‘tkazmasi",
+        "CARD_WITHDRAW": "Kartadan yechish",
+        "CASH_WITHDRAW": "Naqd pul yechish",
+        "SERVICE_EXPENCE": "Xizmat xarajati",
+        "CLIENT_PAYMENT": "Mijoz to‘lovi",
+        "FOUNDER_INPUT": "Ta’sischi qo‘shgan mablag‘",
+        "OTHER": "Boshqa"
       },
       "expenceOriginTypeOptions": {
-        "expence": "Xarajat",
-        "income": "Daromad",
-        "deposit": "Depozit"
+        "EXPENCE": "Xarajat",
+        "INCOME": "Daromad",
+        "TRANSFER": "O‘tkazma"
       },
       "userRoleOptions": {
         "admin": "Administrator",
