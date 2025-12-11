@@ -28,18 +28,18 @@
       "update_lang": "Update your language settings. Set your preferred language."
     },
     "months": [
-      "April",
-      "August",
-      "December",
-      "February",
       "January",
-      "July",
-      "June",
+      "February",
       "March",
+      "April",
       "May",
-      "November",
+      "June",
+      "July",
+      "August",
+      "September",
       "October",
-      "September"
+      "November",
+      "December"
     ],
     "auth": {
       "sign_in": "Sign in",
@@ -329,18 +329,18 @@
       "update_lang": "Обновите языковые настройки. Установите предпочитаемый язык."
     },
     "months": [
-      "Август",
-      "Апрель",
-      "Декабрь",
-      "Июль",
-      "Июнь",
-      "Май",
-      "Март",
-      "Ноябрь",
-      "Октябрь",
-      "Сентябрь",
+      "Январь",
       "Февраль",
-      "Январь"
+      "Март",
+      "Апрель",
+      "Май",
+      "Июнь",
+      "Июль",
+      "Август",
+      "Сентябрь",
+      "Октябрь",
+      "Ноябрь",
+      "Декабрь"
     ],
     "auth": {
       "sign_in": "Войти",
@@ -629,18 +629,18 @@
       "update_lang": "Til sozlamalaringizni yangilang. Afzal tilni tanlang."
     },
     "months": [
-      "Aprel",
-      "Avgust",
-      "Dekabr",
+      "Yanvar",
       "Fevral",
-      "Iyul",
-      "Iyun",
       "Mart",
+      "Aprel",
       "May",
-      "Noyabr",
-      "Oktabr",
+      "Iyun",
+      "Iyul",
+      "Avgust",
       "Sentyabr",
-      "Yanvar"
+      "Oktyabr",
+      "Noyabr",
+      "Dekabr"
     ],
     "auth": {
       "sign_in": "Kirish",

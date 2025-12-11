@@ -93,6 +93,9 @@ export function CardMutateDrawer({
     defaultValues: {
       ...currentRow,
       balance: toNumber(currentRow?.balance),
+      expiration_date: currentRow?.expiration_date
+        ? new Date(currentRow.expiration_date)
+        : undefined,
     },
   })
 

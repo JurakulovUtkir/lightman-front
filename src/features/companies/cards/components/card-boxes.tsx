@@ -16,6 +16,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
+import { useCardsContext } from '../context'
 import { CardsSchema } from '../data/schema'
 
 const formatCurrency = (amount: number) => {
@@ -47,6 +48,7 @@ const CardBox = ({
   index: number
   t: (typeof import('@/translations/general.json'))['en']['columns']
 }) => {
+  const { setOpen, setCurrentRow } = useCardsContext()
   const [showBalance, setShowBalance] = useState(true)
   const gradientClass = cardGradients[index % cardGradients.length]
 
@@ -63,7 +65,10 @@ const CardBox = ({
   }
 
   const expiringSoon = isExpiringSoon()
-
+  const handleEdit = () => {
+    setCurrentRow(card)
+    setOpen('update')
+  }
   return (
     <div className='group relative max-w-[380px] min-w-[340px]'>
       {/* Bank Card */}
@@ -143,6 +148,7 @@ const CardBox = ({
                 size='icon'
                 variant='ghost'
                 className='h-8 w-8 text-white opacity-0 transition-opacity group-hover:opacity-100 hover:bg-white/20'
+                onClick={handleEdit}
               >
                 <IconEdit className='h-4 w-4' />
               </Button>

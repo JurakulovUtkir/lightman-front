@@ -163,7 +163,9 @@ export function ExpenceMutateDrawer({
       description: currentRow?.description ?? undefined,
       user_id: currentRow?.user?.id ?? undefined,
       file_url: currentRow?.file_url ?? undefined,
-      created_at: currentRow?.created_at ?? undefined,
+      created_at: currentRow?.created_at
+        ? new Date(currentRow.created_at)
+        : undefined,
     },
   })
 

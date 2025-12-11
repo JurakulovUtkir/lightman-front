@@ -79,16 +79,12 @@ export function LoanMutateDrawer({
           .max(150, t.form_validations.invalid_counterparty),
         planned_amount: z.number().min(0, t.form_validations.invalid_value),
         given_amount: z.number().min(0, t.form_validations.invalid_value),
-        start_date: z
-          .date({
-            error: t.form_validations.required_field,
-          })
-          .min(1),
-        due_date: z
-          .date({
-            error: t.form_validations.required_field,
-          })
-          .min(1),
+        start_date: z.date({
+          error: t.form_validations.required_field,
+        }),
+        due_date: z.date({
+          error: t.form_validations.required_field,
+        }),
         closed_date: z.date().optional(),
         status: z.enum(['ACTIVE', 'CLOSED', 'OVERDUE', 'CANCELLED']).optional(),
         note: z.string().optional(),
@@ -105,6 +101,15 @@ export function LoanMutateDrawer({
       status: 'ACTIVE',
       planned_amount: toNumber(currentRow?.planned_amount),
       given_amount: toNumber(currentRow?.given_amount),
+      start_date: currentRow?.start_date
+        ? new Date(currentRow.start_date)
+        : undefined,
+      due_date: currentRow?.due_date
+        ? new Date(currentRow.due_date)
+        : undefined,
+      closed_date: currentRow?.closed_date
+        ? new Date(currentRow.closed_date)
+        : undefined,
     },
   })
 

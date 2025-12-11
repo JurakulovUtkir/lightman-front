@@ -112,6 +112,9 @@ export function ProjectSocialMutateDrawer({
     defaultValues: {
       ...currentRow,
       network_type_id: currentRow?.social?.social_network_type_id,
+      created_at: currentRow?.created_at
+        ? new Date(currentRow.created_at)
+        : undefined,
     },
   })
 
