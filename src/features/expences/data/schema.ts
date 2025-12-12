@@ -50,6 +50,7 @@ export const expenceSchema = z.object({
   description: z.string(),
   file_url: z.string(),
   created_at: z.date().optional(),
+  deadline_at: z.date().optional(),
   updated_at: z.string(),
   company: companySchema,
   user: userSchema,

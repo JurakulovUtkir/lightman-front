@@ -90,9 +90,11 @@ export function ExpenceMutateDrawer({
   const formSchema = useMemo(
     () =>
       z.object({
-        project_id: z.string({
-          error: t.form_validations.required_field,
-        }),
+        project_id: z
+          .string({
+            error: t.form_validations.required_field,
+          })
+          .optional(),
         expence_type: z.enum(
           [
             ExpenceType.CHANNEL_POST,
@@ -134,32 +136,53 @@ export function ExpenceMutateDrawer({
             PaymentType.DEPOSIT,
           ])
           .optional(),
-        company_id: z.string({ error: t.form_validations.required_field }),
-        from_company_id: z.string({
-          error: t.form_validations.required_field,
-        }),
-        to_company_id: z.string({ error: t.form_validations.required_field }),
-        card_id: z.string({ error: t.form_validations.required_field }),
-        loan_id: z.string({ error: t.form_validations.required_field }),
-        social_id: z.string({ error: t.form_validations.required_field }),
-        founder_id: z.string({ error: t.form_validations.required_field }),
-        project_social_id: z.string({
-          error: t.form_validations.required_field,
-        }),
+        company_id: z
+          .string({ error: t.form_validations.required_field })
+          .optional(),
+        from_company_id: z
+          .string({
+            error: t.form_validations.required_field,
+          })
+          .optional(),
+        to_company_id: z
+          .string({ error: t.form_validations.required_field })
+          .optional(),
+        card_id: z
+          .string({ error: t.form_validations.required_field })
+          .optional(),
+        loan_id: z
+          .string({ error: t.form_validations.required_field })
+          .optional(),
+        social_id: z
+          .string({ error: t.form_validations.required_field })
+          .optional(),
+        founder_id: z
+          .string({ error: t.form_validations.required_field })
+          .optional(),
+        project_social_id: z
+          .string({
+            error: t.form_validations.required_field,
+          })
+          .optional(),
         amount: z
           .number({
             error: t.form_validations.amount,
           })
-          .min(0, t.form_validations.invalid_value),
-        counterparty_name: z.string({
-          error: t.form_validations.required_field,
-        }),
+          .min(0, t.form_validations.invalid_value)
+          .optional(),
+        counterparty_name: z
+          .string({
+            error: t.form_validations.required_field,
+          })
+          .optional(),
 
-        deadline_at: z.date(),
+        deadline_at: z.date().optional(),
 
-        distribution_id: z.string({
-          error: t.form_validations.required_field,
-        }),
+        distribution_id: z
+          .string({
+            error: t.form_validations.required_field,
+          })
+          .optional(),
         created_at: z.date().optional(),
         user_id: z.string().optional(),
         deposit_id: z.string().optional(),
@@ -186,8 +209,12 @@ export function ExpenceMutateDrawer({
       created_at: currentRow?.created_at
         ? new Date(currentRow.created_at)
         : undefined,
+      deadline_at: currentRow?.deadline_at
+        ? new Date(currentRow.deadline_at)
+        : undefined,
     },
   })
+  console.log('form', form.formState.errors)
 
   // Newwww
   const selectedType = form.watch('type')
