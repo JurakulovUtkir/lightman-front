@@ -214,7 +214,6 @@ export function ExpenceMutateDrawer({
         : undefined,
     },
   })
-  console.log('form', form.formState.errors)
 
   // Newwww
   const selectedType = form.watch('type')
