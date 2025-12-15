@@ -176,3 +176,9 @@ export const getPropertyCategoryOptions = (
   { value: 'ELECTRONICS', label: t.propertyCategory.ELECTRONICS },
   { value: 'OTHER', label: t.propertyCategory.OTHER },
 ]
+export const getCardOptions = (
+  t: (typeof import('@/translations/general.json'))['en']['columns']
+) => [
+  { value: 'card', label: t.cardType.card },
+  { value: 'cash', label: t.cardType.cash },
+]

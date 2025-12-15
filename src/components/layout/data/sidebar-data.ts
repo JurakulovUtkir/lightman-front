@@ -122,6 +122,10 @@ export const sidebarData: SidebarData = {
               url: '/companies',
             },
             {
+              title: 'counterparty',
+              url: '/companies/counterparty',
+            },
+            {
               title: 'cards',
               url: '/companies/cards',
             },

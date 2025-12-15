@@ -3,6 +3,7 @@ import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { IconCalendar } from '@tabler/icons-react'
+import { getCardOptions } from '@/constants'
 import { toNumber } from '@/lib/helpers'
 import { cn } from '@/lib/utils'
 import { useLang } from '@/hooks/useLang'
@@ -31,6 +32,7 @@ import {
 } from '@/components/ui/sheet'
 import { Switch } from '@/components/ui/switch'
 import { FormatDateToLongString } from '@/components/date-formatter'
+import { FormFieldSelect } from '@/components/form-field-select'
 import { FormFieldWrapper } from '@/components/form-field-wrapper'
 import { FormComboboxCompany } from '@/features/projects/components/form-combobox-company'
 import { CardsDialogType } from '../context'
@@ -57,8 +59,9 @@ export function CardMutateDrawer({
   const isUpdate = !!currentRow
   const [openDate, setOpenDate] = useState(false)
 
-  const { lang, tForm, tCard } = useLang()
+  const { lang, tForm, tCard, general } = useLang()
   const t = tForm[lang]
+  const t_general = general[lang].columns
 
   const formSchema = useMemo(
     () =>
@@ -81,6 +84,8 @@ export function CardMutateDrawer({
           })
           .min(1),
         balance: z.number().min(0, t.form_validations.invalid_value).optional(),
+        card_type: z.enum(['cash', 'card']),
+
         is_active: z.boolean().optional(),
       }),
     [t]
@@ -175,6 +180,15 @@ export function CardMutateDrawer({
                   )}
                 />
               </div>
+
+              <FormFieldSelect
+                control={form.control}
+                name='card_type'
+                label={t.form_labels.card_type}
+                placeholder={t.form_placeholders.select_type}
+                options={getCardOptions(t_general)}
+              />
+
               <FormComboboxCompany
                 control={form.control}
                 name='company_id'

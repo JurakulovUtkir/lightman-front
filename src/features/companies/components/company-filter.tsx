@@ -22,7 +22,7 @@ import { Separator } from '@/components/ui/separator'
 interface CompanyFilterProps {
   onFilterChange: (filters: {
     is_active?: boolean
-    is_our_company?: boolean
+    // is_our_company?: boolean
     is_vip?: boolean
   }) => void
 }
@@ -36,11 +36,11 @@ const filterGroups = [
       { label: 'Inactive', value: 'false' },
     ],
   },
-  {
-    title: 'Company Type',
-    key: 'is_our_company' as const,
-    options: [{ label: 'Our Company', value: 'true' }],
-  },
+  // {
+  //   title: 'Company Type',
+  //   key: 'is_our_company' as const,
+  //   options: [{ label: 'Our Company', value: 'true' }],
+  // },
   {
     title: 'VIP Status',
     key: 'is_vip' as const,
@@ -51,7 +51,7 @@ const filterGroups = [
 export function CompanyFilter({ onFilterChange }: CompanyFilterProps) {
   const [selectedFilters, setSelectedFilters] = React.useState<{
     is_active?: string[]
-    is_our_company?: string[]
+    // is_our_company?: string[]
     is_vip?: string[]
   }>({})
 
@@ -87,12 +87,12 @@ export function CompanyFilter({ onFilterChange }: CompanyFilterProps) {
           : newFilters.is_active?.[0] === 'false'
             ? false
             : undefined,
-      is_our_company:
-        newFilters.is_our_company?.[0] === 'true'
-          ? true
-          : newFilters.is_our_company?.[0] === 'false'
-            ? false
-            : undefined,
+      // is_our_company:
+      //   newFilters.is_our_company?.[0] === 'true'
+      //     ? true
+      //     : newFilters.is_our_company?.[0] === 'false'
+      //       ? false
+      //       : undefined,
       is_vip:
         newFilters.is_vip?.[0] === 'true'
           ? true
@@ -107,12 +107,12 @@ export function CompanyFilter({ onFilterChange }: CompanyFilterProps) {
   const handleClear = () => {
     setSelectedFilters({
       is_active: undefined,
-      is_our_company: undefined,
+      // is_our_company: undefined,
       is_vip: undefined,
     })
     onFilterChange({
       is_active: undefined,
-      is_our_company: undefined,
+      // is_our_company: undefined,
       is_vip: undefined,
     })
   }

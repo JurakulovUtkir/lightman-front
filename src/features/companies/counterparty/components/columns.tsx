@@ -5,8 +5,7 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { CopyButton } from '@/components/copy-button'
 import LongText from '@/components/long-text'
 import { DataTableColumnHeader } from '@/components/table/data-table-column-header'
-import { CompanySchema } from '../data/schema'
-import { DataTableRowActions } from './data-table-row-actions'
+import { CompanySchema } from '../../data/schema'
 
 export const columns = (
   t: (typeof import('@/translations/general.json'))['en']['columns']
@@ -163,9 +162,5 @@ export const columns = (
       />
     ),
     enableSorting: false,
-  },
-  {
-    id: 'actions',
-    cell: ({ row }) => <DataTableRowActions row={row} />,
   },
 ]

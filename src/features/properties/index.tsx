@@ -15,22 +15,7 @@ const Properties = () => {
   const { lang, tProperty, general } = useLang()
   const t = tProperty[lang]
 
-  //   const { offset, limit } = useSearch({
-  //     from: '/_authenticated/properties/',
-  //   })
-  // const [search, setSearch] = useState('')
-  // const debouncedSearch = useDebounce(search, 500)
-
-  //   const currentOffset = offset ?? 0
-  //   const currentLimit = limit ?? 20
-
   const { data } = useProperties()
-  // {
-  // offset: currentOffset,
-  // limit: currentLimit,
-  // search: debouncedSearch.length >= 2 ? debouncedSearch : undefined,
-  //   }
-
   return (
     <PropertyProvider>
       <Header fixed>

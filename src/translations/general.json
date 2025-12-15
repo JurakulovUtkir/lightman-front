@@ -134,7 +134,8 @@
       "cards": "Cards",
       "loans": "Loans",
       "requested_projects": "Requested projects",
-      "properties": "Properties"
+      "properties": "Properties",
+      "counterparty": "Counterparty"
     },
     "columns": {
       "statusOptions": {
@@ -223,6 +224,10 @@
         "FURNITURE": "Furniture",
         "ELECTRONICS": "Electronics",
         "OTHER": "Other"
+      },
+      "cardType": {
+        "card": "Card",
+        "cash": "Cash"
       },
       "project_name": "Project name",
       "our_company": "Our company",
@@ -466,7 +471,8 @@
       "cards": "Карты",
       "loans": "Займы",
       "requested_projects": "Запрошенные проекты",
-      "properties": "Имущество"
+      "properties": "Имущество",
+      "counterparty": "Контрагент"
     },
     "columns": {
       "statusOptions": {
@@ -555,6 +561,10 @@
         "FURNITURE": "Мебель",
         "ELECTRONICS": "Электроника",
         "OTHER": "Другое"
+      },
+      "cardType": {
+        "card": "Карта",
+        "cash": "Наличные"
       },
       "project_name": "Название проекта",
       "our_company": "Наша компания",
@@ -798,7 +808,8 @@
       "cards": "Kartalar",
       "loans": "Qarzlar",
       "requested_projects": "So‘ralgan loyihalar",
-      "properties": "Mulk"
+      "properties": "Mulk",
+      "counterparty": "Kontragent"
     },
     "columns": {
       "statusOptions": {
@@ -887,6 +898,10 @@
         "FURNITURE": "Mebel",
         "ELECTRONICS": "Elektronika",
         "OTHER": "Boshqa"
+      },
+      "cardType": {
+        "card": "Karta",
+        "cash": "Naqd"
       },
       "project_name": "Loyiha nomi",
       "our_company": "Kompaniyamiz",

@@ -2,22 +2,7 @@ import api from '@/lib/axios'
 import { PropertySchema } from './schema'
 import { PropertySchemaResponse } from './types'
 
-export const getProperties = async () //   {
-//       limit,
-//       offset,
-//       search,
-//   }: {
-//       limit?: number
-//       offset?: number
-//       search?: string
-//   }
-: Promise<PropertySchemaResponse> => {
-  //   const params = new URLSearchParams()
-
-  //   if (limit !== undefined) params.append('limit', limit.toString())
-  //   if (offset !== undefined) params.append('offset', offset.toString())
-  //   if (search) params.append('search', search)
-
+export const getProperties = async (): Promise<PropertySchemaResponse> => {
   const response = await api.get(`/properties`)
   return response.data
 }

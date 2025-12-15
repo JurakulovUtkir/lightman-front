@@ -117,7 +117,8 @@
       "counterparty_name": "Counterparty name",
       "count": "Count",
       "current_price": "Current price",
-      "property_name": "Property name"
+      "property_name": "Property name",
+      "card_type": "Card type"
     },
     "form_placeholders": {
       "select_project": "Select project",
@@ -344,7 +345,8 @@
       "counterparty_name": "Название контрагента",
       "count": "Количество",
       "current_price": "Текущая цена",
-      "property_name": "Название имущества"
+      "property_name": "Название имущества",
+      "card_type": "Тип карты"
     },
     "form_placeholders": {
       "select_project": "Выберите проект",
@@ -570,7 +572,8 @@
       "counterparty_name": "Kontragent nomi",
       "count": "Soni",
       "current_price": "Joriy narx",
-      "property_name": "Mulk nomi"
+      "property_name": "Mulk nomi",
+      "card_type": "Karta turi"
     },
     "form_placeholders": {
       "select_project": "Loyihani tanlang",

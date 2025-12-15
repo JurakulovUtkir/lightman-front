@@ -1,6 +1,8 @@
 {
   "en": {
     "companies": "Companies",
+    "counterparties": "Counterparties",
+    "list_counterparties": "Here's a list of counterparties!",
     "list_companies": "Here's a list of companies!",
     "search_by_company": "Search by company",
     "create_company": "Create company",
@@ -15,6 +17,8 @@
   "ru": {
     "companies": "Компании",
     "list_companies": "Список компаний",
+    "counterparties": "Контрагенты",
+    "list_counterparties": "Вот список контрагентов!",
     "search_by_company": "Поиск по компании",
     "create_company": "Создать компанию",
     "create_desc": "Добавьте новую компанию, указав необходимую информацию.",
@@ -28,6 +32,8 @@
   "uz": {
     "companies": "Kompaniyalar",
     "list_companies": "Kompaniyalar ro‘yxati",
+    "counterparties": "Kontragentlar",
+    "list_counterparties": "Kontragentlar ro‘yxati!",
     "search_by_company": "Kompaniya bo‘yicha qidirish",
     "create_company": "Kompaniya yaratish",
     "create_desc": "Kerakli ma’lumotlarni kiritib yangi kompaniya qo‘shing.",

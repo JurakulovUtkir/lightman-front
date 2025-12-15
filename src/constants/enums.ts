@@ -92,3 +92,8 @@ export enum PropertyCategory {
   ELECTRONICS = 'ELECTRONICS', // elektronika
   OTHER = 'OTHER', // boshqa
 }
+
+export enum CardType {
+  CARD = 'card',
+  CASH = 'cash',
+}

@@ -1,5 +1,7 @@
+import { useState } from 'react'
 import { useSearch } from '@tanstack/react-router'
 import { useLang } from '@/hooks/useLang'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { CustomPagination } from '@/components/custom-pagination'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
@@ -19,8 +21,8 @@ const Cards = () => {
   const { offset, limit } = useSearch({
     from: '/_authenticated/companies/cards/',
   })
-  // const [search, setSearch] = useState('')
-  // const debouncedSearch = useDebounce(search, 500)
+
+  const [activeTab, setActiveTab] = useState('all')
 
   const currentOffset = offset ?? 0
   const currentLimit = limit ?? 20
@@ -28,8 +30,22 @@ const Cards = () => {
   const { data } = useCards({
     offset: currentOffset,
     limit: currentLimit,
-    // search: debouncedSearch.length >= 2 ? debouncedSearch : undefined,
   })
+
+  const filteredData = data?.data?.data
+    ? {
+        ...data.data,
+        data:
+          activeTab === 'all'
+            ? data.data.data
+            : data.data.data.filter((card) => card.card_type === activeTab),
+        total:
+          activeTab === 'all'
+            ? data.data.total
+            : data.data.data.filter((card) => card.card_type === activeTab)
+                .length,
+      }
+    : undefined
 
   return (
     <CardsProvider>
@@ -48,27 +64,50 @@ const Cards = () => {
           </div>
           <CardPrimaryButtons text={t.create} />
         </div>
-        {/* <div className='flex items-center gap-4'>
-          <div className='relative'>
-            <Input
-              type='search'
-              placeholder={t.search_by_company}
-              className='h-8 max-w-80 pl-8'
-              onChange={(e) => setSearch(e.target.value)}
-            />
-            <span className='absolute top-1/2 left-2 -translate-y-1/2'>
-              <IconSearch className='text-muted-foreground' size={16} />
-            </span>
-          </div>
-        </div> */}
-        <div className='-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-y-0 lg:space-x-12'>
-          <CardBoxes data={data?.data} />
-        </div>
-        {data?.data.total ? (
+
+        <Tabs value={activeTab} onValueChange={setActiveTab} className='w-full'>
+          <TabsList className='mb-4'>
+            <TabsTrigger value='all'>
+              All ({data?.data?.data?.length || 0})
+            </TabsTrigger>
+            <TabsTrigger value='card'>
+              Cards (
+              {data?.data?.data?.filter((c) => c.card_type === 'card').length ||
+                0}
+              )
+            </TabsTrigger>
+            <TabsTrigger value='cash'>
+              Cash (
+              {data?.data?.data?.filter((c) => c.card_type === 'cash').length ||
+                0}
+              )
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value='all' className='mt-0'>
+            <div className='-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-y-0 lg:space-x-12'>
+              <CardBoxes data={filteredData} />
+            </div>
+          </TabsContent>
+
+          <TabsContent value='card' className='mt-0'>
+            <div className='-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-y-0 lg:space-x-12'>
+              <CardBoxes data={filteredData} />
+            </div>
+          </TabsContent>
+
+          <TabsContent value='cash' className='mt-0'>
+            <div className='-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-y-0 lg:space-x-12'>
+              <CardBoxes data={filteredData} />
+            </div>
+          </TabsContent>
+        </Tabs>
+
+        {filteredData?.total ? (
           <CustomPagination
             offset={currentOffset}
             limit={currentLimit}
-            total={data.data.total}
+            total={filteredData.total}
           />
         ) : null}
       </Main>

@@ -10,6 +10,7 @@ import { FormatDateToLongString } from '@/components/date-formatter'
 import LongText from '@/components/long-text'
 import { DataTableColumnHeader } from '@/components/table/data-table-column-header'
 import { PropertySchema } from '../data/schema'
+import { DataTableRowActions } from './data-table-row-actions'
 
 export const columns = (
   t: (typeof import('@/translations/general.json'))['en']['columns']
@@ -160,7 +161,9 @@ export const columns = (
     ),
     cell: ({ row }) => {
       return (
-        <LongText className='max-w-36'>{row.getValue('description')}</LongText>
+        <LongText className='max-w-36'>
+          {row.getValue('description') ?? '-'}
+        </LongText>
       )
     },
     enableSorting: false,
@@ -189,5 +192,9 @@ export const columns = (
       </div>
     ),
     enableSorting: true,
+  },
+  {
+    id: 'actions',
+    cell: ({ row }) => <DataTableRowActions row={row} />,
   },
 ]

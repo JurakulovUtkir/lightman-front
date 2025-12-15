@@ -10,5 +10,6 @@ export const cardsSchema = z.object({
   balance: z.number(),
   created_at: z.string(),
   updated_at: z.string(),
+  card_type: z.enum(['cash', 'card']),
 })
 export type CardsSchema = z.infer<typeof cardsSchema>

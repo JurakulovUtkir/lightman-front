@@ -9,27 +9,12 @@ import {
 } from './api'
 import { PropertySchema } from './schema'
 
-export const useProperties = () =>
-  //  {
-  //   limit,
-  //   offset,
-  //   search,
-  // }: {
-  //   limit?: number
-  //   offset?: number
-  //   search?: string
-  // }
-  {
-    return useQuery({
-      queryKey: ['properties'],
-      queryFn: () => getProperties(),
-      //     {
-      //   limit,
-      //   offset,
-      //   search,
-      // }
-    })
-  }
+export const useProperties = () => {
+  return useQuery({
+    queryKey: ['properties'],
+    queryFn: () => getProperties(),
+  })
+}
 export const useProperty = (id: string) => {
   return useQuery<PropertySchema>({
     queryKey: ['property', id],

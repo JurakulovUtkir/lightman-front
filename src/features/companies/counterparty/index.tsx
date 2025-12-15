@@ -10,19 +10,16 @@ import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
 import { DataTable } from '@/components/table/data-table'
 import { ThemeSwitch } from '@/components/theme-switch'
+import { CompanyFilter } from '../components/company-filter'
+import { useCompanies } from '../data/hooks'
 import { columns } from './components/columns'
-import { CompanyDialogs } from './components/company-dialogs'
-import { CompanyFilter } from './components/company-filter'
-import { CompanyPrimaryButtons } from './components/company-primary-buttons'
-import CompanyProvider from './context'
-import { useCompanies } from './data/hooks'
 
-const Companies = () => {
+const Counterparty = () => {
   const { lang, tCompany, general } = useLang()
   const t = tCompany[lang]
 
   const { offset, limit } = useSearch({
-    from: '/_authenticated/companies/',
+    from: '/_authenticated/companies/counterparty/',
   })
   const [search, setSearch] = useState('')
   const [filters, setFilters] = useState<{
@@ -40,12 +37,12 @@ const Companies = () => {
     limit: currentLimit,
     search: debouncedSearch.length >= 2 ? debouncedSearch : undefined,
     is_active: filters.is_active,
-    is_our_company: true,
+    is_our_company: false,
     is_vip: filters.is_vip,
   })
 
   return (
-    <CompanyProvider>
+    <>
       <Header fixed>
         <Search />
         <div className='ml-auto flex items-center space-x-4'>
@@ -56,10 +53,11 @@ const Companies = () => {
       <Main>
         <div className='mb-2 flex flex-wrap items-center justify-between space-y-2 gap-x-4'>
           <div>
-            <h2 className='text-2xl font-bold tracking-tight'>{t.companies}</h2>
-            <p className='text-muted-foreground'>{t.list_companies}</p>
+            <h2 className='text-2xl font-bold tracking-tight'>
+              {t.counterparties}
+            </h2>
+            <p className='text-muted-foreground'>{t.list_counterparties}</p>
           </div>
-          <CompanyPrimaryButtons text={t.create} />
         </div>
         <div className='flex items-center gap-4'>
           <div className='relative'>
@@ -85,9 +83,8 @@ const Companies = () => {
           />
         </div>
       </Main>
-      <CompanyDialogs />
-    </CompanyProvider>
+    </>
   )
 }
 
-export default Companies
+export default Counterparty
