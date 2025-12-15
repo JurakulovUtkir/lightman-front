@@ -156,3 +156,23 @@ export const getDirectionOptions = (
   { value: 'WE_GAVE', label: t.direction.WE_GAVE },
   { value: 'WE_TOOK', label: t.direction.WE_TOOK },
 ]
+export const getPropertyStatusOptions = (
+  t: (typeof import('@/translations/general.json'))['en']['columns']
+) => [
+  { value: 'IN_USE', label: t.propertyStatus.IN_USE },
+  { value: 'IN_STOCK', label: t.propertyStatus.IN_STOCK },
+  { value: 'REPAIRED', label: t.propertyStatus.REPAIRED },
+  { value: 'WRITTEN_OFF', label: t.propertyStatus.WRITTEN_OFF },
+  { value: 'SOLD', label: t.propertyStatus.SOLD },
+  { value: 'LOST', label: t.propertyStatus.LOST },
+]
+export const getPropertyCategoryOptions = (
+  t: (typeof import('@/translations/general.json'))['en']['columns']
+) => [
+  { value: 'BUILDING', label: t.propertyCategory.BUILDING },
+  { value: 'VEHICLE', label: t.propertyCategory.VEHICLE },
+  { value: 'EQUIPMENT', label: t.propertyCategory.EQUIPMENT },
+  { value: 'FURNITURE', label: t.propertyCategory.FURNITURE },
+  { value: 'ELECTRONICS', label: t.propertyCategory.ELECTRONICS },
+  { value: 'OTHER', label: t.propertyCategory.OTHER },
+]

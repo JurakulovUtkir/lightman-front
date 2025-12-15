@@ -133,7 +133,8 @@
       "help_center": "Help Center",
       "cards": "Cards",
       "loans": "Loans",
-      "requested_projects": "Requested projects"
+      "requested_projects": "Requested projects",
+      "properties": "Properties"
     },
     "columns": {
       "statusOptions": {
@@ -206,6 +207,22 @@
       "direction": {
         "WE_GAVE": "We gave",
         "WE_TOOK": "We took"
+      },
+      "propertyStatus": {
+        "IN_USE": "In use",
+        "IN_STOCK": "In stock",
+        "REPAIRED": "Repaired",
+        "WRITTEN_OFF": "Written off",
+        "SOLD": "Sold",
+        "LOST": "Lost"
+      },
+      "propertyCategory": {
+        "BUILDING": "Building",
+        "VEHICLE": "Vehicle",
+        "EQUIPMENT": "Equipment",
+        "FURNITURE": "Furniture",
+        "ELECTRONICS": "Electronics",
+        "OTHER": "Other"
       },
       "project_name": "Project name",
       "our_company": "Our company",
@@ -301,7 +318,6 @@
       "card_holder": "Card Holder",
       "expires": "Expires",
       "posted_date": "Posted date",
-
       "counterparty": "Counterparty",
       "direction_name": "Direction",
       "planned_amount": "Planned amount",
@@ -309,7 +325,10 @@
       "start_date": "Start date",
       "due_date": "Due date",
       "closed_date": "Closed date",
-      "notes": "Notes"
+      "notes": "Notes",
+      "property_name": "Property name",
+      "count": "Count",
+      "current_price": "Current price"
     }
   },
   "ru": {
@@ -446,7 +465,8 @@
       "help_center": "Центр помощи",
       "cards": "Карты",
       "loans": "Займы",
-      "requested_projects": "Запрошенные проекты"
+      "requested_projects": "Запрошенные проекты",
+      "properties": "Имущество"
     },
     "columns": {
       "statusOptions": {
@@ -519,6 +539,22 @@
       "direction": {
         "WE_GAVE": "Мы выдали",
         "WE_TOOK": "Мы взяли"
+      },
+      "propertyStatus": {
+        "IN_USE": "В использовании",
+        "IN_STOCK": "На складе",
+        "REPAIRED": "Отремонтировано",
+        "WRITTEN_OFF": "Списано",
+        "SOLD": "Продано",
+        "LOST": "Утеряно"
+      },
+      "propertyCategory": {
+        "BUILDING": "Здание",
+        "VEHICLE": "Транспорт",
+        "EQUIPMENT": "Оборудование",
+        "FURNITURE": "Мебель",
+        "ELECTRONICS": "Электроника",
+        "OTHER": "Другое"
       },
       "project_name": "Название проекта",
       "our_company": "Наша компания",
@@ -621,7 +657,10 @@
       "start_date": "Дата начала",
       "due_date": "Срок выполнения",
       "closed_date": "Дата закрытия",
-      "notes": "Заметки"
+      "notes": "Заметки",
+      "property_name": "Название имущества",
+      "count": "Количество",
+      "current_price": "Текущая цена"
     }
   },
   "uz": {
@@ -758,7 +797,8 @@
       "help_center": "Yordam markazi",
       "cards": "Kartalar",
       "loans": "Qarzlar",
-      "requested_projects": "So‘ralgan loyihalar"
+      "requested_projects": "So‘ralgan loyihalar",
+      "properties": "Mulk"
     },
     "columns": {
       "statusOptions": {
@@ -831,6 +871,22 @@
       "direction": {
         "WE_GAVE": "Biz berdik",
         "WE_TOOK": "Biz oldik"
+      },
+      "propertyStatus": {
+        "IN_USE": "Foydalanilmoqda",
+        "IN_STOCK": "Omborda",
+        "REPAIRED": "Ta’mirlangan",
+        "WRITTEN_OFF": "Hisobdan chiqarilgan",
+        "SOLD": "Sotilgan",
+        "LOST": "Yo‘qolgan"
+      },
+      "propertyCategory": {
+        "BUILDING": "Bino",
+        "VEHICLE": "Transport",
+        "EQUIPMENT": "Uskuna",
+        "FURNITURE": "Mebel",
+        "ELECTRONICS": "Elektronika",
+        "OTHER": "Boshqa"
       },
       "project_name": "Loyiha nomi",
       "our_company": "Kompaniyamiz",
@@ -933,7 +989,10 @@
       "start_date": "Boshlanish sanasi",
       "due_date": "Tugash sanasi",
       "closed_date": "Yopilgan sana",
-      "notes": "Eslatmalar"
+      "notes": "Eslatmalar",
+      "property_name": "Mulk nomi",
+      "count": "Soni",
+      "current_price": "Joriy narx"
     }
   }
 }

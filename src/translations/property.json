@@ -1,0 +1,41 @@
+{
+  "en": {
+    "properties": "Properties",
+    "list_properties": "Here's a list of properties!",
+    "search_by_property": "Search by property",
+    "create_property": "Create property",
+    "create_desc": "Add a new Property by providing necessary info.",
+    "update_property": "Update property",
+    "update_desc": "Update the Property by providing necessary info.",
+    "create": "Create",
+    "click_save": "Click save when you're done.",
+    "delete_title": "Delete this Property with the name: {{name}} ?",
+    "delete_confirm": "You are about to delete a Property with the name {{name}}"
+  },
+  "ru": {
+    "properties": "Объекты недвижимости",
+    "list_properties": "Вот список объектов недвижимости!",
+    "search_by_property": "Поиск по объекту",
+    "create_property": "Создать объект",
+    "create_desc": "Добавьте новый объект, указав необходимую информацию.",
+    "update_property": "Обновить объект",
+    "update_desc": "Обновите объект, указав необходимую информацию.",
+    "create": "Создать",
+    "click_save": "Нажмите «Сохранить», когда закончите.",
+    "delete_title": "Удалить этот объект с названием: {{name}}?",
+    "delete_confirm": "Вы собираетесь удалить объект с названием {{name}}"
+  },
+  "uz": {
+    "properties": "Ko‘chmas mulk obyektlari",
+    "list_properties": "Ko‘chmas mulk obyektlari ro‘yxati!",
+    "search_by_property": "Obyekt bo‘yicha qidirish",
+    "create_property": "Obyekt yaratish",
+    "create_desc": "Kerakli ma'lumotlarni kiritib yangi obyekt qo‘shing.",
+    "update_property": "Obyektni yangilash",
+    "update_desc": "Kerakli ma'lumotlarni kiritib obyektni yangilang.",
+    "create": "Yaratish",
+    "click_save": "Tugatgach «Saqlash» tugmasini bosing.",
+    "delete_title": "Nomlari {{name}} bo‘lgan obyektni o‘chirmoqchimisiz?",
+    "delete_confirm": "Siz {{name}} nomli obyektni o‘chirmoqchisiz"
+  }
+}

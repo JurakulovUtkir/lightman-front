@@ -1,10 +1,5 @@
 import { ColumnDef } from '@tanstack/react-table'
 import { Checkbox } from '@/components/ui/checkbox'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@/components/ui/tooltip'
 import { FormatDateToLongString } from '@/components/date-formatter'
 import LongText from '@/components/long-text'
 import { DistributorSchema } from '../data/schema'
@@ -102,26 +97,8 @@ export const columns = (
       <DataTableColumnHeader column={column} title={t.description} />
     ),
     cell: ({ row }) => {
-      const info = row.original.description
-      const contactInfo = info
-        ? info?.length >= 50
-          ? `${info.slice(0, 50)} ...`
-          : info
-        : '-'
-
       return (
-        <div>
-          {info && info?.length >= 50 ? (
-            <Tooltip>
-              <TooltipTrigger>{contactInfo}</TooltipTrigger>
-              <TooltipContent className='max-w-[350px] overflow-auto md:max-w-[500px]'>
-                {row.getValue('description')}
-              </TooltipContent>
-            </Tooltip>
-          ) : (
-            <p>{info?.length ? info : '-'}</p>
-          )}
-        </div>
+        <LongText className='max-w-36'>{row.getValue('description')}</LongText>
       )
     },
     enableSorting: false,

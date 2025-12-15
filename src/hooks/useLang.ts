@@ -12,6 +12,7 @@ import generalJson from '@/translations/general.json'
 import loanJson from '@/translations/loan.json'
 import networkJson from '@/translations/network.json'
 import projectJson from '@/translations/project.json'
+import propertyJson from '@/translations/property.json'
 import userJson from '@/translations/user.json'
 import { useUnit } from 'effector-react'
 import { $lang } from '@/context/lang'
@@ -53,6 +54,7 @@ export const useLang = () => {
   const tUser = userJson
   const tCard = cardJson
   const tLoan = loanJson
+  const tProperty = propertyJson
 
   return {
     lang,
@@ -72,5 +74,6 @@ export const useLang = () => {
     tUser,
     tCard,
     tLoan,
+    tProperty,
   }
 }

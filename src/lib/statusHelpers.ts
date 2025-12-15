@@ -135,3 +135,39 @@ export const getExpenceOriginTypeColor = (
     'border-gray-200 bg-gray-50 text-gray-700 dark:border-gray-800 dark:bg-gray-950 dark:text-gray-300'
   )
 }
+
+// Add these to your existing statusHelpers.ts file
+
+export const getPropertyStatusColor = (
+  status: 'IN_USE' | 'IN_STOCK' | 'REPAIRED' | 'WRITTEN_OFF' | 'SOLD' | 'LOST'
+): string => {
+  const colors = {
+    IN_USE: 'border-blue-500 bg-blue-50 text-blue-700',
+    IN_STOCK: 'border-green-500 bg-green-50 text-green-700',
+    REPAIRED: 'border-yellow-500 bg-yellow-50 text-yellow-700',
+    WRITTEN_OFF: 'border-red-500 bg-red-50 text-red-700',
+    SOLD: 'border-purple-500 bg-purple-50 text-purple-700',
+    LOST: 'border-gray-500 bg-gray-50 text-gray-700',
+  }
+  return colors[status] || 'border-gray-300 bg-gray-50 text-gray-600'
+}
+
+export const getPropertyCategoryColor = (
+  category:
+    | 'BUILDING'
+    | 'VEHICLE'
+    | 'EQUIPMENT'
+    | 'FURNITURE'
+    | 'ELECTRONICS'
+    | 'OTHER'
+): string => {
+  const colors = {
+    BUILDING: 'border-amber-500 bg-amber-50 text-amber-700',
+    VEHICLE: 'border-cyan-500 bg-cyan-50 text-cyan-700',
+    EQUIPMENT: 'border-indigo-500 bg-indigo-50 text-indigo-700',
+    FURNITURE: 'border-pink-500 bg-pink-50 text-pink-700',
+    ELECTRONICS: 'border-violet-500 bg-violet-50 text-violet-700',
+    OTHER: 'border-slate-500 bg-slate-50 text-slate-700',
+  }
+  return colors[category] || 'border-gray-300 bg-gray-50 text-gray-600'
+}

@@ -74,3 +74,21 @@ export enum ExpenceType {
 
   OTHER = 'OTHER', // Boshqa holatlar
 }
+
+export enum PropertyStatus {
+  IN_USE = 'IN_USE', // ishlatilayapti
+  IN_STOCK = 'IN_STOCK', // sklad / omborda
+  REPAIRED = 'REPAIRED', // remontda
+  WRITTEN_OFF = 'WRITTEN_OFF', // hisobdan chiqarilgan
+  SOLD = 'SOLD', // sotilgan
+  LOST = 'LOST', // yo'qolgan
+}
+
+export enum PropertyCategory {
+  BUILDING = 'BUILDING', // bino, inshoot
+  VEHICLE = 'VEHICLE', // mashina, texnika
+  EQUIPMENT = 'EQUIPMENT', // uskunalar (kompyuter, printer, stanok)
+  FURNITURE = 'FURNITURE', // mebel
+  ELECTRONICS = 'ELECTRONICS', // elektronika
+  OTHER = 'OTHER', // boshqa
+}

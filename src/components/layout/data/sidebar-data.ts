@@ -16,6 +16,7 @@ import {
   IconCoins,
   IconLanguage,
   IconDatabaseDollar,
+  IconHomeBitcoin,
   // IconBasketDollar,
   // IconBarrierBlock,
   // IconBug,
@@ -140,6 +141,11 @@ export const sidebarData: SidebarData = {
           title: 'loans',
           url: '/loans',
           icon: IconDatabaseDollar,
+        },
+        {
+          title: 'properties',
+          url: '/properties',
+          icon: IconHomeBitcoin,
         },
         {
           title: 'stakeholders',

@@ -79,16 +79,6 @@ export const columns = (
     },
     enableSorting: false,
   },
-  // {
-  //   accessorKey: 'description',
-  //   header: ({ column }) => (
-  //     <DataTableColumnHeader column={column} title='Description' />
-  //   ),
-  //   cell: ({ row }) => (
-  //     <LongText className='max-w-36'>{row.getValue('description')}</LongText>
-  //   ),
-  //   enableSorting: false,
-  // },
   {
     accessorKey: 'our_company',
     header: ({ column }) => (
