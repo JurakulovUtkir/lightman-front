@@ -139,11 +139,7 @@ export function ExpenceMutateDrawer({
         company_id: z
           .string({ error: t.form_validations.required_field })
           .optional(),
-        from_company_id: z
-          .string({
-            error: t.form_validations.required_field,
-          })
-          .optional(),
+
         to_company_id: z
           .string({ error: t.form_validations.required_field })
           .optional(),
@@ -165,6 +161,12 @@ export function ExpenceMutateDrawer({
           })
           .optional(),
         amount: z
+          .number({
+            error: t.form_validations.amount,
+          })
+          .min(0, t.form_validations.invalid_value)
+          .optional(),
+        commission: z
           .number({
             error: t.form_validations.amount,
           })
@@ -203,6 +205,7 @@ export function ExpenceMutateDrawer({
     defaultValues: {
       ...currentRow,
       amount: toNumber(currentRow?.amount),
+      commission: toNumber(currentRow?.amount) ?? 0,
       description: currentRow?.description ?? undefined,
       user_id: currentRow?.user?.id ?? undefined,
       file_url: currentRow?.file_url ?? undefined,
@@ -219,6 +222,7 @@ export function ExpenceMutateDrawer({
   const selectedType = form.watch('type')
   const checkExpenceType = form.watch('expence_type')
   const selectedCompanyId = form.watch('company_id')
+  const selectedPaymentType = form.watch('payment_type')
 
   const filteredExpenceTypeOptions = useMemo(() => {
     const allOptions = getExpenceTypeOptions(t_general)
@@ -300,6 +304,10 @@ export function ExpenceMutateDrawer({
     ) {
       form.setValue('payment_type', PaymentType.BANK_TRANSFER)
     }
+    if (checkExpenceType === ExpenceType.CASH_WITHDRAW) {
+      form.setValue('payment_type', PaymentType.CARD)
+    }
+
     if (isUpdate && pendingDeleteFile) {
       try {
         await deleteFile.mutateAsync(pendingDeleteFile)
@@ -341,9 +349,9 @@ export function ExpenceMutateDrawer({
     }
   }
 
-  const bothCompanies = [
+  const companyOptions = [
     {
-      value: 'from_company_id',
+      value: 'company_id',
       label: t.form_labels.from_company_id,
     },
     {
@@ -351,6 +359,20 @@ export function ExpenceMutateDrawer({
       label: t.form_labels.to_company_id,
     },
   ] as const
+
+  const amountOptions = [
+    {
+      value: 'amount',
+      label: t.form_labels.amount,
+      palceholder: t.form_placeholders.enter_amount,
+    },
+    {
+      value: 'commission',
+      label: t.form_labels.commission,
+      palceholder: t.form_placeholders.enter_commission,
+    },
+  ] as const
+
   return (
     <Sheet
       open={open}
@@ -434,19 +456,11 @@ export function ExpenceMutateDrawer({
                     companyId={selectedCompanyId}
                     // detail={currentRow?.card}
                   />
-                  <FormFieldWrapper
-                    control={form.control}
-                    name='amount'
-                    label={t.form_labels.amount}
-                    placeholder={t.form_placeholders.enter_amount}
-                    type='number'
-                    suffix={t.form_placeholders.uzs}
-                  />
                 </>
               )}
               {checkExpenceType === ExpenceType.COMPANY_TRANSFER && (
                 <>
-                  {bothCompanies.map((item) => (
+                  {companyOptions.map((item) => (
                     <FormComboboxCompany
                       control={form.control}
                       name={item.value}
@@ -458,18 +472,10 @@ export function ExpenceMutateDrawer({
                       // excludeCompanyId={selectedCompanyId}
                     />
                   ))}
-                  <FormFieldWrapper
-                    control={form.control}
-                    name='amount'
-                    label={t.form_labels.amount}
-                    placeholder={t.form_placeholders.enter_amount}
-                    type='number'
-                    suffix={t.form_placeholders.uzs}
-                  />
                 </>
               )}
-              {/* Income */}
-              {checkExpenceType === ExpenceType.CLIENT_PAYMENT && (
+
+              {selectedType !== CorporateExpenceType.TRANSFER && (
                 <>
                   <FormFieldSelect
                     control={form.control}
@@ -478,6 +484,22 @@ export function ExpenceMutateDrawer({
                     placeholder={t.form_placeholders.select_payment_type}
                     options={filteredPaymentTypeOptions}
                   />
+                  {(selectedPaymentType === PaymentType.CARD ||
+                    selectedPaymentType === PaymentType.CASH) && (
+                    <FormComboboxCards
+                      name='card_id'
+                      label={t.form_labels.select_card}
+                      control={form.control}
+                      companyId={selectedCompanyId}
+                      // detail={currentRow?.card}
+                    />
+                  )}
+                </>
+              )}
+
+              {/* Income */}
+              {checkExpenceType === ExpenceType.CLIENT_PAYMENT && (
+                <>
                   <FormComboboxCompany
                     control={form.control}
                     name='company_id'
@@ -492,25 +514,12 @@ export function ExpenceMutateDrawer({
                     label={t.form_placeholders.select_project}
                     detail={currentRow?.project ?? undefined}
                   />
-                  <FormFieldWrapper
-                    control={form.control}
-                    name='amount'
-                    label={t.form_labels.amount}
-                    placeholder={t.form_placeholders.enter_amount}
-                    type='number'
-                    suffix={t.form_placeholders.uzs}
-                  />
                 </>
               )}
+
+              {/* no company */}
               {checkExpenceType === ExpenceType.LOAN_REPAYMENT && (
                 <>
-                  <FormFieldSelect
-                    control={form.control}
-                    name='payment_type'
-                    label={t.form_labels.payment_type}
-                    placeholder={t.form_placeholders.select_payment_type}
-                    options={filteredPaymentTypeOptions}
-                  />
                   <FormComboboxLoans
                     control={form.control}
                     name='loan_id'
@@ -518,25 +527,11 @@ export function ExpenceMutateDrawer({
                     direction='WE_GAVE'
                     // detail={currentRow?.loan ?? undefined}
                   />
-                  <FormFieldWrapper
-                    control={form.control}
-                    name='amount'
-                    label={t.form_labels.amount}
-                    placeholder={t.form_placeholders.enter_amount}
-                    type='number'
-                    suffix={t.form_placeholders.uzs}
-                  />
                 </>
               )}
+
               {checkExpenceType === ExpenceType.LOAN_TAKEN && (
                 <>
-                  <FormFieldSelect
-                    control={form.control}
-                    name='payment_type'
-                    label={t.form_labels.payment_type}
-                    placeholder={t.form_placeholders.select_payment_type}
-                    options={filteredPaymentTypeOptions}
-                  />
                   <FormComboboxCompany
                     control={form.control}
                     name='company_id'
@@ -544,14 +539,6 @@ export function ExpenceMutateDrawer({
                     detail={currentRow?.company ?? undefined}
                     filterOurCompany={true}
                     setValue={form.setValue}
-                  />
-                  <FormFieldWrapper
-                    control={form.control}
-                    name='amount'
-                    label={t.form_labels.amount}
-                    placeholder={t.form_placeholders.enter_amount}
-                    type='number'
-                    suffix={t.form_placeholders.uzs}
                   />
                   <FormField
                     control={form.control}
@@ -613,13 +600,6 @@ export function ExpenceMutateDrawer({
               )}
               {checkExpenceType === ExpenceType.FOUNDER_INPUT && (
                 <>
-                  <FormFieldSelect
-                    control={form.control}
-                    name='payment_type'
-                    label={t.form_labels.payment_type}
-                    placeholder={t.form_placeholders.select_payment_type}
-                    options={filteredPaymentTypeOptions}
-                  />
                   <FormComboboxFounders
                     control={form.control}
                     name='founder_id'
@@ -634,26 +614,11 @@ export function ExpenceMutateDrawer({
                     filterOurCompany={true}
                     setValue={form.setValue}
                   />
-                  <FormFieldWrapper
-                    control={form.control}
-                    name='amount'
-                    label={t.form_labels.amount}
-                    placeholder={t.form_placeholders.enter_amount}
-                    type='number'
-                    suffix={t.form_placeholders.uzs}
-                  />
                 </>
               )}
               {/* OutCome */}
               {checkExpenceType === ExpenceType.CHANNEL_DEPOSIT_TOPUP && (
                 <>
-                  <FormFieldSelect
-                    control={form.control}
-                    name='payment_type'
-                    label={t.form_labels.payment_type}
-                    placeholder={t.form_placeholders.select_payment_type}
-                    options={filteredPaymentTypeOptions}
-                  />
                   <FormComboboxCompany
                     control={form.control}
                     name='company_id'
@@ -675,25 +640,10 @@ export function ExpenceMutateDrawer({
                     // detail={currentRow?.social ?? undefined}
                     setValue={form.setValue}
                   />
-                  <FormFieldWrapper
-                    control={form.control}
-                    name='amount'
-                    label={t.form_labels.amount}
-                    placeholder={t.form_placeholders.enter_amount}
-                    type='number'
-                    suffix={t.form_placeholders.uzs}
-                  />
                 </>
               )}
               {checkExpenceType === ExpenceType.SALARY && (
                 <>
-                  <FormFieldSelect
-                    control={form.control}
-                    name='payment_type'
-                    label={t.form_labels.payment_type}
-                    placeholder={t.form_placeholders.select_payment_type}
-                    options={filteredPaymentTypeOptions}
-                  />
                   <FormComboboxCompany
                     control={form.control}
                     name='company_id'
@@ -715,26 +665,10 @@ export function ExpenceMutateDrawer({
                     label={t.form_labels.select_user}
                     detail={currentRow?.user ?? undefined}
                   />
-
-                  <FormFieldWrapper
-                    control={form.control}
-                    name='amount'
-                    label={t.form_labels.amount}
-                    placeholder={t.form_placeholders.enter_amount}
-                    type='number'
-                    suffix={t.form_placeholders.uzs}
-                  />
                 </>
               )}
               {checkExpenceType === ExpenceType.SALARY_ADVANCE && (
                 <>
-                  <FormFieldSelect
-                    control={form.control}
-                    name='payment_type'
-                    label={t.form_labels.payment_type}
-                    placeholder={t.form_placeholders.select_payment_type}
-                    options={filteredPaymentTypeOptions}
-                  />
                   <FormComboboxCompany
                     control={form.control}
                     name='company_id'
@@ -749,26 +683,10 @@ export function ExpenceMutateDrawer({
                     label={t.form_labels.select_user}
                     detail={currentRow?.user ?? undefined}
                   />
-
-                  <FormFieldWrapper
-                    control={form.control}
-                    name='amount'
-                    label={t.form_labels.amount}
-                    placeholder={t.form_placeholders.enter_amount}
-                    type='number'
-                    suffix={t.form_placeholders.uzs}
-                  />
                 </>
               )}
               {checkExpenceType === ExpenceType.LOAN_GIVEN && (
                 <>
-                  <FormFieldSelect
-                    control={form.control}
-                    name='payment_type'
-                    label={t.form_labels.payment_type}
-                    placeholder={t.form_placeholders.select_payment_type}
-                    options={filteredPaymentTypeOptions}
-                  />
                   <FormComboboxCompany
                     control={form.control}
                     name='company_id'
@@ -782,14 +700,6 @@ export function ExpenceMutateDrawer({
                     name='counterparty_name'
                     label={t.form_labels.counterparty_name}
                     placeholder={t.form_placeholders.enter_name}
-                  />
-                  <FormFieldWrapper
-                    control={form.control}
-                    name='amount'
-                    label={t.form_labels.amount}
-                    placeholder={t.form_placeholders.enter_amount}
-                    type='number'
-                    suffix={t.form_placeholders.uzs}
                   />
                   <FormField
                     control={form.control}
@@ -851,13 +761,6 @@ export function ExpenceMutateDrawer({
               )}
               {checkExpenceType === ExpenceType.LOAN_REPAYMENT && (
                 <>
-                  <FormFieldSelect
-                    control={form.control}
-                    name='payment_type'
-                    label={t.form_labels.payment_type}
-                    placeholder={t.form_placeholders.select_payment_type}
-                    options={filteredPaymentTypeOptions}
-                  />
                   <FormComboboxCompany
                     control={form.control}
                     name='company_id'
@@ -873,25 +776,10 @@ export function ExpenceMutateDrawer({
                     direction='WE_TOOK'
                     // detail={currentRow?.loan ?? undefined}
                   />
-                  <FormFieldWrapper
-                    control={form.control}
-                    name='amount'
-                    label={t.form_labels.amount}
-                    placeholder={t.form_placeholders.enter_amount}
-                    type='number'
-                    suffix={t.form_placeholders.uzs}
-                  />
                 </>
               )}
               {checkExpenceType === ExpenceType.SERVICE_EXPENCE && (
                 <>
-                  <FormFieldSelect
-                    control={form.control}
-                    name='payment_type'
-                    label={t.form_labels.payment_type}
-                    placeholder={t.form_placeholders.select_payment_type}
-                    options={filteredPaymentTypeOptions}
-                  />
                   <FormComboboxCompany
                     control={form.control}
                     name='company_id'
@@ -912,16 +800,19 @@ export function ExpenceMutateDrawer({
                     label={t.form_labels.counterparty_name}
                     placeholder={t.form_placeholders.enter_name}
                   />
-                  <FormFieldWrapper
-                    control={form.control}
-                    name='amount'
-                    label={t.form_labels.amount}
-                    placeholder={t.form_placeholders.enter_amount}
-                    type='number'
-                    suffix={t.form_placeholders.uzs}
-                  />
                 </>
               )}
+
+              {amountOptions.map((item) => (
+                <FormFieldWrapper
+                  control={form.control}
+                  name={item.value}
+                  label={item.label}
+                  placeholder={item.palceholder}
+                  type='number'
+                  suffix={t.form_placeholders.uzs}
+                />
+              ))}
               <FormFileUploadField
                 control={form.control}
                 name='file_url'

@@ -35,6 +35,7 @@ type ComboboxOption = {
   balance?: string
   company_id?: string
   companyId?: string
+  card_type?: string
 }
 
 interface FormComboboxCardsProps<T extends FieldValues> {
@@ -92,6 +93,7 @@ export const FormComboboxCards = <T extends FieldValues>({
             label: card.name,
             balance: card.balance.toString(),
             company_id: card.company_id,
+            card_type: card.card_type,
           })) ?? []
 
         // Handle fallback from detail
@@ -183,14 +185,28 @@ export const FormComboboxCards = <T extends FieldValues>({
                               >
                                 <div className='flex flex-col gap-0.5'>
                                   <span>{item.label}</span>
-                                  {item.balance && (
-                                    <span className='text-muted-foreground text-xs'>
-                                      Balance:{' '}
-                                      {parseFloat(
-                                        item.balance
-                                      ).toLocaleString()}
-                                    </span>
-                                  )}
+                                  <div className='text-muted-foreground flex items-center gap-2 text-xs'>
+                                    {item.card_type && (
+                                      <>
+                                        <span className='capitalize'>
+                                          {
+                                            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                                            // @ts-ignore
+                                            t[item.card_type]
+                                          }
+                                        </span>
+                                      </>
+                                    )}
+                                    {item.balance && (
+                                      <span>
+                                        <span>•</span>{' '}
+                                        {parseFloat(
+                                          item.balance
+                                        ).toLocaleString()}{' '}
+                                        {t.uzs}
+                                      </span>
+                                    )}
+                                  </div>
                                 </div>
                                 <IconCheck
                                   className={cn(

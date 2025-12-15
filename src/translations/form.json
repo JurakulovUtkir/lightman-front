@@ -118,7 +118,11 @@
       "count": "Count",
       "current_price": "Current price",
       "property_name": "Property name",
-      "card_type": "Card type"
+      "card_type": "Card type",
+      "card": "Card",
+      "cash": "Cash",
+      "uzs": "UZS",
+      "commission": "Commission"
     },
     "form_placeholders": {
       "select_project": "Select project",
@@ -154,7 +158,8 @@
       "enter_counterparty": "Enter counterparty name",
       "enter_planned_amount": "Enter planned amount",
       "enter_given_amount": "Enter given amount",
-      "enter_current_price": "Enter current price"
+      "enter_current_price": "Enter current price",
+      "enter_commission": "Enter commission"
     },
     "form_validations": {
       "required_field": "Required field",
@@ -346,7 +351,11 @@
       "count": "Количество",
       "current_price": "Текущая цена",
       "property_name": "Название имущества",
-      "card_type": "Тип карты"
+      "card_type": "Тип карты",
+      "card": "Карта",
+      "cash": "Наличные",
+      "uzs": "Сум",
+      "commission": "Комиссия"
     },
     "form_placeholders": {
       "select_project": "Выберите проект",
@@ -382,7 +391,8 @@
       "enter_counterparty": "Введите название контрагента",
       "enter_planned_amount": "Введите плановую сумму",
       "enter_given_amount": "Введите выданную сумму",
-      "enter_current_price": "Введите текущую цену"
+      "enter_current_price": "Введите текущую цену",
+      "enter_commission": "Введите комиссию"
     },
     "form_validations": {
       "required_field": "Обязательное поле",
@@ -573,7 +583,11 @@
       "count": "Soni",
       "current_price": "Joriy narx",
       "property_name": "Mulk nomi",
-      "card_type": "Karta turi"
+      "card_type": "Karta turi",
+      "card": "Karta",
+      "cash": "Naqd",
+      "uzs": "So'm",
+      "commission": "Комиссия"
     },
     "form_placeholders": {
       "select_project": "Loyihani tanlang",
@@ -609,7 +623,8 @@
       "enter_counterparty": "Kontragent nomini kiriting",
       "enter_planned_amount": "Rejalashtirilgan summani kiriting",
       "enter_given_amount": "Berilgan summani kiriting",
-      "enter_current_price": "Joriy narxni kiriting"
+      "enter_current_price": "Joriy narxni kiriting",
+      "enter_commission": "Komissiyani kiriting"
     },
     "form_validations": {
       "required_field": "Majburiy maydon",
