@@ -68,16 +68,16 @@ const Cards = () => {
         <Tabs value={activeTab} onValueChange={setActiveTab} className='w-full'>
           <TabsList className='mb-4'>
             <TabsTrigger value='all'>
-              All ({data?.data?.data?.length || 0})
+              {t.all} ({data?.data?.data?.length || 0})
             </TabsTrigger>
             <TabsTrigger value='card'>
-              Cards (
+              {t.cards} (
               {data?.data?.data?.filter((c) => c.card_type === 'card').length ||
                 0}
               )
             </TabsTrigger>
             <TabsTrigger value='cash'>
-              Cash (
+              {t.cash} (
               {data?.data?.data?.filter((c) => c.card_type === 'cash').length ||
                 0}
               )

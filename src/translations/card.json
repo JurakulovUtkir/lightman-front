@@ -10,7 +10,9 @@
     "create": "Create",
     "click_save": "Click save when you're done.",
     "delete_title": "Delete this Card with the name: {{name}} ?",
-    "delete_confirm": "You are about to delete a Card with the name {{name}}"
+    "delete_confirm": "You are about to delete a Card with the name {{name}}",
+    "all": "All",
+    "cash": "Cash"
   },
   "ru": {
     "cards": "Карты",
@@ -23,7 +25,9 @@
     "create": "Создать",
     "click_save": "Нажмите 'Сохранить', когда закончите.",
     "delete_title": "Удалить эту карту с именем: {{name}}?",
-    "delete_confirm": "Вы собираетесь удалить карту с именем {{name}}"
+    "delete_confirm": "Вы собираетесь удалить карту с именем {{name}}",
+    "all": "Все",
+    "cash": "Наличные"
   },
   "uz": {
     "cards": "Kartalar",
@@ -36,6 +40,8 @@
     "create": "Yaratish",
     "click_save": "Tugatgach, saqlash tugmasini bosing.",
     "delete_title": "Ushbu {{name}} nomli kartani o'chirishni xohlaysizmi?",
-    "delete_confirm": "Siz {{name}} nomli kartani o'chirmoqchisiz"
+    "delete_confirm": "Siz {{name}} nomli kartani o'chirmoqchisiz",
+    "all": "Barchasi",
+    "cash": "Naqd"
   }
 }

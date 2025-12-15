@@ -100,7 +100,7 @@ const CashBox = ({
             <div className='flex items-center gap-2'>
               <IconWallet className='h-5 w-5' />
               <span className='text-sm font-bold tracking-wide uppercase'>
-                Cash Account
+                {t.cash_account}
               </span>
             </div>
             <div className='flex gap-1'>
