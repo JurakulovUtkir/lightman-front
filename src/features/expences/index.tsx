@@ -14,15 +14,13 @@ import { columns } from './components/columns'
 import { ExpenceDialogs } from './components/expence-dialogs'
 import { ExpencePrimaryButtons } from './components/expence-primary-buttons'
 import ExpenceFilter from './components/filters/expence-filter'
-import ExpenceProvider, { useExpenceContext } from './context'
+import ExpenceProvider from './context'
 import { useExpences } from './data/hooks'
-import { ExpenceSchema } from './data/schema'
 
 const ExpencesContent = () => {
   const { lang, tExpence, general } = useLang()
   const t = tExpence[lang]
 
-  const { setOpen, setCurrentRow } = useExpenceContext()
   const {
     offset,
     limit,
@@ -64,11 +62,6 @@ const ExpencesContent = () => {
     min_amount,
   })
 
-  const handleDoubleClick = (payload: ExpenceSchema) => {
-    setCurrentRow(payload)
-    setOpen('update')
-  }
-
   return (
     <>
       <Header fixed>
@@ -107,7 +100,6 @@ const ExpencesContent = () => {
             offset={offset}
             limit={limit}
             total={data?.data.total ?? 0}
-            onRowDoubleClick={handleDoubleClick}
           />
         </div>
       </Main>

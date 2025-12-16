@@ -304,9 +304,6 @@ export function ExpenceMutateDrawer({
     ) {
       form.setValue('payment_type', PaymentType.BANK_TRANSFER)
     }
-    if (checkExpenceType === ExpenceType.CASH_WITHDRAW) {
-      form.setValue('payment_type', PaymentType.CARD)
-    }
 
     if (isUpdate && pendingDeleteFile) {
       try {
