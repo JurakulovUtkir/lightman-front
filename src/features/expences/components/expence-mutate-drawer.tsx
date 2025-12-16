@@ -44,7 +44,6 @@ import {
 import { FormatDateToLongString } from '@/components/date-formatter'
 import { FormFieldSelect } from '@/components/form-field-select'
 import { FormFieldWrapper } from '@/components/form-field-wrapper'
-import { FormComboboxNetworkSocial } from '@/features/project-socials/components/form-combobox-network-social'
 import { FormFileUploadField } from '@/features/project-socials/components/form-file-upload'
 import { useDeleteFile } from '@/features/project-socials/data/hooks'
 import { FormComboboxFounders } from '@/features/stakeholder/distributors/components/form-combobox-founders'
@@ -54,6 +53,7 @@ import { ExpenceSchema } from '../data/schema'
 import { FormComboboxCards } from './form-combobox-cards'
 import { FormComboboxCompany } from './form-combobox-company'
 import { FormComboboxLoans } from './form-combobox-loan'
+import { FormComboboxNetworkSocial } from './form-combobox-network-social'
 import { FormComboboxProject } from './form-combobox-projects'
 import { FormComboboxUser } from './form-combobox-users'
 
@@ -499,159 +499,102 @@ export function ExpenceMutateDrawer({
 
               {/* Income */}
               {checkExpenceType === ExpenceType.CLIENT_PAYMENT && (
-                <>
-                  <FormComboboxCompany
-                    control={form.control}
-                    name='company_id'
-                    label={t.form_labels.company}
-                    detail={currentRow?.company ?? undefined}
-                    filterOurCompany={true}
-                    setValue={form.setValue}
-                  />
-                  <FormComboboxProject
-                    control={form.control}
-                    name='project_id'
-                    label={t.form_placeholders.select_project}
-                    detail={currentRow?.project ?? undefined}
-                  />
-                </>
+                <FormComboboxProject
+                  control={form.control}
+                  name='project_id'
+                  label={t.form_placeholders.select_project}
+                  detail={currentRow?.project ?? undefined}
+                />
               )}
 
-              {/* no company */}
               {checkExpenceType === ExpenceType.LOAN_REPAYMENT && (
-                <>
-                  <FormComboboxLoans
-                    control={form.control}
-                    name='loan_id'
-                    label={t.form_labels.loan}
-                    direction='WE_GAVE'
-                    // detail={currentRow?.loan ?? undefined}
-                  />
-                </>
+                <FormComboboxLoans
+                  control={form.control}
+                  name='loan_id'
+                  label={t.form_labels.loan}
+                  direction='WE_GAVE'
+                  // detail={currentRow?.loan ?? undefined}
+                />
               )}
 
               {checkExpenceType === ExpenceType.LOAN_TAKEN && (
-                <>
-                  <FormComboboxCompany
-                    control={form.control}
-                    name='company_id'
-                    label={t.form_labels.company}
-                    detail={currentRow?.company ?? undefined}
-                    filterOurCompany={true}
-                    setValue={form.setValue}
-                  />
-                  <FormField
-                    control={form.control}
-                    name='deadline_at'
-                    render={({ field }) => (
-                      <FormItem className='flex flex-col space-y-1'>
-                        <FormLabel>{t.form_labels.deadline_at}</FormLabel>
-                        <Popover open={openDate} onOpenChange={setOpenDate}>
-                          <PopoverTrigger asChild>
-                            <FormControl>
-                              <Button
-                                variant={'outline'}
-                                className={cn(
-                                  'text-left font-normal',
-                                  !field.value && 'text-muted-foreground'
-                                )}
-                                onClick={() => setOpenDate(true)}
-                              >
-                                {field.value ? (
-                                  <FormatDateToLongString
-                                    dateString={field.value}
-                                  />
-                                ) : (
-                                  <span>{t.form_labels.deadline_at}</span>
-                                )}
-                                <IconCalendar className='ml-auto h-4 w-4 opacity-50' />
-                              </Button>
-                            </FormControl>
-                          </PopoverTrigger>
-                          <PopoverContent className='w-auto p-0' align='start'>
-                            <Calendar
-                              mode='single'
-                              selected={field.value}
-                              onSelect={(date) => {
-                                field.onChange(date)
-                                setOpenDate(false)
-                              }}
-                              startMonth={
-                                new Date(new Date().getFullYear() - 1, 0, 1)
-                              }
-                              endMonth={
-                                new Date(new Date().getFullYear() + 10, 11, 31)
-                              }
-                              captionLayout='dropdown'
-                              disabled={(date) => {
-                                const oneWeekAgo = new Date()
-                                oneWeekAgo.setDate(oneWeekAgo.getDate() - 7)
-                                oneWeekAgo.setHours(0, 0, 0, 0)
-                                return date < oneWeekAgo
-                              }}
-                            />
-                          </PopoverContent>
-                        </Popover>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </>
+                <FormField
+                  control={form.control}
+                  name='deadline_at'
+                  render={({ field }) => (
+                    <FormItem className='flex flex-col space-y-1'>
+                      <FormLabel>{t.form_labels.deadline_at}</FormLabel>
+                      <Popover open={openDate} onOpenChange={setOpenDate}>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              variant={'outline'}
+                              className={cn(
+                                'text-left font-normal',
+                                !field.value && 'text-muted-foreground'
+                              )}
+                              onClick={() => setOpenDate(true)}
+                            >
+                              {field.value ? (
+                                <FormatDateToLongString
+                                  dateString={field.value}
+                                />
+                              ) : (
+                                <span>{t.form_labels.deadline_at}</span>
+                              )}
+                              <IconCalendar className='ml-auto h-4 w-4 opacity-50' />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className='w-auto p-0' align='start'>
+                          <Calendar
+                            mode='single'
+                            selected={field.value}
+                            onSelect={(date) => {
+                              field.onChange(date)
+                              setOpenDate(false)
+                            }}
+                            startMonth={
+                              new Date(new Date().getFullYear() - 1, 0, 1)
+                            }
+                            endMonth={
+                              new Date(new Date().getFullYear() + 10, 11, 31)
+                            }
+                            captionLayout='dropdown'
+                            disabled={(date) => {
+                              const oneWeekAgo = new Date()
+                              oneWeekAgo.setDate(oneWeekAgo.getDate() - 7)
+                              oneWeekAgo.setHours(0, 0, 0, 0)
+                              return date < oneWeekAgo
+                            }}
+                          />
+                        </PopoverContent>
+                      </Popover>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               )}
               {checkExpenceType === ExpenceType.FOUNDER_INPUT && (
-                <>
-                  <FormComboboxFounders
-                    control={form.control}
-                    name='founder_id'
-                    label={t.form_labels.founder}
-                    // detail={currentRow?.founder}
-                  />
-                  <FormComboboxCompany
-                    control={form.control}
-                    name='company_id'
-                    label={t.form_labels.company}
-                    detail={currentRow?.company ?? undefined}
-                    filterOurCompany={true}
-                    setValue={form.setValue}
-                  />
-                </>
+                <FormComboboxFounders
+                  control={form.control}
+                  name='founder_id'
+                  label={t.form_labels.founder}
+                  // detail={currentRow?.founder}
+                />
               )}
               {/* OutCome */}
               {checkExpenceType === ExpenceType.CHANNEL_DEPOSIT_TOPUP && (
-                <>
-                  <FormComboboxCompany
-                    control={form.control}
-                    name='company_id'
-                    label={t.form_labels.company}
-                    detail={currentRow?.company ?? undefined}
-                    filterOurCompany={true}
-                    setValue={form.setValue}
-                  />
-                  <FormComboboxProject
-                    control={form.control}
-                    name='project_id'
-                    label={t.form_placeholders.select_project}
-                    detail={currentRow?.project ?? undefined}
-                  />
-                  <FormComboboxNetworkSocial
-                    control={form.control}
-                    name='social_id'
-                    label={t.form_labels.social_network}
-                    // detail={currentRow?.social ?? undefined}
-                    setValue={form.setValue}
-                  />
-                </>
+                <FormComboboxNetworkSocial
+                  control={form.control}
+                  name='social_id'
+                  label={t.form_labels.social_network}
+                  // detail={currentRow?.social ?? undefined}
+                  setValue={form.setValue}
+                />
               )}
               {checkExpenceType === ExpenceType.SALARY && (
                 <>
-                  <FormComboboxCompany
-                    control={form.control}
-                    name='company_id'
-                    label={t.form_labels.company}
-                    detail={currentRow?.company ?? undefined}
-                    filterOurCompany={true}
-                    setValue={form.setValue}
-                  />
                   <FormComboboxProject
                     control={form.control}
                     name='project_id'
@@ -668,33 +611,15 @@ export function ExpenceMutateDrawer({
                 </>
               )}
               {checkExpenceType === ExpenceType.SALARY_ADVANCE && (
-                <>
-                  <FormComboboxCompany
-                    control={form.control}
-                    name='company_id'
-                    label={t.form_labels.company}
-                    detail={currentRow?.company ?? undefined}
-                    filterOurCompany={true}
-                    setValue={form.setValue}
-                  />
-                  <FormComboboxUser
-                    control={form.control}
-                    name='user_id'
-                    label={t.form_labels.select_user}
-                    detail={currentRow?.user ?? undefined}
-                  />
-                </>
+                <FormComboboxUser
+                  control={form.control}
+                  name='user_id'
+                  label={t.form_labels.select_user}
+                  detail={currentRow?.user ?? undefined}
+                />
               )}
               {checkExpenceType === ExpenceType.LOAN_GIVEN && (
                 <>
-                  <FormComboboxCompany
-                    control={form.control}
-                    name='company_id'
-                    label={t.form_labels.company}
-                    detail={currentRow?.company ?? undefined}
-                    filterOurCompany={true}
-                    setValue={form.setValue}
-                  />
                   <FormFieldWrapper
                     control={form.control}
                     name='counterparty_name'
@@ -760,34 +685,16 @@ export function ExpenceMutateDrawer({
                 </>
               )}
               {checkExpenceType === ExpenceType.LOAN_REPAYMENT && (
-                <>
-                  <FormComboboxCompany
-                    control={form.control}
-                    name='company_id'
-                    label={t.form_labels.company}
-                    detail={currentRow?.company ?? undefined}
-                    filterOurCompany={true}
-                    setValue={form.setValue}
-                  />
-                  <FormComboboxLoans
-                    control={form.control}
-                    name='loan_id'
-                    label={t.form_labels.loan}
-                    direction='WE_TOOK'
-                    // detail={currentRow?.loan ?? undefined}
-                  />
-                </>
+                <FormComboboxLoans
+                  control={form.control}
+                  name='loan_id'
+                  label={t.form_labels.loan}
+                  direction='WE_TOOK'
+                  // detail={currentRow?.loan ?? undefined}
+                />
               )}
               {checkExpenceType === ExpenceType.SERVICE_EXPENCE && (
                 <>
-                  <FormComboboxCompany
-                    control={form.control}
-                    name='company_id'
-                    label={t.form_labels.company}
-                    detail={currentRow?.company ?? undefined}
-                    filterOurCompany={true}
-                    setValue={form.setValue}
-                  />
                   <FormComboboxProject
                     control={form.control}
                     name='project_id'

@@ -155,7 +155,7 @@ export const FormComboboxProject = <T extends FieldValues>({
                         <CommandGroup>
                           {options.map((item) => (
                             <CommandItem
-                              value={item.label}
+                              value={item.value}
                               key={item.value}
                               onSelect={() => {
                                 field.onChange(item.value)
