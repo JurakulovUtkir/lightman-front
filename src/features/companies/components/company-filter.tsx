@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { CheckIcon, PlusCircledIcon } from '@radix-ui/react-icons'
 import { cn } from '@/lib/utils'
+import { useLang } from '@/hooks/useLang'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -27,33 +28,36 @@ interface CompanyFilterProps {
   }) => void
 }
 
-const filterGroups = [
-  {
-    title: 'Status',
-    key: 'is_active' as const,
-    options: [
-      { label: 'Active', value: 'true' },
-      { label: 'Inactive', value: 'false' },
-    ],
-  },
-  // {
-  //   title: 'Company Type',
-  //   key: 'is_our_company' as const,
-  //   options: [{ label: 'Our Company', value: 'true' }],
-  // },
-  {
-    title: 'VIP Status',
-    key: 'is_vip' as const,
-    options: [{ label: 'Is VIP', value: 'true' }],
-  },
-]
-
 export function CompanyFilter({ onFilterChange }: CompanyFilterProps) {
   const [selectedFilters, setSelectedFilters] = React.useState<{
     is_active?: string[]
     // is_our_company?: string[]
     is_vip?: string[]
   }>({})
+
+  const { lang, tForm, interpolate } = useLang()
+  const t = tForm[lang]
+
+  const filterGroups = [
+    {
+      title: t.form_labels.status,
+      key: 'is_active' as const,
+      options: [
+        { label: t.form_labels.active, value: 'true' },
+        { label: t.form_labels.inActive, value: 'false' },
+      ],
+    },
+    // {
+    //   title: 'Company Type',
+    //   key: 'is_our_company' as const,
+    //   options: [{ label: 'Our Company', value: 'true' }],
+    // },
+    {
+      title: t.form_labels.vip_status,
+      key: 'is_vip' as const,
+      options: [{ label: t.form_labels.is_vip, value: 'true' }],
+    },
+  ]
 
   const totalSelected = Object.values(selectedFilters).reduce(
     (acc, filters) => acc + (filters?.length || 0),
@@ -138,7 +142,7 @@ export function CompanyFilter({ onFilterChange }: CompanyFilterProps) {
       <PopoverTrigger asChild>
         <Button variant='outline' size='sm' className='h-8 border-dashed'>
           <PlusCircledIcon className='mr-2 h-4 w-4' />
-          Filters
+          {t.form_labels.filters}
           {totalSelected > 0 && (
             <>
               <Separator orientation='vertical' className='mx-2 h-4' />
@@ -154,7 +158,9 @@ export function CompanyFilter({ onFilterChange }: CompanyFilterProps) {
                     variant='secondary'
                     className='rounded-sm px-1 font-normal'
                   >
-                    {totalSelected} selected
+                    {interpolate('total_selected', {
+                      total: totalSelected,
+                    })}
                   </Badge>
                 ) : (
                   selectedLabels.map((label, index) => (
@@ -174,9 +180,9 @@ export function CompanyFilter({ onFilterChange }: CompanyFilterProps) {
       </PopoverTrigger>
       <PopoverContent className='w-[250px] p-0' align='start'>
         <Command>
-          <CommandInput placeholder='Search filters...' />
+          <CommandInput placeholder={t.form_labels.search_filters} />
           <CommandList>
-            <CommandEmpty>No results found.</CommandEmpty>
+            <CommandEmpty>{t.form_labels.no_results}</CommandEmpty>
             {filterGroups.map((group, groupIndex) => (
               <React.Fragment key={group.key}>
                 <CommandGroup heading={group.title}>
@@ -218,7 +224,7 @@ export function CompanyFilter({ onFilterChange }: CompanyFilterProps) {
                     onSelect={handleClear}
                     className='justify-center text-center'
                   >
-                    Clear filters
+                    {t.form_labels.clear_filter}
                   </CommandItem>
                 </CommandGroup>
               </>

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { CaretSortIcon, CheckIcon, Cross2Icon } from '@radix-ui/react-icons'
 import { cn } from '@/lib/utils'
 import { useDebounce } from '@/hooks/useDebounce'
+import { useLang } from '@/hooks/useLang'
 import { Button } from '@/components/ui/button'
 import {
   Command,
@@ -42,7 +43,8 @@ export const ProjectSearchFilter = ({
   const [search, setSearch] = useState('')
   const [open, setOpen] = useState(false)
   const debouncedSearch = useDebounce(search, 500)
-
+  const { lang, tForm } = useLang()
+  const t = tForm[lang]
   // Conditionally fetch projects if searchable projects is enabled
   const shouldFetchProjects = useSearchableProjects && open
   const projectsQuery = useProjects({
@@ -92,7 +94,9 @@ export const ProjectSearchFilter = ({
                 selectedLabel
               )
             ) : (
-              <span className='text-muted-foreground'>Filter by project</span>
+              <span className='text-muted-foreground'>
+                {t.form_labels.filter_by_project}
+              </span>
             )}
             <CaretSortIcon className='ml-2 h-4 w-4 shrink-0 opacity-50' />
           </Button>
@@ -116,18 +120,18 @@ export const ProjectSearchFilter = ({
                     <div className='flex items-center gap-2'>
                       <div className='h-4 w-4 animate-spin rounded-full border-2 border-gray-300 border-t-gray-900'></div>
                       <span className='text-muted-foreground text-sm'>
-                        Searching...
+                        {t.form_labels.searching}
                       </span>
                     </div>
                   </div>
                 ) : (
                   <>
-                    <CommandEmpty>No data found.</CommandEmpty>
+                    <CommandEmpty> {t.form_labels.no_data}</CommandEmpty>
                     <CommandGroup>
                       {filterOptions.map((option) => (
                         <CommandItem
                           key={option.value}
-                          value={option.label}
+                          value={option.value}
                           onSelect={() => {
                             onFilterChange?.(option.value)
                             setOpen(false)
@@ -159,7 +163,7 @@ export const ProjectSearchFilter = ({
                             className='text-muted-foreground justify-center'
                           >
                             <Cross2Icon className='mr-2 h-3.5 w-3.5' />
-                            Clear filter
+                            {t.form_labels.clear_filter}
                           </CommandItem>
                         </CommandGroup>
                       </>
@@ -175,7 +179,7 @@ export const ProjectSearchFilter = ({
                   {filterOptions.map((option) => (
                     <CommandItem
                       key={option.value}
-                      value={option.label}
+                      value={option.value}
                       onSelect={() => {
                         onFilterChange?.(option.value)
                         setOpen(false)
@@ -205,7 +209,7 @@ export const ProjectSearchFilter = ({
                         className='text-muted-foreground justify-center'
                       >
                         <Cross2Icon className='mr-2 h-3.5 w-3.5' />
-                        Clear filter
+                        {t.form_labels.clear_filter}
                       </CommandItem>
                     </CommandGroup>
                   </>

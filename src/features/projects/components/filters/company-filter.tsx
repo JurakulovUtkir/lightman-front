@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { CaretSortIcon, CheckIcon, Cross2Icon } from '@radix-ui/react-icons'
 import { cn } from '@/lib/utils'
 import { useDebounce } from '@/hooks/useDebounce'
+import { useLang } from '@/hooks/useLang'
 import { Button } from '@/components/ui/button'
 import {
   Command,
@@ -44,6 +45,8 @@ export const CompanyFilter = ({
   const [search, setSearch] = useState('')
   const [open, setOpen] = useState(false)
   const debouncedSearch = useDebounce(search, 500)
+  const { lang, tForm } = useLang()
+  const t = tForm[lang]
 
   // Conditionally fetch companies if searchable companies is enabled
   const shouldFetchCompanies = useSearchableCompanies && open
@@ -95,7 +98,9 @@ export const CompanyFilter = ({
                 selectedLabel
               )
             ) : (
-              <span className='text-muted-foreground'>Filter by company</span>
+              <span className='text-muted-foreground'>
+                {t.form_labels.filter_by_company}
+              </span>
             )}
             <CaretSortIcon className='ml-2 h-4 w-4 shrink-0 opacity-50' />
           </Button>
@@ -119,13 +124,13 @@ export const CompanyFilter = ({
                     <div className='flex items-center gap-2'>
                       <div className='h-4 w-4 animate-spin rounded-full border-2 border-gray-300 border-t-gray-900'></div>
                       <span className='text-muted-foreground text-sm'>
-                        Searching...
+                        {t.form_labels.searching}
                       </span>
                     </div>
                   </div>
                 ) : (
                   <>
-                    <CommandEmpty>No data found.</CommandEmpty>
+                    <CommandEmpty>{t.form_labels.no_data}</CommandEmpty>
                     <CommandGroup>
                       {filterOptions.map((option) => (
                         <CommandItem
@@ -162,7 +167,7 @@ export const CompanyFilter = ({
                             className='text-muted-foreground justify-center'
                           >
                             <Cross2Icon className='mr-2 h-3.5 w-3.5' />
-                            Clear filter
+                            {t.form_labels.clear_filter}
                           </CommandItem>
                         </CommandGroup>
                       </>
@@ -208,7 +213,7 @@ export const CompanyFilter = ({
                         className='text-muted-foreground justify-center'
                       >
                         <Cross2Icon className='mr-2 h-3.5 w-3.5' />
-                        Clear filter
+                        {t.form_labels.clear_filter}
                       </CommandItem>
                     </CommandGroup>
                   </>

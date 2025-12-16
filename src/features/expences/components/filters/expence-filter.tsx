@@ -34,8 +34,9 @@ const ExpenceFilter = ({
   isFounder?: boolean
   isProject?: boolean
 }) => {
-  const { lang, general } = useLang()
+  const { lang, general, tForm } = useLang()
   const t_general = general[lang].columns
+  const t = tForm[lang]
   const expenceOriginTypeOptions = getExpenceOriginTypeOptions(t_general)
   const expenceTypeOptions = getExpenceTypeOptions(t_general)
 
@@ -149,7 +150,7 @@ const ExpenceFilter = ({
       <PopoverTrigger asChild>
         <Button variant='outline' className='relative h-8'>
           <IconFilter className='mr-2 h-4 w-4' />
-          Filters
+          {t.form_labels.filters}
           {activeFiltersCount > 0 && (
             <Badge
               variant='default'
@@ -163,7 +164,7 @@ const ExpenceFilter = ({
       <PopoverContent className='w-[600px] p-4' align='start'>
         <div className='space-y-4'>
           <div className='flex items-center justify-between'>
-            <h4 className='text-sm font-medium'>Filters</h4>
+            <h4 className='text-sm font-medium'>{t.form_labels.filters}</h4>
             {activeFiltersCount > 0 && (
               <Button
                 variant='ghost'
@@ -171,7 +172,7 @@ const ExpenceFilter = ({
                 onClick={handleClearAll}
                 className='h-8 px-2 text-xs'
               >
-                Clear all
+                {t.form_labels.clear_all}
               </Button>
             )}
           </div>
@@ -181,9 +182,11 @@ const ExpenceFilter = ({
           {/* 2-column grid layout */}
           <div className='grid grid-cols-2 gap-4'>
             <div className='space-y-2'>
-              <Label className='text-xs font-medium'>Type</Label>
+              <Label className='text-xs font-medium'>
+                {t.form_labels.type}
+              </Label>
               <EnumFilter
-                placeholder='Select type...'
+                placeholder={t.form_placeholders.select_type}
                 filterOptions={expenceOriginTypeOptions}
                 selectedFilter={type}
                 onFilterChange={handleTypeFilterChange}
@@ -193,9 +196,11 @@ const ExpenceFilter = ({
             </div>
 
             <div className='space-y-2'>
-              <Label className='text-xs font-medium'>Expence Type</Label>
+              <Label className='text-xs font-medium'>
+                {t.form_labels.expence_type}
+              </Label>
               <EnumFilter
-                placeholder='Select type...'
+                placeholder={t.form_placeholders.select_type}
                 filterOptions={expenceTypeOptions}
                 selectedFilter={expence_type}
                 onFilterChange={handleExpenceTypeFilterChange}
@@ -207,9 +212,11 @@ const ExpenceFilter = ({
             {!isFounder && (
               <>
                 <div className='space-y-2'>
-                  <Label className='text-xs font-medium'>Distribution</Label>
+                  <Label className='text-xs font-medium'>
+                    {t.form_labels.distribution}
+                  </Label>
                   <DistributionFilter
-                    placeholder='Search distributions...'
+                    placeholder={t.form_placeholders.search_distributions}
                     searchable={true}
                     selectedFilter={distribution_id}
                     onFilterChange={handleDistiburionFilterChange}
@@ -218,9 +225,11 @@ const ExpenceFilter = ({
                 </div>
 
                 <div className='space-y-2'>
-                  <Label className='text-xs font-medium'>Company</Label>
+                  <Label className='text-xs font-medium'>
+                    {t.form_labels.company}
+                  </Label>
                   <CompanyFilter
-                    placeholder='Search companies...'
+                    placeholder={t.form_placeholders.search_company}
                     searchable={true}
                     useSearchableCompanies={true}
                     selectedFilter={company_id}
@@ -232,9 +241,11 @@ const ExpenceFilter = ({
 
                 {!isProject && (
                   <div className='space-y-2'>
-                    <Label className='text-xs font-medium'>Project</Label>
+                    <Label className='text-xs font-medium'>
+                      {t.form_labels.project}
+                    </Label>
                     <ProjectSearchFilter
-                      placeholder='Search projects...'
+                      placeholder={t.form_placeholders.search_projects}
                       searchable={true}
                       useSearchableProjects={true}
                       selectedFilter={project_id}
@@ -245,9 +256,11 @@ const ExpenceFilter = ({
                 )}
 
                 <div className='space-y-2'>
-                  <Label className='text-xs font-medium'>Users</Label>
+                  <Label className='text-xs font-medium'>
+                    {t.form_labels.users}
+                  </Label>
                   <UserFilter
-                    placeholder='Search users...'
+                    placeholder={t.form_placeholders.search_users}
                     searchable={true}
                     useSearchableUsers={true}
                     selectedFilter={user_id}
@@ -259,9 +272,11 @@ const ExpenceFilter = ({
             )}
 
             <div className='space-y-2'>
-              <Label className='text-xs font-medium'>Payment Type</Label>
+              <Label className='text-xs font-medium'>
+                {t.form_labels.payment_type}
+              </Label>
               <EnumFilter
-                placeholder='Select payment type...'
+                placeholder={t.form_placeholders.select_payment_type}
                 filterOptions={getPaymentTypeOptions(t_general)}
                 selectedFilter={payment_type}
                 onFilterChange={handlePaymentTypeFilterChange}
@@ -275,7 +290,9 @@ const ExpenceFilter = ({
 
           {/* Date Range - Full Width */}
           <div className='space-y-2'>
-            <Label className='text-xs font-medium'>Date Range</Label>
+            <Label className='text-xs font-medium'>
+              {t.form_labels.date_range}
+            </Label>
             <div className='grid grid-cols-2 gap-4'>
               <Popover>
                 <PopoverTrigger asChild>
@@ -287,7 +304,9 @@ const ExpenceFilter = ({
                     )}
                   >
                     <IconCalendar className='mr-2 h-4 w-4' />
-                    {dateFrom ? format(dateFrom, 'PPP') : 'From date'}
+                    {dateFrom
+                      ? format(dateFrom, 'PPP')
+                      : t.form_labels.from_date}
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className='w-auto p-0' align='start'>
@@ -310,7 +329,7 @@ const ExpenceFilter = ({
                     )}
                   >
                     <IconCalendar className='mr-2 h-4 w-4' />
-                    {dateTo ? format(dateTo, 'PPP') : 'To date'}
+                    {dateTo ? format(dateTo, 'PPP') : t.form_labels.to_date}
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className='w-auto p-0' align='start'>
@@ -327,9 +346,14 @@ const ExpenceFilter = ({
             {(date_from || date_to) && (
               <div className='text-muted-foreground flex items-center gap-2 text-xs'>
                 <span>
-                  Active:{' '}
-                  {date_from ? format(new Date(date_from), 'PP') : 'Any'} -{' '}
-                  {date_to ? format(new Date(date_to), 'PP') : 'Any'}
+                  {t.form_labels.active}:{' '}
+                  {date_from
+                    ? format(new Date(date_from), 'PP')
+                    : t.form_labels.any}{' '}
+                  -{' '}
+                  {date_to
+                    ? format(new Date(date_to), 'PP')
+                    : t.form_labels.any}
                 </span>
                 <Button
                   variant='ghost'
@@ -347,12 +371,14 @@ const ExpenceFilter = ({
 
           {/* Amount Range - Full Width */}
           <div className='space-y-2'>
-            <Label className='text-xs font-medium'>Amount Range</Label>
+            <Label className='text-xs font-medium'>
+              {t.form_labels.amount_range}
+            </Label>
             <div className='flex items-center gap-2'>
               <div className='flex-1'>
                 <Input
                   type='number'
-                  placeholder='Min'
+                  placeholder={t.form_placeholders.min}
                   value={minAmount}
                   onChange={(e) => setMinAmount(e.target.value)}
                   className='h-9'
@@ -362,7 +388,7 @@ const ExpenceFilter = ({
               <div className='flex-1'>
                 <Input
                   type='number'
-                  placeholder='Max'
+                  placeholder={t.form_placeholders.max}
                   value={maxAmount}
                   onChange={(e) => setMaxAmount(e.target.value)}
                   className='h-9'
@@ -373,13 +399,14 @@ const ExpenceFilter = ({
                 onClick={handleApplyAmountFilter}
                 className='h-9'
               >
-                Apply
+                {t.form_labels.apply}
               </Button>
             </div>
             {(min_amount || max_amount) && (
               <div className='text-muted-foreground flex items-center gap-2 text-xs'>
                 <span>
-                  Active: {min_amount || '0'} - {max_amount || '∞'}
+                  {t.form_labels.active}: {min_amount || '0'} -{' '}
+                  {max_amount || '∞'}
                 </span>
                 <Button
                   variant='ghost'

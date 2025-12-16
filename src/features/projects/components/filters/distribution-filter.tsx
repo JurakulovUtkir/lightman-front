@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { CaretSortIcon, CheckIcon, Cross2Icon } from '@radix-ui/react-icons'
 import { cn } from '@/lib/utils'
+import { useLang } from '@/hooks/useLang'
 import { Button } from '@/components/ui/button'
 import {
   Command,
@@ -37,6 +38,8 @@ export function DistributionFilter({
 }: DistributionFilterProps) {
   const [search, setSearch] = useState('')
   const [open, setOpen] = useState(false)
+  const { lang, tForm } = useLang()
+  const t = tForm[lang]
 
   // Fetch all distributions (no API search, just client-side filtering)
   const { data: distributions, isLoading } = useDistributions()
@@ -80,7 +83,7 @@ export function DistributionFilter({
           >
             {selectedLabel || (
               <span className='text-muted-foreground'>
-                Filter by distribution
+                {t.form_labels.filter_distribution}
               </span>
             )}
             <CaretSortIcon className='ml-2 h-4 w-4 shrink-0 opacity-50' />
@@ -105,13 +108,13 @@ export function DistributionFilter({
                     <div className='flex items-center gap-2'>
                       <div className='h-4 w-4 animate-spin rounded-full border-2 border-gray-300 border-t-gray-900'></div>
                       <span className='text-muted-foreground text-sm'>
-                        Loading...
+                        {t.form_labels.loading}
                       </span>
                     </div>
                   </div>
                 ) : (
                   <>
-                    <CommandEmpty>No data found.</CommandEmpty>
+                    <CommandEmpty>{t.form_labels.no_data}</CommandEmpty>
                     <CommandGroup>
                       {filterOptions.map((option) => (
                         <CommandItem
@@ -142,7 +145,7 @@ export function DistributionFilter({
                             className='text-muted-foreground justify-center'
                           >
                             <Cross2Icon className='mr-2 h-3.5 w-3.5' />
-                            Clear filter
+                            {t.form_labels.clear_filter}
                           </CommandItem>
                         </CommandGroup>
                       </>
@@ -159,7 +162,7 @@ export function DistributionFilter({
                     <div className='flex items-center gap-2'>
                       <div className='h-4 w-4 animate-spin rounded-full border-2 border-gray-300 border-t-gray-900'></div>
                       <span className='text-muted-foreground text-sm'>
-                        Loading...
+                        {t.form_labels.loading}
                       </span>
                     </div>
                   </div>
@@ -195,7 +198,7 @@ export function DistributionFilter({
                             className='text-muted-foreground justify-center'
                           >
                             <Cross2Icon className='mr-2 h-3.5 w-3.5' />
-                            Clear filter
+                            {t.form_labels.clear_filter}
                           </CommandItem>
                         </CommandGroup>
                       </>

@@ -17,10 +17,11 @@ import { EnumFilter } from '@/features/projects/components/filters/enum-filters'
 import { useContractFilters } from './useContractFilters'
 
 const ContractFilter = () => {
-  const { lang, general } = useLang()
+  const { lang, general, tForm } = useLang()
   const t_general = general[lang].columns
-  const paymentStatusOptions = getPaymentStatusOptions(t_general)
+  const t = tForm[lang]
 
+  const paymentStatusOptions = getPaymentStatusOptions(t_general)
   const { customer_company_id, our_company_id, payment_status, payment_type } =
     useSearch({
       from: '/_authenticated/contracts/',
@@ -47,7 +48,7 @@ const ContractFilter = () => {
       <PopoverTrigger asChild>
         <Button variant='outline' className='relative h-8'>
           <IconFilter className='mr-2 h-4 w-4' />
-          Filters
+          {t.form_labels.filters}
           {activeFiltersCount > 0 && (
             <Badge
               variant='default'
@@ -61,7 +62,7 @@ const ContractFilter = () => {
       <PopoverContent className='w-[400px] p-4' align='start'>
         <div className='space-y-4'>
           <div className='flex items-center justify-between'>
-            <h4 className='text-sm font-medium'>Filters</h4>
+            <h4 className='text-sm font-medium'>{t.form_labels.filters}</h4>
             {activeFiltersCount > 0 && (
               <Button
                 variant='ghost'
@@ -69,7 +70,7 @@ const ContractFilter = () => {
                 onClick={handleClear}
                 className='h-8 px-2 text-xs'
               >
-                Clear all
+                {t.form_labels.clear_all}
               </Button>
             )}
           </div>
@@ -78,9 +79,11 @@ const ContractFilter = () => {
 
           {/* Our Company Filter */}
           <div className='space-y-2'>
-            <Label className='text-xs font-medium'>Our Company</Label>
+            <Label className='text-xs font-medium'>
+              {t.form_labels.our_company}
+            </Label>
             <CompanyFilter
-              placeholder='Search our companies...'
+              placeholder={t.form_placeholders.search_our_company}
               searchable={true}
               useSearchableCompanies={true}
               selectedFilter={our_company_id}
@@ -91,9 +94,11 @@ const ContractFilter = () => {
 
           {/* Customer Company Filter */}
           <div className='space-y-2'>
-            <Label className='text-xs font-medium'>Customer Company</Label>
+            <Label className='text-xs font-medium'>
+              {t.form_labels.customer_company}
+            </Label>
             <CompanyFilter
-              placeholder='Search customer companies...'
+              placeholder={t.form_placeholders.search_customer_company}
               searchable={true}
               useSearchableCompanies={true}
               selectedFilter={customer_company_id}
@@ -102,9 +107,11 @@ const ContractFilter = () => {
             />
           </div>
           <div className='space-y-2'>
-            <Label className='text-xs font-medium'>Payment Status</Label>
+            <Label className='text-xs font-medium'>
+              {t.form_labels.payment_status}
+            </Label>
             <EnumFilter
-              placeholder='Select status...'
+              placeholder={t.form_placeholders.select_status}
               filterOptions={paymentStatusOptions}
               selectedFilter={payment_status}
               onFilterChange={handlePaymentStatusFilterChange}
@@ -113,9 +120,11 @@ const ContractFilter = () => {
           </div>
 
           <div className='space-y-2'>
-            <Label className='text-xs font-medium'>Payment Type</Label>
+            <Label className='text-xs font-medium'>
+              {t.form_labels.payment_type}
+            </Label>
             <EnumFilter
-              placeholder='Select payment type...'
+              placeholder={t.form_placeholders.select_payment_type}
               filterOptions={getPaymentTypeOptions(t_general)}
               selectedFilter={payment_type}
               onFilterChange={handlePaymentTypeFilterChange}
