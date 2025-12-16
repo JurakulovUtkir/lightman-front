@@ -57,26 +57,26 @@ export const columns = (
     ),
     enableSorting: false,
   },
-  {
-    accessorKey: 'address',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title={t.address} />
-    ),
-    cell: ({ row }) => (
-      <LongText className='max-w-36'>{row.getValue('address')}</LongText>
-    ),
-    enableSorting: false,
-  },
-  {
-    accessorKey: 'bank',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title={t.bank} />
-    ),
-    cell: ({ row }) => (
-      <LongText className='max-w-36'>{row.getValue('bank')}</LongText>
-    ),
-    enableSorting: false,
-  },
+  // {
+  //   accessorKey: 'address',
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader column={column} title={t.address} />
+  //   ),
+  //   cell: ({ row }) => (
+  //     <LongText className='max-w-36'>{row.getValue('address')}</LongText>
+  //   ),
+  //   enableSorting: false,
+  // },
+  // {
+  //   accessorKey: 'bank',
+  //   header: ({ column }) => (
+  //     <DataTableColumnHeader column={column} title={t.bank} />
+  //   ),
+  //   cell: ({ row }) => (
+  //     <LongText className='max-w-36'>{row.getValue('bank')}</LongText>
+  //   ),
+  //   enableSorting: false,
+  // },
   {
     accessorKey: 'stir',
     header: ({ column }) => (

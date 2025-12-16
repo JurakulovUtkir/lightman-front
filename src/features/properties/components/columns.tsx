@@ -6,7 +6,6 @@ import {
 import { formatPrice } from '@/utils/formatPrice'
 import { Badge } from '@/components/ui/badge'
 import { Checkbox } from '@/components/ui/checkbox'
-import { FormatDateToLongString } from '@/components/date-formatter'
 import LongText from '@/components/long-text'
 import { DataTableColumnHeader } from '@/components/table/data-table-column-header'
 import { PropertySchema } from '../data/schema'
@@ -169,30 +168,7 @@ export const columns = (
     enableSorting: false,
     enableHiding: false,
   },
-  {
-    accessorKey: 'created_at',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title={t.created_at} />
-    ),
-    cell: ({ row }) => (
-      <div className='whitespace-nowrap'>
-        <FormatDateToLongString dateString={row.getValue('created_at')} />
-      </div>
-    ),
-    enableSorting: true,
-  },
-  {
-    accessorKey: 'updated_at',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title={t.updated_at} />
-    ),
-    cell: ({ row }) => (
-      <div className='whitespace-nowrap'>
-        <FormatDateToLongString dateString={row.getValue('updated_at')} />
-      </div>
-    ),
-    enableSorting: true,
-  },
+
   {
     id: 'actions',
     cell: ({ row }) => <DataTableRowActions row={row} />,

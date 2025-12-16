@@ -40,7 +40,7 @@ export const columns = (
   {
     accessorKey: 'name',
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title={t.company_name} />
+      <DataTableColumnHeader column={column} title={t.contract_name} />
     ),
     cell: ({ row }) => (
       <div className='flex items-center gap-2'>

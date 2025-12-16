@@ -1,7 +1,24 @@
-import React from 'react'
+import React, { useMemo, useState } from 'react'
+import { AllowedLangs, languages } from '@/constants'
 import { cn } from '@/lib/utils'
+import { setLang } from '@/context/lang'
 import { Separator } from '@/components/ui/separator'
 import { SidebarTrigger } from '@/components/ui/sidebar'
+import { Button } from '../ui/button'
+
+const getInitialLang = (): string => {
+  try {
+    const storedLang = localStorage.getItem('lang')
+    if (storedLang) {
+      const parsed = JSON.parse(storedLang)
+      return parsed || 'en'
+    }
+  } catch (_error) {
+    // eslint-disable-next-line no-console
+    console.log('Failed to load lang from storage!')
+  }
+  return 'en'
+}
 
 interface HeaderProps extends React.HTMLAttributes<HTMLElement> {
   fixed?: boolean
@@ -28,6 +45,19 @@ export const Header = ({
     return () => document.removeEventListener('scroll', onScroll)
   }, [])
 
+  const [selectedLang, setSelectedLang] = useState(getInitialLang())
+
+  const selectedLanguage = useMemo(
+    () => languages.find((lang) => lang.value === selectedLang),
+    [selectedLang]
+  )
+
+  const handleSwitchLang = (lang: string) => {
+    setSelectedLang(lang)
+    setLang(lang as AllowedLangs)
+    localStorage.setItem('lang', JSON.stringify(lang))
+  }
+
   return (
     <header
       className={cn(
@@ -40,6 +70,17 @@ export const Header = ({
     >
       <SidebarTrigger variant='outline' className='scale-125 sm:scale-100' />
       <Separator orientation='vertical' className='h-6' />
+      {['en', 'ru', 'uz'].map((item) => (
+        <Button
+          onClick={() => handleSwitchLang(item)}
+          key={item}
+          size='sm'
+          variant={selectedLanguage?.value === item ? 'default' : 'outline'}
+          className='capitalize'
+        >
+          {item}
+        </Button>
+      ))}
       {children}
     </header>
   )
