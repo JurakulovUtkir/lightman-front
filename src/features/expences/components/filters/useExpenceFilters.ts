@@ -305,6 +305,8 @@ export const useExpenceFilters = ({
     handleDateToFilterChange(null)
     handleMaxAmountFilterChange(null)
     handleMinAmountFilterChange(null)
+    handleLoanFilterChange(null)
+    handleCardFilterChange(null)
   }
 
   return {

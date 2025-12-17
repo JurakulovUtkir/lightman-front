@@ -1,6 +1,4 @@
 import { ColumnDef } from '@tanstack/react-table'
-import { Download, Eye } from 'lucide-react'
-import { downloadFile } from '@/lib/helpers'
 import {
   getExpenceOriginTypeColor,
   getExpenceTypeColor,
@@ -8,7 +6,6 @@ import {
 } from '@/lib/statusHelpers'
 import { formatPrice } from '@/utils/formatPrice'
 import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { FormatDateToLongString } from '@/components/date-formatter'
 import LongText from '@/components/long-text'
@@ -166,24 +163,6 @@ export const columns = (
     enableSorting: false,
   },
   {
-    accessorKey: 'deposit',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title={t.deposit} />
-    ),
-    cell: ({ row }) => {
-      const deposit = row.original.deposit
-      return (
-        <div className='flex max-w-36 flex-col gap-1'>
-          <LongText className='max-w-36'>{deposit?.name || '-'}</LongText>
-          {/* <span className='text-xs'>
-            {formatPrice(deposit?.balance) ?? ''} UZS
-          </span> */}
-        </div>
-      )
-    },
-    enableSorting: false,
-  },
-  {
     accessorKey: 'user',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title={t.user} />
@@ -195,59 +174,6 @@ export const columns = (
     enableSorting: false,
   },
 
-  {
-    accessorKey: 'file_url',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title={t.file} />
-    ),
-    cell: ({ row }) => {
-      const base_url = import.meta.env.VITE_API_BASE_URL.replace(/\/v1\/?$/, '')
-      const file = row.original.file_url
-
-      if (!file) {
-        return (
-          <span className='text-muted-foreground text-sm'>{t.no_file}</span>
-        )
-      }
-
-      const fullUrl = `${base_url}${file}`
-      const filename = file.split('/').pop() || 'expence.pdf'
-
-      return (
-        <div className='flex items-center gap-2'>
-          <Button
-            variant='outline'
-            size='sm'
-            onClick={() => window.open(fullUrl, '_blank')}
-          >
-            <Eye className='h-4 w-4' />
-          </Button>
-          <Button
-            variant='outline'
-            size='sm'
-            onClick={() => downloadFile(fullUrl, filename)}
-          >
-            <Download className='h-4 w-4' />
-          </Button>
-        </div>
-      )
-    },
-    enableSorting: false,
-  },
-  {
-    accessorKey: 'description',
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title={t.description} />
-    ),
-    cell: ({ row }) => {
-      return (
-        <LongText className='max-w-48'>
-          {row.getValue('description') ?? '-'}
-        </LongText>
-      )
-    },
-    enableSorting: false,
-  },
   {
     accessorKey: 'created_at',
     header: ({ column }) => (
@@ -263,19 +189,58 @@ export const columns = (
     },
     enableSorting: true,
   },
-  // {
-  //   accessorKey: 'updated_at',
-  //   header: ({ column }) => (
-  //     <DataTableColumnHeader column={column} title={t.updated_at} />
-  //   ),
-  //   cell: ({ row }) => {
-  //     const updatedAt = row.original.updated_at
-  //     return (
-  //       <div className='whitespace-nowrap'>
-  //       <FormatDateToLongString dateString={updatedAt} />
-  //       </div>
-  //     )
-  //   },
-  //   enableSorting: true,
-  // },
 ]
+
+// {
+//   accessorKey: 'file_url',
+//   header: ({ column }) => (
+//     <DataTableColumnHeader column={column} title={t.file} />
+//   ),
+//   cell: ({ row }) => {
+//     const base_url = import.meta.env.VITE_API_BASE_URL.replace(/\/v1\/?$/, '')
+//     const file = row.original.file_url
+
+//     if (!file) {
+//       return (
+//         <span className='text-muted-foreground text-sm'>{t.no_file}</span>
+//       )
+//     }
+
+//     const fullUrl = `${base_url}${file}`
+//     const filename = file.split('/').pop() || 'expence.pdf'
+
+//     return (
+//       <div className='flex items-center gap-2'>
+//         <Button
+//           variant='outline'
+//           size='sm'
+//           onClick={() => window.open(fullUrl, '_blank')}
+//         >
+//           <Eye className='h-4 w-4' />
+//         </Button>
+//         <Button
+//           variant='outline'
+//           size='sm'
+//           onClick={() => downloadFile(fullUrl, filename)}
+//         >
+//           <Download className='h-4 w-4' />
+//         </Button>
+//       </div>
+//     )
+//   },
+//   enableSorting: false,
+// },
+// {
+//   accessorKey: 'description',
+//   header: ({ column }) => (
+//     <DataTableColumnHeader column={column} title={t.description} />
+//   ),
+//   cell: ({ row }) => {
+//     return (
+//       <LongText className='max-w-48'>
+//         {row.getValue('description') ?? '-'}
+//       </LongText>
+//     )
+//   },
+//   enableSorting: false,
+// },

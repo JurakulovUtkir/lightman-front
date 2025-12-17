@@ -187,6 +187,7 @@ export function ExpenceMutateDrawer({
           })
           .optional(),
         created_at: z.date().optional(),
+        date: z.date().optional(),
         user_id: z.string().optional(),
         deposit_id: z.string().optional(),
 
@@ -217,6 +218,7 @@ export function ExpenceMutateDrawer({
       deadline_at: currentRow?.deadline_at
         ? new Date(currentRow.deadline_at)
         : undefined,
+      date: currentRow?.date ? new Date(currentRow.date) : undefined,
     },
   })
 
@@ -769,6 +771,62 @@ export function ExpenceMutateDrawer({
                   suffix={t.form_placeholders.uzs}
                 />
               ))}
+              <FormField
+                control={form.control}
+                name='date'
+                render={({ field }) => (
+                  <FormItem className='flex flex-col space-y-1'>
+                    <FormLabel>{t.form_labels.date}</FormLabel>
+                    <Popover open={openDate} onOpenChange={setOpenDate}>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant={'outline'}
+                            className={cn(
+                              'text-left font-normal',
+                              !field.value && 'text-muted-foreground'
+                            )}
+                            onClick={() => setOpenDate(true)}
+                          >
+                            {field.value ? (
+                              <FormatDateToLongString
+                                dateString={field.value}
+                              />
+                            ) : (
+                              <span>{t.form_labels.date}</span>
+                            )}
+                            <IconCalendar className='ml-auto h-4 w-4 opacity-50' />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className='w-auto p-0' align='start'>
+                        <Calendar
+                          mode='single'
+                          selected={field.value}
+                          onSelect={(date) => {
+                            field.onChange(date)
+                            setOpenDate(false)
+                          }}
+                          startMonth={
+                            new Date(new Date().getFullYear() - 1, 0, 1)
+                          }
+                          endMonth={
+                            new Date(new Date().getFullYear() + 10, 11, 31)
+                          }
+                          captionLayout='dropdown'
+                          disabled={(date) => {
+                            const oneWeekAgo = new Date()
+                            oneWeekAgo.setDate(oneWeekAgo.getDate() - 7)
+                            oneWeekAgo.setHours(0, 0, 0, 0)
+                            return date < oneWeekAgo
+                          }}
+                        />
+                      </PopoverContent>
+                    </Popover>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <FormFileUploadField
                 control={form.control}
                 name='file_url'

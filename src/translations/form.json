@@ -154,7 +154,8 @@
       "filter_card": "Filter by card",
       "no_project_social_found": "No project social found",
       "select_project_first": "Select a project first",
-      "select_payment_type_first": "Select payment type first"
+      "select_payment_type_first": "Select payment type first",
+      "date": "Date"
     },
     "form_placeholders": {
       "select_project": "Select project",
@@ -432,7 +433,8 @@
       "filter_card": "Фильтр по карте",
       "no_project_social_found": "Социальные сети проекта не найдены",
       "select_project_first": "Сначала выберите проект",
-      "select_payment_type_first": "Сначала выберите тип оплаты"
+      "select_payment_type_first": "Сначала выберите тип оплаты",
+      "date": "Дата"
     },
     "form_placeholders": {
       "select_project": "Выберите проект",
@@ -709,7 +711,8 @@
       "filter_card": "Karta bo‘yicha filtrlash",
       "no_project_social_found": "Loyiha ijtimoiy tarmoqlari topilmadi",
       "select_project_first": "Avval loyihani tanlang",
-      "select_payment_type_first": "Avval to‘lov turini tanlang"
+      "select_payment_type_first": "Avval to‘lov turini tanlang",
+      "date": "Sana"
     },
     "form_placeholders": {
       "select_project": "Loyihani tanlang",
