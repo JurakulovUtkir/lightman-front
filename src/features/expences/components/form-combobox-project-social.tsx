@@ -212,7 +212,10 @@ export const FormComboboxProjectSocial = <T extends FieldValues>({
                               onSelect={() => {
                                 field.onChange(item.value)
                                 // Set the buy_price to the amount field
-                                setValue(amountField, item.buyPrice as number)
+                                setValue(
+                                  amountField,
+                                  item.buyPrice as T[Path<T>]
+                                )
                                 setOpen(false)
                               }}
                             >
