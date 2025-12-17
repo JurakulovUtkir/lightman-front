@@ -8,20 +8,23 @@ export const useCards = ({
   offset,
   search,
   company_id,
+  card_type,
 }: {
   limit?: number
   offset?: number
   search?: string
   company_id?: string
+  card_type?: 'card' | 'cash'
 }) => {
   return useQuery({
-    queryKey: ['cards', limit, offset, search, company_id],
+    queryKey: ['cards', limit, offset, search, company_id, card_type],
     queryFn: () =>
       getCards({
         limit,
         offset,
         search,
         company_id,
+        card_type,
       }),
   })
 }

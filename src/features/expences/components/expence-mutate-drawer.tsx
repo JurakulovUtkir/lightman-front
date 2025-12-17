@@ -54,6 +54,7 @@ import { FormComboboxCards } from './form-combobox-cards'
 import { FormComboboxCompany } from './form-combobox-company'
 import { FormComboboxLoans } from './form-combobox-loan'
 import { FormComboboxNetworkSocial } from './form-combobox-network-social'
+import { FormComboboxProjectSocial } from './form-combobox-project-social'
 import { FormComboboxProject } from './form-combobox-projects'
 import { FormComboboxUser } from './form-combobox-users'
 
@@ -204,6 +205,7 @@ export function ExpenceMutateDrawer({
     resolver: zodResolver(formSchema),
     defaultValues: {
       ...currentRow,
+      expence_type: currentRow?.expence_type ?? undefined,
       amount: toNumber(currentRow?.amount),
       commission: toNumber(currentRow?.amount) ?? 0,
       description: currentRow?.description ?? undefined,
@@ -223,6 +225,13 @@ export function ExpenceMutateDrawer({
   const checkExpenceType = form.watch('expence_type')
   const selectedCompanyId = form.watch('company_id')
   const selectedPaymentType = form.watch('payment_type')
+
+  // Reset checkExpenceType whenever selectedType changes
+  useEffect(() => {
+    form.reset({
+      type: selectedType,
+    })
+  }, [selectedType, form])
 
   const filteredExpenceTypeOptions = useMemo(() => {
     const allOptions = getExpenceTypeOptions(t_general)
@@ -250,8 +259,8 @@ export function ExpenceMutateDrawer({
     if (selectedType === CorporateExpenceType.EXPENCE) {
       return allOptions.filter(
         (option) =>
-          // option.value === ExpenceType.CHANNEL_POST ||
           // option.value === ExpenceType.CHANNEL_POST_FROM_DEPOSIT ||
+          option.value === ExpenceType.CHANNEL_POST ||
           option.value === ExpenceType.CHANNEL_DEPOSIT_TOPUP ||
           option.value === ExpenceType.SALARY ||
           option.value === ExpenceType.SALARY_ADVANCE ||
@@ -266,7 +275,11 @@ export function ExpenceMutateDrawer({
 
   const filteredPaymentTypeOptions = useMemo(() => {
     const allOptions = getPaymentTypeOptions(t_general)
-
+    if (selectedType === CorporateExpenceType.EXPENCE) {
+      if (checkExpenceType === ExpenceType.CHANNEL_POST) {
+        return allOptions
+      }
+    }
     if (
       selectedType === CorporateExpenceType.INCOME ||
       selectedType === CorporateExpenceType.EXPENCE ||
@@ -439,22 +452,23 @@ export function ExpenceMutateDrawer({
                 placeholder={t.form_placeholders.select_type}
                 options={filteredExpenceTypeOptions}
               />
-              {/* Transfer */}
+              {/* ********* Transfer ********* */}
               {checkExpenceType === ExpenceType.CARD_WITHDRAW && (
                 <>
-                  <FormComboboxCompany
+                  <FormFieldSelect
                     control={form.control}
-                    name='company_id'
-                    label={t.form_labels.company}
-                    detail={currentRow?.company ?? undefined}
-                    filterOurCompany={true}
-                    setValue={form.setValue}
+                    name='payment_type'
+                    label={t.form_labels.payment_type}
+                    placeholder={t.form_placeholders.select_payment_type}
+                    options={filteredPaymentTypeOptions}
                   />
+
                   <FormComboboxCards
                     name='card_id'
                     label={t.form_labels.select_card}
                     control={form.control}
                     companyId={selectedCompanyId}
+                    paymentTypeField='payment_type'
                     // detail={currentRow?.card}
                   />
                 </>
@@ -476,6 +490,7 @@ export function ExpenceMutateDrawer({
                 </>
               )}
 
+              {/* Payment type */}
               {selectedType !== CorporateExpenceType.TRANSFER && (
                 <>
                   <FormFieldSelect
@@ -492,13 +507,14 @@ export function ExpenceMutateDrawer({
                       label={t.form_labels.select_card}
                       control={form.control}
                       companyId={selectedCompanyId}
+                      paymentTypeField='payment_type'
                       // detail={currentRow?.card}
                     />
                   )}
                 </>
               )}
 
-              {/* Income */}
+              {/* ********* Income ********* */}
               {checkExpenceType === ExpenceType.CLIENT_PAYMENT && (
                 <FormComboboxProject
                   control={form.control}
@@ -508,15 +524,16 @@ export function ExpenceMutateDrawer({
                 />
               )}
 
-              {checkExpenceType === ExpenceType.LOAN_REPAYMENT && (
-                <FormComboboxLoans
-                  control={form.control}
-                  name='loan_id'
-                  label={t.form_labels.loan}
-                  direction='WE_GAVE'
-                  // detail={currentRow?.loan ?? undefined}
-                />
-              )}
+              {selectedType === CorporateExpenceType.INCOME &&
+                checkExpenceType === ExpenceType.LOAN_REPAYMENT && (
+                  <FormComboboxLoans
+                    control={form.control}
+                    name='loan_id'
+                    label={t.form_labels.loan}
+                    direction='WE_GAVE'
+                    // detail={currentRow?.loan ?? undefined}
+                  />
+                )}
 
               {checkExpenceType === ExpenceType.LOAN_TAKEN && (
                 <FormField
@@ -584,7 +601,35 @@ export function ExpenceMutateDrawer({
                   // detail={currentRow?.founder}
                 />
               )}
-              {/* OutCome */}
+              {/* ********* OutCome  ********* */}
+              {checkExpenceType === ExpenceType.CHANNEL_POST && (
+                <>
+                  {selectedPaymentType === PaymentType.BANK_TRANSFER && (
+                    <FormComboboxCompany
+                      control={form.control}
+                      name='company_id'
+                      label={t.form_labels.company}
+                      detail={currentRow?.company ?? undefined}
+                      filterOurCompany={true}
+                      setValue={form.setValue}
+                    />
+                  )}
+                  <FormComboboxProject
+                    control={form.control}
+                    name='project_id'
+                    label={t.form_placeholders.select_project}
+                    detail={currentRow?.project ?? undefined}
+                  />
+
+                  <FormComboboxProjectSocial
+                    control={form.control}
+                    name='project_social_id'
+                    label={t.form_placeholders.select_project_social}
+                    projectIdField='project_id'
+                    // detail={currentRow?.project_social ?? undefined}
+                  />
+                </>
+              )}
               {checkExpenceType === ExpenceType.CHANNEL_DEPOSIT_TOPUP && (
                 <FormComboboxNetworkSocial
                   control={form.control}
@@ -685,15 +730,16 @@ export function ExpenceMutateDrawer({
                   />
                 </>
               )}
-              {checkExpenceType === ExpenceType.LOAN_REPAYMENT && (
-                <FormComboboxLoans
-                  control={form.control}
-                  name='loan_id'
-                  label={t.form_labels.loan}
-                  direction='WE_TOOK'
-                  // detail={currentRow?.loan ?? undefined}
-                />
-              )}
+              {selectedType === CorporateExpenceType.EXPENCE &&
+                checkExpenceType === ExpenceType.LOAN_REPAYMENT && (
+                  <FormComboboxLoans
+                    control={form.control}
+                    name='loan_id'
+                    label={t.form_labels.loan}
+                    direction='WE_TOOK'
+                    // detail={currentRow?.loan ?? undefined}
+                  />
+                )}
               {checkExpenceType === ExpenceType.SERVICE_EXPENCE && (
                 <>
                   <FormComboboxProject

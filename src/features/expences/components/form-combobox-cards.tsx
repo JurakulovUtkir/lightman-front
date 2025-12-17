@@ -1,5 +1,5 @@
-import { useState } from 'react'
-import { Control, FieldValues, Path } from 'react-hook-form'
+import { useState, useEffect } from 'react'
+import { Control, FieldValues, Path, useWatch } from 'react-hook-form'
 import { IconCheck, IconSelector } from '@tabler/icons-react'
 import { cn } from '@/lib/utils'
 import { useDebounce } from '@/hooks/useDebounce'
@@ -44,6 +44,7 @@ interface FormComboboxCardsProps<T extends FieldValues> {
   control: Control<T>
   detail?: Pick<CardsSchema, 'id' | 'name'>
   companyId?: string
+  paymentTypeField: Path<T>
 }
 
 export const FormComboboxCards = <T extends FieldValues>({
@@ -52,12 +53,18 @@ export const FormComboboxCards = <T extends FieldValues>({
   control,
   detail,
   companyId,
+  paymentTypeField,
 }: FormComboboxCardsProps<T>) => {
   const [open, setOpen] = useState(false)
   const [search, setSearch] = useState('')
   const debouncedSearch = useDebounce(search, 300)
   const { lang, tForm } = useLang()
   const t = tForm[lang].form_labels
+
+  const paymentType = useWatch({
+    control,
+    name: paymentTypeField,
+  }) as 'card' | 'cash' | undefined
 
   const {
     data: cardsResponse,
@@ -68,9 +75,18 @@ export const FormComboboxCards = <T extends FieldValues>({
     limit: 50,
     company_id: companyId,
     search: debouncedSearch.length >= 2 ? debouncedSearch : undefined,
+    card_type: paymentType?.toLowerCase() as 'card' | 'cash' | undefined,
   })
 
   const isLoading = isLoadingCards || isFetchingCards
+
+  useEffect(() => {
+    if (paymentType) {
+      // Optionally reset the field when payment type changes
+      // Uncomment if you want to clear selection on payment type change
+      // field.onChange('')
+    }
+  }, [paymentType])
 
   return (
     <FormField
@@ -82,6 +98,27 @@ export const FormComboboxCards = <T extends FieldValues>({
             <FormItem className='flex w-full flex-col space-y-1'>
               <FormLabel className='max-w-24'>{label}</FormLabel>
               <Skeleton className='h-10 w-full' />
+              <FormMessage />
+            </FormItem>
+          )
+        }
+
+        // If no payment type is selected, show disabled state
+        if (!paymentType) {
+          return (
+            <FormItem className='flex w-full flex-col space-y-1'>
+              <FormLabel className='max-w-24'>{label}</FormLabel>
+              <FormControl>
+                <Button
+                  variant='outline'
+                  role='combobox'
+                  disabled
+                  className='text-muted-foreground justify-between'
+                >
+                  {t.select_payment_type_first}
+                  <IconSelector className='opacity-50' />
+                </Button>
+              </FormControl>
               <FormMessage />
             </FormItem>
           )

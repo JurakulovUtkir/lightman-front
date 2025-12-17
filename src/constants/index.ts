@@ -70,6 +70,10 @@ export const getExpenceTypeOptions = (
 ) => [
   { value: ExpenceType.CHANNEL_POST, label: t.expenceTypeOptions.CHANNEL_POST },
   {
+    value: ExpenceType.SERVICE_EXPENCE,
+    label: t.expenceTypeOptions.SERVICE_EXPENCE,
+  },
+  {
     value: ExpenceType.CHANNEL_DEPOSIT_TOPUP,
     label: t.expenceTypeOptions.CHANNEL_DEPOSIT_TOPUP,
   },
@@ -101,10 +105,7 @@ export const getExpenceTypeOptions = (
     value: ExpenceType.CASH_WITHDRAW,
     label: t.expenceTypeOptions.CASH_WITHDRAW,
   },
-  {
-    value: ExpenceType.SERVICE_EXPENCE,
-    label: t.expenceTypeOptions.SERVICE_EXPENCE,
-  },
+
   {
     value: ExpenceType.CLIENT_PAYMENT,
     label: t.expenceTypeOptions.CLIENT_PAYMENT,

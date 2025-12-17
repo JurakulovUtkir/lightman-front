@@ -151,7 +151,10 @@
       "company_name": "Company name",
       "no_distributions": "No distributions found.",
       "filter_loan": "Filter by loan",
-      "filter_card": "Filter by card"
+      "filter_card": "Filter by card",
+      "no_project_social_found": "No project social found",
+      "select_project_first": "Select a project first",
+      "select_payment_type_first": "Select payment type first"
     },
     "form_placeholders": {
       "select_project": "Select project",
@@ -200,7 +203,8 @@
       "search_projects": "Search projects...",
       "search_users": "Search users...",
       "search_loan": "Search loans...",
-      "search_card": "Search cards..."
+      "search_card": "Search cards...",
+      "select_project_social": "Select project social"
     },
     "form_validations": {
       "required_field": "Required field",
@@ -425,7 +429,10 @@
       "company_name": "Название компании",
       "no_distributions": "Распределения не найдены.",
       "filter_loan": "Фильтр по займу",
-      "filter_card": "Фильтр по карте"
+      "filter_card": "Фильтр по карте",
+      "no_project_social_found": "Социальные сети проекта не найдены",
+      "select_project_first": "Сначала выберите проект",
+      "select_payment_type_first": "Сначала выберите тип оплаты"
     },
     "form_placeholders": {
       "select_project": "Выберите проект",
@@ -474,7 +481,8 @@
       "search_projects": "Поиск проектов...",
       "search_users": "Поиск пользователей...",
       "search_loan": "Поиск займов...",
-      "search_card": "Поиск карт..."
+      "search_card": "Поиск карт...",
+      "select_project_social": "Выберите соцсеть проекта"
     },
     "form_validations": {
       "required_field": "Обязательное поле",
@@ -698,7 +706,10 @@
       "company_name": "Kompaniya nomi",
       "no_distributions": "Taqsimotlar topilmadi.",
       "filter_loan": "Qarz bo‘yicha filtrlash",
-      "filter_card": "Karta bo‘yicha filtrlash"
+      "filter_card": "Karta bo‘yicha filtrlash",
+      "no_project_social_found": "Loyiha ijtimoiy tarmoqlari topilmadi",
+      "select_project_first": "Avval loyihani tanlang",
+      "select_payment_type_first": "Avval to‘lov turini tanlang"
     },
     "form_placeholders": {
       "select_project": "Loyihani tanlang",
@@ -747,7 +758,8 @@
       "search_projects": "Loyihalarni qidirish...",
       "search_users": "Foydalanuvchilarni qidirish...",
       "search_loan": "Qarzlarni qidirish...",
-      "search_card": "Kartalarni qidirish..."
+      "search_card": "Kartalarni qidirish...",
+      "select_project_social": "Loyiha ijtimoiy tarmog‘ini tanlang"
     },
     "form_validations": {
       "required_field": "Majburiy maydon",
