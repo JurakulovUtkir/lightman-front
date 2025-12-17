@@ -9,6 +9,7 @@ import {
   uploadFileApi,
   deleteFileApi,
   getProjectSocialStatistics,
+  getProjectExpenceStatistics,
 } from './api'
 import { ProjectSocialSchema } from './schema'
 
@@ -78,6 +79,13 @@ export const useProjectSocialStatistics = (id: string) => {
   return useQuery({
     queryKey: ['project-socials-statistics', id],
     queryFn: () => getProjectSocialStatistics(id),
+    enabled: !!id,
+  })
+}
+export const useProjectExpenceStatistics = (id: string) => {
+  return useQuery({
+    queryKey: ['project-expence-statictics', id],
+    queryFn: () => getProjectExpenceStatistics(id),
     enabled: !!id,
   })
 }

@@ -4,6 +4,7 @@ import {
   FileResponse,
   ProjectSocialResponse,
   ProjectSocialStatistics,
+  ProjectExpenceStatistics,
 } from './types'
 
 export const getProjectSocials = async (
@@ -42,6 +43,12 @@ export const getProjectSocialStatistics = async (
   id: string
 ): Promise<ProjectSocialStatistics> => {
   const response = await api.get(`/project-socials/${id}/views`)
+  return response.data
+}
+export const getProjectExpenceStatistics = async (
+  id: string
+): Promise<ProjectExpenceStatistics> => {
+  const response = await api.get(`/expence/projects/${id}/details`)
   return response.data
 }
 

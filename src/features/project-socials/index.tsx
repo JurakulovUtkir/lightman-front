@@ -15,7 +15,11 @@ import PriceCards from './components/price-cards'
 import { ProjectSocialDialogs } from './components/project-social-dialogs'
 import { ProjectSocialPrimaryButtons } from './components/project-social-primary-buttons'
 import ProjectSocialProvider from './context'
-import { useProjectSocials, useProjectSocialStatistics } from './data/hooks'
+import {
+  useProjectExpenceStatistics,
+  useProjectSocials,
+  useProjectSocialStatistics,
+} from './data/hooks'
 
 // import { ProjectSocialSchema } from './data/schema'
 
@@ -24,6 +28,7 @@ const ProjectSocials = () => {
   const { data } = useProjectSocials(id)
   const { data: project, isPending: isPendingProject } = useProject(id)
   const { data: statistics } = useProjectSocialStatistics(id)
+  const { data: expenceStatistics } = useProjectExpenceStatistics(id)
   const { lang, tProject, general } = useLang()
   const t = tProject[lang]
 
@@ -113,7 +118,12 @@ const ProjectSocials = () => {
           <ProjectSocialPrimaryButtons project={project} />
         </div>
         {data && data?.data?.length > 0 && (
-          <PriceCards data={data} statistics={statistics?.data} />
+          <PriceCards
+            data={data}
+            statistics={statistics?.data}
+            expenceStatistics={expenceStatistics?.data}
+            project={project}
+          />
         )}
 
         <div className='-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-y-0 lg:space-x-12'>
