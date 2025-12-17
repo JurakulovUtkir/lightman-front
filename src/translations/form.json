@@ -149,7 +149,9 @@
       "amount_range": "Amount range",
       "filter_by_project": "Filter by project",
       "company_name": "Company name",
-      "no_distributions": "No distributions found."
+      "no_distributions": "No distributions found.",
+      "filter_loan": "Filter by loan",
+      "filter_card": "Filter by card"
     },
     "form_placeholders": {
       "select_project": "Select project",
@@ -194,10 +196,11 @@
       "min": "Min",
       "max": "Max",
       "search_network_type": "Search network types...",
-
       "search_company": "Search companies...",
       "search_projects": "Search projects...",
-      "search_users": "Search users..."
+      "search_users": "Search users...",
+      "search_loan": "Search loans...",
+      "search_card": "Search cards..."
     },
     "form_validations": {
       "required_field": "Required field",
@@ -420,7 +423,9 @@
       "amount_range": "Диапазон суммы",
       "filter_by_project": "Фильтр по проекту",
       "company_name": "Название компании",
-      "no_distributions": "Распределения не найдены."
+      "no_distributions": "Распределения не найдены.",
+      "filter_loan": "Фильтр по займу",
+      "filter_card": "Фильтр по карте"
     },
     "form_placeholders": {
       "select_project": "Выберите проект",
@@ -467,7 +472,9 @@
       "search_network_type": "Поиск типов сети...",
       "search_company": "Поиск компаний...",
       "search_projects": "Поиск проектов...",
-      "search_users": "Поиск пользователей..."
+      "search_users": "Поиск пользователей...",
+      "search_loan": "Поиск займов...",
+      "search_card": "Поиск карт..."
     },
     "form_validations": {
       "required_field": "Обязательное поле",
@@ -689,7 +696,9 @@
       "amount_range": "Miqdor oralig‘i",
       "filter_by_project": "Loyiha bo‘yicha filtrlash",
       "company_name": "Kompaniya nomi",
-      "no_distributions": "Taqsimotlar topilmadi."
+      "no_distributions": "Taqsimotlar topilmadi.",
+      "filter_loan": "Qarz bo‘yicha filtrlash",
+      "filter_card": "Karta bo‘yicha filtrlash"
     },
     "form_placeholders": {
       "select_project": "Loyihani tanlang",
@@ -736,7 +745,9 @@
       "search_network_type": "Tarmoq turlarini qidirish...",
       "search_company": "Kompaniyalarni qidirish...",
       "search_projects": "Loyihalarni qidirish...",
-      "search_users": "Foydalanuvchilarni qidirish..."
+      "search_users": "Foydalanuvchilarni qidirish...",
+      "search_loan": "Qarzlarni qidirish...",
+      "search_card": "Kartalarni qidirish..."
     },
     "form_validations": {
       "required_field": "Majburiy maydon",

@@ -204,6 +204,39 @@ export const useExpenceFilters = ({
     })
   }
 
+  const handleLoanFilterChange = (loanId: string | null) => {
+    navigate({
+      to: isFounder
+        ? '/stakeholder/founders/expence/$id'
+        : isProject
+          ? '/projects/expence/$id'
+          : '/expences',
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore
+      search: (prev) => ({
+        ...prev,
+        loan_id: loanId || undefined,
+        offset: 0,
+      }),
+    })
+  }
+  const handleCardFilterChange = (cardId: string | null) => {
+    navigate({
+      to: isFounder
+        ? '/stakeholder/founders/expence/$id'
+        : isProject
+          ? '/projects/expence/$id'
+          : '/expences',
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      //@ts-ignore
+      search: (prev) => ({
+        ...prev,
+        card_id: cardId || undefined,
+        offset: 0,
+      }),
+    })
+  }
+
   const handleClear = () => {
     handleTypeFilterChange(null)
     handleExpenceTypeFilterChange(null)
@@ -230,6 +263,8 @@ export const useExpenceFilters = ({
     handleDateToFilterChange,
     handleMaxAmountFilterChange,
     handleMinAmountFilterChange,
+    handleLoanFilterChange,
+    handleCardFilterChange,
     handleClear,
   }
 }

@@ -23,6 +23,8 @@ import { Separator } from '@/components/ui/separator'
 import { CompanyFilter } from '@/features/projects/components/filters/company-filter'
 import { DistributionFilter } from '@/features/projects/components/filters/distribution-filter'
 import { EnumFilter } from '@/features/projects/components/filters/enum-filters'
+import { CardFilter } from './card-filter'
+import { LoanFilter } from './loan-filter'
 import { ProjectSearchFilter } from './project-search-filter'
 import { useExpenceFilters } from './useExpenceFilters'
 import { UserFilter } from './user-filter'
@@ -52,6 +54,8 @@ const ExpenceFilter = ({
     date_to,
     max_amount,
     min_amount,
+    loan_id,
+    card_id,
   } = useSearch({
     from: isFounder
       ? '/_authenticated/stakeholder/founders/expence/$id'
@@ -72,6 +76,8 @@ const ExpenceFilter = ({
     handleDateToFilterChange,
     handleMaxAmountFilterChange,
     handleMinAmountFilterChange,
+    handleLoanFilterChange,
+    handleCardFilterChange,
     handleClear,
   } = useExpenceFilters({ isFounder, isProject })
 
@@ -102,6 +108,8 @@ const ExpenceFilter = ({
     date_to,
     min_amount,
     max_amount,
+    loan_id,
+    card_id,
   ].filter(Boolean).length
 
   const handleApplyAmountFilter = () => {
@@ -265,6 +273,31 @@ const ExpenceFilter = ({
                     useSearchableUsers={true}
                     selectedFilter={user_id}
                     onFilterChange={handleUserFilterChange}
+                    fieldsWidth={275}
+                  />
+                </div>
+
+                <div className='space-y-2'>
+                  <Label className='text-xs font-medium'>
+                    {t.form_labels.loan}
+                  </Label>
+                  <LoanFilter
+                    placeholder={t.form_placeholders.search_loan}
+                    searchable={true}
+                    selectedFilter={loan_id}
+                    onFilterChange={handleLoanFilterChange}
+                    fieldsWidth={275}
+                  />
+                </div>
+                <div className='space-y-2'>
+                  <Label className='text-xs font-medium'>
+                    {t.form_labels.card}
+                  </Label>
+                  <CardFilter
+                    placeholder={t.form_placeholders.search_card}
+                    searchable={true}
+                    selectedFilter={card_id}
+                    onFilterChange={handleCardFilterChange}
                     fieldsWidth={275}
                   />
                 </div>

@@ -29,6 +29,8 @@ export const useExpences = ({
   date_to,
   max_amount,
   min_amount,
+  loan_id,
+  card_id,
 }: {
   limit?: number
   offset?: number
@@ -40,6 +42,8 @@ export const useExpences = ({
   company_id?: string
   project_id?: string
   user_id?: string
+  loan_id?: string
+  card_id?: string
   date_from?: string
   date_to?: string
   max_amount?: number
@@ -62,6 +66,8 @@ export const useExpences = ({
       date_to,
       max_amount,
       min_amount,
+      loan_id,
+      card_id,
     ],
     queryFn: () =>
       getExpences({
@@ -79,6 +85,8 @@ export const useExpences = ({
         date_to,
         max_amount,
         min_amount,
+        loan_id,
+        card_id,
       }),
   })
 }

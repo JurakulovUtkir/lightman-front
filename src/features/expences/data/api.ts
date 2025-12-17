@@ -22,6 +22,8 @@ export const getExpences = async ({
   date_to,
   max_amount,
   min_amount,
+  loan_id,
+  card_id,
 }: {
   limit?: number
   offset?: number
@@ -37,6 +39,8 @@ export const getExpences = async ({
   date_to?: string
   max_amount?: number
   min_amount?: number
+  loan_id?: string
+  card_id?: string
 }): Promise<ExpenceSchemaResponse> => {
   const params = new URLSearchParams()
 
@@ -50,6 +54,8 @@ export const getExpences = async ({
   if (company_id) params.append('company_id', company_id)
   if (project_id) params.append('project_id', project_id)
   if (user_id) params.append('user_id', user_id)
+  if (loan_id) params.append('loan_id', loan_id)
+  if (card_id) params.append('card_id', card_id)
   if (date_from) params.append('date_from', date_from)
   if (date_to) params.append('date_to', date_to)
   if (max_amount !== undefined)

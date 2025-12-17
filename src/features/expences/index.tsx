@@ -35,6 +35,8 @@ const ExpencesContent = () => {
     date_to,
     max_amount,
     min_amount,
+    loan_id,
+    card_id,
   } = useSearch({
     from: '/_authenticated/expences/',
   })
@@ -60,6 +62,8 @@ const ExpencesContent = () => {
     date_to,
     max_amount,
     min_amount,
+    loan_id,
+    card_id,
   })
 
   return (

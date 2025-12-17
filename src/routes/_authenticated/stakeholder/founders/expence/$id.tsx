@@ -54,6 +54,8 @@ const searchSchema = z.object({
   user_id: z.string().optional().catch(''),
   date_from: z.string().optional().catch(''),
   date_to: z.string().optional().catch(''),
+  loan_id: z.string().optional().catch(''),
+  card_id: z.string().optional().catch(''),
   min_amount: z.number().optional().catch(undefined),
   max_amount: z.number().optional().catch(undefined),
 })
