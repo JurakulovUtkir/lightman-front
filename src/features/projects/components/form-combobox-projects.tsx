@@ -26,6 +26,7 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import { Skeleton } from '@/components/ui/skeleton'
+import { Switch } from '@/components/ui/switch'
 import { useProjects } from '../../projects/data/hooks'
 import { ProjectSchema } from '../../projects/data/schema'
 
@@ -39,6 +40,8 @@ interface FormComboboxProps<T extends FieldValues> {
   label: string
   control: Control<T>
   detail?: Pick<ProjectSchema, 'id' | 'name'>
+  disabled?: boolean
+  withSwitch?: boolean
 }
 
 export const FormComboboxProject = <T extends FieldValues>({
@@ -46,9 +49,12 @@ export const FormComboboxProject = <T extends FieldValues>({
   label,
   control,
   detail,
+  disabled = false,
+  withSwitch = false,
 }: FormComboboxProps<T>) => {
   const [search, setSearch] = useState('')
   const [open, setOpen] = useState(false)
+  const [switchEnabled, setSwitchEnabled] = useState(false)
   const debouncedSearch = useDebounce(search, 500)
   const { lang, tForm } = useLang()
   const t = tForm[lang].form_labels
@@ -66,6 +72,9 @@ export const FormComboboxProject = <T extends FieldValues>({
   // Determine if we're currently loading or fetching
   const isLoading = isLoadingProjects || isFetchingProjects
 
+  // Determine if button should be disabled
+  const isButtonDisabled = withSwitch ? !switchEnabled : disabled
+
   return (
     <FormField
       control={control}
@@ -75,7 +84,15 @@ export const FormComboboxProject = <T extends FieldValues>({
         if (isLoading && !debouncedSearch && !open) {
           return (
             <FormItem className='flex w-full flex-col space-y-1'>
-              <FormLabel className='max-w-40'>{label}</FormLabel>
+              <div className='flex items-center justify-between'>
+                <FormLabel className='max-w-40'>{label}</FormLabel>
+                {withSwitch && (
+                  <Switch
+                    checked={switchEnabled}
+                    onCheckedChange={setSwitchEnabled}
+                  />
+                )}
+              </div>
               <Skeleton className='h-10 w-full' />
               <FormMessage />
             </FormItem>
@@ -114,11 +131,20 @@ export const FormComboboxProject = <T extends FieldValues>({
 
         return (
           <FormItem className='flex w-full flex-col space-y-1'>
-            <FormLabel className='max-w-40'>{label}</FormLabel>
+            <div className='flex items-center gap-4'>
+              <FormLabel className='max-w-40'>{label}</FormLabel>
+              {withSwitch && (
+                <Switch
+                  checked={switchEnabled}
+                  onCheckedChange={setSwitchEnabled}
+                />
+              )}
+            </div>
             <Popover open={open} onOpenChange={setOpen}>
               <PopoverTrigger asChild>
                 <FormControl>
                   <Button
+                    disabled={isButtonDisabled}
                     variant='outline'
                     role='combobox'
                     className={cn(

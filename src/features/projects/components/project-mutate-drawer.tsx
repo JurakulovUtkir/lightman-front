@@ -26,7 +26,7 @@ import { Switch } from '@/components/ui/switch'
 import { FormFieldSelect } from '@/components/form-field-select'
 import { FormFieldWrapper } from '@/components/form-field-wrapper'
 import { FormComboboxContract } from '@/features/contracts/components/form-combobox-contracts'
-import { FormComboboxNetworkCategory } from '@/features/network/socials/components/form-combobox-network-category'
+// import { FormComboboxNetworkCategory } from '@/features/network/socials/components/form-combobox-network-category'
 import { FormComboboxNetworkTags } from '@/features/network/socials/components/form-combobox-network-tags'
 import { ProjectDialogType } from '../context'
 import { useCreateProject, useUpdateProject, useProjects } from '../data/hooks'
@@ -89,7 +89,7 @@ export function ProjectMutateDrawer({
           .optional(),
         distribution_id: z.string().optional(),
         price_type: z.enum(['standard', 'vip', 'no_watermark']).optional(),
-        category_id: z.string().optional(),
+        // category_id: z.string().optional(),
         customer_company_id: z.string({
           error: t.form_validations.required_field,
         }),
@@ -124,7 +124,6 @@ export function ProjectMutateDrawer({
     price_with_qqs: 0,
     distribution_id: undefined,
     price_type: undefined,
-    category_id: undefined,
     customer_company_id: undefined,
     our_company_id: undefined,
     payment_type: undefined,
@@ -167,7 +166,6 @@ export function ProjectMutateDrawer({
             toNumber(selectedProject.planned_views_count) ?? 0,
           distribution_id: selectedProject.distribution_id,
           price_type: selectedProject.price_type,
-          category_id: selectedProject.category_id,
           customer_company_id: selectedProject.customer_company_id,
           our_company_id: selectedProject.our_company_id,
           payment_type: selectedProject.payment_type,
@@ -191,7 +189,6 @@ export function ProjectMutateDrawer({
         planned_views_count: toNumber(currentRow.planned_views_count) ?? 0,
         distribution_id: currentRow.distribution_id,
         price_type: currentRow.price_type,
-        category_id: currentRow.category_id,
         customer_company_id: currentRow.customer_company_id,
         our_company_id: currentRow.our_company_id,
         payment_type: currentRow.payment_type,
@@ -293,6 +290,7 @@ export function ProjectMutateDrawer({
                   name='clone_project_id'
                   label={t.form_labels.clone_project}
                   detail={undefined}
+                  withSwitch
                 />
               )}
 
@@ -316,6 +314,7 @@ export function ProjectMutateDrawer({
                     name='tags'
                     label={t.form_labels.tags}
                     enableCreate
+                    withSwitch
                   />
                 </div>
                 <FormDistribution
@@ -333,12 +332,12 @@ export function ProjectMutateDrawer({
                   detail={currentRow?.contract ?? undefined}
                 />
 
-                <FormComboboxNetworkCategory
+                {/* <FormComboboxNetworkCategory
                   control={form.control}
                   name='category_id'
                   label={t.form_labels.category}
                   detail={currentRow?.category ?? undefined}
-                />
+                /> */}
 
                 <FormComboboxCompany
                   control={form.control}

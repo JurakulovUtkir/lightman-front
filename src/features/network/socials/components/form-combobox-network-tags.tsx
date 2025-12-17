@@ -30,6 +30,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
+import { Switch } from '@/components/ui/switch'
 import { useNetworkTags, useCreateNetworkTag } from '../../tags/data/hooks'
 
 interface FormComboboxProps<T extends FieldValues> {
@@ -37,6 +38,8 @@ interface FormComboboxProps<T extends FieldValues> {
   label: string
   control: Control<T>
   enableCreate?: boolean
+  disabled?: boolean
+  withSwitch?: boolean
 }
 
 export const FormComboboxNetworkTags = <T extends FieldValues>({
@@ -44,10 +47,13 @@ export const FormComboboxNetworkTags = <T extends FieldValues>({
   label,
   control,
   enableCreate = false,
+  disabled = false,
+  withSwitch = false,
 }: FormComboboxProps<T>) => {
   const [open, setOpen] = useState(false)
   const [search, setSearch] = useState('')
   const [isCreating, setIsCreating] = useState(false)
+  const [switchEnabled, setSwitchEnabled] = useState(false)
   const { lang, tForm } = useLang()
   const t = tForm[lang].form_labels
 
@@ -93,6 +99,9 @@ export const FormComboboxNetworkTags = <T extends FieldValues>({
     }
   }
 
+  // Determine if button should be disabled
+  const isButtonDisabled = withSwitch ? !switchEnabled : disabled
+
   return (
     <FormField
       control={control}
@@ -114,11 +123,20 @@ export const FormComboboxNetworkTags = <T extends FieldValues>({
 
         return (
           <FormItem className='flex w-full flex-col space-y-1'>
-            <FormLabel className='max-w-20'>{label}</FormLabel>
+            <div className='flex items-center gap-4'>
+              <FormLabel className='max-w-20'>{label}</FormLabel>
+              {withSwitch && (
+                <Switch
+                  checked={switchEnabled}
+                  onCheckedChange={setSwitchEnabled}
+                />
+              )}
+            </div>
             <Popover open={open} onOpenChange={setOpen}>
               <PopoverTrigger asChild>
                 <FormControl>
                   <Button
+                    disabled={isButtonDisabled}
                     variant='outline'
                     role='combobox'
                     className={cn(
