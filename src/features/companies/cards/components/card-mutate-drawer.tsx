@@ -83,6 +83,10 @@ export function CardMutateDrawer({
             error: t.form_validations.required_field,
           })
           .min(1),
+        distribution_id: z.string({
+          error: t.form_validations.required_field,
+        }),
+
         balance: z.number().min(0, t.form_validations.invalid_value).optional(),
         card_type: z.enum(['cash', 'card']),
 
@@ -195,7 +199,8 @@ export function CardMutateDrawer({
                 label={t.form_labels.company}
                 filterOurCompany={true}
                 setValue={form.setValue}
-                // detail={currentRow?.company ?? undefined}
+                shouldUpdateDistribution={true}
+                detail={currentRow?.company ?? undefined}
               />
 
               <FormFieldWrapper

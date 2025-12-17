@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useLocation } from '@tanstack/react-router'
 import { toNumber } from '@/lib/helpers'
 import { useLang } from '@/hooks/useLang'
 import { Button } from '@/components/ui/button'
@@ -25,6 +26,7 @@ import { FormFieldWrapper } from '@/components/form-field-wrapper'
 import { CompanyDialogType } from '../context'
 import { useCreateCompany, useUpdateCompany } from '../data/hooks'
 import { CompanySchema } from '../data/schema'
+import { FormComboboxDistributions } from './form-combobox-distributions'
 
 interface Props {
   open: boolean
@@ -44,6 +46,7 @@ export function CompanyMutateDrawer({
   const createCompany = useCreateCompany()
   const updateCompany = useUpdateCompany()
   const isUpdate = !!currentRow
+  const { pathname } = useLocation()
 
   const { lang, tForm, tCompany } = useLang()
   const t = tForm[lang]
@@ -86,6 +89,9 @@ export function CompanyMutateDrawer({
           .regex(/^\d{20}$/, t.form_validations.invalid_account_number),
 
         balance: z.number().min(0, t.form_validations.invalid_value).optional(),
+        distribution_id: z.string({
+          error: t.form_validations.required_field,
+        }),
         is_active: z.boolean().optional(),
         is_our_company: z.boolean().optional(),
         is_vip: z.boolean().optional(),
@@ -104,6 +110,7 @@ export function CompanyMutateDrawer({
       stir: currentRow?.stir?.toString() || '',
       mfo: currentRow?.mfo?.toString() || '',
       account_number: currentRow?.account_number?.toString() || '',
+      is_our_company: pathname.includes('counterparty') ? false : true,
     },
   })
 
@@ -212,8 +219,15 @@ export function CompanyMutateDrawer({
               <FormFieldWrapper
                 control={form.control}
                 name='name'
-                label={t.form_labels.name}
+                label={t.form_labels.company_name}
                 placeholder={t.form_placeholders.enter_name}
+              />
+
+              <FormComboboxDistributions
+                name='distribution_id'
+                label={t.form_labels.distribution}
+                control={form.control}
+                detail={currentRow?.distribution ?? undefined}
               />
 
               <FormFieldWrapper

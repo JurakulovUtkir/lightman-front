@@ -10,7 +10,10 @@ import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
 import { DataTable } from '@/components/table/data-table'
 import { ThemeSwitch } from '@/components/theme-switch'
+import { CompanyDialogs } from '../components/company-dialogs'
 import { CompanyFilter } from '../components/company-filter'
+import { CompanyPrimaryButtons } from '../components/company-primary-buttons'
+import CompanyProvider from '../context'
 import { useCompanies } from '../data/hooks'
 import { columns } from './components/columns'
 
@@ -42,7 +45,7 @@ const Counterparty = () => {
   })
 
   return (
-    <>
+    <CompanyProvider>
       <Header fixed>
         <Search />
         <div className='ml-auto flex items-center space-x-4'>
@@ -58,6 +61,7 @@ const Counterparty = () => {
             </h2>
             <p className='text-muted-foreground'>{t.list_counterparties}</p>
           </div>
+          <CompanyPrimaryButtons text={t.create} />
         </div>
         <div className='flex items-center gap-4'>
           <div className='relative'>
@@ -83,7 +87,8 @@ const Counterparty = () => {
           />
         </div>
       </Main>
-    </>
+      <CompanyDialogs />
+    </CompanyProvider>
   )
 }
 

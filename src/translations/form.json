@@ -147,7 +147,9 @@
       "to_date": "To date",
       "any": "Any",
       "amount_range": "Amount range",
-      "filter_by_project": "Filter by project"
+      "filter_by_project": "Filter by project",
+      "company_name": "Company name",
+      "no_distributions": "No distributions found."
     },
     "form_placeholders": {
       "select_project": "Select project",
@@ -416,7 +418,9 @@
       "to_date": "По дату",
       "any": "Любой",
       "amount_range": "Диапазон суммы",
-      "filter_by_project": "Фильтр по проекту"
+      "filter_by_project": "Фильтр по проекту",
+      "company_name": "Название компании",
+      "no_distributions": "Распределения не найдены."
     },
     "form_placeholders": {
       "select_project": "Выберите проект",
@@ -683,7 +687,9 @@
       "to_date": "Tugash sanasi",
       "any": "Har qanday",
       "amount_range": "Miqdor oralig‘i",
-      "filter_by_project": "Loyiha bo‘yicha filtrlash"
+      "filter_by_project": "Loyiha bo‘yicha filtrlash",
+      "company_name": "Kompaniya nomi",
+      "no_distributions": "Taqsimotlar topilmadi."
     },
     "form_placeholders": {
       "select_project": "Loyihani tanlang",

@@ -33,6 +33,7 @@ type ComboboxOption = {
   value: string
   label: string
   is_qqs?: boolean
+  distribution_id?: string
 }
 
 interface FormComboboxProps<T extends FieldValues> {
@@ -48,6 +49,7 @@ interface FormComboboxProps<T extends FieldValues> {
   filterVip?: boolean
   setValue?: UseFormSetValue<T>
   shouldUpdateIsQqs?: boolean
+  shouldUpdateDistribution?: boolean
   onCompanySelect?: (isQqs: boolean) => void
 }
 
@@ -61,6 +63,7 @@ export const FormComboboxCompany = <T extends FieldValues>({
   filterVip,
   setValue,
   shouldUpdateIsQqs = false,
+  shouldUpdateDistribution = false,
   onCompanySelect,
 }: FormComboboxProps<T>) => {
   const [search, setSearch] = useState('')
@@ -103,6 +106,7 @@ export const FormComboboxCompany = <T extends FieldValues>({
             value: company.id,
             label: company.name,
             is_qqs: company.is_qqs,
+            distribution_id: company.distribution_id,
           })) ?? []
 
         if (
@@ -185,7 +189,7 @@ export const FormComboboxCompany = <T extends FieldValues>({
                               onSelect={() => {
                                 field.onChange(item.value)
 
-                                // Update is_qqs field only if shouldUpdateIsQqs is true (for our company)
+                                // Update is_qqs field only if shouldUpdateIsQqs is true
                                 if (
                                   shouldUpdateIsQqs &&
                                   setValue &&
@@ -194,6 +198,18 @@ export const FormComboboxCompany = <T extends FieldValues>({
                                   setValue(
                                     'is_qqs' as Path<T>,
                                     item.is_qqs as T[Path<T>]
+                                  )
+                                }
+
+                                // Update distribution_id field only if shouldUpdateDistribution is true
+                                if (
+                                  shouldUpdateDistribution &&
+                                  setValue &&
+                                  item.distribution_id
+                                ) {
+                                  setValue(
+                                    'distribution_id' as Path<T>,
+                                    item.distribution_id as T[Path<T>]
                                   )
                                 }
 

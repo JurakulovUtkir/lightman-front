@@ -267,7 +267,11 @@ export function ExpenceMutateDrawer({
   const filteredPaymentTypeOptions = useMemo(() => {
     const allOptions = getPaymentTypeOptions(t_general)
 
-    if (selectedType === CorporateExpenceType.INCOME) {
+    if (
+      selectedType === CorporateExpenceType.INCOME ||
+      selectedType === CorporateExpenceType.EXPENCE ||
+      selectedType === CorporateExpenceType.TRANSFER
+    ) {
       return allOptions.filter(
         (option) =>
           option.value === PaymentType.CARD ||
