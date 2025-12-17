@@ -175,12 +175,12 @@ export const columns = (
   },
 
   {
-    accessorKey: 'created_at',
+    accessorKey: 'date',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title={t.created_at} />
     ),
     cell: ({ row }) => {
-      const createdAt = row.original.created_at
+      const createdAt = row.original.date
       return (
         <div className='whitespace-nowrap'>
           <FormatDateToLongString dateString={createdAt} />
