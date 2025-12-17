@@ -1,5 +1,11 @@
 import { useState, useEffect } from 'react'
-import { Control, FieldValues, Path, useWatch } from 'react-hook-form'
+import {
+  Control,
+  FieldValues,
+  Path,
+  useWatch,
+  UseFormSetValue,
+} from 'react-hook-form'
 import { IconCheck, IconSelector } from '@tabler/icons-react'
 import { cn } from '@/lib/utils'
 import { useLang } from '@/hooks/useLang'
@@ -32,6 +38,7 @@ type ComboboxOption = {
   value: string
   label: string
   createdAt: string
+  buyPrice: number
 }
 
 interface FormComboboxProjectSocialProps<T extends FieldValues> {
@@ -39,6 +46,8 @@ interface FormComboboxProjectSocialProps<T extends FieldValues> {
   label: string
   control: Control<T>
   projectIdField: Path<T>
+  amountField: Path<T>
+  setValue: UseFormSetValue<T>
   detail?: Pick<ProjectSocialSchema, 'id' | 'social' | 'created_at'>
 }
 
@@ -47,6 +56,8 @@ export const FormComboboxProjectSocial = <T extends FieldValues>({
   label,
   control,
   projectIdField,
+  amountField,
+  setValue,
   detail,
 }: FormComboboxProjectSocialProps<T>) => {
   const [search, setSearch] = useState('')
@@ -117,6 +128,7 @@ export const FormComboboxProjectSocial = <T extends FieldValues>({
             value: projectSocial.id,
             label: projectSocial.social.name,
             createdAt: new Date(projectSocial.created_at).toLocaleDateString(),
+            buyPrice: projectSocial.buy_price,
           })) ?? []
 
         // Handle fallback from detail
@@ -130,6 +142,7 @@ export const FormComboboxProjectSocial = <T extends FieldValues>({
             value: detail.id,
             label: detail.social.name,
             createdAt: new Date(detail.created_at).toLocaleDateString(),
+            buyPrice: 0, // Default value if not available in detail
           }
 
           if (!options.some((opt) => opt.value === fallbackOption.value)) {
@@ -198,6 +211,8 @@ export const FormComboboxProjectSocial = <T extends FieldValues>({
                               key={item.value}
                               onSelect={() => {
                                 field.onChange(item.value)
+                                // Set the buy_price to the amount field
+                                setValue(amountField, item.buyPrice as number)
                                 setOpen(false)
                               }}
                             >

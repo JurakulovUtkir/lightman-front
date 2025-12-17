@@ -294,7 +294,7 @@ export function ExpenceMutateDrawer({
     }
 
     return allOptions
-  }, [selectedType, t_general])
+  }, [checkExpenceType, selectedType, t_general])
 
   useEffect(() => {
     const currentExpenceType = form.getValues('expence_type')
@@ -626,6 +626,8 @@ export function ExpenceMutateDrawer({
                     name='project_social_id'
                     label={t.form_placeholders.select_project_social}
                     projectIdField='project_id'
+                    amountField='amount'
+                    setValue={form.setValue}
                     // detail={currentRow?.project_social ?? undefined}
                   />
                 </>
