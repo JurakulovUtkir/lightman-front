@@ -44,7 +44,7 @@ interface FormComboboxCardsProps<T extends FieldValues> {
   control: Control<T>
   detail?: Pick<CardsSchema, 'id' | 'name'>
   companyId?: string
-  paymentTypeField: Path<T>
+  paymentTypeField?: Path<T>
 }
 
 export const FormComboboxCards = <T extends FieldValues>({
@@ -61,10 +61,12 @@ export const FormComboboxCards = <T extends FieldValues>({
   const { lang, tForm } = useLang()
   const t = tForm[lang].form_labels
 
-  const paymentType = useWatch({
+  const watchedPaymentType = useWatch({
     control,
-    name: paymentTypeField,
+    name: paymentTypeField as Path<T>,
   }) as 'card' | 'cash' | undefined
+
+  const paymentType = paymentTypeField ? watchedPaymentType : undefined
 
   const {
     data: cardsResponse,
@@ -75,7 +77,10 @@ export const FormComboboxCards = <T extends FieldValues>({
     limit: 50,
     company_id: companyId,
     search: debouncedSearch.length >= 2 ? debouncedSearch : undefined,
-    card_type: paymentType?.toLowerCase() as 'card' | 'cash' | undefined,
+    card_type:
+      paymentTypeField && paymentType
+        ? (paymentType.toLowerCase() as 'card' | 'cash' | undefined)
+        : undefined,
   })
 
   const isLoading = isLoadingCards || isFetchingCards
@@ -103,8 +108,8 @@ export const FormComboboxCards = <T extends FieldValues>({
           )
         }
 
-        // If no payment type is selected, show disabled state
-        if (!paymentType) {
+        // If paymentTypeField is provided but no payment type is selected, show disabled state
+        if (paymentTypeField && !paymentType) {
           return (
             <FormItem className='flex w-full flex-col space-y-1'>
               <FormLabel className='max-w-24'>{label}</FormLabel>

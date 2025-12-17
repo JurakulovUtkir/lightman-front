@@ -222,7 +222,6 @@ export function ExpenceMutateDrawer({
     },
   })
 
-  // Newwww
   const selectedType = form.watch('type')
   const checkExpenceType = form.watch('expence_type')
   const selectedCompanyId = form.watch('company_id')
@@ -456,24 +455,14 @@ export function ExpenceMutateDrawer({
               />
               {/* ********* Transfer ********* */}
               {checkExpenceType === ExpenceType.CARD_WITHDRAW && (
-                <>
-                  <FormFieldSelect
-                    control={form.control}
-                    name='payment_type'
-                    label={t.form_labels.payment_type}
-                    placeholder={t.form_placeholders.select_payment_type}
-                    options={filteredPaymentTypeOptions}
-                  />
-
-                  <FormComboboxCards
-                    name='card_id'
-                    label={t.form_labels.select_card}
-                    control={form.control}
-                    companyId={selectedCompanyId}
-                    paymentTypeField='payment_type'
-                    // detail={currentRow?.card}
-                  />
-                </>
+                <FormComboboxCompany
+                  control={form.control}
+                  name='company_id'
+                  label={t.form_labels.company}
+                  detail={currentRow?.company ?? undefined}
+                  filterOurCompany={true}
+                  setValue={form.setValue}
+                />
               )}
               {checkExpenceType === ExpenceType.COMPANY_TRANSFER && (
                 <>
@@ -493,27 +482,34 @@ export function ExpenceMutateDrawer({
               )}
 
               {/* Payment type */}
-              {selectedType !== CorporateExpenceType.TRANSFER && (
-                <>
-                  <FormFieldSelect
-                    control={form.control}
-                    name='payment_type'
-                    label={t.form_labels.payment_type}
-                    placeholder={t.form_placeholders.select_payment_type}
-                    options={filteredPaymentTypeOptions}
-                  />
-                  {(selectedPaymentType === PaymentType.CARD ||
-                    selectedPaymentType === PaymentType.CASH) && (
-                    <FormComboboxCards
-                      name='card_id'
-                      label={t.form_labels.select_card}
-                      control={form.control}
-                      companyId={selectedCompanyId}
-                      paymentTypeField='payment_type'
-                      // detail={currentRow?.card}
-                    />
-                  )}
-                </>
+              {selectedType === CorporateExpenceType.TRANSFER ? (
+                <FormComboboxCards
+                  name='card_id'
+                  label={t.form_labels.select_card}
+                  control={form.control}
+                  companyId={selectedCompanyId}
+                  // detail={currentRow?.card}
+                />
+              ) : (
+                <FormFieldSelect
+                  control={form.control}
+                  name='payment_type'
+                  label={t.form_labels.payment_type}
+                  placeholder={t.form_placeholders.select_payment_type}
+                  options={filteredPaymentTypeOptions}
+                />
+              )}
+
+              {(selectedPaymentType === PaymentType.CARD ||
+                selectedPaymentType === PaymentType.CASH) && (
+                <FormComboboxCards
+                  name='card_id'
+                  label={t.form_labels.select_card}
+                  control={form.control}
+                  companyId={selectedCompanyId}
+                  paymentTypeField='payment_type'
+                  // detail={currentRow?.card}
+                />
               )}
 
               {/* ********* Income ********* */}
