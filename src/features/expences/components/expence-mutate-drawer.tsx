@@ -524,13 +524,25 @@ export function ExpenceMutateDrawer({
 
               {selectedType === CorporateExpenceType.INCOME &&
                 checkExpenceType === ExpenceType.LOAN_REPAYMENT && (
-                  <FormComboboxLoans
-                    control={form.control}
-                    name='loan_id'
-                    label={t.form_labels.loan}
-                    direction='WE_GAVE'
-                    // detail={currentRow?.loan ?? undefined}
-                  />
+                  <>
+                    {selectedPaymentType === PaymentType.BANK_TRANSFER && (
+                      <FormComboboxCompany
+                        control={form.control}
+                        name='company_id'
+                        label={t.form_labels.company}
+                        detail={currentRow?.company ?? undefined}
+                        filterOurCompany={true}
+                        setValue={form.setValue}
+                      />
+                    )}
+                    <FormComboboxLoans
+                      control={form.control}
+                      name='loan_id'
+                      label={t.form_labels.loan}
+                      direction='WE_GAVE'
+                      // detail={currentRow?.loan ?? undefined}
+                    />
+                  </>
                 )}
 
               {checkExpenceType === ExpenceType.LOAN_TAKEN && (
