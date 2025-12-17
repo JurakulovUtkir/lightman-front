@@ -12,7 +12,7 @@ export const cardsSchema = z.object({
   distribution: distributionSchema,
   expiration_date: z.date(),
   is_active: z.boolean(),
-  balance: z.union([z.string(), z.number()]),
+  balance: z.number(),
   card_type: z.enum(['cash', 'card']),
   created_at: z.string(),
   updated_at: z.string(),
