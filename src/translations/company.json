@@ -12,7 +12,10 @@
     "create": "Create",
     "click_save": "Click save when you're done.",
     "delete_title": "Delete this Company with the name: {{name}} ?",
-    "delete_confirm": "You are about to delete a Company with the name {{name}}"
+    "delete_confirm": "You are about to delete a Company with the name {{name}}",
+    "expences": "Expences",
+    "search_by_expense": "Search by expense",
+    "list_company_expense": "Here is a list of expenses for {{company_name}}"
   },
   "ru": {
     "companies": "Компании",
@@ -27,7 +30,10 @@
     "create": "Создать",
     "click_save": "Нажмите сохранить, когда закончите.",
     "delete_title": "Удалить компанию с именем: {{name}}?",
-    "delete_confirm": "Вы собираетесь удалить компанию с именем {{name}}"
+    "delete_confirm": "Вы собираетесь удалить компанию с именем {{name}}",
+    "expences": "Расходы",
+    "search_by_expense": "Поиск по расходу",
+    "list_company_expense": "Вот список расходов компании {{company_name}}"
   },
   "uz": {
     "companies": "Kompaniyalar",
@@ -42,6 +48,9 @@
     "create": "Yaratish",
     "click_save": "Barchasi tayyor bo‘lganda saqlash tugmasini bosing.",
     "delete_title": "{{name}} nomli kompaniyani o‘chirmoqchimisiz?",
-    "delete_confirm": "Siz {{name}} nomli kompaniyani o‘chirish arafasidansiz."
+    "delete_confirm": "Siz {{name}} nomli kompaniyani o‘chirish arafasidansiz.",
+    "expences": "Xarajatlar",
+    "search_by_expense": "Xarajatlarga qarab qidirish",
+    "list_company_expense": "{{company_name}} kompaniyasining xarajatlari ro‘yxati"
   }
 }

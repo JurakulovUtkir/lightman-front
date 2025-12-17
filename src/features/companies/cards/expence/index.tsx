@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import { useNavigate, useSearch } from '@tanstack/react-router'
+import { useSearch } from '@tanstack/react-router'
 import { IconSearch } from '@tabler/icons-react'
+import { Route } from '@/routes/_authenticated/companies/cards/expence/$id'
 import { useDebounce } from '@/hooks/useDebounce'
 import { useLang } from '@/hooks/useLang'
 import { Input } from '@/components/ui/input'
@@ -10,51 +11,60 @@ import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
 import { DataTable } from '@/components/table/data-table'
 import { ThemeSwitch } from '@/components/theme-switch'
+import ExpenceFilter from '@/features/expences/components/filters/expence-filter'
+import { useExpences } from '@/features/expences/data/hooks'
+import { useCard } from '../data/hooks'
 import { columns } from './components/columns'
-import { CompanyDialogs } from './components/company-dialogs'
-import { CompanyFilter } from './components/company-filter'
-import { CompanyPrimaryButtons } from './components/company-primary-buttons'
-import CompanyProvider from './context'
-import { useCompanies } from './data/hooks'
-import { CompanySchema } from './data/schema'
 
-const Companies = () => {
-  const { lang, tCompany, general } = useLang()
-  const t = tCompany[lang]
-  const navigate = useNavigate()
+const CardExpence = () => {
+  const { id } = Route.useLoaderData()
+  const { lang, tCard, general, interpolate } = useLang()
+  const t = tCard[lang]
 
-  const { offset, limit } = useSearch({
-    from: '/_authenticated/companies/',
+  const {
+    offset,
+    limit,
+    type,
+    expence_type,
+    payment_type,
+    distribution_id,
+    project_id,
+    company_id,
+    user_id,
+    date_from,
+    date_to,
+    max_amount,
+    min_amount,
+  } = useSearch({
+    from: '/_authenticated/companies/cards/expence/$id',
   })
   const [search, setSearch] = useState('')
-  const [filters, setFilters] = useState<{
-    is_active?: boolean
-    is_vip?: boolean
-  }>({})
-
   const debouncedSearch = useDebounce(search, 500)
 
   const currentOffset = offset ?? 0
   const currentLimit = limit ?? 20
 
-  const { data } = useCompanies({
+  const { data } = useExpences({
+    project_id,
     offset: currentOffset,
     limit: currentLimit,
     search: debouncedSearch.length >= 2 ? debouncedSearch : undefined,
-    is_active: filters.is_active,
-    is_our_company: true,
-    is_vip: filters.is_vip,
+    type,
+    expence_type,
+    payment_type,
+    distribution_id,
+    company_id,
+    card_id: id,
+    user_id,
+    date_from,
+    date_to,
+    max_amount,
+    min_amount,
   })
-
-  const handleDoubleClick = (payload: CompanySchema) => {
-    navigate({
-      to: '/companies/expence/$id',
-      params: { id: payload.id },
-    })
-  }
+  const { data: card } = useCard(id)
 
   return (
-    <CompanyProvider>
+    <>
       <Header fixed>
         <Search />
         <div className='ml-auto flex items-center space-x-4'>
@@ -65,16 +75,21 @@ const Companies = () => {
       <Main>
         <div className='mb-2 flex flex-wrap items-center justify-between space-y-2 gap-x-4'>
           <div>
-            <h2 className='text-2xl font-bold tracking-tight'>{t.companies}</h2>
-            <p className='text-muted-foreground'>{t.list_companies}</p>
+            <h2 className='text-2xl font-bold tracking-tight'>
+              {card?.name ?? ''}
+            </h2>
+            <p className='text-muted-foreground'>
+              {interpolate(t.list_card_expense, {
+                card_name: card?.name ?? '',
+              })}
+            </p>
           </div>
-          <CompanyPrimaryButtons text={t.create} />
         </div>
         <div className='flex items-center gap-4'>
           <div className='relative'>
             <Input
               type='search'
-              placeholder={t.search_by_company}
+              placeholder={t.search_by_expense}
               className='h-8 max-w-80 pl-8'
               onChange={(e) => setSearch(e.target.value)}
             />
@@ -82,7 +97,7 @@ const Companies = () => {
               <IconSearch className='text-muted-foreground' size={16} />
             </span>
           </div>
-          <CompanyFilter onFilterChange={setFilters} />
+          <ExpenceFilter isCard />
         </div>
         <div className='-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-y-0 lg:space-x-12'>
           <DataTable
@@ -91,13 +106,11 @@ const Companies = () => {
             offset={offset}
             limit={limit}
             total={data?.data.total ?? 0}
-            onRowDoubleClick={handleDoubleClick}
           />
         </div>
       </Main>
-      <CompanyDialogs />
-    </CompanyProvider>
+    </>
   )
 }
 
-export default Companies
+export default CardExpence

@@ -1,3 +1,4 @@
+import { ApiResponse } from '@/constants'
 import api from '@/lib/axios'
 import { CardsSchema } from './schema'
 import { CardsSchemaResponse } from './types'
@@ -27,8 +28,8 @@ export const getCards = async ({
   return response.data
 }
 export const getCard = async (id: string): Promise<CardsSchema> => {
-  const response = await api.get(`/cards/${id}`)
-  return response.data
+  const response = await api.get<ApiResponse<CardsSchema>>(`/cards/${id}`)
+  return response.data.data
 }
 
 export const createCard = async (

@@ -335,7 +335,8 @@
       "property_name": "Property name",
       "count": "Count",
       "current_price": "Current price",
-      "contract_name": "Contract name"
+      "contract_name": "Contract name",
+      "commission": "Commission"
     }
   },
   "ru": {
@@ -674,7 +675,8 @@
       "property_name": "Название имущества",
       "count": "Количество",
       "current_price": "Текущая цена",
-      "contract_name": "Название договора"
+      "contract_name": "Название договора",
+      "commission": "Комиссия"
     }
   },
   "uz": {
@@ -1013,7 +1015,8 @@
       "property_name": "Mulk nomi",
       "count": "Soni",
       "current_price": "Joriy narx",
-      "contract_name": "Shartnoma nomi"
+      "contract_name": "Shartnoma nomi",
+      "commission": "Komissiya"
     }
   }
 }

@@ -59,6 +59,7 @@ export const expenceSchema = z.object({
   to_company_id: z.string().optional(),
   deposit: depositSchema,
   project_social_id: z.string().optional(),
+  commission: z.number(),
 })
 
 export type ExpenceSchema = z.infer<typeof expenceSchema>

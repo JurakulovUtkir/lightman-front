@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useNavigate } from '@tanstack/react-router'
 import {
   IconCreditCard,
   IconEdit,
@@ -52,10 +53,12 @@ const CashBox = ({
   card,
   index,
   t,
+  onDoubleClick,
 }: {
   card: CardsSchema
   index: number
   t: (typeof import('@/translations/general.json'))['en']['columns']
+  onDoubleClick: (payload: CardsSchema) => void
 }) => {
   const { setOpen, setCurrentRow } = useCardsContext()
   const [showBalance, setShowBalance] = useState(true)
@@ -80,7 +83,10 @@ const CashBox = ({
   }
 
   return (
-    <div className='group relative max-w-[380px] min-w-[340px]'>
+    <div
+      onDoubleClick={() => onDoubleClick(card)}
+      className='group relative max-w-[380px] min-w-[340px]'
+    >
       {/* Cash Card - Different Design */}
       <div
         className={`relative h-[220px] overflow-hidden rounded-2xl p-6 shadow-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl ${gradientClass} ${
@@ -215,10 +221,12 @@ const CardBox = ({
   card,
   index,
   t,
+  onDoubleClick,
 }: {
   card: CardsSchema
   index: number
   t: (typeof import('@/translations/general.json'))['en']['columns']
+  onDoubleClick: (payload: CardsSchema) => void
 }) => {
   const { setOpen, setCurrentRow } = useCardsContext()
   const [showBalance, setShowBalance] = useState(true)
@@ -243,7 +251,10 @@ const CardBox = ({
   }
 
   return (
-    <div className='group relative max-w-[380px] min-w-[340px]'>
+    <div
+      onDoubleClick={() => onDoubleClick(card)}
+      className='group relative max-w-[380px] min-w-[340px]'
+    >
       {/* Bank Card */}
       <div
         className={`relative h-[220px] overflow-hidden rounded-2xl p-6 shadow-xl transition-all duration-300 hover:scale-105 hover:shadow-2xl ${gradientClass} ${
@@ -395,6 +406,14 @@ export const CardBoxes = ({
 }) => {
   const { lang, general } = useLang()
   const t = general[lang].columns
+  const navigate = useNavigate()
+
+  const handleDoubleClick = (payload: CardsSchema) => {
+    navigate({
+      to: '/companies/cards/expence/$id',
+      params: { id: payload.id },
+    })
+  }
 
   if (!data?.data || data?.data?.length === 0) {
     return (
@@ -412,9 +431,21 @@ export const CardBoxes = ({
     <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3'>
       {data?.data.map((card, index) =>
         card.card_type === 'cash' ? (
-          <CashBox key={card.id} card={card} index={index} t={t} />
+          <CashBox
+            onDoubleClick={handleDoubleClick}
+            key={card.id}
+            card={card}
+            index={index}
+            t={t}
+          />
         ) : (
-          <CardBox key={card.id} card={card} index={index} t={t} />
+          <CardBox
+            onDoubleClick={handleDoubleClick}
+            key={card.id}
+            card={card}
+            index={index}
+            t={t}
+          />
         )
       )}
     </div>

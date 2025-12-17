@@ -129,6 +129,21 @@ export const columns = (
     enableSorting: true,
   },
   {
+    accessorKey: 'commission',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title={t.commission} />
+    ),
+    cell: ({ row }) => {
+      const commission = row.original.commission ?? 0
+      return (
+        <div className='font-medium'>
+          {formatPrice(commission)} {t.uzs}
+        </div>
+      )
+    },
+    enableSorting: true,
+  },
+  {
     accessorKey: 'project',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title={t.project} />

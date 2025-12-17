@@ -1,3 +1,4 @@
+import { ApiResponse } from '@/constants'
 import api from '@/lib/axios'
 import { CompanySchema } from './schema'
 import { CompanySchemaResponse } from './types'
@@ -31,8 +32,8 @@ export const getCompanies = async ({
   return response.data
 }
 export const getCompany = async (id: string): Promise<CompanySchema> => {
-  const response = await api.get(`/companies/${id}`)
-  return response.data
+  const response = await api.get<ApiResponse<CompanySchema>>(`/companies/${id}`)
+  return response.data.data
 }
 
 export const createCompany = async (

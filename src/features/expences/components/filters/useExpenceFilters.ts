@@ -13,9 +13,13 @@ import {
 export const useExpenceFilters = ({
   isFounder = false,
   isProject = false,
+  isCompany = false,
+  isCard = false,
 }: {
   isFounder?: boolean
   isProject?: boolean
+  isCompany?: boolean
+  isCard?: boolean
 }) => {
   const navigate = useNavigate()
 
@@ -25,7 +29,11 @@ export const useExpenceFilters = ({
         ? '/stakeholder/founders/expence/$id'
         : isProject
           ? '/projects/expence/$id'
-          : '/expences',
+          : isCompany
+            ? '/companies/expence/$id'
+            : isCard
+              ? '/companies/cards/expence/$id'
+              : '/expences',
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       //@ts-ignore
       search: (prev) => ({
@@ -42,7 +50,11 @@ export const useExpenceFilters = ({
         ? '/stakeholder/founders/expence/$id'
         : isProject
           ? '/projects/expence/$id'
-          : '/expences',
+          : isCompany
+            ? '/companies/expence/$id'
+            : isCard
+              ? '/companies/cards/expence/$id'
+              : '/expences',
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       //@ts-ignore
       search: (prev) => ({
@@ -59,7 +71,11 @@ export const useExpenceFilters = ({
         ? '/stakeholder/founders/expence/$id'
         : isProject
           ? '/projects/expence/$id'
-          : '/expences',
+          : isCompany
+            ? '/companies/expence/$id'
+            : isCard
+              ? '/companies/cards/expence/$id'
+              : '/expences',
       search: (prev) => ({
         ...prev,
         payment_type: paymentType as PaymentType | undefined,
@@ -74,7 +90,11 @@ export const useExpenceFilters = ({
         ? '/stakeholder/founders/expence/$id'
         : isProject
           ? '/projects/expence/$id'
-          : '/expences',
+          : isCompany
+            ? '/companies/expence/$id'
+            : isCard
+              ? '/companies/cards/expence/$id'
+              : '/expences',
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       //@ts-ignore
       search: (prev) => ({
@@ -91,7 +111,11 @@ export const useExpenceFilters = ({
         ? '/stakeholder/founders/expence/$id'
         : isProject
           ? '/projects/expence/$id'
-          : '/expences',
+          : isCompany
+            ? '/companies/expence/$id'
+            : isCard
+              ? '/companies/cards/expence/$id'
+              : '/expences',
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       //@ts-ignore
       search: (prev) => ({
@@ -108,7 +132,11 @@ export const useExpenceFilters = ({
         ? '/stakeholder/founders/expence/$id'
         : isProject
           ? '/projects/expence/$id'
-          : '/expences',
+          : isCompany
+            ? '/companies/expence/$id'
+            : isCard
+              ? '/companies/cards/expence/$id'
+              : '/expences',
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       //@ts-ignore
       search: (prev) => ({
@@ -125,7 +153,11 @@ export const useExpenceFilters = ({
         ? '/stakeholder/founders/expence/$id'
         : isProject
           ? '/projects/expence/$id'
-          : '/expences',
+          : isCompany
+            ? '/companies/expence/$id'
+            : isCard
+              ? '/companies/cards/expence/$id'
+              : '/expences',
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       //@ts-ignore
       search: (prev) => ({
@@ -142,7 +174,11 @@ export const useExpenceFilters = ({
         ? '/stakeholder/founders/expence/$id'
         : isProject
           ? '/projects/expence/$id'
-          : '/expences',
+          : isCompany
+            ? '/companies/expence/$id'
+            : isCard
+              ? '/companies/cards/expence/$id'
+              : '/expences',
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       //@ts-ignore
       search: (prev) => ({
@@ -159,7 +195,11 @@ export const useExpenceFilters = ({
         ? '/stakeholder/founders/expence/$id'
         : isProject
           ? '/projects/expence/$id'
-          : '/expences',
+          : isCompany
+            ? '/companies/expence/$id'
+            : isCard
+              ? '/companies/cards/expence/$id'
+              : '/expences',
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       //@ts-ignore
       search: (prev) => ({
@@ -176,7 +216,11 @@ export const useExpenceFilters = ({
         ? '/stakeholder/founders/expence/$id'
         : isProject
           ? '/projects/expence/$id'
-          : '/expences',
+          : isCompany
+            ? '/companies/expence/$id'
+            : isCard
+              ? '/companies/cards/expence/$id'
+              : '/expences',
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       //@ts-ignore
       search: (prev) => ({
@@ -193,7 +237,11 @@ export const useExpenceFilters = ({
         ? '/stakeholder/founders/expence/$id'
         : isProject
           ? '/projects/expence/$id'
-          : '/expences',
+          : isCompany
+            ? '/companies/expence/$id'
+            : isCard
+              ? '/companies/cards/expence/$id'
+              : '/expences',
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       //@ts-ignore
       search: (prev) => ({
@@ -210,7 +258,11 @@ export const useExpenceFilters = ({
         ? '/stakeholder/founders/expence/$id'
         : isProject
           ? '/projects/expence/$id'
-          : '/expences',
+          : isCompany
+            ? '/companies/expence/$id'
+            : isCard
+              ? '/companies/cards/expence/$id'
+              : '/expences',
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       //@ts-ignore
       search: (prev) => ({
@@ -226,7 +278,11 @@ export const useExpenceFilters = ({
         ? '/stakeholder/founders/expence/$id'
         : isProject
           ? '/projects/expence/$id'
-          : '/expences',
+          : isCompany
+            ? '/companies/expence/$id'
+            : isCard
+              ? '/companies/cards/expence/$id'
+              : '/expences',
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       //@ts-ignore
       search: (prev) => ({

@@ -49,6 +49,7 @@ export const useCompany = (id: string) => {
   return useQuery<CompanySchema>({
     queryKey: ['company', id],
     queryFn: () => getCompany(id),
+    enabled: !!id,
   })
 }
 

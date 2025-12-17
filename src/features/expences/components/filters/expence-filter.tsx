@@ -32,9 +32,13 @@ import { UserFilter } from './user-filter'
 const ExpenceFilter = ({
   isFounder = false,
   isProject = false,
+  isCompany = false,
+  isCard = false,
 }: {
   isFounder?: boolean
   isProject?: boolean
+  isCompany?: boolean
+  isCard?: boolean
 }) => {
   const { lang, general, tForm } = useLang()
   const t_general = general[lang].columns
@@ -61,7 +65,11 @@ const ExpenceFilter = ({
       ? '/_authenticated/stakeholder/founders/expence/$id'
       : isProject
         ? '/_authenticated/projects/expence/$id'
-        : '/_authenticated/expences/',
+        : isCompany
+          ? '/_authenticated/companies/expence/$id'
+          : isCard
+            ? '/_authenticated/companies/cards/expence/$id'
+            : '/_authenticated/expences/',
   })
 
   const {
@@ -79,7 +87,7 @@ const ExpenceFilter = ({
     handleLoanFilterChange,
     handleCardFilterChange,
     handleClear,
-  } = useExpenceFilters({ isFounder, isProject })
+  } = useExpenceFilters({ isFounder, isProject, isCompany, isCard })
 
   const [open, setOpen] = useState(false)
   const [minAmount, setMinAmount] = useState<string>(

@@ -34,6 +34,8 @@ const ProjectExpence = () => {
     date_to,
     max_amount,
     min_amount,
+    card_id,
+    loan_id,
   } = useSearch({
     from: '/_authenticated/projects/expence/$id',
   })
@@ -58,6 +60,8 @@ const ProjectExpence = () => {
     date_to,
     max_amount,
     min_amount,
+    card_id,
+    loan_id,
   })
   const { data: project } = useProject(id)
 
