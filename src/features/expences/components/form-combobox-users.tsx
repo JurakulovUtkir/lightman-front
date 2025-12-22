@@ -39,6 +39,7 @@ interface FormComboboxProps<T extends FieldValues> {
   control: Control<T>
   detail?: Pick<User, 'id' | 'full_name'>
   isOurEmployee?: boolean
+  role?: string
 }
 
 export const FormComboboxUser = <T extends FieldValues>({
@@ -47,6 +48,7 @@ export const FormComboboxUser = <T extends FieldValues>({
   control,
   detail,
   isOurEmployee,
+  role,
 }: FormComboboxProps<T>) => {
   const [open, setOpen] = useState(false)
   const [search, setSearch] = useState('')
@@ -56,7 +58,12 @@ export const FormComboboxUser = <T extends FieldValues>({
     data: usersResponse,
     isLoading: isLoadingUsers,
     isFetching: isFetchingUsers,
-  } = useGetUsers({ limit: 100, offset: 0, is_our_employee: isOurEmployee })
+  } = useGetUsers({
+    limit: 100,
+    offset: 0,
+    is_our_employee: isOurEmployee,
+    role,
+  })
 
   const isLoading = isLoadingUsers || isFetchingUsers
 

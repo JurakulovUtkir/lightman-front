@@ -484,6 +484,15 @@ export function ExpenceMutateDrawer({
                 </>
               )}
 
+              {selectedType === CorporateExpenceType.TRANSFER && (
+                <FormComboboxProject
+                  control={form.control}
+                  name='project_id'
+                  label={t.form_placeholders.select_project}
+                  detail={currentRow?.project ?? undefined}
+                />
+              )}
+
               {/* Payment type */}
               {selectedType === CorporateExpenceType.TRANSFER ? (
                 checkExpenceType === ExpenceType.CARD_WITHDRAW && (

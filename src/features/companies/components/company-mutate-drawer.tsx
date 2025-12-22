@@ -65,16 +65,9 @@ export function CompanyMutateDrawer({
           })
           .min(1)
           .max(150, t.form_validations.invalid_address),
-        stir: z
-          .string({
-            error: t.form_validations.stir,
-          })
-          .regex(/^\d{9}$/, t.form_validations.invalid_stir),
-        mfo: z
-          .string({
-            error: t.form_validations.mfo,
-          })
-          .regex(/^\d{5}$/, t.form_validations.invalid_mfo),
+        stir: z.string().regex(/^\d{9}$/, t.form_validations.invalid_stir),
+        mfo: z.string().regex(/^\d{5}$/, t.form_validations.invalid_mfo),
+        pinfl: z.string().regex(/^\d{14}$/, t.form_validations.invalid_pnfl),
         bank: z
           .string({
             error: t.form_validations.bank,
@@ -82,15 +75,9 @@ export function CompanyMutateDrawer({
           .min(1)
           .max(150, t.form_validations.invalid_bank),
         account_number: z
-          .string({
-            error: t.form_validations.account_number,
-          })
+          .string()
           .regex(/^\d{20}$/, t.form_validations.invalid_account_number),
-
         balance: z.number().min(0, t.form_validations.invalid_value).optional(),
-        // pinfl: z.string({
-        //   error: t.form_validations.required_field,
-        // }),
         is_active: z.boolean().optional(),
         is_our_company: z.boolean().optional(),
         is_vip: z.boolean().optional(),
@@ -108,6 +95,7 @@ export function CompanyMutateDrawer({
       balance: toNumber(currentRow?.balance),
       stir: currentRow?.stir?.toString() || '',
       mfo: currentRow?.mfo?.toString() || '',
+      pinfl: currentRow?.pinfl?.toString() || '',
       account_number: currentRow?.account_number?.toString() || '',
       is_our_company: pathname.includes('counterparty') ? false : true,
     },
@@ -251,6 +239,13 @@ export function CompanyMutateDrawer({
                   type='text'
                 />
               </div>
+              <FormFieldWrapper
+                control={form.control}
+                name='pinfl'
+                label={t.form_labels.pinfl}
+                placeholder={t.form_placeholders.pinfl}
+                type='text'
+              />
               <FormFieldWrapper
                 control={form.control}
                 name='account_number'

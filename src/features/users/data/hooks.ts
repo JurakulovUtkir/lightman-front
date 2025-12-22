@@ -9,20 +9,23 @@ export const useGetUsers = ({
   offset,
   search,
   is_our_employee,
+  role,
 }: {
   limit?: number
   offset?: number
   search?: string
   is_our_employee?: boolean
+  role?: string
 }) => {
   return useQuery<UsersResponse>({
-    queryKey: ['users', limit, offset, search, is_our_employee],
+    queryKey: ['users', limit, offset, search, is_our_employee, role],
     queryFn: () =>
       getUsers({
         limit,
         offset,
         search,
         is_our_employee,
+        role,
       }),
   })
 }

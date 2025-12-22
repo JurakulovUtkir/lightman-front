@@ -337,7 +337,8 @@
       "count": "Count",
       "current_price": "Current price",
       "contract_name": "Contract name",
-      "commission": "Commission"
+      "commission": "Commission",
+      "pinfl": "PINFL"
     }
   },
   "ru": {
@@ -678,7 +679,8 @@
       "count": "Количество",
       "current_price": "Текущая цена",
       "contract_name": "Название договора",
-      "commission": "Комиссия"
+      "commission": "Комиссия",
+      "pinfl": "ПИНФЛ"
     }
   },
   "uz": {
@@ -1019,7 +1021,8 @@
       "count": "Soni",
       "current_price": "Joriy narx",
       "contract_name": "Shartnoma nomi",
-      "commission": "Komissiya"
+      "commission": "Komissiya",
+      "pinfl": "PINFL"
     }
   }
 }

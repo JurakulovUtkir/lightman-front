@@ -155,7 +155,9 @@
       "no_project_social_found": "No project social found",
       "select_project_first": "Select a project first",
       "select_payment_type_first": "Select payment type first",
-      "date": "Date"
+      "date": "Date",
+      "pinfl": "PINFL",
+      "select_project_manager": "Select project manager"
     },
     "form_placeholders": {
       "select_project": "Select project",
@@ -205,7 +207,8 @@
       "search_users": "Search users...",
       "search_loan": "Search loans...",
       "search_card": "Search cards...",
-      "select_project_social": "Select project social"
+      "select_project_social": "Select project social",
+      "pinfl": "Enter PINFL"
     },
     "form_validations": {
       "required_field": "Required field",
@@ -250,13 +253,13 @@
       "password_lowercase": "Password must contain at least one lowercase letter.",
       "password_number": "Password must contain at least one number.",
       "password_not_match": "Passwords don't match.",
-
       "direction": "Direction is required",
       "enter_a_direction": "Enter a direction",
       "invalid_direction": "Direction cannot exceed 150 characters",
       "counterparty": "Counterparty name is required",
       "enter_a_counterparty": "Enter a counterparty name",
-      "invalid_counterparty": "Counterparty name cannot exceed 150 characters"
+      "invalid_counterparty": "Counterparty name cannot exceed 150 characters",
+      "invalid_pnfl": "PINFL number must be exactly 14 digits"
     },
     "buttons": {
       "save": "Save",
@@ -434,7 +437,9 @@
       "no_project_social_found": "Социальные сети проекта не найдены",
       "select_project_first": "Сначала выберите проект",
       "select_payment_type_first": "Сначала выберите тип оплаты",
-      "date": "Дата"
+      "date": "Дата",
+      "pinfl": "ПИНФЛ",
+      "select_project_manager": "Выберите менеджера проекта"
     },
     "form_placeholders": {
       "select_project": "Выберите проект",
@@ -484,7 +489,8 @@
       "search_users": "Поиск пользователей...",
       "search_loan": "Поиск займов...",
       "search_card": "Поиск карт...",
-      "select_project_social": "Выберите соцсеть проекта"
+      "select_project_social": "Выберите соцсеть проекта",
+      "pinfl": "Введите ПИНФЛ"
     },
     "form_validations": {
       "required_field": "Обязательное поле",
@@ -534,7 +540,8 @@
       "invalid_direction": "Направление не может превышать 150 символов",
       "counterparty": "Необходимо указать название контрагента",
       "enter_a_counterparty": "Введите название контрагента",
-      "invalid_counterparty": "Название контрагента не может превышать 150 символов"
+      "invalid_counterparty": "Название контрагента не может превышать 150 символов",
+      "invalid_pnfl": "Номер ПИНФЛ должен состоять ровно из 14 цифр"
     },
     "buttons": {
       "save": "Сохранить",
@@ -712,7 +719,9 @@
       "no_project_social_found": "Loyiha ijtimoiy tarmoqlari topilmadi",
       "select_project_first": "Avval loyihani tanlang",
       "select_payment_type_first": "Avval to‘lov turini tanlang",
-      "date": "Sana"
+      "date": "Sana",
+      "pinfl": "PINFL",
+      "select_project_manager": "Loyiha menejerini tanlang"
     },
     "form_placeholders": {
       "select_project": "Loyihani tanlang",
@@ -762,7 +771,8 @@
       "search_users": "Foydalanuvchilarni qidirish...",
       "search_loan": "Qarzlarni qidirish...",
       "search_card": "Kartalarni qidirish...",
-      "select_project_social": "Loyiha ijtimoiy tarmog‘ini tanlang"
+      "select_project_social": "Loyiha ijtimoiy tarmog‘ini tanlang",
+      "pinfl": "PINFL kiriting"
     },
     "form_validations": {
       "required_field": "Majburiy maydon",
@@ -812,7 +822,8 @@
       "invalid_direction": "Yo‘nalish 150 belgidan oshmasligi kerak",
       "counterparty": "Kontragent nomi kiritilishi shart",
       "enter_a_counterparty": "Kontragent nomini kiriting",
-      "invalid_counterparty": "Kontragent nomi 150 belgidan oshmasligi kerak"
+      "invalid_counterparty": "Kontragent nomi 150 belgidan oshmasligi kerak",
+      "invalid_pnfl": "PINFL raqami aynan 14 ta raqamdan iborat bo‘lishi kerak"
     },
     "buttons": {
       "save": "Saqlash",

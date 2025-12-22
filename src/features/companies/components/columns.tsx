@@ -104,6 +104,24 @@ export const columns = (
     enableSorting: false,
   },
   {
+    accessorKey: 'pinfl',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title={t.pinfl} />
+    ),
+    cell: ({ row }) => {
+      const value = row.getValue('pinfl')
+      return value ? (
+        <div className='flex items-center gap-2'>
+          <CopyButton value={row.getValue('pinfl')} />
+          <span>{row.getValue('pinfl')}</span>
+        </div>
+      ) : (
+        '-'
+      )
+    },
+    enableSorting: false,
+  },
+  {
     accessorKey: 'account_number',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title={t.account_number} />

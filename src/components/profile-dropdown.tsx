@@ -25,7 +25,7 @@ export function ProfileDropdown() {
           <Avatar className='h-8 w-8'>
             <AvatarImage src='/avatars/01.png' alt='@shadcn' />
             <AvatarFallback className='rounded-lg'>
-              {user?.full_name.slice(0, 1) ?? ''}
+              {user?.full_name?.slice(0, 1) ?? ''}
             </AvatarFallback>
           </Avatar>
         </Button>

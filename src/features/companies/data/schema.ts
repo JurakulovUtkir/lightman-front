@@ -7,6 +7,7 @@ export const companySchema = z.object({
   address: z.string(),
   stir: z.string(),
   mfo: z.string(),
+  pinfl: z.string(),
   bank: z.string(),
   account_number: z.string(),
   balance: z.union([z.string(), z.number()]).optional(),

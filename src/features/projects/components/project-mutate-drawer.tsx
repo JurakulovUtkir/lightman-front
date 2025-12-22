@@ -26,6 +26,7 @@ import { Switch } from '@/components/ui/switch'
 import { FormFieldSelect } from '@/components/form-field-select'
 import { FormFieldWrapper } from '@/components/form-field-wrapper'
 import { FormComboboxContract } from '@/features/contracts/components/form-combobox-contracts'
+// import { FormComboboxUser } from '@/features/expences/components/form-combobox-users'
 // import { FormComboboxNetworkCategory } from '@/features/network/socials/components/form-combobox-network-category'
 import { FormComboboxNetworkTags } from '@/features/network/socials/components/form-combobox-network-tags'
 import { ProjectDialogType } from '../context'
@@ -301,6 +302,13 @@ export function ProjectMutateDrawer({
                 placeholder={t.form_placeholders.enter_name}
               />
 
+              {/* <FormComboboxUser
+                control={form.control}
+                name='project_manager_id'
+                label={t.form_labels.select_project_manager}
+                role='project_manager'
+                // detail={currentRow?.user ?? undefined}
+              /> */}
               <FormFieldWrapper
                 control={form.control}
                 name='description'
