@@ -194,7 +194,8 @@
         "operator": "Operator",
         "employee": "Employee",
         "accountant": "Accountant",
-        "account_manager": "Account manager"
+        "account_manager": "Account manager",
+        "project_manager": "Project manager"
       },
       "projectSocial": {
         "posted": "Posted",
@@ -534,7 +535,8 @@
         "operator": "Оператор",
         "employee": "Сотрудник",
         "accountant": "Бухгалтер",
-        "account_manager": "Аккаунт-менеджер"
+        "account_manager": "Аккаунт-менеджер",
+        "project_manager": "Менеджер проекта"
       },
       "userStatus": {
         "web-user": "Веб-пользователь"
@@ -874,7 +876,8 @@
         "operator": "Operator",
         "employee": "Xodim",
         "accountant": "Buxgalter",
-        "account_manager": "Mijozlar menejeri"
+        "account_manager": "Mijozlar menejeri",
+        "project_manager": "Loyiha menejeri"
       },
       "userStatus": {
         "web-user": "Veb foydalanuvchi"

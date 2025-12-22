@@ -73,6 +73,12 @@ export function ExpenceMutateDrawer({
   setCurrentRow,
   setOpen,
 }: Props) {
+  const { lang, tForm, tExpence, general } = useLang()
+  const t = tForm[lang]
+  const t_general = general[lang].columns
+
+  const expenceOriginTypeOptions = getExpenceOriginTypeOptions(t_general)
+
   const [pendingDeleteFile, setPendingDeleteFile] = useState<string | null>(
     null
   )
@@ -82,11 +88,6 @@ export function ExpenceMutateDrawer({
   const deleteFile = useDeleteFile()
 
   const isUpdate = !!currentRow
-
-  const { lang, tForm, tExpence, general } = useLang()
-  const t = tForm[lang]
-  const t_general = general[lang].columns
-  const expenceOriginTypeOptions = getExpenceOriginTypeOptions(t_general)
 
   const formSchema = useMemo(
     () =>

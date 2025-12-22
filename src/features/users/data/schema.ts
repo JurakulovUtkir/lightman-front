@@ -15,6 +15,7 @@ const userRoleSchema = z.union([
   z.literal('employee'),
   z.literal('accountant'),
   z.literal('account_manager'),
+  z.literal('project_manager'),
 ])
 
 export const userSchema = z.object({

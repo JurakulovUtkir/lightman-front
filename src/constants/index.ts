@@ -142,6 +142,7 @@ export const getUserRoleOptions = (
   { value: 'employee', label: t.userRoleOptions.employee },
   { value: 'accountant', label: t.userRoleOptions.accountant },
   { value: 'account_manager', label: t.userRoleOptions.account_manager },
+  { value: 'project_manager', label: t.userRoleOptions.project_manager },
 ]
 export const getProjectSocialStatusOptions = (
   t: (typeof import('@/translations/general.json'))['en']['columns']

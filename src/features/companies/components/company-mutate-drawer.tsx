@@ -26,7 +26,6 @@ import { FormFieldWrapper } from '@/components/form-field-wrapper'
 import { CompanyDialogType } from '../context'
 import { useCreateCompany, useUpdateCompany } from '../data/hooks'
 import { CompanySchema } from '../data/schema'
-import { FormComboboxDistributions } from './form-combobox-distributions'
 
 interface Props {
   open: boolean
@@ -89,9 +88,9 @@ export function CompanyMutateDrawer({
           .regex(/^\d{20}$/, t.form_validations.invalid_account_number),
 
         balance: z.number().min(0, t.form_validations.invalid_value).optional(),
-        distribution_id: z.string({
-          error: t.form_validations.required_field,
-        }),
+        // pinfl: z.string({
+        //   error: t.form_validations.required_field,
+        // }),
         is_active: z.boolean().optional(),
         is_our_company: z.boolean().optional(),
         is_vip: z.boolean().optional(),
@@ -221,13 +220,6 @@ export function CompanyMutateDrawer({
                 name='name'
                 label={t.form_labels.company_name}
                 placeholder={t.form_placeholders.enter_name}
-              />
-
-              <FormComboboxDistributions
-                name='distribution_id'
-                label={t.form_labels.distribution}
-                control={form.control}
-                detail={currentRow?.distribution ?? undefined}
               />
 
               <FormFieldWrapper

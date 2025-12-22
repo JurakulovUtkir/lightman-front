@@ -5,6 +5,7 @@ export enum UserRoles {
   EMPLOYEE = 'employee',
   ACCOUNTANT = 'accountant',
   ACCOUNT_MANAGER = 'account_manager',
+  PROJECT_MANAGER = 'project_manager',
 }
 
 export enum PriceType {

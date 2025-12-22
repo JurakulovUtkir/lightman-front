@@ -72,6 +72,7 @@ export function UsersActionDialog({ currentRow, open, onOpenChange }: Props) {
               z.literal('employee'),
               z.literal('accountant'),
               z.literal('account_manager'),
+              z.literal('project_manager'),
             ],
             {
               error: t.form_validations.required_field,
