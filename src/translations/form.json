@@ -685,7 +685,7 @@
       "card_type": "Karta turi",
       "card": "Karta",
       "cash": "Naqd",
-      "uzs": "So'm",
+      "uzs": "So‘m",
       "commission": "Komissiya",
       "filters": "Filtrlar",
       "clear_all": "Barchasini tozalash",
@@ -742,7 +742,7 @@
       "add_your_notes": "Izohlaringizni qo‘shing",
       "enter_views": "Ko‘rishlar sonini kiriting",
       "enter_number": "Raqam kiriting",
-      "uzs": "So'm",
+      "uzs": "So‘m",
       "enter_address": "Manzilni kiriting",
       "enter_bank_name": "Bank nomini kiriting",
       "select_type": "Turni tanlang",
@@ -842,7 +842,7 @@
       "unable_delete_previous": "Oldingi faylni o‘chirishning iloji yo‘q",
       "total_percentage": "Umumiy foiz {{finalPercentage}}% bo‘ladi. Maksimal qiymat 100%.",
       "unable_find_distribution": "Ta’qsimot ID sini topib bo‘lmadi",
-      "failed_create_expence": "Ushbu social loyiha uchun xarajat yaratib bo‘lmadi!"
+      "failed_create_expence": "Ushbu loyiha uchun xarajatni yaratib bo‘lmadi"
     }
   }
 }
