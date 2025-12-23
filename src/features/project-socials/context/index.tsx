@@ -10,6 +10,7 @@ export type ProjectSocialDialogType =
   | 'import'
   | 'paid'
   | 'status'
+  | 'status-approve'
 
 interface ProjectSocialContextType {
   open: ProjectSocialDialogType | null

@@ -3,6 +3,7 @@ import { ConfirmDialog } from '@/components/confirm-dialog'
 import { useUpdateProjectStatus } from '@/features/projects/data/hooks'
 import { useProjectSocialContext } from '../context'
 import { useDeleteProjectSocial } from '../data/hooks'
+import { ApproveDialog } from './approve-dialog'
 import { ProjectSocialExpenceMutateDrawer } from './project-social-expence-mutate-drawer'
 import { ProjectSocialMutateDrawer } from './project-social-mutate-drawer'
 
@@ -41,6 +42,30 @@ export function ProjectSocialDialogs() {
         data: {
           ...projectData,
           status: projectData.pendingStatus,
+        },
+      },
+      {
+        onSuccess: () => {
+          setOpen(null)
+          setProjectData(null)
+        },
+      }
+    )
+  }
+  const handleStatusChangeApprove = (payload: {
+    distribution_id: string
+    price: number
+  }) => {
+    if (!projectData || !projectData.pendingStatus) return
+
+    updateProject(
+      {
+        id: projectData.id,
+        data: {
+          ...projectData,
+          status: projectData.pendingStatus,
+          distribution_id: payload.distribution_id,
+          price: payload.price,
         },
       },
       {
@@ -97,30 +122,6 @@ export function ProjectSocialDialogs() {
       )}
 
       {currentRow?.id && (
-        // <ConfirmDialog
-        //   key='is-paid'
-        //   open={open === 'paid'}
-        //   onOpenChange={() => {
-        //     setOpen('paid')
-        //     setTimeout(() => {
-        //       setCurrentRow(null)
-        //     }, 500)
-        //   }}
-        //   handleConfirm={() => {
-        //     handlePay()
-        //   }}
-        //   isLoading={payment.isPending}
-        //   className='max-w-md'
-        //   title={`Confirm payment for Project ${currentRow.id}?`}
-        //   desc={
-        //     <>
-        //       You are about to change Project payment status with the ID{' '}
-        //       <strong>{currentRow.id}</strong> <br /> <br />
-        //       You won’t be able to roll it back. Do you want to proceed?
-        //     </>
-        //   }
-        //   confirmText={isPending ? 'Loading...' : 'Confirm'}
-        // />
         <ProjectSocialExpenceMutateDrawer
           key={`project-social-expence-update-${currentRow.id}`}
           open={open === 'paid'}
@@ -134,37 +135,70 @@ export function ProjectSocialDialogs() {
         />
       )}
       {projectData?.id && (
-        <ConfirmDialog
-          key='project-status-change'
-          open={open === 'status'}
-          onOpenChange={() => {
-            setOpen('status')
-            setTimeout(() => {
-              setCurrentRow(null)
-            }, 500)
-          }}
-          handleConfirm={handleStatusChange}
-          className='max-w-md'
-          title={t.status_change_title}
-          desc={
-            <>
-              {interpolateWithComponents(t.status_change_confirm, {
-                name: <strong>{projectData.name}</strong>,
-                status: (
-                  <strong>
-                    {
-                      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                      // @ts-ignore
-                      t[projectData.pendingStatus]
-                    }
-                  </strong>
-                ),
-              })}
-            </>
-          }
-          isLoading={isUpdating}
-          confirmText={isUpdating ? t.updating : t.confirm}
-        />
+        <>
+          <ConfirmDialog
+            key='project-status-change'
+            open={open === 'status'}
+            onOpenChange={() => {
+              setOpen('status')
+              setTimeout(() => {
+                setCurrentRow(null)
+              }, 500)
+            }}
+            handleConfirm={handleStatusChange}
+            className='max-w-md'
+            title={t.status_change_title}
+            desc={
+              <>
+                {interpolateWithComponents(t.status_change_confirm, {
+                  name: <strong>{projectData.name}</strong>,
+                  status: (
+                    <strong>
+                      {
+                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                        // @ts-ignore
+                        t[projectData.pendingStatus]
+                      }
+                    </strong>
+                  ),
+                })}
+              </>
+            }
+            isLoading={isUpdating}
+            confirmText={isUpdating ? t.updating : t.confirm}
+          />
+          <ApproveDialog
+            key='project-status-change-approve'
+            open={open === 'status-approve'}
+            onOpenChange={() => {
+              setOpen('status-approve')
+              setTimeout(() => {
+                setCurrentRow(null)
+              }, 500)
+            }}
+            handleApproveConfirm={handleStatusChangeApprove}
+            className='max-w-md'
+            title={t.status_change_title}
+            desc={
+              <>
+                {interpolateWithComponents(t.status_change_confirm, {
+                  name: <strong>{projectData.name}</strong>,
+                  status: (
+                    <strong>
+                      {
+                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                        // @ts-ignore
+                        t[projectData.pendingStatus]
+                      }
+                    </strong>
+                  ),
+                })}
+              </>
+            }
+            isLoading={isUpdating}
+            confirmText={isUpdating ? t.updating : t.confirm}
+          />
+        </>
       )}
     </>
   )

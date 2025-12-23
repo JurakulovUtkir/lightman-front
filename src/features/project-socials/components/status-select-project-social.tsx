@@ -68,7 +68,11 @@ const StatusSelectProjectSocial = ({ project }: { project: ProjectSchema }) => {
       ...project,
       pendingStatus: statusValue,
     })
-    setOpen('status')
+    if (newStatus === 'approved') {
+      setOpen('status-approve')
+    } else {
+      setOpen('status')
+    }
   }
 
   const currentLabel =
