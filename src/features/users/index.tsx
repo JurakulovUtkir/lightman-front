@@ -1,4 +1,4 @@
-import { useSearch } from '@tanstack/react-router'
+import { useNavigate, useSearch } from '@tanstack/react-router'
 import { useLang } from '@/hooks/useLang'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
@@ -11,11 +11,12 @@ import { UsersDialogs } from './components/users-dialogs'
 import { UsersPrimaryButtons } from './components/users-primary-buttons'
 import UsersProvider from './context/users-context'
 import { useGetUsers } from './data/hooks'
+import { User } from './data/schema'
 
 export default function Users() {
   const { lang, tUser, general } = useLang()
   const t = tUser[lang]
-
+  const navigate = useNavigate()
   const { offset, limit } = useSearch({
     from: '/_authenticated/users/',
   })
@@ -26,6 +27,13 @@ export default function Users() {
     offset: currentOffset,
     limit: currentLimit,
   })
+
+  const handleDoubleClick = (payload: User) => {
+    navigate({
+      to: '/users/expence/$id',
+      params: { id: payload.id },
+    })
+  }
 
   return (
     <UsersProvider>
@@ -52,6 +60,7 @@ export default function Users() {
             offset={offset}
             limit={limit}
             total={data?.data.total ?? 0}
+            onRowDoubleClick={handleDoubleClick}
           />
         </div>
       </Main>

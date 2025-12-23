@@ -40,6 +40,7 @@ export const projectSchema = z.object({
   category_id: z.string(),
   customer_company_id: z.string(),
   our_company_id: z.string(),
+  project_manager_id: z.string(),
   created_at: z.string(),
   updated_at: z.string(),
   category: networkCategorySchema,

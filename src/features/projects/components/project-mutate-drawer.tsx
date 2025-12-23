@@ -26,6 +26,7 @@ import { Switch } from '@/components/ui/switch'
 import { FormFieldSelect } from '@/components/form-field-select'
 import { FormFieldWrapper } from '@/components/form-field-wrapper'
 import { FormComboboxContract } from '@/features/contracts/components/form-combobox-contracts'
+import { FormComboboxUser } from '@/features/expences/components/form-combobox-users'
 // import { FormComboboxUser } from '@/features/expences/components/form-combobox-users'
 // import { FormComboboxNetworkCategory } from '@/features/network/socials/components/form-combobox-network-category'
 import { FormComboboxNetworkTags } from '@/features/network/socials/components/form-combobox-network-tags'
@@ -94,6 +95,9 @@ export function ProjectMutateDrawer({
         customer_company_id: z.string({
           error: t.form_validations.required_field,
         }),
+        project_manager_id: z.string({
+          error: t.form_validations.required_field,
+        }),
         our_company_id: z.string({
           error: t.form_validations.required_field,
         }),
@@ -127,6 +131,7 @@ export function ProjectMutateDrawer({
     price_type: undefined,
     customer_company_id: undefined,
     our_company_id: undefined,
+    project_manager_id: undefined,
     payment_type: undefined,
     is_active: true,
     is_qqs: false,
@@ -169,6 +174,7 @@ export function ProjectMutateDrawer({
           price_type: selectedProject.price_type,
           customer_company_id: selectedProject.customer_company_id,
           our_company_id: selectedProject.our_company_id,
+          project_manager_id: selectedProject.project_manager_id,
           payment_type: selectedProject.payment_type,
           is_active: selectedProject.is_active,
           is_qqs: selectedProject.is_qqs,
@@ -192,6 +198,7 @@ export function ProjectMutateDrawer({
         price_type: currentRow.price_type,
         customer_company_id: currentRow.customer_company_id,
         our_company_id: currentRow.our_company_id,
+        project_manager_id: currentRow.project_manager_id,
         payment_type: currentRow.payment_type,
         is_active: currentRow.is_active,
         is_qqs: currentRow.is_qqs,
@@ -302,13 +309,13 @@ export function ProjectMutateDrawer({
                 placeholder={t.form_placeholders.enter_name}
               />
 
-              {/* <FormComboboxUser
+              <FormComboboxUser
                 control={form.control}
                 name='project_manager_id'
                 label={t.form_labels.select_project_manager}
                 role='project_manager'
                 // detail={currentRow?.user ?? undefined}
-              /> */}
+              />
               <FormFieldWrapper
                 control={form.control}
                 name='description'

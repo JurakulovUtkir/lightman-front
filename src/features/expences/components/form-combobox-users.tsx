@@ -75,7 +75,7 @@ export const FormComboboxUser = <T extends FieldValues>({
         if (isLoading && !open) {
           return (
             <FormItem className='flex w-full flex-col space-y-1'>
-              <FormLabel className='max-w-24'>{label}</FormLabel>
+              <FormLabel className='w-full'>{label}</FormLabel>
               <Skeleton className='h-10 w-full' />
               <FormMessage />
             </FormItem>
@@ -121,7 +121,7 @@ export const FormComboboxUser = <T extends FieldValues>({
 
         return (
           <FormItem className='flex w-full flex-col space-y-1'>
-            <FormLabel className='max-w-24'>{label}</FormLabel>
+            <FormLabel className='w-full'>{label}</FormLabel>
             <Popover open={open} onOpenChange={setOpen}>
               <PopoverTrigger asChild>
                 <FormControl>

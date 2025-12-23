@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
-import { getUsers, createUser, updateUser, deleteUser } from './api'
+import { getUsers, getUser, createUser, updateUser, deleteUser } from './api'
 import { User } from './schema'
 import { UsersResponse } from './types'
 
@@ -27,6 +27,13 @@ export const useGetUsers = ({
         is_our_employee,
         role,
       }),
+  })
+}
+export const useUser = (id: string) => {
+  return useQuery<User>({
+    queryKey: ['user', id],
+    queryFn: () => getUser(id),
+    enabled: !!id,
   })
 }
 

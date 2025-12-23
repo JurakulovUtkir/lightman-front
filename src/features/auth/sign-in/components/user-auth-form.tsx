@@ -46,9 +46,8 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      // phone_number: '+998',
-      phone_number: '+998991853703',
-      password: '123456',
+      phone_number: '+998',
+      password: '',
       is_application: true,
     },
   })

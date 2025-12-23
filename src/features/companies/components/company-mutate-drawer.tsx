@@ -65,9 +65,21 @@ export function CompanyMutateDrawer({
           })
           .min(1)
           .max(150, t.form_validations.invalid_address),
-        stir: z.string().regex(/^\d{9}$/, t.form_validations.invalid_stir),
-        mfo: z.string().regex(/^\d{5}$/, t.form_validations.invalid_mfo),
-        pinfl: z.string().regex(/^\d{14}$/, t.form_validations.invalid_pnfl),
+        stir: z
+          .string()
+          .regex(/^\d{9}$/, t.form_validations.invalid_stir)
+          .or(z.literal(''))
+          .optional(),
+        mfo: z
+          .string()
+          .regex(/^\d{5}$/, t.form_validations.invalid_mfo)
+          .or(z.literal(''))
+          .optional(),
+        pinfl: z
+          .string()
+          .regex(/^\d{14}$/, t.form_validations.invalid_pnfl)
+          .or(z.literal(''))
+          .optional(),
         bank: z
           .string({
             error: t.form_validations.bank,
@@ -76,7 +88,9 @@ export function CompanyMutateDrawer({
           .max(150, t.form_validations.invalid_bank),
         account_number: z
           .string()
-          .regex(/^\d{20}$/, t.form_validations.invalid_account_number),
+          .regex(/^\d{20}$/, t.form_validations.invalid_account_number)
+          .or(z.literal(''))
+          .optional(),
         balance: z.number().min(0, t.form_validations.invalid_value).optional(),
         is_active: z.boolean().optional(),
         is_our_company: z.boolean().optional(),

@@ -1,3 +1,4 @@
+import { ApiResponse } from '@/constants'
 import api from '@/lib/axios'
 import { User } from './schema'
 import { UsersResponse } from './types'
@@ -26,6 +27,11 @@ export const getUsers = async ({
 
   const response = await api.get(`/users?${params.toString()}`)
   return response.data
+}
+
+export const getUser = async (id: string): Promise<User> => {
+  const response = await api.get<ApiResponse<User>>(`/users/${id}`)
+  return response.data.data
 }
 
 export const createUser = async (data: Partial<User>): Promise<User> => {

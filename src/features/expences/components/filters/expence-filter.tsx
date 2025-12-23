@@ -34,11 +34,13 @@ const ExpenceFilter = ({
   isProject = false,
   isCompany = false,
   isCard = false,
+  isUser = false,
 }: {
   isFounder?: boolean
   isProject?: boolean
   isCompany?: boolean
   isCard?: boolean
+  isUser?: boolean
 }) => {
   const { lang, general, tForm } = useLang()
   const t_general = general[lang].columns
@@ -69,14 +71,16 @@ const ExpenceFilter = ({
           ? '/_authenticated/companies/expence/$id'
           : isCard
             ? '/_authenticated/companies/cards/expence/$id'
-            : '/_authenticated/expences/',
+            : isUser
+              ? '/_authenticated/users/expence/$id'
+              : '/_authenticated/expences/',
   })
 
   const {
     handleTypeFilterChange,
-    handleExpenceTypeFilterChange,
+    handleExpenseTypeFilterChange,
     handlePaymentTypeFilterChange,
-    handleDistiburionFilterChange,
+    handleDistributionFilterChange,
     handleCompanyFilterChange,
     handleProjectFilterChange,
     handleUserFilterChange,
@@ -87,7 +91,7 @@ const ExpenceFilter = ({
     handleLoanFilterChange,
     handleCardFilterChange,
     handleClear,
-  } = useExpenceFilters({ isFounder, isProject, isCompany, isCard })
+  } = useExpenceFilters({ isFounder, isProject, isCompany, isCard, isUser })
 
   const [open, setOpen] = useState(false)
   const [minAmount, setMinAmount] = useState<string>(
@@ -219,7 +223,7 @@ const ExpenceFilter = ({
                 placeholder={t.form_placeholders.select_type}
                 filterOptions={expenceTypeOptions}
                 selectedFilter={expence_type}
-                onFilterChange={handleExpenceTypeFilterChange}
+                onFilterChange={handleExpenseTypeFilterChange}
                 searchable={false}
                 fieldsWidth={275}
               />
@@ -235,25 +239,27 @@ const ExpenceFilter = ({
                     placeholder={t.form_placeholders.search_distributions}
                     searchable={true}
                     selectedFilter={distribution_id}
-                    onFilterChange={handleDistiburionFilterChange}
+                    onFilterChange={handleDistributionFilterChange}
                     fieldsWidth={275}
                   />
                 </div>
 
-                <div className='space-y-2'>
-                  <Label className='text-xs font-medium'>
-                    {t.form_labels.company}
-                  </Label>
-                  <CompanyFilter
-                    placeholder={t.form_placeholders.search_company}
-                    searchable={true}
-                    useSearchableCompanies={true}
-                    selectedFilter={company_id}
-                    onFilterChange={handleCompanyFilterChange}
-                    filterOurCompany={true}
-                    fieldsWidth={275}
-                  />
-                </div>
+                {!isCompany && (
+                  <div className='space-y-2'>
+                    <Label className='text-xs font-medium'>
+                      {t.form_labels.company}
+                    </Label>
+                    <CompanyFilter
+                      placeholder={t.form_placeholders.search_company}
+                      searchable={true}
+                      useSearchableCompanies={true}
+                      selectedFilter={company_id}
+                      onFilterChange={handleCompanyFilterChange}
+                      filterOurCompany={true}
+                      fieldsWidth={275}
+                    />
+                  </div>
+                )}
 
                 {!isProject && (
                   <div className='space-y-2'>
@@ -271,19 +277,21 @@ const ExpenceFilter = ({
                   </div>
                 )}
 
-                <div className='space-y-2'>
-                  <Label className='text-xs font-medium'>
-                    {t.form_labels.users}
-                  </Label>
-                  <UserFilter
-                    placeholder={t.form_placeholders.search_users}
-                    searchable={true}
-                    useSearchableUsers={true}
-                    selectedFilter={user_id}
-                    onFilterChange={handleUserFilterChange}
-                    fieldsWidth={275}
-                  />
-                </div>
+                {!isUser && (
+                  <div className='space-y-2'>
+                    <Label className='text-xs font-medium'>
+                      {t.form_labels.users}
+                    </Label>
+                    <UserFilter
+                      placeholder={t.form_placeholders.search_users}
+                      searchable={true}
+                      useSearchableUsers={true}
+                      selectedFilter={user_id}
+                      onFilterChange={handleUserFilterChange}
+                      fieldsWidth={275}
+                    />
+                  </div>
+                )}
 
                 <div className='space-y-2'>
                   <Label className='text-xs font-medium'>
@@ -297,18 +305,20 @@ const ExpenceFilter = ({
                     fieldsWidth={275}
                   />
                 </div>
-                <div className='space-y-2'>
-                  <Label className='text-xs font-medium'>
-                    {t.form_labels.card}
-                  </Label>
-                  <CardFilter
-                    placeholder={t.form_placeholders.search_card}
-                    searchable={true}
-                    selectedFilter={card_id}
-                    onFilterChange={handleCardFilterChange}
-                    fieldsWidth={275}
-                  />
-                </div>
+                {!isCard && (
+                  <div className='space-y-2'>
+                    <Label className='text-xs font-medium'>
+                      {t.form_labels.card}
+                    </Label>
+                    <CardFilter
+                      placeholder={t.form_placeholders.search_card}
+                      searchable={true}
+                      selectedFilter={card_id}
+                      onFilterChange={handleCardFilterChange}
+                      fieldsWidth={275}
+                    />
+                  </div>
+                )}
               </>
             )}
 

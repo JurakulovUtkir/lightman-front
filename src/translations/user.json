@@ -17,7 +17,9 @@
     "warning": "Warning!",
     "be_carefull": "Please be carefull, this operation can not be rolled back.",
     "user_actions": "User Actions",
-    "list_actions": "Here's a list of user actions!"
+    "list_actions": "Here's a list of user actions!",
+    "search_by_expense": "Search by expense",
+    "list_user_expence": "Here is a list of expenses for {{user_name}}"
   },
   "ru": {
     "users": "Список пользователей",
@@ -37,7 +39,9 @@
     "warning": "Внимание!",
     "be_carefull": "Пожалуйста, будьте осторожны, это действие нельзя отменить.",
     "user_actions": "Действия пользователя",
-    "list_actions": "Список действий пользователя!"
+    "list_actions": "Список действий пользователя!",
+    "search_by_expense": "Поиск по расходу",
+    "list_user_expence": "Вот список расходов пользователя {{user_name}}"
   },
   "uz": {
     "users": "Foydalanuvchilar ro‘yxati",
@@ -57,6 +61,8 @@
     "warning": "Ogohlantirish!",
     "be_carefull": "Iltimos, ehtiyot bo‘ling, bu amalni qaytarib bo‘lmaydi.",
     "user_actions": "Foydalanuvchi amallari",
-    "list_actions": "Foydalanuvchi amallari ro‘yxati!"
+    "list_actions": "Foydalanuvchi amallari ro‘yxati!",
+    "search_by_expense": "Xarajatlarga qarab qidirish",
+    "list_user_expence": "{{user_name}} uchun xarajatlar ro‘yxati"
   }
 }
