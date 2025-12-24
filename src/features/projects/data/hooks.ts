@@ -17,6 +17,7 @@ export const useProjects = ({
   price_type,
   customer_company_id,
   our_company_id,
+  project_manager_id,
   category_id,
   distribution_id,
   min_price,
@@ -37,6 +38,7 @@ export const useProjects = ({
   price_type?: 'standard' | 'vip' | 'no_watermark'
   customer_company_id?: string
   our_company_id?: string
+  project_manager_id?: string
   category_id?: string
   distribution_id?: string
   min_price?: number
@@ -52,6 +54,7 @@ export const useProjects = ({
       price_type,
       customer_company_id,
       our_company_id,
+      project_manager_id,
       category_id,
       distribution_id,
       min_price,
@@ -66,6 +69,7 @@ export const useProjects = ({
         price_type,
         customer_company_id,
         our_company_id,
+        project_manager_id,
         category_id,
         distribution_id,
         min_price,

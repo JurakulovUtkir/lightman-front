@@ -23,6 +23,7 @@ const searchSchema = z.object({
     .catch(undefined),
   customer_company_id: z.string().optional().catch(''),
   our_company_id: z.string().optional().catch(''),
+  project_manager_id: z.string().optional().catch(''),
   category_id: z.string().optional().catch(''),
   distribution_id: z.string().optional().catch(''),
   min_price: z.number().optional().catch(undefined),

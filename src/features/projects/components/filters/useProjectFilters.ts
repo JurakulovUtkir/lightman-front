@@ -46,6 +46,16 @@ export const useProjectFilters = () => {
       }),
     })
   }
+  const handleProjectManagerFilterChange = (userId: string | null) => {
+    navigate({
+      to: '/projects',
+      search: (prev) => ({
+        ...prev,
+        project_manager_id: userId || undefined,
+        offset: 0,
+      }),
+    })
+  }
 
   const handleCustomerCompanyFilterChange = (
     customerCompanyId: string | null
@@ -107,6 +117,7 @@ export const useProjectFilters = () => {
       }),
     })
   }
+
   const handleClear = () => {
     handleCategoryFilterChange(null)
     handleStatusFilterChange(null)
@@ -116,6 +127,7 @@ export const useProjectFilters = () => {
     handlePriceTypeFilterChange(null)
     handleMaxPriceFilterChange(null)
     handleMinPriceFilterChange(null)
+    handleProjectManagerFilterChange(null)
   }
 
   return {
@@ -128,5 +140,6 @@ export const useProjectFilters = () => {
     handleMaxPriceFilterChange,
     handleMinPriceFilterChange,
     handleClear,
+    handleProjectManagerFilterChange,
   }
 }

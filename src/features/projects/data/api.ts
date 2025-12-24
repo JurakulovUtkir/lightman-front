@@ -11,6 +11,7 @@ export const getProjects = async ({
   price_type,
   customer_company_id,
   our_company_id,
+  project_manager_id,
   category_id,
   distribution_id,
   min_price,
@@ -31,6 +32,7 @@ export const getProjects = async ({
   price_type?: 'standard' | 'vip' | 'no_watermark'
   customer_company_id?: string
   our_company_id?: string
+  project_manager_id?: string
   category_id?: string
   distribution_id?: string
   min_price?: number
@@ -46,6 +48,8 @@ export const getProjects = async ({
   if (customer_company_id)
     params.append('customer_company_id', customer_company_id)
   if (our_company_id) params.append('our_company_id', our_company_id)
+  if (project_manager_id)
+    params.append('project_manager_id', project_manager_id)
   if (category_id) params.append('category_id', category_id)
   if (distribution_id) params.append('distribution_id', distribution_id)
   if (min_price !== undefined) params.append('min_price', min_price.toString())

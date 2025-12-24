@@ -160,6 +160,7 @@
       "select_project_manager": "Select project manager"
     },
     "form_placeholders": {
+      "select_project_manager": "Select project manager",
       "select_project": "Select project",
       "enter_name": "Enter a name",
       "enter_description": "Enter description",
@@ -442,6 +443,7 @@
       "select_project_manager": "Выберите менеджера проекта"
     },
     "form_placeholders": {
+      "select_project_manager": "Выберите менеджера проекта",
       "select_project": "Выберите проект",
       "enter_name": "Введите название",
       "enter_description": "Введите описание",
@@ -724,6 +726,7 @@
       "select_project_manager": "Loyiha menejerini tanlang"
     },
     "form_placeholders": {
+      "select_project_manager": "Loyiha menejerini tanlang",
       "select_project": "Loyihani tanlang",
       "enter_name": "Nomini kiriting",
       "enter_description": "Tavsifni kiriting",

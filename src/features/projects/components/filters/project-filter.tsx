@@ -18,6 +18,7 @@ import { CompanyFilter } from './company-filter'
 import { DistributionFilter } from './distribution-filter'
 import { EnumFilter } from './enum-filters'
 import { useProjectFilters } from './useProjectFilters'
+import { UserFilter } from './user-filter'
 
 const ProjectFilter = ({ requested = false }: { requested?: boolean }) => {
   const { lang, general, tForm } = useLang()
@@ -30,6 +31,7 @@ const ProjectFilter = ({ requested = false }: { requested?: boolean }) => {
     status,
     our_company_id,
     customer_company_id,
+    project_manager_id,
     distribution_id,
     price_type,
     max_price,
@@ -47,6 +49,7 @@ const ProjectFilter = ({ requested = false }: { requested?: boolean }) => {
     handleMaxPriceFilterChange,
     handleMinPriceFilterChange,
     handleOurCompanyFilterChange,
+    handleProjectManagerFilterChange,
     handlePriceTypeFilterChange,
     handleStatusFilterChange,
     handleClear,
@@ -60,6 +63,7 @@ const ProjectFilter = ({ requested = false }: { requested?: boolean }) => {
     category_id,
     status,
     our_company_id,
+    project_manager_id,
     customer_company_id,
     distribution_id,
     price_type,
@@ -158,6 +162,19 @@ const ProjectFilter = ({ requested = false }: { requested?: boolean }) => {
                 selectedFilter={status}
                 onFilterChange={handleStatusFilterChange}
                 searchable={false}
+              />
+            </div>
+
+            <div className='space-y-2'>
+              <Label className='text-xs font-medium'>
+                {t.form_labels.select_project_manager}
+              </Label>
+              <UserFilter
+                role='project_manager'
+                placeholder={t.form_placeholders.select_project_manager}
+                searchable={true}
+                selectedFilter={project_manager_id}
+                onFilterChange={handleProjectManagerFilterChange}
               />
             </div>
 
