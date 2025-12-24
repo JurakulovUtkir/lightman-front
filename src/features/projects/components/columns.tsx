@@ -64,6 +64,20 @@ export const columns = (
     enableSorting: false,
   },
   {
+    accessorKey: 'project_manager',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title={t.project_manager} />
+    ),
+    cell: ({ row }) => (
+      <div className='flex items-center gap-2'>
+        <LongText className='max-w-36 font-medium'>
+          {row.original.project_manager?.full_name ?? '-'}
+        </LongText>
+      </div>
+    ),
+    enableSorting: false,
+  },
+  {
     accessorKey: 'our_company',
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title={t.our_company} />

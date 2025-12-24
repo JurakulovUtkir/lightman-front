@@ -5,7 +5,7 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { FormatDateToLongString } from '@/components/date-formatter'
 import LongText from '@/components/long-text'
 import { DataTableColumnHeader } from '@/components/table/data-table-column-header'
-import { callTypes, userTypes } from '../data/data'
+import { callTypes } from '../data/data'
 import { User } from '../data/schema'
 import { DataTableRowActions } from './data-table-row-actions'
 
@@ -104,17 +104,17 @@ export const columns = (
     ),
     cell: ({ row }) => {
       const role = row.getValue('role') as keyof typeof t.userRoleOptions
-      const userType = userTypes.find(({ value }) => value === role)
+      // const userType = userTypes.find(({ value }) => value === role)
 
-      if (!userType) {
-        return null
-      }
+      // if (!userType) {
+      //   return null
+      // }
 
       return (
         <div className='flex items-center gap-x-2'>
-          {userType.icon && (
+          {/* {userType.icon && (
             <userType.icon size={16} className='text-muted-foreground' />
-          )}
+          )} */}
           <span className='text-sm capitalize'>{t.userRoleOptions[role]}</span>
         </div>
       )

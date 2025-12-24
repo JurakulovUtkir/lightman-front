@@ -44,7 +44,6 @@ export const columns = (
     enableSorting: false,
     enableHiding: false,
   },
-
   {
     accessorKey: 'name',
     header: ({ column }) => (
@@ -57,6 +56,20 @@ export const columns = (
         />
         <LongText className='max-w-36 font-medium'>
           {row.getValue('name')}
+        </LongText>
+      </div>
+    ),
+    enableSorting: false,
+  },
+  {
+    accessorKey: 'project_manager',
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title={t.project_manager} />
+    ),
+    cell: ({ row }) => (
+      <div className='flex items-center gap-2'>
+        <LongText className='max-w-36 font-medium'>
+          {row.original.project_manager?.full_name ?? '-'}
         </LongText>
       </div>
     ),

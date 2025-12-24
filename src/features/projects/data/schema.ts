@@ -4,6 +4,7 @@ import { companySchema } from '@/features/companies/data/schema'
 import { contractSchema } from '@/features/contracts/data/schema'
 import { networkCategorySchema } from '@/features/network/categories/data/schema'
 import { distributionSchema } from '@/features/stakeholder/distributions/data/schema'
+import { userSchema } from '@/features/users/data/schema'
 
 export const projectSchema = z.object({
   id: z.string(),
@@ -41,6 +42,7 @@ export const projectSchema = z.object({
   customer_company_id: z.string(),
   our_company_id: z.string(),
   project_manager_id: z.string(),
+  project_manager: userSchema,
   created_at: z.string(),
   updated_at: z.string(),
   category: networkCategorySchema,
