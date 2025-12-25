@@ -25,7 +25,9 @@ import {
 
 const ProjectSocials = () => {
   const { id } = Route.useLoaderData()
-  const { data } = useProjectSocials(id)
+  const { data } = useProjectSocials({
+    projectId: id,
+  })
   const { data: project, isPending: isPendingProject } = useProject(id)
   const { data: statistics } = useProjectSocialStatistics(id)
   const { data: expenceStatistics } = useProjectExpenceStatistics(id)

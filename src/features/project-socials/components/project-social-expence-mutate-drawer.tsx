@@ -38,6 +38,7 @@ import {
 import { FormatDateToLongString } from '@/components/date-formatter'
 import { FormFieldSelect } from '@/components/form-field-select'
 import { FormFieldWrapper } from '@/components/form-field-wrapper'
+import { FormComboboxDistributions } from '@/features/companies/components/form-combobox-distributions'
 import { FormComboboxCards } from '@/features/expences/components/form-combobox-cards'
 import { FormComboboxCompany } from '@/features/expences/components/form-combobox-company'
 import { FormComboboxLoans } from '@/features/expences/components/form-combobox-loan'
@@ -51,8 +52,8 @@ import {
   useDeleteFile,
   useUpdateProjectSocial,
 } from '@/features/project-socials/data/hooks'
+import { useProject } from '@/features/projects/data/hooks'
 // import { FormComboboxProject } from '@/features/projects/components/form-combobox-projects'
-import { useDistributions } from '@/features/stakeholder/distributions/data/hooks'
 import { ProjectSocialSchema } from '../data/schema'
 
 interface Props {
@@ -69,6 +70,7 @@ export function ProjectSocialExpenceMutateDrawer({
   const { lang, general, tExpence, tForm } = useLang()
   const t = tForm[lang]
   const t_general = general[lang].columns
+  const { data: projectDetail } = useProject(currentRow?.project_id ?? '')
 
   const [pendingDeleteFile, setPendingDeleteFile] = useState<string | null>(
     null
@@ -76,7 +78,6 @@ export function ProjectSocialExpenceMutateDrawer({
   const [openDate, setOpenDate] = useState(false)
   const createExpence = useCreateExpence()
   const deleteFile = useDeleteFile()
-  const { data: distribution } = useDistributions()
   const updateProjectSocial = useUpdateProjectSocial()
 
   const formSchema = useMemo(
@@ -146,14 +147,12 @@ export function ProjectSocialExpenceMutateDrawer({
           .number({
             error: t.form_validations.amount,
           })
-          .min(0, t.form_validations.invalid_value)
-          .optional(),
+          .min(0, t.form_validations.invalid_value),
         commission: z
           .number({
             error: t.form_validations.amount,
           })
-          .min(0, t.form_validations.invalid_value)
-          .optional(),
+          .min(0, t.form_validations.invalid_value),
         counterparty_name: z
           .string({
             error: t.form_validations.required_field,
@@ -185,6 +184,10 @@ export function ProjectSocialExpenceMutateDrawer({
 
   const form = useForm<ExpenceForm>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      amount: currentRow?.sell_price ?? undefined,
+      distribution_id: projectDetail?.distribution_id ?? undefined,
+    },
   })
 
   const checkExpenceType = form.watch('expence_type')
@@ -320,18 +323,13 @@ export function ProjectSocialExpenceMutateDrawer({
                 placeholder={t.form_placeholders.select_type}
                 options={filteredExpenceTypeOptions}
               />
-              <FormFieldSelect
+              <FormComboboxDistributions
                 control={form.control}
                 name='distribution_id'
                 label={t.form_labels.distribution}
-                placeholder={t.form_placeholders.select_distribution}
-                options={
-                  distribution?.data?.map((item) => ({
-                    value: item.id,
-                    label: item.name,
-                  })) ?? []
-                }
+                detail={projectDetail?.distribution}
               />
+
               <FormFieldSelect
                 control={form.control}
                 name='payment_type'

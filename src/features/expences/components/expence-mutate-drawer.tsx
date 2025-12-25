@@ -166,14 +166,13 @@ export function ExpenceMutateDrawer({
           .number({
             error: t.form_validations.amount,
           })
-          .min(0, t.form_validations.invalid_value)
-          .optional(),
+          .min(0, t.form_validations.invalid_value),
+
         commission: z
           .number({
             error: t.form_validations.amount,
           })
-          .min(0, t.form_validations.invalid_value)
-          .optional(),
+          .min(0, t.form_validations.invalid_value),
         counterparty_name: z
           .string({
             error: t.form_validations.required_field,

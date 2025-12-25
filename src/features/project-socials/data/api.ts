@@ -7,10 +7,19 @@ import {
   ProjectExpenceStatistics,
 } from './types'
 
-export const getProjectSocials = async (
-  id: string
-): Promise<ProjectSocialResponse> => {
-  const response = await api.get(`/project-socials?project_id=${id}`)
+export const getProjectSocials = async ({
+  projectId,
+  isPaid,
+}: {
+  projectId: string
+  isPaid?: boolean
+}): Promise<ProjectSocialResponse> => {
+  const params = new URLSearchParams()
+
+  if (projectId !== undefined) params.append('project_id', projectId)
+  if (isPaid !== undefined) params.append('is_paid', isPaid.toString())
+
+  const response = await api.get(`/project-socials?${params.toString()}`)
   return response.data
 }
 export const getProjectSocial = async (

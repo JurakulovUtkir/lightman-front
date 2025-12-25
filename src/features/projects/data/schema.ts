@@ -37,6 +37,7 @@ export const projectSchema = z.object({
   is_active: z.boolean(),
   is_qqs: z.boolean(),
   distribution_id: z.string(),
+  distribution: distributionSchema,
   price_type: z.enum(['standard', 'vip', 'no_watermark']),
   category_id: z.string(),
   customer_company_id: z.string(),
@@ -47,7 +48,6 @@ export const projectSchema = z.object({
   updated_at: z.string(),
   category: networkCategorySchema,
   customer_company: companySchema,
-  distribution: distributionSchema,
   our_company: companySchema,
   payment_status: z.enum(['PENDING', 'PAID', 'UNPAID', 'CANCELLED']),
   payment_type: z

@@ -49,6 +49,7 @@ interface FormComboboxProjectSocialProps<T extends FieldValues> {
   amountField: Path<T>
   setValue: UseFormSetValue<T>
   detail?: Pick<ProjectSocialSchema, 'id' | 'social' | 'created_at'>
+  isPaid?: boolean
 }
 
 export const FormComboboxProjectSocial = <T extends FieldValues>({
@@ -59,6 +60,7 @@ export const FormComboboxProjectSocial = <T extends FieldValues>({
   amountField,
   setValue,
   detail,
+  isPaid = false,
 }: FormComboboxProjectSocialProps<T>) => {
   const [search, setSearch] = useState('')
   const [open, setOpen] = useState(false)
@@ -74,7 +76,10 @@ export const FormComboboxProjectSocial = <T extends FieldValues>({
     data: projectSocials,
     isLoading: isLoadingProjectSocials,
     isFetching: isFetchingProjectSocials,
-  } = useProjectSocials(projectId)
+  } = useProjectSocials({
+    projectId,
+    isPaid,
+  })
 
   const isLoading = isLoadingProjectSocials || isFetchingProjectSocials
 

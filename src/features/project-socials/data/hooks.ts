@@ -13,11 +13,17 @@ import {
 } from './api'
 import { ProjectSocialSchema } from './schema'
 
-export const useProjectSocials = (id: string) => {
+export const useProjectSocials = ({
+  projectId,
+  isPaid,
+}: {
+  projectId: string
+  isPaid?: boolean
+}) => {
   return useQuery({
-    queryKey: ['project-socials', id],
-    queryFn: () => getProjectSocials(id),
-    enabled: !!id,
+    queryKey: ['project-socials', projectId, isPaid],
+    queryFn: () => getProjectSocials({ projectId, isPaid }),
+    enabled: !!projectId,
   })
 }
 export const useProjectSocial = (id: string) => {
