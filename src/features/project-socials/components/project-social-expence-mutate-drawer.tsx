@@ -38,7 +38,6 @@ import {
 import { FormatDateToLongString } from '@/components/date-formatter'
 import { FormFieldSelect } from '@/components/form-field-select'
 import { FormFieldWrapper } from '@/components/form-field-wrapper'
-import { FormComboboxDistributions } from '@/features/companies/components/form-combobox-distributions'
 import { FormComboboxCards } from '@/features/expences/components/form-combobox-cards'
 import { FormComboboxCompany } from '@/features/expences/components/form-combobox-company'
 import { FormComboboxLoans } from '@/features/expences/components/form-combobox-loan'
@@ -52,7 +51,6 @@ import {
   useDeleteFile,
   useUpdateProjectSocial,
 } from '@/features/project-socials/data/hooks'
-import { useProject } from '@/features/projects/data/hooks'
 // import { FormComboboxProject } from '@/features/projects/components/form-combobox-projects'
 import { ProjectSocialSchema } from '../data/schema'
 
@@ -70,7 +68,6 @@ export function ProjectSocialExpenceMutateDrawer({
   const { lang, general, tExpence, tForm } = useLang()
   const t = tForm[lang]
   const t_general = general[lang].columns
-  const { data: projectDetail } = useProject(currentRow?.project_id ?? '')
 
   const [pendingDeleteFile, setPendingDeleteFile] = useState<string | null>(
     null
@@ -161,11 +158,6 @@ export function ProjectSocialExpenceMutateDrawer({
 
         deadline_at: z.date().optional(),
 
-        distribution_id: z
-          .string({
-            error: t.form_validations.required_field,
-          })
-          .optional(),
         created_at: z.date().optional(),
         date: z.date().optional(),
         user_id: z.string().optional(),
@@ -186,7 +178,6 @@ export function ProjectSocialExpenceMutateDrawer({
     resolver: zodResolver(formSchema),
     defaultValues: {
       amount: currentRow?.sell_price ?? undefined,
-      distribution_id: projectDetail?.distribution_id ?? undefined,
     },
   })
 
@@ -322,12 +313,6 @@ export function ProjectSocialExpenceMutateDrawer({
                 label={t.form_labels.expence_type}
                 placeholder={t.form_placeholders.select_type}
                 options={filteredExpenceTypeOptions}
-              />
-              <FormComboboxDistributions
-                control={form.control}
-                name='distribution_id'
-                label={t.form_labels.distribution}
-                detail={projectDetail?.distribution}
               />
 
               <FormFieldSelect
