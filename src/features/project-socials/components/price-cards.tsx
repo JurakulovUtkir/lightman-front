@@ -69,20 +69,29 @@ const PriceCards = ({
   }, [data?.data])
 
   const expenseProgress = useMemo(() => {
-    if (!expenceStatistics)
+    if (!expenceStatistics) {
       return { percentage: 0, numerator: 0, denominator: 0 }
+    }
 
-    const {
-      total_expensed_by_service,
-      total_planned_sell_expense,
-      total_income,
-    } = expenceStatistics
+    const total_income = Number(expenceStatistics.total_income ?? 0)
+    const total_planned_sell_expense = Number(
+      expenceStatistics.total_planned_sell_expense ?? 0
+    )
+    const total_expensed_by_service = Number(
+      expenceStatistics.total_expensed_by_service ?? 0
+    )
 
-    if (total_income === 0)
+    // (total_planned_sell_expense + total_expensed_by_service)
+    const totalExpense = total_planned_sell_expense + total_expensed_by_service
+
+    // agar sizda QSI bo'lsa 1.12 qo'llanadi (rasmdagi kabi)
+    const numerator = (isQQS ? 1.12 : 1) * totalExpense
+
+    if (total_income <= 0) {
       return { percentage: 0, numerator: 0, denominator: 0 }
+    }
 
-    const totalExpense = total_expensed_by_service + total_planned_sell_expense
-    const numerator = isQQS ? 1.12 * totalExpense : totalExpense
+    // 100 * (numerator / total_income)
     const percentage = Math.min((numerator / total_income) * 100, 100)
 
     return {
@@ -205,12 +214,12 @@ const PriceCards = ({
               </div>
               <div className='flex items-center gap-2'>
                 <p className='text-sm font-bold whitespace-nowrap'>
-                  {formatPrice(expenseProgress.denominator)}{' '}
+                  {formatPrice(expenseProgress.numerator)}{' '}
                   {general[lang].columns.uzs}
                 </p>
                 <span className='text-muted-foreground text-xs'>/</span>
                 <p className='text-muted-foreground text-sm font-medium whitespace-nowrap'>
-                  {formatPrice(expenseProgress.numerator)}{' '}
+                  {formatPrice(expenseProgress.denominator)}{' '}
                   {general[lang].columns.uzs}
                 </p>
               </div>
