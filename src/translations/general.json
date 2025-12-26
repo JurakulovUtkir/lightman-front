@@ -52,7 +52,7 @@
       "enter_sign_up_details": "Enter your email and password to create an account.",
       "have_account": "Already have an account?",
       "by_creating_account": "By creating an account, you agree to our Terms of Service and Privacy Policy.",
-      "signing_in": "'Signing in...",
+      "signing_in": "Signing in...",
       "form_labels": {
         "full_name": "Full name",
         "phone_number": "Phone number",
