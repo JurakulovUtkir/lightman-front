@@ -206,7 +206,7 @@ const Balance = () => {
       </Card>
 
       {/* Additional Info */}
-      <Card>
+      {/* <Card>
         <CardHeader>
           <CardTitle>Additional Information</CardTitle>
           <CardDescription>Other financial metrics</CardDescription>
@@ -237,7 +237,7 @@ const Balance = () => {
             </div>
           </div>
         </CardContent>
-      </Card>
+      </Card> */}
     </div>
   )
 }
