@@ -33,6 +33,33 @@ function ProjectCard({
     })
   }
 
+  // Calculate expense progress similar to PriceCards logic
+  const expenseProgress = (() => {
+    if (!expenseStatistics) {
+      return { percentage: 0, numerator: 0, denominator: 0 }
+    }
+
+    const {
+      total_expensed_by_service,
+      total_planned_sell_expense,
+      total_income,
+    } = expenseStatistics
+
+    if (total_income === 0) {
+      return { percentage: 0, numerator: 0, denominator: 0 }
+    }
+
+    const totalExpense = total_expensed_by_service + total_planned_sell_expense
+    const numerator = project.is_qqs ? 1.12 * totalExpense : totalExpense
+    const percentage = Math.min((numerator / total_income) * 100, 100)
+
+    return {
+      percentage,
+      numerator,
+      denominator: total_income,
+    }
+  })()
+
   return (
     <div
       onClick={() => handleNavigate(project.id)}
@@ -120,50 +147,13 @@ function ProjectCard({
           </span>
         </div>
 
-        {/* Expense Statistics Section */}
+        {/* Enhanced Expense Statistics Section */}
         {expenseStatistics && (
-          <div className='flex flex-wrap items-center gap-4 text-xs'>
-            <div className='flex items-center gap-1'>
-              <svg
-                className='h-3 w-3 text-blue-500'
-                fill='none'
-                stroke='currentColor'
-                viewBox='0 0 24 24'
-              >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  strokeWidth={2}
-                  d='M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z'
-                />
-              </svg>
-              <span className='text-muted-foreground'>
-                Income: {formatPrice(expenseStatistics.total_income)} UZS
-              </span>
-            </div>
-            <div className='flex items-center gap-1'>
-              <svg
-                className='h-3 w-3 text-orange-500'
-                fill='none'
-                stroke='currentColor'
-                viewBox='0 0 24 24'
-              >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  strokeWidth={2}
-                  d='M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z'
-                />
-              </svg>
-              <span className='text-muted-foreground'>
-                Expenses:{' '}
-                {formatPrice(expenseStatistics.total_expensed_by_service)} UZS
-              </span>
-            </div>
-            {parseFloat(expenseStatistics.given_amount) > 0 && (
+          <div className='space-y-2'>
+            <div className='flex flex-wrap items-center gap-4 text-xs'>
               <div className='flex items-center gap-1'>
                 <svg
-                  className='h-3 w-3 text-green-500'
+                  className='h-3 w-3 text-blue-500'
                   fill='none'
                   stroke='currentColor'
                   viewBox='0 0 24 24'
@@ -172,15 +162,97 @@ function ProjectCard({
                     strokeLinecap='round'
                     strokeLinejoin='round'
                     strokeWidth={2}
-                    d='M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'
+                    d='M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z'
                   />
                 </svg>
-                <span className='font-medium text-green-600'>
-                  Given:{' '}
-                  {formatPrice(parseFloat(expenseStatistics.given_amount))} UZS
+                <span className='text-muted-foreground'>
+                  Income: {formatPrice(expenseStatistics.total_income)} UZS
                 </span>
               </div>
-            )}
+              <div className='flex items-center gap-1'>
+                <svg
+                  className='h-3 w-3 text-orange-500'
+                  fill='none'
+                  stroke='currentColor'
+                  viewBox='0 0 24 24'
+                >
+                  <path
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    strokeWidth={2}
+                    d='M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z'
+                  />
+                </svg>
+                <span className='text-muted-foreground'>
+                  Actual Expenses:{' '}
+                  {formatPrice(expenseStatistics.total_expensed_by_service)} UZS
+                </span>
+              </div>
+              <div className='flex items-center gap-1'>
+                <svg
+                  className='h-3 w-3 text-purple-500'
+                  fill='none'
+                  stroke='currentColor'
+                  viewBox='0 0 24 24'
+                >
+                  <path
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    strokeWidth={2}
+                    d='M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2'
+                  />
+                </svg>
+                <span className='text-muted-foreground'>
+                  Planned:{' '}
+                  {formatPrice(expenseStatistics.total_planned_sell_expense)}{' '}
+                  UZS
+                </span>
+              </div>
+              {parseFloat(expenseStatistics.given_amount) > 0 && (
+                <div className='flex items-center gap-1'>
+                  <svg
+                    className='h-3 w-3 text-green-500'
+                    fill='none'
+                    stroke='currentColor'
+                    viewBox='0 0 24 24'
+                  >
+                    <path
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                      strokeWidth={2}
+                      d='M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'
+                    />
+                  </svg>
+                  <span className='font-medium text-green-600'>
+                    Given:{' '}
+                    {formatPrice(parseFloat(expenseStatistics.given_amount))}{' '}
+                    UZS
+                  </span>
+                </div>
+              )}
+            </div>
+
+            {/* Expense Progress Bar */}
+            {/* {expenseProgress.denominator > 0 && ( */}
+            <div className='flex items-center gap-2'>
+              <div className='flex-1'>
+                <div className='mb-1 flex items-center justify-between'>
+                  <span className='text-muted-foreground text-xs'>
+                    Expense Progress {project.is_qqs && '(+12%)'}
+                  </span>
+                  <span className='text-xs font-medium'>
+                    {expenseProgress.percentage.toFixed(0)}%
+                  </span>
+                </div>
+                <div className='h-1.5 w-full overflow-hidden rounded-full bg-gray-200 dark:bg-gray-700'>
+                  <div
+                    className='h-full rounded-full bg-orange-600 transition-all duration-300'
+                    style={{ width: `${expenseProgress.percentage}%` }}
+                  />
+                </div>
+              </div>
+            </div>
+            {/* )} */}
           </div>
         )}
 
