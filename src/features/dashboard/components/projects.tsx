@@ -108,7 +108,7 @@ const Projects = () => {
         </Card>
       </div>
       <div className='grid grid-cols-1 gap-4 lg:grid-cols-7'>
-        <Card className='col-span-1 lg:col-span-4'>
+        <Card className='col-span-1 h-[500px] lg:col-span-4'>
           <CardHeader>
             <CardTitle>Overview</CardTitle>
           </CardHeader>
