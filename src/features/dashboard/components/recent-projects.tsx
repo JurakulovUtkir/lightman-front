@@ -1,15 +1,27 @@
 import { Link, useNavigate } from '@tanstack/react-router'
-import { formatDateToCustomString } from '@/lib/dateFormatter'
-import { getPaymentStatusColor, getStatusColor } from '@/lib/statusHelpers'
+import {
+  IconUser,
+  IconCalendar,
+  IconCoin,
+  IconWallet,
+  IconClipboard,
+  IconCircleCheck,
+  IconTag,
+  IconTrendingUp,
+  IconFolderOpen,
+} from '@tabler/icons-react'
+import { formatToYearMonthDay } from '@/lib/dateFormatter'
+import { getPaymentStatusColor } from '@/lib/statusHelpers'
 import { formatPrice } from '@/utils/formatPrice'
 import { Button } from '@/components/ui/button'
 import { useProjectExpenceStatistics } from '@/features/project-socials/data/hooks'
-import { useProjects } from '@/features/projects/data/hooks'
 import { ProjectSchema } from '@/features/projects/data/schema'
+import { ProjectSchemaResponse } from '@/features/projects/data/types'
 
 function ProjectCard({
   project,
   expenseStatistics,
+  enableProfit,
 }: {
   project: ProjectSchema
   expenseStatistics:
@@ -23,6 +35,7 @@ function ProjectCard({
         total_planned_sell_expense: number
       }
     | undefined
+  enableProfit?: boolean
 }) {
   const navigate = useNavigate()
 
@@ -60,6 +73,41 @@ function ProjectCard({
     }
   })()
 
+  const expectedProfit = (() => {
+    if (!expenseStatistics) {
+      return 0
+    }
+
+    const {
+      total_expensed_by_service,
+      total_planned_sell_expense,
+      total_planned_buy_expense,
+    } = expenseStatistics
+
+    const calculation =
+      total_planned_sell_expense -
+      total_planned_buy_expense -
+      total_expensed_by_service
+
+    return calculation
+  })()
+
+  const realProfit = (() => {
+    if (!expenseStatistics) {
+      return 0
+    }
+
+    const {
+      total_expensed_by_service,
+      total_planned_buy_expense,
+      given_amount,
+    } = expenseStatistics
+
+    const calculation =
+      +given_amount - total_planned_buy_expense - total_expensed_by_service
+
+    return calculation
+  })()
   return (
     <div
       onClick={() => handleNavigate(project.id)}
@@ -82,11 +130,6 @@ function ProjectCard({
           </div>
           <div className='flex shrink-0 gap-1.5'>
             <div
-              className={`inline-flex items-center rounded-md border px-2 py-0.5 text-xs font-medium capitalize ${getStatusColor(project.status)}`}
-            >
-              {project.status}
-            </div>
-            <div
               className={`inline-flex items-center rounded-md border px-2 py-0.5 text-xs font-medium ${getPaymentStatusColor(project.payment_status)}`}
             >
               {project.payment_status}
@@ -98,49 +141,14 @@ function ProjectCard({
           <div className='text-muted-foreground flex flex-wrap items-center gap-3'>
             {project.project_manager && (
               <span className='flex items-center gap-1'>
-                <svg
-                  className='h-3 w-3'
-                  fill='none'
-                  stroke='currentColor'
-                  viewBox='0 0 24 24'
-                >
-                  <path
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    strokeWidth={2}
-                    d='M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z'
-                  />
-                </svg>
+                <IconUser className='h-3 w-3' stroke={2} />
                 {project.project_manager.full_name}
               </span>
             )}
             <span className='flex items-center gap-1'>
-              <svg
-                className='h-3 w-3'
-                fill='none'
-                stroke='currentColor'
-                viewBox='0 0 24 24'
-              >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  strokeWidth={2}
-                  d='M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z'
-                />
-              </svg>
-              {formatDateToCustomString(project.created_at)}
+              <IconCalendar className='h-3 w-3' stroke={2} />
+              {formatToYearMonthDay(project.created_at)}
             </span>
-            {project.category && (
-              <span className='bg-secondary inline-flex items-center rounded-md px-2 py-0.5 text-xs'>
-                {project.category.name}
-              </span>
-            )}
-            {project.is_qqs && (
-              <span className='flex items-center gap-1'>
-                <div className='h-2 w-2 animate-pulse rounded-full bg-green-500' />
-                <span className='text-xs'>QQS</span>
-              </span>
-            )}
           </div>
           <span className='text-foreground shrink-0 font-semibold'>
             {formatPrice(project.price)} UZS
@@ -152,78 +160,53 @@ function ProjectCard({
           <div className='space-y-2'>
             <div className='flex flex-wrap items-center gap-4 text-xs'>
               <div className='flex items-center gap-1'>
-                <svg
-                  className='h-3 w-3 text-blue-500'
-                  fill='none'
-                  stroke='currentColor'
-                  viewBox='0 0 24 24'
-                >
-                  <path
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    strokeWidth={2}
-                    d='M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z'
-                  />
-                </svg>
+                <IconCoin className='h-3 w-3 text-blue-500' stroke={2} />
                 <span className='text-muted-foreground'>
                   Income: {formatPrice(expenseStatistics.total_income)} UZS
                 </span>
               </div>
               <div className='flex items-center gap-1'>
-                <svg
-                  className='h-3 w-3 text-orange-500'
-                  fill='none'
-                  stroke='currentColor'
-                  viewBox='0 0 24 24'
-                >
-                  <path
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    strokeWidth={2}
-                    d='M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z'
-                  />
-                </svg>
+                <IconWallet className='h-3 w-3 text-orange-500' stroke={2} />
                 <span className='text-muted-foreground'>
                   Actual Expenses:{' '}
                   {formatPrice(expenseStatistics.total_expensed_by_service)} UZS
                 </span>
               </div>
               <div className='flex items-center gap-1'>
-                <svg
-                  className='h-3 w-3 text-purple-500'
-                  fill='none'
-                  stroke='currentColor'
-                  viewBox='0 0 24 24'
-                >
-                  <path
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    strokeWidth={2}
-                    d='M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2'
-                  />
-                </svg>
+                <IconClipboard className='h-3 w-3 text-purple-500' stroke={2} />
                 <span className='text-muted-foreground'>
                   Planned:{' '}
                   {formatPrice(expenseStatistics.total_planned_sell_expense)}{' '}
                   UZS
                 </span>
               </div>
+              {enableProfit && (
+                <div className='flex items-center gap-1'>
+                  <IconTrendingUp
+                    className={`h-3 w-3 ${expectedProfit >= 0 ? 'text-green-500' : 'text-red-500'}`}
+                    stroke={2}
+                  />
+                  <div className='flex flex-col gap-1'>
+                    <span
+                      className={`font-medium ${expectedProfit >= 0 ? 'text-green-600 dark:text-green-500' : 'text-red-600 dark:text-red-500'}`}
+                    >
+                      Expected profit: {formatPrice(expectedProfit)} UZS
+                    </span>
+                    <span
+                      className={`font-medium ${realProfit >= 0 ? 'text-green-600 dark:text-green-500' : 'text-red-600 dark:text-red-500'}`}
+                    >
+                      Profit: {formatPrice(realProfit)} UZS
+                    </span>
+                  </div>
+                </div>
+              )}
               {parseFloat(expenseStatistics.given_amount) > 0 && (
                 <div className='flex items-center gap-1'>
-                  <svg
-                    className='h-3 w-3 text-green-500'
-                    fill='none'
-                    stroke='currentColor'
-                    viewBox='0 0 24 24'
-                  >
-                    <path
-                      strokeLinecap='round'
-                      strokeLinejoin='round'
-                      strokeWidth={2}
-                      d='M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'
-                    />
-                  </svg>
-                  <span className='font-medium text-green-600'>
+                  <IconCircleCheck
+                    className='h-3 w-3 text-blue-500'
+                    stroke={2}
+                  />
+                  <span className='text-muted-foreground'>
                     Given:{' '}
                     {formatPrice(parseFloat(expenseStatistics.given_amount))}{' '}
                     UZS
@@ -233,7 +216,6 @@ function ProjectCard({
             </div>
 
             {/* Expense Progress Bar */}
-            {/* {expenseProgress.denominator > 0 && ( */}
             <div className='flex items-center gap-2'>
               <div className='flex-1'>
                 <div className='mb-1 flex items-center justify-between'>
@@ -252,7 +234,6 @@ function ProjectCard({
                 </div>
               </div>
             </div>
-            {/* )} */}
           </div>
         )}
 
@@ -263,19 +244,7 @@ function ProjectCard({
                 key={index}
                 className='bg-secondary text-secondary-foreground inline-flex items-center gap-1 rounded px-2 py-0.5 text-xs'
               >
-                <svg
-                  className='h-3 w-3'
-                  fill='none'
-                  stroke='currentColor'
-                  viewBox='0 0 24 24'
-                >
-                  <path
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    strokeWidth={2}
-                    d='M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z'
-                  />
-                </svg>
+                <IconTag className='h-3 w-3' stroke={2} />
                 {tag}
               </span>
             ))}
@@ -291,27 +260,65 @@ function ProjectCard({
   )
 }
 
-function ProjectWithStats({ project }: { project: ProjectSchema }) {
+function ProjectWithStats({
+  project,
+  enableProfit,
+}: {
+  project: ProjectSchema
+  enableProfit?: boolean
+}) {
   const { data: expenseData } = useProjectExpenceStatistics(project.id)
   const expenseStatistics = expenseData?.data
 
-  return <ProjectCard project={project} expenseStatistics={expenseStatistics} />
+  return (
+    <ProjectCard
+      project={project}
+      expenseStatistics={expenseStatistics}
+      enableProfit={enableProfit}
+    />
+  )
 }
 
-export function RecentProjects() {
-  const { data } = useProjects({
-    offset: 0,
-    limit: 10,
-  })
+function EmptyState() {
+  return (
+    <div className='flex flex-col items-center justify-center rounded-lg border border-dashed p-12 text-center'>
+      <div className='bg-muted mb-4 rounded-full p-3'>
+        <IconFolderOpen
+          className='text-muted-foreground h-8 w-8'
+          stroke={1.5}
+        />
+      </div>
+      <h3 className='mb-1 text-lg font-semibold'>No projects found</h3>
+      <p className='text-muted-foreground mb-4 text-sm'>
+        Get started by creating your first project
+      </p>
+    </div>
+  )
+}
 
+export function RecentProjects({
+  data,
+  enableProfit = false,
+}: {
+  data: ProjectSchemaResponse | undefined
+  enableProfit?: boolean
+}) {
   const projects = data?.data?.items || []
   const displayProjects = projects.slice(0, 5)
+
+  if (projects.length === 0) {
+    return <EmptyState />
+  }
 
   return (
     <div className='space-y-6'>
       <div className='space-y-4'>
         {displayProjects.map((project) => (
-          <ProjectWithStats key={project.id} project={project} />
+          <ProjectWithStats
+            key={project.id}
+            project={project}
+            enableProfit={enableProfit}
+          />
         ))}
       </div>
 

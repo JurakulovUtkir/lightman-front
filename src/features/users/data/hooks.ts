@@ -4,19 +4,24 @@ import { getUsers, getUser, createUser, updateUser, deleteUser } from './api'
 import { User } from './schema'
 import { UsersResponse } from './types'
 
-export const useGetUsers = ({
-  limit,
-  offset,
-  search,
-  is_our_employee,
-  role,
-}: {
-  limit?: number
-  offset?: number
-  search?: string
-  is_our_employee?: boolean
-  role?: string
-}) => {
+export const useGetUsers = (
+  {
+    limit,
+    offset,
+    search,
+    is_our_employee,
+    role,
+  }: {
+    limit?: number
+    offset?: number
+    search?: string
+    is_our_employee?: boolean
+    role?: string
+  },
+  options?: {
+    enabled?: boolean
+  }
+) => {
   return useQuery<UsersResponse>({
     queryKey: ['users', limit, offset, search, is_our_employee, role],
     queryFn: () =>
@@ -27,6 +32,7 @@ export const useGetUsers = ({
         is_our_employee,
         role,
       }),
+    enabled: options?.enabled ?? true, // Default to true if not provided
   })
 }
 export const useUser = (id: string) => {

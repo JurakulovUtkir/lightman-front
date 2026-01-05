@@ -4,6 +4,7 @@ import Dashboard from '@/features/dashboard'
 
 const searchSchema = z.object({
   active: z.string().optional().catch('projects'),
+  userId: z.string().optional().catch(''),
 })
 
 export const Route = createFileRoute('/_authenticated/')({

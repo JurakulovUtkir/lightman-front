@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { useNavigate, useSearch } from '@tanstack/react-router'
 import { Button } from '@/components/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
@@ -6,13 +7,44 @@ import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
+import { useGetUsers } from '@/features/users/data/hooks'
 import Balance from './components/balance'
 import Projects from './components/projects'
+import Reports from './components/reports'
 
 export default function Dashboard() {
   const navigate = useNavigate()
   const search = useSearch({ from: '/_authenticated/' })
   const activeTab = search.active || 'projects'
+  const userId = search.userId
+
+  // Fetch users only when reports tab is active
+  const { data: users } = useGetUsers(
+    {
+      offset: 0,
+      limit: 20,
+      role: 'project_manager',
+    },
+    {
+      enabled: activeTab === 'reports',
+    }
+  )
+
+  // Set first user as active when reports tab is selected and no userId is set
+  useEffect(() => {
+    if (
+      users &&
+      activeTab === 'reports' &&
+      users?.data?.items?.length > 0 &&
+      !userId
+    ) {
+      navigate({
+        to: '/',
+        search: (prev) => ({ ...prev, userId: users.data.items[0].id }),
+        replace: true,
+      })
+    }
+  }, [activeTab, users, userId, navigate])
 
   const handleTabChange = (value: string) => {
     navigate({
@@ -51,9 +83,7 @@ export default function Dashboard() {
             <TabsList>
               <TabsTrigger value='projects'>Projects</TabsTrigger>
               <TabsTrigger value='balance'>Balance</TabsTrigger>
-              <TabsTrigger value='reports' disabled>
-                Reports
-              </TabsTrigger>
+              <TabsTrigger value='reports'>Reports</TabsTrigger>
               <TabsTrigger value='notifications' disabled>
                 Notifications
               </TabsTrigger>
@@ -64,6 +94,9 @@ export default function Dashboard() {
           </TabsContent>
           <TabsContent value='balance' className='space-y-4'>
             <Balance />
+          </TabsContent>
+          <TabsContent value='reports' className='space-y-4'>
+            <Reports />
           </TabsContent>
         </Tabs>
       </Main>

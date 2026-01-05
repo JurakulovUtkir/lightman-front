@@ -11,6 +11,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
+import { useProjects } from '@/features/projects/data/hooks'
 import { useGetProjects } from '../data/hooks'
 import { Overview } from './overview'
 import { RecentProjects } from './recent-projects'
@@ -20,6 +21,12 @@ const Projects = () => {
   const { data: projects_approved } = useGetProjects('approved')
   const { data: projects_requested } = useGetProjects('requested')
   const { data: projects_draft } = useGetProjects('draft')
+
+  const { data } = useProjects({
+    offset: 0,
+    limit: 10,
+    status: 'approved',
+  })
 
   // console.log('projects_done', projects_done)
   // console.log('projects_approved', projects_approved)
@@ -124,7 +131,7 @@ const Projects = () => {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <RecentProjects />
+            <RecentProjects data={data} />
           </CardContent>
         </Card>
       </div>
