@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { useNavigate, useSearch } from '@tanstack/react-router'
+import { useLang } from '@/hooks/useLang'
 import { Button } from '@/components/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Header } from '@/components/layout/header'
@@ -13,6 +14,8 @@ import Projects from './components/projects'
 import Reports from './components/reports'
 
 export default function Dashboard() {
+  const { lang, tDashboard } = useLang()
+  const t = tDashboard[lang]
   const navigate = useNavigate()
   const search = useSearch({ from: '/_authenticated/' })
   const activeTab = search.active || 'projects'
@@ -68,9 +71,9 @@ export default function Dashboard() {
       {/* ===== Main ===== */}
       <Main>
         <div className='mb-2 flex items-center justify-between space-y-2'>
-          <h1 className='text-2xl font-bold tracking-tight'>Dashboard</h1>
+          <h1 className='text-2xl font-bold tracking-tight'>{t.dashboard}</h1>
           <div className='flex items-center space-x-2'>
-            <Button>Download</Button>
+            <Button>{t.download}</Button>
           </div>
         </div>
         <Tabs
@@ -81,11 +84,11 @@ export default function Dashboard() {
         >
           <div className='w-full overflow-x-auto pb-2'>
             <TabsList>
-              <TabsTrigger value='projects'>Projects</TabsTrigger>
-              <TabsTrigger value='balance'>Balance</TabsTrigger>
-              <TabsTrigger value='reports'>Reports</TabsTrigger>
+              <TabsTrigger value='projects'>{t.projects.title}</TabsTrigger>
+              <TabsTrigger value='balance'>{t.balance.title}</TabsTrigger>
+              <TabsTrigger value='reports'>{t.reports.title}</TabsTrigger>
               <TabsTrigger value='notifications' disabled>
-                Notifications
+                {t.notifications.title}
               </TabsTrigger>
             </TabsList>
           </div>

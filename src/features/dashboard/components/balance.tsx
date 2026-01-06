@@ -11,6 +11,7 @@ import {
   IconAlertCircle,
 } from '@tabler/icons-react'
 import { formatPrice } from '@/utils/formatPrice'
+import { useLang } from '@/hooks/useLang'
 import {
   Card,
   CardContent,
@@ -22,11 +23,13 @@ import { useGetBalance } from '../data/hooks'
 
 const Balance = () => {
   const { data: getBalance } = useGetBalance()
+  const { lang, tDashboard } = useLang()
+  const t = tDashboard[lang].balance
 
   if (!getBalance?.data) {
     return (
       <div className='flex h-64 items-center justify-center'>
-        <p className='text-muted-foreground'>Loading balance data...</p>
+        <p className='text-muted-foreground'>{t.loading}</p>
       </div>
     )
   }
@@ -36,35 +39,35 @@ const Balance = () => {
 
   const assetItems = [
     {
-      title: 'Cash & Card Balance',
+      title: t.cash_and_card,
       amount: assets.cash_card_balance,
       icon: IconCreditCard,
       color: 'text-blue-500',
       bgColor: 'bg-blue-500/10',
     },
     {
-      title: 'Company Balance',
+      title: t.company_balance,
       amount: assets.company_balance,
       icon: IconBuilding,
       color: 'text-purple-500',
       bgColor: 'bg-purple-500/10',
     },
     {
-      title: 'Social Deposits',
+      title: t.social_deposits,
       amount: assets.socials_deposit_balance,
       icon: IconUsers,
       color: 'text-green-500',
       bgColor: 'bg-green-500/10',
     },
     {
-      title: 'Loans Remaining',
+      title: t.loans_remaining,
       amount: assets.loans_remaining_balance,
       icon: IconCoins,
       color: 'text-yellow-500',
       bgColor: 'bg-yellow-500/10',
     },
     {
-      title: 'Properties',
+      title: t.properties,
       amount: assets.properties_balance,
       icon: IconHome,
       color: 'text-indigo-500',
@@ -78,47 +81,47 @@ const Balance = () => {
       <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-3'>
         <Card className='border-blue-500/20 bg-gradient-to-br from-blue-500/10 to-blue-500/5'>
           <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-            <CardTitle className='text-sm font-medium'>Total Assets</CardTitle>
+            <CardTitle className='text-sm font-medium'>
+              {t.total_assets}
+            </CardTitle>
             <IconTrendingUp className='h-4 w-4 text-blue-500' />
           </CardHeader>
           <CardContent>
             <div className='text-2xl font-bold'>
-              {formatPrice(assets.total_balance)} uzs
+              {formatPrice(assets.total_balance)} {t.uzs}
             </div>
-            <p className='text-muted-foreground mt-1 text-xs'>
-              All asset categories combined
-            </p>
+            <p className='text-muted-foreground mt-1 text-xs'>{t.all_asset}</p>
           </CardContent>
         </Card>
 
         <Card className='border-red-500/20 bg-gradient-to-br from-red-500/10 to-red-500/5'>
           <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
             <CardTitle className='text-sm font-medium'>
-              Total Liabilities
+              {t.total_liabilities}
             </CardTitle>
             <IconAlertCircle className='h-4 w-4 text-red-500' />
           </CardHeader>
           <CardContent>
             <div className='text-2xl font-bold'>
-              {formatPrice(liabilities.total_we_owe_to_customers)} uzs
+              {formatPrice(liabilities.total_we_owe_to_customers)} {t.uzs}
             </div>
             <p className='text-muted-foreground mt-1 text-xs'>
-              Amount owed to customers
+              {t.amount_owed}
             </p>
           </CardContent>
         </Card>
 
         <Card className='border-green-500/20 bg-gradient-to-br from-green-500/10 to-green-500/5'>
           <CardHeader className='flex flex-row items-center justify-between space-y-0 pb-2'>
-            <CardTitle className='text-sm font-medium'>Net Worth</CardTitle>
+            <CardTitle className='text-sm font-medium'>{t.net_worth}</CardTitle>
             <IconWallet className='h-4 w-4 text-green-500' />
           </CardHeader>
           <CardContent>
             <div className='text-2xl font-bold'>
-              {formatPrice(netWorth)} uzs
+              {formatPrice(netWorth)} {t.uzs}
             </div>
             <p className='text-muted-foreground mt-1 text-xs'>
-              Assets minus liabilities
+              {t.assets_minus}
             </p>
           </CardContent>
         </Card>
@@ -129,11 +132,9 @@ const Balance = () => {
         <CardHeader>
           <div className='flex items-center gap-2'>
             <IconArrowUpRight className='h-5 w-5 text-green-500' />
-            <CardTitle>Assets Breakdown</CardTitle>
+            <CardTitle>{t.assets_breakdown}</CardTitle>
           </div>
-          <CardDescription>
-            Detailed view of all asset categories
-          </CardDescription>
+          <CardDescription>{t.detailed_view}</CardDescription>
         </CardHeader>
         <CardContent>
           <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-3'>
@@ -150,7 +151,7 @@ const Balance = () => {
                     {item.title}
                   </p>
                   <p className='text-lg font-bold'>
-                    {formatPrice(item.amount)} uzs
+                    {formatPrice(item.amount)} {t.uzs}
                   </p>
                 </div>
               </div>
@@ -164,9 +165,9 @@ const Balance = () => {
         <CardHeader>
           <div className='flex items-center gap-2'>
             <IconArrowDownRight className='h-5 w-5 text-red-500' />
-            <CardTitle>Liabilities</CardTitle>
+            <CardTitle>{t.liabilities}</CardTitle>
           </div>
-          <CardDescription>Current obligations and debts</CardDescription>
+          <CardDescription>{t.current_obligations}</CardDescription>
         </CardHeader>
         <CardContent>
           <div className='space-y-4'>
@@ -176,14 +177,16 @@ const Balance = () => {
                   <IconCoins className='h-5 w-5 text-red-500' />
                 </div>
                 <div>
-                  <p className='text-sm font-medium'>Customer Obligations</p>
+                  <p className='text-sm font-medium'>
+                    {t.customer_obligations}
+                  </p>
                   <p className='text-muted-foreground text-xs'>
-                    Total amount owed
+                    {t.total_amount_owed}
                   </p>
                 </div>
               </div>
               <p className='text-lg font-bold'>
-                {formatPrice(liabilities.total_we_owe_to_customers)} uzs
+                {formatPrice(liabilities.total_we_owe_to_customers)} {t.uzs}
               </p>
             </div>
 
@@ -193,12 +196,14 @@ const Balance = () => {
                   <IconCreditCard className='h-5 w-5 text-gray-500' />
                 </div>
                 <div>
-                  <p className='text-sm font-medium'>Loans Taken</p>
-                  <p className='text-muted-foreground text-xs'>External debt</p>
+                  <p className='text-sm font-medium'>{t.loans_taken}</p>
+                  <p className='text-muted-foreground text-xs'>
+                    {t.external_debt}
+                  </p>
                 </div>
               </div>
               <p className='text-lg font-bold'>
-                {formatPrice(liabilities.we_took_loans_balance)} uzs
+                {formatPrice(liabilities.we_took_loans_balance)} {t.uzs}
               </p>
             </div>
           </div>

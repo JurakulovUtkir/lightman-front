@@ -13,6 +13,7 @@ import {
 import { formatToYearMonthDay } from '@/lib/dateFormatter'
 import { getPaymentStatusColor } from '@/lib/statusHelpers'
 import { formatPrice } from '@/utils/formatPrice'
+import { useLang } from '@/hooks/useLang'
 import { Button } from '@/components/ui/button'
 import { useProjectExpenceStatistics } from '@/features/project-socials/data/hooks'
 import { ProjectSchema } from '@/features/projects/data/schema'
@@ -22,6 +23,8 @@ function ProjectCard({
   project,
   expenseStatistics,
   enableProfit,
+  t,
+  t_general,
 }: {
   project: ProjectSchema
   expenseStatistics:
@@ -36,6 +39,8 @@ function ProjectCard({
       }
     | undefined
   enableProfit?: boolean
+  t: (typeof import('@/translations/dashboard.json'))['en']['projects']
+  t_general: (typeof import('@/translations/general.json'))['en']['columns']
 }) {
   const navigate = useNavigate()
 
@@ -132,7 +137,7 @@ function ProjectCard({
             <div
               className={`inline-flex items-center rounded-md border px-2 py-0.5 text-xs font-medium ${getPaymentStatusColor(project.payment_status)}`}
             >
-              {project.payment_status}
+              {t_general.paymentStatusOptions[project.payment_status]}
             </div>
           </div>
         </div>
@@ -151,7 +156,7 @@ function ProjectCard({
             </span>
           </div>
           <span className='text-foreground shrink-0 font-semibold'>
-            {formatPrice(project.price)} UZS
+            {formatPrice(project.price)} {t.uzs}
           </span>
         </div>
 
@@ -162,22 +167,24 @@ function ProjectCard({
               <div className='flex items-center gap-1'>
                 <IconCoin className='h-3 w-3 text-blue-500' stroke={2} />
                 <span className='text-muted-foreground'>
-                  Income: {formatPrice(expenseStatistics.total_income)} UZS
+                  {t.income}: {formatPrice(expenseStatistics.total_income)}{' '}
+                  {t.uzs}
                 </span>
               </div>
               <div className='flex items-center gap-1'>
                 <IconWallet className='h-3 w-3 text-orange-500' stroke={2} />
                 <span className='text-muted-foreground'>
-                  Actual Expenses:{' '}
-                  {formatPrice(expenseStatistics.total_expensed_by_service)} UZS
+                  {t.actual_expenses}:{' '}
+                  {formatPrice(expenseStatistics.total_expensed_by_service)}{' '}
+                  {t.uzs}
                 </span>
               </div>
               <div className='flex items-center gap-1'>
                 <IconClipboard className='h-3 w-3 text-purple-500' stroke={2} />
                 <span className='text-muted-foreground'>
-                  Planned:{' '}
+                  {t.planned}:{' '}
                   {formatPrice(expenseStatistics.total_planned_sell_expense)}{' '}
-                  UZS
+                  {t.uzs}
                 </span>
               </div>
               {enableProfit && (
@@ -190,12 +197,12 @@ function ProjectCard({
                     <span
                       className={`font-medium ${expectedProfit >= 0 ? 'text-green-600 dark:text-green-500' : 'text-red-600 dark:text-red-500'}`}
                     >
-                      Expected profit: {formatPrice(expectedProfit)} UZS
+                      {t.expected_profit}: {formatPrice(expectedProfit)} {t.uzs}
                     </span>
                     <span
                       className={`font-medium ${realProfit >= 0 ? 'text-green-600 dark:text-green-500' : 'text-red-600 dark:text-red-500'}`}
                     >
-                      Profit: {formatPrice(realProfit)} UZS
+                      {t.profit}: {formatPrice(realProfit)} {t.uzs}
                     </span>
                   </div>
                 </div>
@@ -207,9 +214,9 @@ function ProjectCard({
                     stroke={2}
                   />
                   <span className='text-muted-foreground'>
-                    Given:{' '}
+                    {t.given}:{' '}
                     {formatPrice(parseFloat(expenseStatistics.given_amount))}{' '}
-                    UZS
+                    {t.uzs}
                   </span>
                 </div>
               )}
@@ -220,7 +227,7 @@ function ProjectCard({
               <div className='flex-1'>
                 <div className='mb-1 flex items-center justify-between'>
                   <span className='text-muted-foreground text-xs'>
-                    Expense Progress {project.is_qqs && '(+12%)'}
+                    {t.expense_progress} {project.is_qqs && '(+12%)'}
                   </span>
                   <span className='text-xs font-medium'>
                     {expenseProgress.percentage.toFixed(0)}%
@@ -263,23 +270,32 @@ function ProjectCard({
 function ProjectWithStats({
   project,
   enableProfit,
+  t,
 }: {
   project: ProjectSchema
   enableProfit?: boolean
+  t: (typeof import('@/translations/dashboard.json'))['en']['projects']
 }) {
   const { data: expenseData } = useProjectExpenceStatistics(project.id)
   const expenseStatistics = expenseData?.data
-
+  const { lang, general } = useLang()
+  const t_general = general[lang].columns
   return (
     <ProjectCard
       project={project}
       expenseStatistics={expenseStatistics}
       enableProfit={enableProfit}
+      t={t}
+      t_general={t_general}
     />
   )
 }
 
-function EmptyState() {
+function EmptyState({
+  t,
+}: {
+  t: (typeof import('@/translations/dashboard.json'))['en']['projects']
+}) {
   return (
     <div className='flex flex-col items-center justify-center rounded-lg border border-dashed p-12 text-center'>
       <div className='bg-muted mb-4 rounded-full p-3'>
@@ -288,10 +304,8 @@ function EmptyState() {
           stroke={1.5}
         />
       </div>
-      <h3 className='mb-1 text-lg font-semibold'>No projects found</h3>
-      <p className='text-muted-foreground mb-4 text-sm'>
-        Get started by creating your first project
-      </p>
+      <h3 className='mb-1 text-lg font-semibold'>{t.no_projects}</h3>
+      <p className='text-muted-foreground mb-4 text-sm'>{t.get_started}</p>
     </div>
   )
 }
@@ -303,11 +317,14 @@ export function RecentProjects({
   data: ProjectSchemaResponse | undefined
   enableProfit?: boolean
 }) {
+  const { lang, tDashboard } = useLang()
+  const t = tDashboard[lang].projects
+
   const projects = data?.data?.items || []
   const displayProjects = projects.slice(0, 5)
 
   if (projects.length === 0) {
-    return <EmptyState />
+    return <EmptyState t={t} />
   }
 
   return (
@@ -318,6 +335,7 @@ export function RecentProjects({
             key={project.id}
             project={project}
             enableProfit={enableProfit}
+            t={t}
           />
         ))}
       </div>
@@ -325,7 +343,7 @@ export function RecentProjects({
       {projects.length > 8 && (
         <Link to='/projects'>
           <Button variant='outline' className='w-full'>
-            View All Projects...
+            {t.view_all}
           </Button>
         </Link>
       )}

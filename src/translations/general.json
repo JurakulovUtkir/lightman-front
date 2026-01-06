@@ -148,7 +148,7 @@
         "canceled": "Canceled",
         "requested_to_done": "Request to done"
       },
-      "paymentStatusOprions": {
+      "paymentStatusOptions": {
         "PENDING": "Pending",
         "PAID": "Paid",
         "CANCELLED": "Cancelled",
@@ -491,7 +491,7 @@
         "canceled": "Отменено",
         "requested_to_done": "Запрос на выполнение"
       },
-      "paymentStatusOprions": {
+      "paymentStatusOptions": {
         "PENDING": "В ожидании",
         "PAID": "Оплачено",
         "CANCELLED": "Отменено",
@@ -834,7 +834,7 @@
         "canceled": "Bekor qilingan",
         "requested_to_done": "Bajarish uchun so‘rov"
       },
-      "paymentStatusOprions": {
+      "paymentStatusOptions": {
         "PENDING": "Kutilmoqda",
         "PAID": "To‘langan",
         "CANCELLED": "Bekor qilingan",

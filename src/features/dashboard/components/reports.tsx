@@ -9,6 +9,7 @@ import {
   IconAlertCircle,
   IconChevronDown,
 } from '@tabler/icons-react'
+import { useLang } from '@/hooks/useLang'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -20,6 +21,8 @@ import { User } from '@/features/users/data/schema'
 import { RecentProjects } from './recent-projects'
 
 const Reports = () => {
+  const { lang, tDashboard, interpolate } = useLang()
+  const t = tDashboard[lang].reports
   const navigate = useNavigate()
   const search = useSearch({ from: '/_authenticated/' })
   const activeUserId = search.userId
@@ -84,9 +87,11 @@ const Reports = () => {
         <div className='border-border bg-background sticky top-0 z-10 border-b p-4'>
           <div className='flex items-center justify-between'>
             <div>
-              <h2 className='text-lg font-semibold'>Project Managers</h2>
+              <h2 className='text-lg font-semibold'>{t.project_managers}</h2>
               <p className='text-muted-foreground text-sm'>
-                {totalUsers} total users
+                {interpolate(t.total_users, {
+                  count: totalUsers,
+                })}
               </p>
             </div>
             <Avatar className='h-10 w-10'>
@@ -156,7 +161,7 @@ const Reports = () => {
                       <div className='flex items-center gap-1.5 text-sm'>
                         <IconCurrencyDollar className='text-muted-foreground h-4 w-4' />
                         <span className='text-foreground font-medium'>
-                          {user.salary?.toLocaleString()} UZS
+                          {user.salary?.toLocaleString()} {t.uzs}
                         </span>
                       </div>
                     </div>
@@ -175,7 +180,7 @@ const Reports = () => {
                         ) : (
                           <IconAlertCircle className='mr-1 h-3 w-3' />
                         )}
-                        {user.is_verified ? 'Verified' : 'Unverified'}
+                        {user.is_verified ? t.verified : t.unverified}
                       </Badge>
 
                       {user.is_our_employee && (
@@ -183,7 +188,7 @@ const Reports = () => {
                           variant='secondary'
                           className='bg-purple-500/10 text-purple-700 hover:bg-purple-500/20 dark:text-purple-400'
                         >
-                          Our Employee
+                          {t.our_employee}
                         </Badge>
                       )}
                     </div>
@@ -226,14 +231,14 @@ const Reports = () => {
               size='lg'
             >
               <IconChevronDown className='mr-2 h-4 w-4' />
-              Load More ({allLoadedUsers.length} / {totalUsers})
+              {t.load_more} ({allLoadedUsers.length} / {totalUsers})
             </Button>
           )}
 
           {/* All Loaded Message */}
           {!hasMore && allLoadedUsers.length > 0 && (
             <div className='text-muted-foreground py-4 text-center text-sm'>
-              All users loaded
+              {t.all_users_loaded}
             </div>
           )}
         </div>

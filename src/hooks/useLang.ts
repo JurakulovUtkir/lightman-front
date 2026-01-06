@@ -2,6 +2,7 @@ import { ReactNode } from 'react'
 import cardJson from '@/translations/card.json'
 import companyJson from '@/translations/company.json'
 import contractJson from '@/translations/contract.json'
+import dashboardJson from '@/translations/dashboard.json'
 import depositJson from '@/translations/deposit.json'
 import distributionJson from '@/translations/distribution.json'
 import distributorJson from '@/translations/distributor.json'
@@ -55,6 +56,7 @@ export const useLang = () => {
   const tCard = cardJson
   const tLoan = loanJson
   const tProperty = propertyJson
+  const tDashboard = dashboardJson
 
   return {
     lang,
@@ -75,5 +77,6 @@ export const useLang = () => {
     tCard,
     tLoan,
     tProperty,
+    tDashboard,
   }
 }

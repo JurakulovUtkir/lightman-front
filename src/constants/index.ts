@@ -45,10 +45,10 @@ export const getstatusOptions = (
 export const getPaymentStatusOptions = (
   t: (typeof import('@/translations/general.json'))['en']['columns']
 ) => [
-  { value: 'pending', label: t.paymentStatusOprions.PENDING },
-  { value: 'paid', label: t.paymentStatusOprions.PAID },
-  { value: 'cancelled', label: t.paymentStatusOprions.CANCELLED },
-  { value: 'unpaid', label: t.paymentStatusOprions.UNPAID },
+  { value: 'pending', label: t.paymentStatusOptions.PENDING },
+  { value: 'paid', label: t.paymentStatusOptions.PAID },
+  { value: 'cancelled', label: t.paymentStatusOptions.CANCELLED },
+  { value: 'unpaid', label: t.paymentStatusOptions.UNPAID },
 ]
 export const getPriceTypeOptions = (
   t: (typeof import('@/translations/general.json'))['en']['columns']

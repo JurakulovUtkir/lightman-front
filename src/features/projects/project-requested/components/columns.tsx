@@ -241,12 +241,12 @@ export const columns = (
     cell: ({ row }) => {
       const paymentStatus = row.getValue(
         'payment_status'
-      ) as keyof typeof t.paymentStatusOprions
+      ) as keyof typeof t.paymentStatusOptions
       return (
         <div
           className={`inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-medium capitalize ${getPaymentStatusColor(paymentStatus)}`}
         >
-          {t.paymentStatusOprions[paymentStatus]}
+          {t.paymentStatusOptions[paymentStatus]}
         </div>
       )
     },
