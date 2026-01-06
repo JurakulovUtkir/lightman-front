@@ -17,6 +17,8 @@ import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import { FormFieldWrapper } from '@/components/form-field-wrapper'
 import { FormComboboxDistributions } from '@/features/companies/components/form-combobox-distributions'
+import { useProjectSocials } from '../data/hooks'
+import { GroupedRow } from './grouped-columns'
 
 interface ApproveDialogProps {
   open: boolean
@@ -34,6 +36,7 @@ interface ApproveDialogProps {
   isLoading?: boolean
   className?: string
   children?: React.ReactNode
+  projectId: string
 }
 
 export function ApproveDialog(props: ApproveDialogProps) {
@@ -48,12 +51,85 @@ export function ApproveDialog(props: ApproveDialogProps) {
     isLoading,
     disabled = false,
     handleApproveConfirm,
+    projectId,
     ...actions
   } = props
 
   const { lang, general, tForm } = useLang()
   const t = general[lang].layout
   const t_form = tForm[lang]
+
+  const { data } = useProjectSocials({
+    projectId: projectId,
+  })
+
+  // Group data by social network type, then by social_id
+  const groupedData = useMemo(() => {
+    if (!data?.data?.length) return {}
+
+    const groups: Record<
+      string,
+      {
+        name: string
+        groupedBySocial: GroupedRow[]
+      }
+    > = {}
+
+    data.data.forEach((item) => {
+      const networkTypeId = item.social.social_network_type.id
+      const networkTypeName = item.social.social_network_type.name
+      const socialId = item.social.id
+
+      if (!groups[networkTypeId]) {
+        groups[networkTypeId] = {
+          name: networkTypeName,
+          groupedBySocial: [],
+        }
+      }
+
+      // Find existing group for this social_id
+      const existingGroup = groups[networkTypeId].groupedBySocial.find(
+        (g) => g.socialId === socialId
+      )
+
+      if (existingGroup) {
+        existingGroup.items.push(item)
+        existingGroup.count += 1
+        existingGroup.totalBuyPrice += item.buy_price || 0
+        existingGroup.totalSellPrice += item.sell_price || 0
+
+        // Update payment status - if any unpaid, mark as Unpaid
+        if (!item.is_paid) {
+          existingGroup.paymentStatus = 'Unpaid'
+        }
+      } else {
+        groups[networkTypeId].groupedBySocial.push({
+          socialId: socialId,
+          socialName: item.social.name,
+          socialLink: item.social.link,
+          subscriberCount: item.social.subscriber_count || 0,
+          count: 1,
+          totalBuyPrice: item.buy_price || 0,
+          totalSellPrice: item.sell_price || 0,
+          paymentStatus: item.is_paid ? 'Paid' : 'Unpaid',
+          items: [item],
+        })
+      }
+    })
+
+    return groups
+  }, [data])
+
+  // Combine all grouped data for "All" tab
+  const allGroupedData = useMemo(() => {
+    return Object.values(groupedData).flatMap(
+      ({ groupedBySocial }) => groupedBySocial
+    )
+  }, [groupedData])
+
+  const totalSellPrice = useMemo(() => {
+    return allGroupedData.reduce((sum, item) => sum + item.totalSellPrice, 0)
+  }, [allGroupedData])
 
   const formSchema = useMemo(
     () =>
@@ -76,7 +152,7 @@ export function ApproveDialog(props: ApproveDialogProps) {
   const form = useForm<StatusForm>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      price: 0,
+      price: totalSellPrice ?? 0,
     },
   })
 
