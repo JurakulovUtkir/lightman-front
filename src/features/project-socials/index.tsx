@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 import { Route } from '@/routes/_authenticated/projects/socials/$id'
 import { useLang } from '@/hooks/useLang'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { BackButton } from '@/components/back-button'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
@@ -20,8 +21,6 @@ import {
   useProjectSocials,
   useProjectSocialStatistics,
 } from './data/hooks'
-
-// import { ProjectSocialSchema } from './data/schema'
 
 const ProjectSocials = () => {
   const { id } = Route.useLoaderData()
@@ -112,6 +111,11 @@ const ProjectSocials = () => {
       <Main>
         <div className='mb-2 flex flex-wrap items-center justify-between space-y-2 gap-x-4'>
           <div>
+            <BackButton
+              fallbackPath='/projects'
+              className='mb-2 gap-3 px-4'
+              iconClassName='h-5 w-5'
+            />
             <h2 className='text-2xl font-bold tracking-tight'>
               {isPendingProject ? '' : project?.name ? project.name : '-'}
             </h2>

@@ -1,5 +1,6 @@
 import { Route } from '@/routes/_authenticated/stakeholder/distributors/$id'
 import { useLang } from '@/hooks/useLang'
+import { BackButton } from '@/components/back-button'
 import { Header } from '@/components/layout/header'
 import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
@@ -35,6 +36,11 @@ const Distributors = () => {
       <Main>
         <div className='mb-2 flex flex-wrap items-center justify-between space-y-2 gap-x-4'>
           <div>
+            <BackButton
+              fallbackPath='/stakeholder/distribution'
+              className='mb-2 gap-3 px-4'
+              iconClassName='h-5 w-5'
+            />
             <h2 className='text-2xl font-bold tracking-tight'>
               {isDistributionPending
                 ? ''

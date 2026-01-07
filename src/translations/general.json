@@ -25,7 +25,9 @@
       "appearance": "Appearance",
       "display": "Display",
       "localization": "Localization",
-      "update_lang": "Update your language settings. Set your preferred language."
+      "update_lang": "Update your language settings. Set your preferred language.",
+      "go_back": "Go Back",
+      "back": "Back"
     },
     "months": [
       "January",
@@ -368,7 +370,9 @@
       "appearance": "Внешний вид",
       "display": "Дисплей",
       "localization": "Локализация",
-      "update_lang": "Обновите языковые настройки. Установите предпочитаемый язык."
+      "update_lang": "Обновите языковые настройки. Установите предпочитаемый язык.",
+      "go_back": "Вернуться назад",
+      "back": "Назад"
     },
     "months": [
       "Январь",
@@ -711,7 +715,9 @@
       "appearance": "Ko‘rinish",
       "display": "Displey",
       "localization": "Lokalizatsiya",
-      "update_lang": "Til sozlamalaringizni yangilang. Afzal tilni tanlang."
+      "update_lang": "Til sozlamalaringizni yangilang. Afzal tilni tanlang.",
+      "go_back": "Orqaga qaytish",
+      "back": "Orqaga"
     },
     "months": [
       "Yanvar",
