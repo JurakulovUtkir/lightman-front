@@ -197,7 +197,7 @@ export function ProjectSocialDialogs() {
             }
             isLoading={isUpdating}
             confirmText={isUpdating ? t.updating : t.confirm}
-            projectId={projectData.id}
+            projectData={projectData}
           />
         </>
       )}

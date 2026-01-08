@@ -17,6 +17,7 @@ import { Button } from '@/components/ui/button'
 import { Form } from '@/components/ui/form'
 import { FormFieldWrapper } from '@/components/form-field-wrapper'
 import { FormComboboxDistributions } from '@/features/companies/components/form-combobox-distributions'
+import { ProjectSchema } from '@/features/projects/data/schema'
 import { useProjectSocials } from '../data/hooks'
 import { GroupedRow } from './grouped-columns'
 
@@ -36,7 +37,7 @@ interface ApproveDialogProps {
   isLoading?: boolean
   className?: string
   children?: React.ReactNode
-  projectId: string
+  projectData: ProjectSchema
 }
 
 export function ApproveDialog(props: ApproveDialogProps) {
@@ -51,7 +52,7 @@ export function ApproveDialog(props: ApproveDialogProps) {
     isLoading,
     disabled = false,
     handleApproveConfirm,
-    projectId,
+    projectData,
     ...actions
   } = props
 
@@ -60,7 +61,7 @@ export function ApproveDialog(props: ApproveDialogProps) {
   const t_form = tForm[lang]
 
   const { data } = useProjectSocials({
-    projectId: projectId,
+    projectId: projectData.id,
   })
 
   // Group data by social network type, then by social_id
@@ -152,6 +153,7 @@ export function ApproveDialog(props: ApproveDialogProps) {
   const form = useForm<StatusForm>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      distribution_id: projectData.distribution_id ?? undefined,
       price: totalSellPrice ?? 0,
     },
   })
@@ -182,6 +184,7 @@ export function ApproveDialog(props: ApproveDialogProps) {
               control={form.control}
               name='distribution_id'
               label={t_form.form_labels.distribution}
+              detail={projectData?.distribution ?? undefined}
             />
 
             <FormFieldWrapper

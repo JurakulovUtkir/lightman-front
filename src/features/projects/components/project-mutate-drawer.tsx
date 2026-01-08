@@ -75,16 +75,16 @@ export function ProjectMutateDrawer({
           .max(150, t.form_validations.invalid_description)
           .optional(),
         contract_id: z.string().optional().nullable(),
-        price: z
-          .number({
-            error: t.form_validations.required_field,
-          })
-          .min(0, t.form_validations.invalid_value),
-        price_with_qqs: z
-          .number({
-            error: t.form_validations.required_field,
-          })
-          .min(0, t.form_validations.invalid_value),
+        // price: z
+        //   .number({
+        //     error: t.form_validations.required_field,
+        //   })
+        //   .min(0, t.form_validations.invalid_value),
+        // price_with_qqs: z
+        //   .number({
+        //     error: t.form_validations.required_field,
+        //   })
+        //   .min(0, t.form_validations.invalid_value),
         planned_views_count: z
           .number()
           .min(0, t.form_validations.invalid_value)
@@ -122,9 +122,7 @@ export function ProjectMutateDrawer({
     name: '',
     description: '',
     contract_id: undefined,
-    price: 0,
     planned_views_count: 0,
-    price_with_qqs: 0,
     distribution_id: undefined,
     price_type: undefined,
     customer_company_id: undefined,
@@ -135,6 +133,8 @@ export function ProjectMutateDrawer({
     is_qqs: false,
     clone_project_id: undefined,
     tags: undefined,
+    // price: 0,
+    // price_with_qqs: 0,
   }
 
   const form = useForm<ProjectForm>({
@@ -164,13 +164,13 @@ export function ProjectMutateDrawer({
           name: selectedProject.name,
           description: selectedProject.description,
           contract_id: selectedProject.contract_id,
-          price: toNumber(selectedProject.price) ?? 0,
-          price_with_qqs: toNumber(selectedProject.price_with_qqs) ?? 0,
+          // price: toNumber(selectedProject.price) ?? 0,
+          // price_with_qqs: toNumber(selectedProject.price_with_qqs) ?? 0,
           planned_views_count:
             toNumber(selectedProject.planned_views_count) ?? 0,
           distribution_id: selectedProject.distribution_id,
           price_type: selectedProject.price_type,
-          customer_company_id: selectedProject.customer_company_id,
+          customer_company_id: selectedProject.customer_company_id ?? undefined,
           our_company_id: selectedProject.our_company_id,
           project_manager_id: selectedProject.project_manager_id,
           payment_type: selectedProject.payment_type,
@@ -189,12 +189,12 @@ export function ProjectMutateDrawer({
         name: currentRow.name,
         description: currentRow.description,
         contract_id: currentRow.contract_id ?? undefined,
-        price: toNumber(currentRow.price) ?? 0,
-        price_with_qqs: toNumber(currentRow.price_with_qqs) ?? 0,
+        // price: toNumber(currentRow.price) ?? 0,
+        // price_with_qqs: toNumber(currentRow.price_with_qqs) ?? 0,
         planned_views_count: toNumber(currentRow.planned_views_count) ?? 0,
         distribution_id: currentRow.distribution_id,
         price_type: currentRow.price_type,
-        customer_company_id: currentRow.customer_company_id,
+        customer_company_id: currentRow.customer_company_id ?? undefined,
         our_company_id: currentRow.our_company_id,
         project_manager_id: currentRow.project_manager_id,
         payment_type: currentRow.payment_type,
@@ -391,7 +391,7 @@ export function ProjectMutateDrawer({
                   placeholder={t.form_placeholders.enter_count}
                   type='number'
                 />
-                {isUpdate && (
+                {/* {isUpdate && (
                   <>
                     <FormFieldWrapper
                       control={form.control}
@@ -410,7 +410,7 @@ export function ProjectMutateDrawer({
                       suffix={t.form_placeholders.uzs}
                     />
                   </>
-                )}
+                )} */}
               </div>
             </form>
           </Form>
