@@ -157,7 +157,10 @@
       "select_payment_type_first": "Select payment type first",
       "date": "Date",
       "pinfl": "PINFL",
-      "select_project_manager": "Select project manager"
+      "select_project_manager": "Select project manager",
+      "categories": "Categories",
+      "select_categories": "Select categories",
+      "search_categories": "Search categories..."
     },
     "form_placeholders": {
       "select_project_manager": "Select project manager",
@@ -440,7 +443,10 @@
       "select_payment_type_first": "Сначала выберите тип оплаты",
       "date": "Дата",
       "pinfl": "ПИНФЛ",
-      "select_project_manager": "Выберите менеджера проекта"
+      "select_project_manager": "Выберите менеджера проекта",
+      "categories": "Категории",
+      "select_categories": "Выберите категории",
+      "search_categories": "Поиск категорий..."
     },
     "form_placeholders": {
       "select_project_manager": "Выберите менеджера проекта",
@@ -723,7 +729,10 @@
       "select_payment_type_first": "Avval to‘lov turini tanlang",
       "date": "Sana",
       "pinfl": "PINFL",
-      "select_project_manager": "Loyiha menejerini tanlang"
+      "select_project_manager": "Loyiha menejerini tanlang",
+      "categories": "Kategoriyalar",
+      "select_categories": "Kategoriyalarni tanlang",
+      "search_categories": "Kategoriyalarni qidirish..."
     },
     "form_placeholders": {
       "select_project_manager": "Loyiha menejerini tanlang",

@@ -14,15 +14,17 @@ import { CardPrimaryButtons } from './components/card-primary-buttons'
 import CardsProvider from './context'
 import { useCards } from './data/hooks'
 
-const Cards = () => {
+type PaymentType = 'all' | 'card' | 'cash'
+
+const Cards = ({ type = 'all' }: { type?: PaymentType }) => {
   const { lang, tCard } = useLang()
   const t = tCard[lang]
 
   const { offset, limit } = useSearch({
-    from: '/_authenticated/companies/cards/',
+    strict: false,
   })
 
-  const [activeTab, setActiveTab] = useState('all')
+  const [activeTab, setActiveTab] = useState<PaymentType>(type ?? 'all')
 
   const currentOffset = offset ?? 0
   const currentLimit = limit ?? 20
@@ -47,6 +49,12 @@ const Cards = () => {
       }
     : undefined
 
+  const handleTabChange = (value: string) => {
+    if (value === 'all' || value === 'card' || value === 'cash') {
+      setActiveTab(value)
+    }
+  }
+
   return (
     <CardsProvider>
       <Header fixed>
@@ -65,24 +73,30 @@ const Cards = () => {
           <CardPrimaryButtons text={t.create} />
         </div>
 
-        <Tabs value={activeTab} onValueChange={setActiveTab} className='w-full'>
-          <TabsList className='mb-4'>
-            <TabsTrigger value='all'>
-              {t.all} ({data?.data?.data?.length || 0})
-            </TabsTrigger>
-            <TabsTrigger value='card'>
-              {t.cards} (
-              {data?.data?.data?.filter((c) => c.card_type === 'card').length ||
-                0}
-              )
-            </TabsTrigger>
-            <TabsTrigger value='cash'>
-              {t.cash} (
-              {data?.data?.data?.filter((c) => c.card_type === 'cash').length ||
-                0}
-              )
-            </TabsTrigger>
-          </TabsList>
+        <Tabs
+          value={activeTab}
+          onValueChange={handleTabChange}
+          className='w-full'
+        >
+          {type === 'all' && (
+            <TabsList className='mb-4'>
+              <TabsTrigger value='all'>
+                {t.all} ({data?.data?.data?.length || 0})
+              </TabsTrigger>
+              <TabsTrigger value='card'>
+                {t.cards} (
+                {data?.data?.data?.filter((c) => c.card_type === 'card')
+                  .length || 0}
+                )
+              </TabsTrigger>
+              <TabsTrigger value='cash'>
+                {t.cash} (
+                {data?.data?.data?.filter((c) => c.card_type === 'cash')
+                  .length || 0}
+                )
+              </TabsTrigger>
+            </TabsList>
+          )}
 
           <TabsContent value='all' className='mt-0'>
             <div className='-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-y-0 lg:space-x-12'>

@@ -62,5 +62,6 @@ export const projectSchema = z.object({
   contract: contractSchema,
   tags: z.array(z.string()).optional(),
   clone_project_id: z.string().optional().nullable(),
+  categories: z.array(z.string()).optional(),
 })
 export type ProjectSchema = z.infer<typeof projectSchema>

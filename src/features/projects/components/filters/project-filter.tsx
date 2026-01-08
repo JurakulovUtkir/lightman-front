@@ -20,7 +20,13 @@ import { EnumFilter } from './enum-filters'
 import { useProjectFilters } from './useProjectFilters'
 import { UserFilter } from './user-filter'
 
-const ProjectFilter = ({ requested = false }: { requested?: boolean }) => {
+const ProjectFilter = ({
+  requested = false,
+  passive = false,
+}: {
+  requested?: boolean
+  passive?: boolean
+}) => {
   const { lang, general, tForm } = useLang()
   const t_general = general[lang].columns
   const t = tForm[lang]
@@ -37,9 +43,11 @@ const ProjectFilter = ({ requested = false }: { requested?: boolean }) => {
     max_price,
     min_price,
   } = useSearch({
-    from: !requested
-      ? '/_authenticated/projects/'
-      : '/_authenticated/projects/requested/',
+    from: requested
+      ? '/_authenticated/projects/requested/'
+      : passive
+        ? '/_authenticated/passives/projects/'
+        : '/_authenticated/projects/',
   })
 
   const {
@@ -53,7 +61,7 @@ const ProjectFilter = ({ requested = false }: { requested?: boolean }) => {
     handlePriceTypeFilterChange,
     handleStatusFilterChange,
     handleClear,
-  } = useProjectFilters()
+  } = useProjectFilters({ requested, passive })
   const [open, setOpen] = useState(false)
   const [minPrice, setMinPrice] = useState<string>(min_price?.toString() || '')
   const [maxPrice, setMaxPrice] = useState<string>(max_price?.toString() || '')

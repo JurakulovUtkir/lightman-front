@@ -11,19 +11,20 @@ import { Search } from '@/components/search'
 import { DataTable } from '@/components/table/data-table'
 import { ThemeSwitch } from '@/components/theme-switch'
 import { columns } from './components/columns'
+import { columnsMoney } from './components/columns-money'
 import { LoanDialogs } from './components/loan-dialogs'
 import { LoanPrimaryButtons } from './components/loan-primary-buttons'
 import LoanProvider, { useLoanContext } from './context'
 import { useLoans } from './data/hooks'
 import { LoanSchema } from './data/schema'
 
-const LoanContent = () => {
+const LoanContent = ({ direction }: { direction?: 'WE_GAVE' | 'WE_TOOK' }) => {
   const { lang, tLoan, general } = useLang()
   const t = tLoan[lang]
   const { setOpen, setCurrentRow } = useLoanContext()
 
   const { offset, limit } = useSearch({
-    from: '/_authenticated/loans/',
+    strict: false,
   })
   const [search, setSearch] = useState('')
   const debouncedSearch = useDebounce(search, 500)
@@ -35,6 +36,7 @@ const LoanContent = () => {
     offset: currentOffset,
     limit: currentLimit,
     search: debouncedSearch.length >= 2 ? debouncedSearch : undefined,
+    direction: direction ?? undefined,
   })
 
   const handleDoubleClick = (payload: LoanSchema) => {
@@ -75,7 +77,11 @@ const LoanContent = () => {
         <div className='-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-y-0 lg:space-x-12'>
           <DataTable
             data={data?.data.data?.length ? data.data.data : []}
-            columns={columns(general[lang].columns)}
+            columns={
+              !direction
+                ? columns(general[lang].columns)
+                : columnsMoney(general[lang].columns)
+            }
             offset={offset}
             limit={limit}
             total={data?.data?.total ?? 0}
@@ -88,10 +94,10 @@ const LoanContent = () => {
   )
 }
 
-const Loans = () => {
+const Loans = ({ direction }: { direction?: 'WE_GAVE' | 'WE_TOOK' }) => {
   return (
     <LoanProvider>
-      <LoanContent />
+      <LoanContent direction={direction} />
     </LoanProvider>
   )
 }

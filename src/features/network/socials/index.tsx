@@ -12,6 +12,7 @@ import { Search } from '@/components/search'
 import { DataTable } from '@/components/table/data-table'
 import { ThemeSwitch } from '@/components/theme-switch'
 import { columns } from './components/columns'
+import { columnsMoney } from './components/columns-money'
 import { NetworkSocialDialogs } from './components/network-social-dialogs'
 import NetworkSocialFilter from './components/network-social-filter'
 import { NetworkSocialPrimaryButtons } from './components/network-social-primary-buttons'
@@ -19,14 +20,14 @@ import NetworkSocialProvider, { useNetworkSocialContext } from './context'
 import { useNetworkSocials } from './data/hooks'
 import { NetworkSocialSchema } from './data/schema'
 
-const NetworkSocialsContent = () => {
+const NetworkSocialsContent = ({ isMain }: { isMain: boolean }) => {
   const { lang, tNetwork, general } = useLang()
   const t = tNetwork[lang]
 
   const { setOpen, setCurrentRow } = useNetworkSocialContext()
   const navigate = useNavigate()
   const { offset, limit, category_id, social_network_type_id } = useSearch({
-    from: '/_authenticated/network/socials',
+    strict: false,
   })
   const currentOffset = offset ?? 0
   const currentLimit = limit ?? 20
@@ -115,7 +116,11 @@ const NetworkSocialsContent = () => {
         <div className='-mx-4 flex-1 overflow-auto px-4 py-2 sm:mt-0 lg:flex-row lg:space-y-0 lg:space-x-12'>
           <DataTable
             data={data?.data.items?.length ? data.data.items : []}
-            columns={columns(general[lang].columns)}
+            columns={
+              isMain
+                ? columns(general[lang].columns)
+                : columnsMoney(general[lang].columns)
+            }
             offset={offset}
             limit={limit}
             total={data?.data.total ?? 0}
@@ -127,10 +132,10 @@ const NetworkSocialsContent = () => {
     </>
   )
 }
-const NetworkSocials = () => {
+const NetworkSocials = ({ isMain = true }: { isMain?: boolean }) => {
   return (
     <NetworkSocialProvider>
-      <NetworkSocialsContent />
+      <NetworkSocialsContent isMain={isMain} />
     </NetworkSocialProvider>
   )
 }

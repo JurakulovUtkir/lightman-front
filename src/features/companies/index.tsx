@@ -11,6 +11,7 @@ import { Search } from '@/components/search'
 import { DataTable } from '@/components/table/data-table'
 import { ThemeSwitch } from '@/components/theme-switch'
 import { columns } from './components/columns'
+import { columnsMoney } from './components/columns-money'
 import { CompanyDialogs } from './components/company-dialogs'
 import { CompanyFilter } from './components/company-filter'
 import { CompanyPrimaryButtons } from './components/company-primary-buttons'
@@ -18,13 +19,13 @@ import CompanyProvider from './context'
 import { useCompanies } from './data/hooks'
 import { CompanySchema } from './data/schema'
 
-const Companies = () => {
+const Companies = ({ isMain = true }: { isMain?: boolean }) => {
   const { lang, tCompany, general } = useLang()
   const t = tCompany[lang]
   const navigate = useNavigate()
 
   const { offset, limit } = useSearch({
-    from: '/_authenticated/companies/',
+    strict: false,
   })
   const [search, setSearch] = useState('')
   const [filters, setFilters] = useState<{
@@ -52,7 +53,6 @@ const Companies = () => {
       params: { id: payload.id },
     })
   }
-
   return (
     <CompanyProvider>
       <Header fixed>
@@ -87,7 +87,11 @@ const Companies = () => {
         <div className='-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-y-0 lg:space-x-12'>
           <DataTable
             data={data?.data.items?.length ? data.data.items : []}
-            columns={columns(general[lang].columns)}
+            columns={
+              isMain
+                ? columns(general[lang].columns)
+                : columnsMoney(general[lang].columns)
+            }
             offset={offset}
             limit={limit}
             total={data?.data.total ?? 0}

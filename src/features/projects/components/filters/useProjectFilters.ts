@@ -4,12 +4,22 @@ import { useNavigate } from '@tanstack/react-router'
  * Custom hook for managing expense filter handlers
  * Provides reusable filter change functions that update URL search params
  */
-export const useProjectFilters = () => {
+export const useProjectFilters = ({
+  requested = false,
+  passive = false,
+}: {
+  requested?: boolean
+  passive?: boolean
+}) => {
   const navigate = useNavigate()
 
   const handleCategoryFilterChange = (categoryId: string | null) => {
     navigate({
-      to: '/projects',
+      to: requested
+        ? '/projects/requested'
+        : passive
+          ? '/passives/projects'
+          : '/projects',
       search: (prev) => ({
         ...prev,
         category_id: categoryId || undefined,
@@ -20,7 +30,11 @@ export const useProjectFilters = () => {
 
   const handleStatusFilterChange = (status: string | null) => {
     navigate({
-      to: '/projects',
+      to: requested
+        ? '/projects/requested'
+        : passive
+          ? '/passives/projects'
+          : '/projects',
       search: (prev) => ({
         ...prev,
         status: status as
@@ -38,7 +52,11 @@ export const useProjectFilters = () => {
   }
   const handleOurCompanyFilterChange = (ourCompanyId: string | null) => {
     navigate({
-      to: '/projects',
+      to: requested
+        ? '/projects/requested'
+        : passive
+          ? '/passives/projects'
+          : '/projects',
       search: (prev) => ({
         ...prev,
         our_company_id: ourCompanyId || undefined,
@@ -48,7 +66,11 @@ export const useProjectFilters = () => {
   }
   const handleProjectManagerFilterChange = (userId: string | null) => {
     navigate({
-      to: '/projects',
+      to: requested
+        ? '/projects/requested'
+        : passive
+          ? '/passives/projects'
+          : '/projects',
       search: (prev) => ({
         ...prev,
         project_manager_id: userId || undefined,
@@ -61,7 +83,11 @@ export const useProjectFilters = () => {
     customerCompanyId: string | null
   ) => {
     navigate({
-      to: '/projects',
+      to: requested
+        ? '/projects/requested'
+        : passive
+          ? '/passives/projects'
+          : '/projects',
       search: (prev) => ({
         ...prev,
         customer_company_id: customerCompanyId || undefined,
@@ -72,7 +98,11 @@ export const useProjectFilters = () => {
 
   const handleDistiburionFilterChange = (distributionId: string | null) => {
     navigate({
-      to: '/projects',
+      to: requested
+        ? '/projects/requested'
+        : passive
+          ? '/passives/projects'
+          : '/projects',
       search: (prev) => ({
         ...prev,
         distribution_id: distributionId || undefined,
@@ -83,7 +113,11 @@ export const useProjectFilters = () => {
 
   const handlePriceTypeFilterChange = (priceType: string | null) => {
     navigate({
-      to: '/projects',
+      to: requested
+        ? '/projects/requested'
+        : passive
+          ? '/passives/projects'
+          : '/projects',
       search: (prev) => ({
         ...prev,
         price_type: priceType as
@@ -98,7 +132,11 @@ export const useProjectFilters = () => {
 
   const handleMaxPriceFilterChange = (maxPrice: number | null) => {
     navigate({
-      to: '/projects',
+      to: requested
+        ? '/projects/requested'
+        : passive
+          ? '/passives/projects'
+          : '/projects',
       search: (prev) => ({
         ...prev,
         max_price: maxPrice || undefined,
@@ -109,7 +147,11 @@ export const useProjectFilters = () => {
 
   const handleMinPriceFilterChange = (minPrice: number | null) => {
     navigate({
-      to: '/projects',
+      to: requested
+        ? '/projects/requested'
+        : passive
+          ? '/passives/projects'
+          : '/projects',
       search: (prev) => ({
         ...prev,
         min_price: minPrice || undefined,

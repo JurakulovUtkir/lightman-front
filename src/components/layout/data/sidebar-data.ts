@@ -17,6 +17,8 @@ import {
   IconLanguage,
   IconDatabaseDollar,
   IconHomeBitcoin,
+  IconTrendingUp,
+  IconTrendingDown,
   // IconBasketDollar,
   // IconBarrierBlock,
   // IconBug,
@@ -66,7 +68,6 @@ export const sidebarData: SidebarData = {
           url: '/',
           icon: IconLayoutDashboard,
         },
-
         {
           title: 'projects',
           icon: IconBriefcase2,
@@ -108,11 +109,6 @@ export const sidebarData: SidebarData = {
           url: '/contracts',
           icon: IconContract,
         },
-        // {
-        //   title: 'companies',
-        //   url: '/companies',
-        //   icon: IconBuildings,
-        // },
         {
           title: 'companies',
           icon: IconBuildings,
@@ -170,7 +166,73 @@ export const sidebarData: SidebarData = {
           url: '/users',
           icon: IconUsers,
         },
+        {
+          title: 'actives',
+          icon: IconTrendingUp,
+          items: [
+            {
+              title: 'properties',
+              url: '/actives/properties',
+            },
+            {
+              title: 'inventories',
+              url: '/actives/inventories',
+            },
+            {
+              title: 'money',
+              items: [
+                {
+                  title: 'companies',
+                  url: '/actives/money/companies',
+                },
+                {
+                  title: 'card',
+                  url: '/actives/money/card',
+                },
+                {
+                  title: 'cash',
+                  url: '/actives/money/cash',
+                },
 
+                {
+                  title: 'deposits',
+                  items: [
+                    {
+                      title: 'social',
+                      url: '/actives/money/deposits/social',
+                    },
+                    {
+                      title: 'stock_deposit',
+                      url: '/actives/money/deposits/stock',
+                    },
+                  ],
+                },
+                {
+                  title: 'given_loans',
+                  url: '/actives/money/given-loans',
+                },
+              ],
+            },
+            {
+              title: 'counterparty',
+              url: '/actives/counterparty',
+            },
+          ],
+        },
+        {
+          title: 'passives',
+          icon: IconTrendingDown,
+          items: [
+            {
+              title: 'loans',
+              url: '/passives/loans',
+            },
+            {
+              title: 'projects',
+              url: '/passives/projects',
+            },
+          ],
+        },
         {
           title: 'user_actions',
           url: '/actions',

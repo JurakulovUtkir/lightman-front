@@ -6,6 +6,7 @@ import {
   getPaymentTypeColor,
 } from '@/lib/statusHelpers'
 import { cn } from '@/lib/utils'
+import { formatPrice } from '@/utils/formatPrice'
 import { Checkbox } from '@/components/ui/checkbox'
 import LongText from '@/components/long-text'
 import { DataTableColumnHeader } from '@/components/table/data-table-column-header'
@@ -211,7 +212,7 @@ export const columns = (
       const price = row.getValue('price') as number
       return (
         <div className='font-medium'>
-          {price?.toLocaleString('en-US')} {t.uzs}
+          {formatPrice(price)} {t.uzs}
         </div>
       )
     },

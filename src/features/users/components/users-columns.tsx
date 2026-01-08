@@ -1,5 +1,6 @@
 import { ColumnDef } from '@tanstack/react-table'
 import { cn } from '@/lib/utils'
+import { formatPrice } from '@/utils/formatPrice'
 import { Badge } from '@/components/ui/badge'
 import { Checkbox } from '@/components/ui/checkbox'
 import { FormatDateToLongString } from '@/components/date-formatter'
@@ -170,12 +171,9 @@ export const columns = (
         return <div className='text-muted-foreground'>-</div>
       }
 
-      // Format number with spaces for thousands
-      const formattedSalary = salary.toLocaleString('en-US').replace(/,/g, ' ')
-
       return (
         <div className='font-medium'>
-          {formattedSalary}{' '}
+          {formatPrice(salary)}{' '}
           <span className='text-muted-foreground text-xs'> {t.uzs}</span>
         </div>
       )

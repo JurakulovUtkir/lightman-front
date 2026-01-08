@@ -137,7 +137,16 @@
       "loans": "Loans",
       "requested_projects": "Requested projects",
       "properties": "Properties",
-      "counterparty": "Counterparty"
+      "counterparty": "Counterparty",
+      "actives": "Actives",
+      "passives": "Passives",
+      "inventories": "Inventories",
+      "money": "Money",
+      "cash": "Cash",
+      "card": "Card",
+      "stock_deposit": "Stock",
+      "given_loans": "Given loans",
+      "social": "Social"
     },
     "columns": {
       "statusOptions": {
@@ -342,7 +351,11 @@
       "commission": "Commission",
       "pinfl": "PINFL",
       "project_manager": "Project manager",
-      "founder": "Founder"
+      "founder": "Founder",
+      "vip": "VIP",
+      "regular": "Regular",
+      "yes": "Yes",
+      "no": "No"
     }
   },
   "ru": {
@@ -483,7 +496,16 @@
       "loans": "Займы",
       "requested_projects": "Запрошенные проекты",
       "properties": "Имущество",
-      "counterparty": "Контрагент"
+      "counterparty": "Контрагент",
+      "actives": "Активы",
+      "passives": "Пассивы",
+      "inventories": "Запасы",
+      "money": "Денежные средства",
+      "cash": "Наличные",
+      "card": "Карта",
+      "stock_deposit": "Запасы",
+      "given_loans": "Выданные займы",
+      "social": "Социальная сеть"
     },
     "columns": {
       "statusOptions": {
@@ -688,7 +710,11 @@
       "commission": "Комиссия",
       "pinfl": "ПИНФЛ",
       "project_manager": "Менеджер проекта",
-      "founder": "Основатель"
+      "founder": "Основатель",
+      "vip": "VIP",
+      "regular": "Обычный",
+      "yes": "Да",
+      "no": "Нет"
     }
   },
   "uz": {
@@ -829,7 +855,16 @@
       "loans": "Qarzlar",
       "requested_projects": "So‘ralgan loyihalar",
       "properties": "Mulk",
-      "counterparty": "Kontragent"
+      "counterparty": "Kontragent",
+      "actives": "Aktivlar",
+      "passives": "Passivlar",
+      "inventories": "Zaxiralar",
+      "money": "Pul mablag‘lari",
+      "cash": "Naqd pul",
+      "card": "Karta",
+      "stock_deposit": "Zaxiralar",
+      "given_loans": "Berilgan qarzlar",
+      "social": "Ijtimoiy tarmoq"
     },
     "columns": {
       "statusOptions": {
@@ -1034,7 +1069,11 @@
       "commission": "Komissiya",
       "pinfl": "PINFL",
       "project_manager": "Loyiha menejeri",
-      "founder": "Asoschi"
+      "founder": "Asoschi",
+      "vip": "VIP",
+      "regular": "Oddiy",
+      "yes": "Ha",
+      "no": "Yo‘q"
     }
   }
 }

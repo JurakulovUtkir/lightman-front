@@ -1,3 +1,4 @@
+// types.ts - Updated types to support nested items
 import { LinkProps } from '@tanstack/react-router'
 
 interface User {
@@ -24,7 +25,7 @@ type NavLink = BaseNavItem & {
 }
 
 type NavCollapsible = BaseNavItem & {
-  items: (BaseNavItem & { url: LinkProps['to'] })[]
+  items: NavItem[]
   url?: never
 }
 

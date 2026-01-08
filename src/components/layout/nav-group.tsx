@@ -18,6 +18,7 @@ import {
   SidebarMenuSubItem,
   useSidebar,
 } from '@/components/ui/sidebar'
+import LongText from '../long-text'
 import { Badge } from '../ui/badge'
 import {
   DropdownMenu,
@@ -37,16 +38,10 @@ export function NavGroup({ title, items }: NavGroup) {
   const href = useLocation({ select: (location) => location.href })
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>
-        {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          //@ts-ignore
-          t[title]
-        }
-      </SidebarGroupLabel>
+      <SidebarGroupLabel>{t[title as keyof typeof t]}</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => {
-          const key = `${item.title}-${item.url}`
+          const key = `${item.title}-${item.url || 'collapsible'}`
 
           if (!item.items)
             return <SidebarMenuLink key={key} item={item} href={href} t={t} />
@@ -105,12 +100,15 @@ const SidebarMenuCollapsible = ({
   item,
   href,
   t,
+  depth = 0,
 }: {
   item: NavCollapsible
   href: string
   t: (typeof import('@/translations/general.json'))['uz']['sidebar']
+  depth?: number
 }) => {
-  const { setOpenMobile } = useSidebar()
+  // const { setOpenMobile } = useSidebar()
+
   return (
     <Collapsible
       asChild
@@ -129,22 +127,77 @@ const SidebarMenuCollapsible = ({
         <CollapsibleContent className='CollapsibleContent'>
           <SidebarMenuSub>
             {item.items.map((subItem) => (
-              <SidebarMenuSubItem key={subItem.title}>
-                <SidebarMenuSubButton
-                  asChild
-                  isActive={checkIsActive(href, subItem)}
-                >
-                  <Link to={subItem.url} onClick={() => setOpenMobile(false)}>
-                    {subItem.icon && <subItem.icon />}
-                    <span>{t[subItem.title as keyof typeof t]}</span>
-                    {subItem.badge && <NavBadge>{subItem.badge}</NavBadge>}
-                  </Link>
-                </SidebarMenuSubButton>
-              </SidebarMenuSubItem>
+              <NestedMenuItem
+                key={subItem.title}
+                item={subItem}
+                href={href}
+                t={t}
+                depth={depth + 1}
+              />
             ))}
           </SidebarMenuSub>
         </CollapsibleContent>
       </SidebarMenuItem>
+    </Collapsible>
+  )
+}
+
+const NestedMenuItem = ({
+  item,
+  href,
+  t,
+  depth,
+}: {
+  item: NavItem
+  href: string
+  t: (typeof import('@/translations/general.json'))['uz']['sidebar']
+  depth: number
+}) => {
+  const { setOpenMobile } = useSidebar()
+
+  if (!item.items) {
+    return (
+      <SidebarMenuSubItem>
+        <SidebarMenuSubButton asChild isActive={checkIsActive(href, item)}>
+          <Link to={item.url} onClick={() => setOpenMobile(false)}>
+            {item.icon && <item.icon />}
+            <LongText overflow>{t[item.title as keyof typeof t]}</LongText>
+            {item.badge && <NavBadge>{item.badge}</NavBadge>}
+          </Link>
+        </SidebarMenuSubButton>
+      </SidebarMenuSubItem>
+    )
+  }
+
+  return (
+    <Collapsible
+      asChild
+      defaultOpen={checkIsActive(href, item, true)}
+      className='group/collapsible-nested'
+    >
+      <SidebarMenuSubItem>
+        <CollapsibleTrigger asChild>
+          <SidebarMenuSubButton>
+            {item.icon && <item.icon />}
+            <LongText overflow>{t[item.title as keyof typeof t]}</LongText>
+            {item.badge && <NavBadge>{item.badge}</NavBadge>}
+            <ChevronRight className='ml-auto transition-transform duration-200 group-data-[state=open]/collapsible-nested:rotate-90' />
+          </SidebarMenuSubButton>
+        </CollapsibleTrigger>
+        <CollapsibleContent>
+          <SidebarMenuSub>
+            {item.items.map((nestedItem) => (
+              <NestedMenuItem
+                key={nestedItem.title}
+                item={nestedItem}
+                href={href}
+                t={t}
+                depth={depth + 1}
+              />
+            ))}
+          </SidebarMenuSub>
+        </CollapsibleContent>
+      </SidebarMenuSubItem>
     </Collapsible>
   )
 }
@@ -178,33 +231,64 @@ const SidebarMenuCollapsedDropdown = ({
             {item.badge ? `(${item.badge})` : ''}
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
-          {item.items.map((sub) => (
-            <DropdownMenuItem key={`${sub.title}-${sub.url}`} asChild>
-              <Link
-                to={sub.url}
-                className={`${checkIsActive(href, sub) ? 'bg-secondary' : ''}`}
-              >
-                {sub.icon && <sub.icon />}
-                <span className='max-w-52 text-wrap'>
-                  {t[sub.title as keyof typeof t]}
-                </span>
-                {sub.badge && (
-                  <span className='ml-auto text-xs'>{sub.badge}</span>
-                )}
-              </Link>
-            </DropdownMenuItem>
-          ))}
+          {renderDropdownItems(item.items, href, t)}
         </DropdownMenuContent>
       </DropdownMenu>
     </SidebarMenuItem>
   )
 }
 
-function checkIsActive(href: string, item: NavItem, mainNav = false) {
+function renderDropdownItems(
+  items: NavItem[],
+  href: string,
+  t: (typeof import('@/translations/general.json'))['uz']['sidebar']
+): React.ReactNode {
+  return items.map((sub) => {
+    if (!sub.items) {
+      return (
+        <DropdownMenuItem key={`${sub.title}-${sub.url}`} asChild>
+          <Link
+            to={sub.url}
+            className={`${checkIsActive(href, sub) ? 'bg-secondary' : ''}`}
+          >
+            {sub.icon && <sub.icon />}
+            <span className='max-w-52 text-wrap'>
+              {t[sub.title as keyof typeof t]}
+            </span>
+            {sub.badge && <span className='ml-auto text-xs'>{sub.badge}</span>}
+          </Link>
+        </DropdownMenuItem>
+      )
+    }
+
+    return (
+      <DropdownMenu key={sub.title}>
+        <DropdownMenuTrigger asChild>
+          <div className='hover:bg-accent flex cursor-pointer items-center justify-between rounded-sm px-2 py-1.5 text-sm'>
+            <div className='flex items-center gap-2'>
+              {sub.icon && <sub.icon />}
+              <span>{t[sub.title as keyof typeof t]}</span>
+            </div>
+            <ChevronRight className='size-4' />
+          </div>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent side='right' align='start' sideOffset={4}>
+          <DropdownMenuLabel>
+            {t[sub.title as keyof typeof t]}
+          </DropdownMenuLabel>
+          <DropdownMenuSeparator />
+          {renderDropdownItems(sub.items, href, t)}
+        </DropdownMenuContent>
+      </DropdownMenu>
+    )
+  })
+}
+
+function checkIsActive(href: string, item: NavItem, mainNav = false): boolean {
   return (
-    href === item.url || // /endpint?search=param
-    href.split('?')[0] === item.url || // endpoint
-    !!item?.items?.filter((i) => i.url === href).length || // if child nav is active
+    href === item.url ||
+    href.split('?')[0] === item.url ||
+    !!item?.items?.some((i) => checkIsActive(href, i)) ||
     (mainNav &&
       href.split('/')[1] !== '' &&
       href.split('/')[1] === item?.url?.split('/')[1])

@@ -54,16 +54,27 @@ import { Route as AuthenticatedNetworkSocialsRouteImport } from './routes/_authe
 import { Route as AuthenticatedNetworkCategoriesRouteImport } from './routes/_authenticated/network/categories'
 import { Route as AuthenticatedStakeholderFoundersIndexRouteImport } from './routes/_authenticated/stakeholder/founders/index'
 import { Route as AuthenticatedProjectsRequestedIndexRouteImport } from './routes/_authenticated/projects/requested/index'
+import { Route as AuthenticatedPassivesProjectsIndexRouteImport } from './routes/_authenticated/passives/projects/index'
+import { Route as AuthenticatedPassivesLoansIndexRouteImport } from './routes/_authenticated/passives/loans/index'
 import { Route as AuthenticatedCompaniesCounterpartyIndexRouteImport } from './routes/_authenticated/companies/counterparty/index'
 import { Route as AuthenticatedCompaniesCardsIndexRouteImport } from './routes/_authenticated/companies/cards/index'
+import { Route as AuthenticatedActivesPropertiesIndexRouteImport } from './routes/_authenticated/actives/properties/index'
+import { Route as AuthenticatedActivesInventoriesIndexRouteImport } from './routes/_authenticated/actives/inventories/index'
+import { Route as AuthenticatedActivesCounterpartyIndexRouteImport } from './routes/_authenticated/actives/counterparty/index'
 import { Route as AuthenticatedUsersExpenceIdRouteImport } from './routes/_authenticated/users/expence/$id'
 import { Route as AuthenticatedStakeholderDistributorsIdRouteImport } from './routes/_authenticated/stakeholder/distributors/$id'
 import { Route as AuthenticatedProjectsSocialsIdRouteImport } from './routes/_authenticated/projects/socials/$id'
 import { Route as AuthenticatedProjectsExpenceIdRouteImport } from './routes/_authenticated/projects/expence/$id'
 import { Route as AuthenticatedExpencesExpenceDetailsIdRouteImport } from './routes/_authenticated/expences/expence-details/$id'
 import { Route as AuthenticatedCompaniesExpenceIdRouteImport } from './routes/_authenticated/companies/expence/$id'
+import { Route as AuthenticatedActivesMoneyGivenLoansIndexRouteImport } from './routes/_authenticated/actives/money/given-loans/index'
+import { Route as AuthenticatedActivesMoneyCompaniesIndexRouteImport } from './routes/_authenticated/actives/money/companies/index'
+import { Route as AuthenticatedActivesMoneyCashIndexRouteImport } from './routes/_authenticated/actives/money/cash/index'
+import { Route as AuthenticatedActivesMoneyCardIndexRouteImport } from './routes/_authenticated/actives/money/card/index'
 import { Route as AuthenticatedStakeholderFoundersExpenceIdRouteImport } from './routes/_authenticated/stakeholder/founders/expence/$id'
 import { Route as AuthenticatedCompaniesCardsExpenceIdRouteImport } from './routes/_authenticated/companies/cards/expence/$id'
+import { Route as AuthenticatedActivesMoneyDepositsStockIndexRouteImport } from './routes/_authenticated/actives/money/deposits/stock/index'
+import { Route as AuthenticatedActivesMoneyDepositsSocialIndexRouteImport } from './routes/_authenticated/actives/money/deposits/social/index'
 
 const ClerkRouteRoute = ClerkRouteRouteImport.update({
   id: '/clerk',
@@ -310,6 +321,18 @@ const AuthenticatedProjectsRequestedIndexRoute =
     path: '/projects/requested/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedPassivesProjectsIndexRoute =
+  AuthenticatedPassivesProjectsIndexRouteImport.update({
+    id: '/passives/projects/',
+    path: '/passives/projects/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedPassivesLoansIndexRoute =
+  AuthenticatedPassivesLoansIndexRouteImport.update({
+    id: '/passives/loans/',
+    path: '/passives/loans/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedCompaniesCounterpartyIndexRoute =
   AuthenticatedCompaniesCounterpartyIndexRouteImport.update({
     id: '/companies/counterparty/',
@@ -320,6 +343,24 @@ const AuthenticatedCompaniesCardsIndexRoute =
   AuthenticatedCompaniesCardsIndexRouteImport.update({
     id: '/companies/cards/',
     path: '/companies/cards/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedActivesPropertiesIndexRoute =
+  AuthenticatedActivesPropertiesIndexRouteImport.update({
+    id: '/actives/properties/',
+    path: '/actives/properties/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedActivesInventoriesIndexRoute =
+  AuthenticatedActivesInventoriesIndexRouteImport.update({
+    id: '/actives/inventories/',
+    path: '/actives/inventories/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedActivesCounterpartyIndexRoute =
+  AuthenticatedActivesCounterpartyIndexRouteImport.update({
+    id: '/actives/counterparty/',
+    path: '/actives/counterparty/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 const AuthenticatedUsersExpenceIdRoute =
@@ -358,6 +399,30 @@ const AuthenticatedCompaniesExpenceIdRoute =
     path: '/companies/expence/$id',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedActivesMoneyGivenLoansIndexRoute =
+  AuthenticatedActivesMoneyGivenLoansIndexRouteImport.update({
+    id: '/actives/money/given-loans/',
+    path: '/actives/money/given-loans/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedActivesMoneyCompaniesIndexRoute =
+  AuthenticatedActivesMoneyCompaniesIndexRouteImport.update({
+    id: '/actives/money/companies/',
+    path: '/actives/money/companies/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedActivesMoneyCashIndexRoute =
+  AuthenticatedActivesMoneyCashIndexRouteImport.update({
+    id: '/actives/money/cash/',
+    path: '/actives/money/cash/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedActivesMoneyCardIndexRoute =
+  AuthenticatedActivesMoneyCardIndexRouteImport.update({
+    id: '/actives/money/card/',
+    path: '/actives/money/card/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedStakeholderFoundersExpenceIdRoute =
   AuthenticatedStakeholderFoundersExpenceIdRouteImport.update({
     id: '/stakeholder/founders/expence/$id',
@@ -368,6 +433,18 @@ const AuthenticatedCompaniesCardsExpenceIdRoute =
   AuthenticatedCompaniesCardsExpenceIdRouteImport.update({
     id: '/companies/cards/expence/$id',
     path: '/companies/cards/expence/$id',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedActivesMoneyDepositsStockIndexRoute =
+  AuthenticatedActivesMoneyDepositsStockIndexRouteImport.update({
+    id: '/actives/money/deposits/stock/',
+    path: '/actives/money/deposits/stock/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedActivesMoneyDepositsSocialIndexRoute =
+  AuthenticatedActivesMoneyDepositsSocialIndexRouteImport.update({
+    id: '/actives/money/deposits/social/',
+    path: '/actives/money/deposits/social/',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
 
@@ -418,12 +495,23 @@ export interface FileRoutesByFullPath {
   '/projects/socials/$id': typeof AuthenticatedProjectsSocialsIdRoute
   '/stakeholder/distributors/$id': typeof AuthenticatedStakeholderDistributorsIdRoute
   '/users/expence/$id': typeof AuthenticatedUsersExpenceIdRoute
+  '/actives/counterparty': typeof AuthenticatedActivesCounterpartyIndexRoute
+  '/actives/inventories': typeof AuthenticatedActivesInventoriesIndexRoute
+  '/actives/properties': typeof AuthenticatedActivesPropertiesIndexRoute
   '/companies/cards': typeof AuthenticatedCompaniesCardsIndexRoute
   '/companies/counterparty': typeof AuthenticatedCompaniesCounterpartyIndexRoute
+  '/passives/loans': typeof AuthenticatedPassivesLoansIndexRoute
+  '/passives/projects': typeof AuthenticatedPassivesProjectsIndexRoute
   '/projects/requested': typeof AuthenticatedProjectsRequestedIndexRoute
   '/stakeholder/founders': typeof AuthenticatedStakeholderFoundersIndexRoute
   '/companies/cards/expence/$id': typeof AuthenticatedCompaniesCardsExpenceIdRoute
   '/stakeholder/founders/expence/$id': typeof AuthenticatedStakeholderFoundersExpenceIdRoute
+  '/actives/money/card': typeof AuthenticatedActivesMoneyCardIndexRoute
+  '/actives/money/cash': typeof AuthenticatedActivesMoneyCashIndexRoute
+  '/actives/money/companies': typeof AuthenticatedActivesMoneyCompaniesIndexRoute
+  '/actives/money/given-loans': typeof AuthenticatedActivesMoneyGivenLoansIndexRoute
+  '/actives/money/deposits/social': typeof AuthenticatedActivesMoneyDepositsSocialIndexRoute
+  '/actives/money/deposits/stock': typeof AuthenticatedActivesMoneyDepositsStockIndexRoute
 }
 export interface FileRoutesByTo {
   '/clerk': typeof ClerkAuthenticatedRouteRouteWithChildren
@@ -471,12 +559,23 @@ export interface FileRoutesByTo {
   '/projects/socials/$id': typeof AuthenticatedProjectsSocialsIdRoute
   '/stakeholder/distributors/$id': typeof AuthenticatedStakeholderDistributorsIdRoute
   '/users/expence/$id': typeof AuthenticatedUsersExpenceIdRoute
+  '/actives/counterparty': typeof AuthenticatedActivesCounterpartyIndexRoute
+  '/actives/inventories': typeof AuthenticatedActivesInventoriesIndexRoute
+  '/actives/properties': typeof AuthenticatedActivesPropertiesIndexRoute
   '/companies/cards': typeof AuthenticatedCompaniesCardsIndexRoute
   '/companies/counterparty': typeof AuthenticatedCompaniesCounterpartyIndexRoute
+  '/passives/loans': typeof AuthenticatedPassivesLoansIndexRoute
+  '/passives/projects': typeof AuthenticatedPassivesProjectsIndexRoute
   '/projects/requested': typeof AuthenticatedProjectsRequestedIndexRoute
   '/stakeholder/founders': typeof AuthenticatedStakeholderFoundersIndexRoute
   '/companies/cards/expence/$id': typeof AuthenticatedCompaniesCardsExpenceIdRoute
   '/stakeholder/founders/expence/$id': typeof AuthenticatedStakeholderFoundersExpenceIdRoute
+  '/actives/money/card': typeof AuthenticatedActivesMoneyCardIndexRoute
+  '/actives/money/cash': typeof AuthenticatedActivesMoneyCashIndexRoute
+  '/actives/money/companies': typeof AuthenticatedActivesMoneyCompaniesIndexRoute
+  '/actives/money/given-loans': typeof AuthenticatedActivesMoneyGivenLoansIndexRoute
+  '/actives/money/deposits/social': typeof AuthenticatedActivesMoneyDepositsSocialIndexRoute
+  '/actives/money/deposits/stock': typeof AuthenticatedActivesMoneyDepositsStockIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -529,12 +628,23 @@ export interface FileRoutesById {
   '/_authenticated/projects/socials/$id': typeof AuthenticatedProjectsSocialsIdRoute
   '/_authenticated/stakeholder/distributors/$id': typeof AuthenticatedStakeholderDistributorsIdRoute
   '/_authenticated/users/expence/$id': typeof AuthenticatedUsersExpenceIdRoute
+  '/_authenticated/actives/counterparty/': typeof AuthenticatedActivesCounterpartyIndexRoute
+  '/_authenticated/actives/inventories/': typeof AuthenticatedActivesInventoriesIndexRoute
+  '/_authenticated/actives/properties/': typeof AuthenticatedActivesPropertiesIndexRoute
   '/_authenticated/companies/cards/': typeof AuthenticatedCompaniesCardsIndexRoute
   '/_authenticated/companies/counterparty/': typeof AuthenticatedCompaniesCounterpartyIndexRoute
+  '/_authenticated/passives/loans/': typeof AuthenticatedPassivesLoansIndexRoute
+  '/_authenticated/passives/projects/': typeof AuthenticatedPassivesProjectsIndexRoute
   '/_authenticated/projects/requested/': typeof AuthenticatedProjectsRequestedIndexRoute
   '/_authenticated/stakeholder/founders/': typeof AuthenticatedStakeholderFoundersIndexRoute
   '/_authenticated/companies/cards/expence/$id': typeof AuthenticatedCompaniesCardsExpenceIdRoute
   '/_authenticated/stakeholder/founders/expence/$id': typeof AuthenticatedStakeholderFoundersExpenceIdRoute
+  '/_authenticated/actives/money/card/': typeof AuthenticatedActivesMoneyCardIndexRoute
+  '/_authenticated/actives/money/cash/': typeof AuthenticatedActivesMoneyCashIndexRoute
+  '/_authenticated/actives/money/companies/': typeof AuthenticatedActivesMoneyCompaniesIndexRoute
+  '/_authenticated/actives/money/given-loans/': typeof AuthenticatedActivesMoneyGivenLoansIndexRoute
+  '/_authenticated/actives/money/deposits/social/': typeof AuthenticatedActivesMoneyDepositsSocialIndexRoute
+  '/_authenticated/actives/money/deposits/stock/': typeof AuthenticatedActivesMoneyDepositsStockIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -585,12 +695,23 @@ export interface FileRouteTypes {
     | '/projects/socials/$id'
     | '/stakeholder/distributors/$id'
     | '/users/expence/$id'
+    | '/actives/counterparty'
+    | '/actives/inventories'
+    | '/actives/properties'
     | '/companies/cards'
     | '/companies/counterparty'
+    | '/passives/loans'
+    | '/passives/projects'
     | '/projects/requested'
     | '/stakeholder/founders'
     | '/companies/cards/expence/$id'
     | '/stakeholder/founders/expence/$id'
+    | '/actives/money/card'
+    | '/actives/money/cash'
+    | '/actives/money/companies'
+    | '/actives/money/given-loans'
+    | '/actives/money/deposits/social'
+    | '/actives/money/deposits/stock'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/clerk'
@@ -638,12 +759,23 @@ export interface FileRouteTypes {
     | '/projects/socials/$id'
     | '/stakeholder/distributors/$id'
     | '/users/expence/$id'
+    | '/actives/counterparty'
+    | '/actives/inventories'
+    | '/actives/properties'
     | '/companies/cards'
     | '/companies/counterparty'
+    | '/passives/loans'
+    | '/passives/projects'
     | '/projects/requested'
     | '/stakeholder/founders'
     | '/companies/cards/expence/$id'
     | '/stakeholder/founders/expence/$id'
+    | '/actives/money/card'
+    | '/actives/money/cash'
+    | '/actives/money/companies'
+    | '/actives/money/given-loans'
+    | '/actives/money/deposits/social'
+    | '/actives/money/deposits/stock'
   id:
     | '__root__'
     | '/_authenticated'
@@ -695,12 +827,23 @@ export interface FileRouteTypes {
     | '/_authenticated/projects/socials/$id'
     | '/_authenticated/stakeholder/distributors/$id'
     | '/_authenticated/users/expence/$id'
+    | '/_authenticated/actives/counterparty/'
+    | '/_authenticated/actives/inventories/'
+    | '/_authenticated/actives/properties/'
     | '/_authenticated/companies/cards/'
     | '/_authenticated/companies/counterparty/'
+    | '/_authenticated/passives/loans/'
+    | '/_authenticated/passives/projects/'
     | '/_authenticated/projects/requested/'
     | '/_authenticated/stakeholder/founders/'
     | '/_authenticated/companies/cards/expence/$id'
     | '/_authenticated/stakeholder/founders/expence/$id'
+    | '/_authenticated/actives/money/card/'
+    | '/_authenticated/actives/money/cash/'
+    | '/_authenticated/actives/money/companies/'
+    | '/_authenticated/actives/money/given-loans/'
+    | '/_authenticated/actives/money/deposits/social/'
+    | '/_authenticated/actives/money/deposits/stock/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -1035,6 +1178,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedProjectsRequestedIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/passives/projects/': {
+      id: '/_authenticated/passives/projects/'
+      path: '/passives/projects'
+      fullPath: '/passives/projects'
+      preLoaderRoute: typeof AuthenticatedPassivesProjectsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/passives/loans/': {
+      id: '/_authenticated/passives/loans/'
+      path: '/passives/loans'
+      fullPath: '/passives/loans'
+      preLoaderRoute: typeof AuthenticatedPassivesLoansIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/companies/counterparty/': {
       id: '/_authenticated/companies/counterparty/'
       path: '/companies/counterparty'
@@ -1047,6 +1204,27 @@ declare module '@tanstack/react-router' {
       path: '/companies/cards'
       fullPath: '/companies/cards'
       preLoaderRoute: typeof AuthenticatedCompaniesCardsIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/actives/properties/': {
+      id: '/_authenticated/actives/properties/'
+      path: '/actives/properties'
+      fullPath: '/actives/properties'
+      preLoaderRoute: typeof AuthenticatedActivesPropertiesIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/actives/inventories/': {
+      id: '/_authenticated/actives/inventories/'
+      path: '/actives/inventories'
+      fullPath: '/actives/inventories'
+      preLoaderRoute: typeof AuthenticatedActivesInventoriesIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/actives/counterparty/': {
+      id: '/_authenticated/actives/counterparty/'
+      path: '/actives/counterparty'
+      fullPath: '/actives/counterparty'
+      preLoaderRoute: typeof AuthenticatedActivesCounterpartyIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
     '/_authenticated/users/expence/$id': {
@@ -1091,6 +1269,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedCompaniesExpenceIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/actives/money/given-loans/': {
+      id: '/_authenticated/actives/money/given-loans/'
+      path: '/actives/money/given-loans'
+      fullPath: '/actives/money/given-loans'
+      preLoaderRoute: typeof AuthenticatedActivesMoneyGivenLoansIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/actives/money/companies/': {
+      id: '/_authenticated/actives/money/companies/'
+      path: '/actives/money/companies'
+      fullPath: '/actives/money/companies'
+      preLoaderRoute: typeof AuthenticatedActivesMoneyCompaniesIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/actives/money/cash/': {
+      id: '/_authenticated/actives/money/cash/'
+      path: '/actives/money/cash'
+      fullPath: '/actives/money/cash'
+      preLoaderRoute: typeof AuthenticatedActivesMoneyCashIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/actives/money/card/': {
+      id: '/_authenticated/actives/money/card/'
+      path: '/actives/money/card'
+      fullPath: '/actives/money/card'
+      preLoaderRoute: typeof AuthenticatedActivesMoneyCardIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/stakeholder/founders/expence/$id': {
       id: '/_authenticated/stakeholder/founders/expence/$id'
       path: '/stakeholder/founders/expence/$id'
@@ -1103,6 +1309,20 @@ declare module '@tanstack/react-router' {
       path: '/companies/cards/expence/$id'
       fullPath: '/companies/cards/expence/$id'
       preLoaderRoute: typeof AuthenticatedCompaniesCardsExpenceIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/actives/money/deposits/stock/': {
+      id: '/_authenticated/actives/money/deposits/stock/'
+      path: '/actives/money/deposits/stock'
+      fullPath: '/actives/money/deposits/stock'
+      preLoaderRoute: typeof AuthenticatedActivesMoneyDepositsStockIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/actives/money/deposits/social/': {
+      id: '/_authenticated/actives/money/deposits/social/'
+      path: '/actives/money/deposits/social'
+      fullPath: '/actives/money/deposits/social'
+      preLoaderRoute: typeof AuthenticatedActivesMoneyDepositsSocialIndexRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
   }
@@ -1161,12 +1381,23 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedProjectsSocialsIdRoute: typeof AuthenticatedProjectsSocialsIdRoute
   AuthenticatedStakeholderDistributorsIdRoute: typeof AuthenticatedStakeholderDistributorsIdRoute
   AuthenticatedUsersExpenceIdRoute: typeof AuthenticatedUsersExpenceIdRoute
+  AuthenticatedActivesCounterpartyIndexRoute: typeof AuthenticatedActivesCounterpartyIndexRoute
+  AuthenticatedActivesInventoriesIndexRoute: typeof AuthenticatedActivesInventoriesIndexRoute
+  AuthenticatedActivesPropertiesIndexRoute: typeof AuthenticatedActivesPropertiesIndexRoute
   AuthenticatedCompaniesCardsIndexRoute: typeof AuthenticatedCompaniesCardsIndexRoute
   AuthenticatedCompaniesCounterpartyIndexRoute: typeof AuthenticatedCompaniesCounterpartyIndexRoute
+  AuthenticatedPassivesLoansIndexRoute: typeof AuthenticatedPassivesLoansIndexRoute
+  AuthenticatedPassivesProjectsIndexRoute: typeof AuthenticatedPassivesProjectsIndexRoute
   AuthenticatedProjectsRequestedIndexRoute: typeof AuthenticatedProjectsRequestedIndexRoute
   AuthenticatedStakeholderFoundersIndexRoute: typeof AuthenticatedStakeholderFoundersIndexRoute
   AuthenticatedCompaniesCardsExpenceIdRoute: typeof AuthenticatedCompaniesCardsExpenceIdRoute
   AuthenticatedStakeholderFoundersExpenceIdRoute: typeof AuthenticatedStakeholderFoundersExpenceIdRoute
+  AuthenticatedActivesMoneyCardIndexRoute: typeof AuthenticatedActivesMoneyCardIndexRoute
+  AuthenticatedActivesMoneyCashIndexRoute: typeof AuthenticatedActivesMoneyCashIndexRoute
+  AuthenticatedActivesMoneyCompaniesIndexRoute: typeof AuthenticatedActivesMoneyCompaniesIndexRoute
+  AuthenticatedActivesMoneyGivenLoansIndexRoute: typeof AuthenticatedActivesMoneyGivenLoansIndexRoute
+  AuthenticatedActivesMoneyDepositsSocialIndexRoute: typeof AuthenticatedActivesMoneyDepositsSocialIndexRoute
+  AuthenticatedActivesMoneyDepositsStockIndexRoute: typeof AuthenticatedActivesMoneyDepositsStockIndexRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
@@ -1199,9 +1430,18 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedStakeholderDistributorsIdRoute:
     AuthenticatedStakeholderDistributorsIdRoute,
   AuthenticatedUsersExpenceIdRoute: AuthenticatedUsersExpenceIdRoute,
+  AuthenticatedActivesCounterpartyIndexRoute:
+    AuthenticatedActivesCounterpartyIndexRoute,
+  AuthenticatedActivesInventoriesIndexRoute:
+    AuthenticatedActivesInventoriesIndexRoute,
+  AuthenticatedActivesPropertiesIndexRoute:
+    AuthenticatedActivesPropertiesIndexRoute,
   AuthenticatedCompaniesCardsIndexRoute: AuthenticatedCompaniesCardsIndexRoute,
   AuthenticatedCompaniesCounterpartyIndexRoute:
     AuthenticatedCompaniesCounterpartyIndexRoute,
+  AuthenticatedPassivesLoansIndexRoute: AuthenticatedPassivesLoansIndexRoute,
+  AuthenticatedPassivesProjectsIndexRoute:
+    AuthenticatedPassivesProjectsIndexRoute,
   AuthenticatedProjectsRequestedIndexRoute:
     AuthenticatedProjectsRequestedIndexRoute,
   AuthenticatedStakeholderFoundersIndexRoute:
@@ -1210,6 +1450,18 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
     AuthenticatedCompaniesCardsExpenceIdRoute,
   AuthenticatedStakeholderFoundersExpenceIdRoute:
     AuthenticatedStakeholderFoundersExpenceIdRoute,
+  AuthenticatedActivesMoneyCardIndexRoute:
+    AuthenticatedActivesMoneyCardIndexRoute,
+  AuthenticatedActivesMoneyCashIndexRoute:
+    AuthenticatedActivesMoneyCashIndexRoute,
+  AuthenticatedActivesMoneyCompaniesIndexRoute:
+    AuthenticatedActivesMoneyCompaniesIndexRoute,
+  AuthenticatedActivesMoneyGivenLoansIndexRoute:
+    AuthenticatedActivesMoneyGivenLoansIndexRoute,
+  AuthenticatedActivesMoneyDepositsSocialIndexRoute:
+    AuthenticatedActivesMoneyDepositsSocialIndexRoute,
+  AuthenticatedActivesMoneyDepositsStockIndexRoute:
+    AuthenticatedActivesMoneyDepositsStockIndexRoute,
 }
 
 const AuthenticatedRouteRouteWithChildren =

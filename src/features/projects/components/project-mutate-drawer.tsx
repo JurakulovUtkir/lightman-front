@@ -33,6 +33,7 @@ import { FormComboboxNetworkTags } from '@/features/network/socials/components/f
 import { ProjectDialogType } from '../context'
 import { useCreateProject, useUpdateProject, useProjects } from '../data/hooks'
 import { ProjectSchema } from '../data/schema'
+import { FormComboboxCategories } from './form-combobox-categories'
 import { FormComboboxCompany } from './form-combobox-company'
 import { FormComboboxProject } from './form-combobox-projects'
 import { FormDistribution } from './form-distribution'
@@ -110,6 +111,7 @@ export function ProjectMutateDrawer({
         is_active: z.boolean().optional(),
         is_qqs: z.boolean().optional(),
         tags: z.array(z.string()).optional(),
+        categories: z.array(z.string()).optional(),
         clone_project_id: z.string().optional().nullable(),
       }),
     [t]
@@ -133,6 +135,7 @@ export function ProjectMutateDrawer({
     is_qqs: false,
     clone_project_id: undefined,
     tags: undefined,
+    categories: undefined,
     // price: 0,
     // price_with_qqs: 0,
   }
@@ -177,6 +180,7 @@ export function ProjectMutateDrawer({
           is_active: selectedProject.is_active,
           is_qqs: selectedProject.is_qqs,
           tags: selectedProject?.tags || [],
+          categories: selectedProject?.categories || [],
         })
       }
     }
@@ -330,6 +334,15 @@ export function ProjectMutateDrawer({
                     withSwitch
                   />
                 </div>
+                <div className='flex flex-col gap-4 sm:col-span-2'>
+                  <FormComboboxCategories
+                    control={form.control}
+                    name='categories'
+                    label={t.form_labels.categories}
+                    enableCreate
+                    withSwitch
+                  />
+                </div>
                 <FormDistribution
                   control={form.control}
                   name='distribution_id'
@@ -382,7 +395,9 @@ export function ProjectMutateDrawer({
                   name='payment_type'
                   label={t.form_labels.payment_type}
                   placeholder={t.form_placeholders.select_payment_type}
-                  options={getPaymentTypeOptions(t_general)}
+                  options={getPaymentTypeOptions(t_general).filter(
+                    (el) => el.value !== PaymentType.DEPOSIT
+                  )}
                 />
                 <FormFieldWrapper
                   control={form.control}

@@ -16,15 +16,17 @@ interface Props {
   children: React.ReactNode
   className?: string
   contentClassName?: string
+  overflow?: boolean
 }
 
 export default function LongText({
   children,
   className = '',
   contentClassName = '',
+  overflow = false,
 }: Props) {
   const ref = useRef<HTMLDivElement>(null)
-  const [isOverflown, setIsOverflown] = useState(false)
+  const [isOverflown, setIsOverflown] = useState(overflow)
 
   useEffect(() => {
     if (checkOverflow(ref.current)) {
