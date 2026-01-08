@@ -35,12 +35,14 @@ const ExpenceFilter = ({
   isCompany = false,
   isCard = false,
   isUser = false,
+  isExpenceDetails = false,
 }: {
   isFounder?: boolean
   isProject?: boolean
   isCompany?: boolean
   isCard?: boolean
   isUser?: boolean
+  isExpenceDetails?: boolean
 }) => {
   const { lang, general, tForm } = useLang()
   const t_general = general[lang].columns
@@ -71,9 +73,11 @@ const ExpenceFilter = ({
           ? '/_authenticated/companies/expence/$id'
           : isCard
             ? '/_authenticated/companies/cards/expence/$id'
-            : isUser
-              ? '/_authenticated/users/expence/$id'
-              : '/_authenticated/expences/',
+            : isExpenceDetails
+              ? '/_authenticated/expences/expence-details/$id'
+              : isUser
+                ? '/_authenticated/users/expence/$id'
+                : '/_authenticated/expences/',
   })
 
   const {
@@ -91,7 +95,14 @@ const ExpenceFilter = ({
     handleLoanFilterChange,
     handleCardFilterChange,
     handleClear,
-  } = useExpenceFilters({ isFounder, isProject, isCompany, isCard, isUser })
+  } = useExpenceFilters({
+    isFounder,
+    isProject,
+    isCompany,
+    isCard,
+    isUser,
+    isExpenceDetails,
+  })
 
   const [open, setOpen] = useState(false)
   const [minAmount, setMinAmount] = useState<string>(

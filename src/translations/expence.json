@@ -11,7 +11,8 @@
     "create": "Create",
     "click_save": "Click save when you're done.",
     "delete_title": "Delete this Expence with the amount: {{amount}} ?",
-    "delete_confirm": "You are about to delete a Expence with the amount {{amount}}"
+    "delete_confirm": "You are about to delete a Expence with the amount {{amount}}",
+    "expence_details": "Expence details"
   },
   "ru": {
     "expences": "Расходы",
@@ -25,7 +26,8 @@
     "create": "Создать",
     "click_save": "Нажмите «Сохранить», когда закончите.",
     "delete_title": "Удалить расход с суммой: {{amount}}?",
-    "delete_confirm": "Вы собираетесь удалить расход на сумму {{amount}}"
+    "delete_confirm": "Вы собираетесь удалить расход на сумму {{amount}}",
+    "expence_details": "Детали расходов"
   },
   "uz": {
     "expences": "Xarajatlar",
@@ -39,6 +41,7 @@
     "create": "Yaratish",
     "click_save": "Tugatganingizdan so‘ng «Saqlash» tugmasini bosing.",
     "delete_title": "Ushbu xarajatni {{amount}} summada o‘chirmoqchimisiz?",
-    "delete_confirm": "Siz {{amount}} summadagi xarajatni o‘chirmoqchisiz"
+    "delete_confirm": "Siz {{amount}} summadagi xarajatni o‘chirmoqchisiz",
+    "expence_details": "Xarajatlar tafsilotlari"
   }
 }

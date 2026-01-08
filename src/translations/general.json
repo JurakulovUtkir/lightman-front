@@ -341,7 +341,8 @@
       "contract_name": "Contract name",
       "commission": "Commission",
       "pinfl": "PINFL",
-      "project_manager": "Project manager"
+      "project_manager": "Project manager",
+      "founder": "Founder"
     }
   },
   "ru": {
@@ -686,7 +687,8 @@
       "contract_name": "Название договора",
       "commission": "Комиссия",
       "pinfl": "ПИНФЛ",
-      "project_manager": "Менеджер проекта"
+      "project_manager": "Менеджер проекта",
+      "founder": "Основатель"
     }
   },
   "uz": {
@@ -1031,7 +1033,8 @@
       "contract_name": "Shartnoma nomi",
       "commission": "Komissiya",
       "pinfl": "PINFL",
-      "project_manager": "Loyiha menejeri"
+      "project_manager": "Loyiha menejeri",
+      "founder": "Asoschi"
     }
   }
 }

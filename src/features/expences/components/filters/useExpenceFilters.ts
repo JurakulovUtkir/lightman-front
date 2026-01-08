@@ -11,6 +11,7 @@ type RouteContext = {
   isCompany?: boolean
   isCard?: boolean
   isUser?: boolean
+  isExpenceDetails?: boolean
 }
 
 type FilterValue = string | number | null | undefined
@@ -25,6 +26,7 @@ export const useExpenceFilters = ({
   isCompany = false,
   isCard = false,
   isUser = false,
+  isExpenceDetails = false,
 }: RouteContext = {}) => {
   const navigate = useNavigate()
 
@@ -35,6 +37,7 @@ export const useExpenceFilters = ({
     if (isCompany) return '/companies/expence/$id'
     if (isCard) return '/companies/cards/expence/$id'
     if (isUser) return '/users/expence/$id'
+    if (isExpenceDetails) return '/expences/expence-details/$id'
     return '/expences'
   }
 
