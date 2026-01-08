@@ -169,10 +169,9 @@ export function ExpenceMutateDrawer({
           .min(0, t.form_validations.invalid_value),
 
         commission: z
-          .number({
-            error: t.form_validations.amount,
-          })
-          .min(0, t.form_validations.invalid_value),
+          .number()
+          .min(0, t.form_validations.invalid_value)
+          .optional(),
         counterparty_name: z
           .string({
             error: t.form_validations.required_field,
@@ -208,7 +207,7 @@ export function ExpenceMutateDrawer({
       ...currentRow,
       expence_type: currentRow?.expence_type ?? undefined,
       amount: toNumber(currentRow?.amount),
-      commission: toNumber(currentRow?.amount) ?? 0,
+      commission: toNumber(currentRow?.commission) ?? 0,
       description: currentRow?.description ?? undefined,
       user_id: currentRow?.user?.id ?? undefined,
       file_url: currentRow?.file_url ?? undefined,
@@ -380,11 +379,13 @@ export function ExpenceMutateDrawer({
       value: 'amount',
       label: t.form_labels.amount,
       palceholder: t.form_placeholders.enter_amount,
+      showZero: false,
     },
     {
       value: 'commission',
       label: t.form_labels.commission,
       palceholder: t.form_placeholders.enter_commission,
+      showZero: true,
     },
   ] as const
 
@@ -774,12 +775,14 @@ export function ExpenceMutateDrawer({
 
               {amountOptions.map((item) => (
                 <FormFieldWrapper
+                  key={item.value}
                   control={form.control}
                   name={item.value}
                   label={item.label}
                   placeholder={item.palceholder}
                   type='number'
                   suffix={t.form_placeholders.uzs}
+                  showZero={item.showZero}
                 />
               ))}
               <FormField

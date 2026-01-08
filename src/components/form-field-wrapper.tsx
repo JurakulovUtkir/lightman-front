@@ -17,6 +17,7 @@ interface FormFieldWrapperProps<TFieldValues extends FieldValues> {
   type?: 'text' | 'number' | 'textarea'
   suffix?: string
   formatting?: boolean
+  showZero?: boolean // New prop to control zero display
 }
 
 export function FormFieldWrapper<TFieldValues extends FieldValues>({
@@ -27,15 +28,19 @@ export function FormFieldWrapper<TFieldValues extends FieldValues>({
   type = 'text',
   suffix,
   formatting = true,
+  showZero = false, // Default is false (don't show zero)
 }: FormFieldWrapperProps<TFieldValues>) {
   const formatNumber = (value: number | undefined): string => {
-    if (value === undefined || value === null || isNaN(value)) return ''
+    if (value === undefined || value === null || isNaN(value)) {
+      return showZero ? '0' : ''
+    }
+    if (value === 0 && !showZero) return ''
     return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
   }
 
   const parseNumber = (value: string): number | undefined => {
     const cleaned = value.replace(/\s/g, '')
-    if (cleaned === '') return undefined
+    if (cleaned === '') return showZero ? 0 : undefined
     const parsed = parseFloat(cleaned)
     return isNaN(parsed) ? undefined : parsed
   }
@@ -70,15 +75,16 @@ export function FormFieldWrapper<TFieldValues extends FieldValues>({
                   value={
                     shouldFormat
                       ? formatNumber(field.value as number)
-                      : (field.value ?? '')
+                      : (field.value ??
+                        (showZero && type === 'number' ? '0' : ''))
                   }
                   onChange={(e) => {
                     const raw = e.target.value
 
                     if (type === 'number') {
                       if (raw.trim() === '') {
-                        // Use empty string instead of undefined to prevent reset
-                        field.onChange('')
+                        // If showZero is true, set to 0, otherwise empty string
+                        field.onChange(showZero ? 0 : '')
                         return
                       }
 
@@ -95,9 +101,9 @@ export function FormFieldWrapper<TFieldValues extends FieldValues>({
                     }
                   }}
                   onBlur={(e) => {
-                    // On blur, if empty, set to undefined for validation
+                    // On blur, handle empty values based on showZero
                     if (type === 'number' && e.target.value.trim() === '') {
-                      field.onChange(undefined)
+                      field.onChange(showZero ? 0 : undefined)
                     }
                     field.onBlur()
                   }}

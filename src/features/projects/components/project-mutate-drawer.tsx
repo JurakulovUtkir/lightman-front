@@ -90,7 +90,9 @@ export function ProjectMutateDrawer({
           .number()
           .min(0, t.form_validations.invalid_value)
           .optional(),
-        distribution_id: z.string().optional(),
+        distribution_id: z.string({
+          error: t.form_validations.required_field,
+        }),
         price_type: z.enum(['standard', 'vip', 'no_watermark']).optional(),
         // category_id: z.string().optional(),
         customer_company_id: z.string().optional(),
