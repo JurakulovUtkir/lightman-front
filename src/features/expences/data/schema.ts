@@ -63,7 +63,7 @@ export const expenceSchema = z.object({
   project_social_id: z.string().optional(),
   commission: z.number(),
   founder: founderSchema.optional().nullable(),
-  founder_id: z.string().optional().nullable(),
+  founder_id: z.string().optional(),
 })
 
 export type ExpenceSchema = z.infer<typeof expenceSchema>
