@@ -113,7 +113,7 @@ export function ProjectMutateDrawer({
         is_active: z.boolean().optional(),
         is_qqs: z.boolean().optional(),
         tags: z.array(z.string()).optional(),
-        categories: z.array(z.string()).optional(),
+        category_ids: z.array(z.string()).optional(),
         clone_project_id: z.string().optional().nullable(),
       }),
     [t]
@@ -137,7 +137,7 @@ export function ProjectMutateDrawer({
     is_qqs: false,
     clone_project_id: undefined,
     tags: undefined,
-    categories: undefined,
+    category_ids: undefined,
     // price: 0,
     // price_with_qqs: 0,
   }
@@ -182,7 +182,7 @@ export function ProjectMutateDrawer({
           is_active: selectedProject.is_active,
           is_qqs: selectedProject.is_qqs,
           tags: selectedProject?.tags || [],
-          categories: selectedProject?.categories || [],
+          category_ids: selectedProject?.category_ids || [],
         })
       }
     }
@@ -339,7 +339,7 @@ export function ProjectMutateDrawer({
                 <div className='flex flex-col gap-4 sm:col-span-2'>
                   <FormComboboxCategories
                     control={form.control}
-                    name='categories'
+                    name='category_ids'
                     label={t.form_labels.categories}
                     enableCreate
                     withSwitch
