@@ -83,11 +83,11 @@ export const sidebarData: SidebarData = {
           ],
         },
         {
-          title: 'network',
+          title: 'price',
           icon: IconSocial,
           items: [
             {
-              title: 'types',
+              title: 'services',
               url: '/network/types',
             },
             {
@@ -95,7 +95,7 @@ export const sidebarData: SidebarData = {
               url: '/network/categories',
             },
             {
-              title: 'socials',
+              title: 'buy_sell_prices',
               url: '/network/socials',
             },
             {
