@@ -248,11 +248,25 @@ export const columns = (
     enableHiding: false,
   },
   {
+    accessorKey: 'no_watermark_buy_price',
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        column={column}
+        title={`${t.no_watermark_buy_price} ${t.uzs}`}
+      />
+    ),
+    cell: ({ row }) => (
+      <div>{formatPrice(row.getValue('no_watermark_buy_price'))}</div>
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  },
+  {
     accessorKey: 'no_watermark_sell_price',
     header: ({ column }) => (
       <DataTableColumnHeader
         column={column}
-        title={`${t.no_watermark_price} ${t.uzs}`}
+        title={`${t.no_watermark_sell_price} ${t.uzs}`}
       />
     ),
     cell: ({ row }) => (

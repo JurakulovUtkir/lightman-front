@@ -266,6 +266,8 @@
       "standard_price": "Standard Price",
       "vip_price": "Vip Price",
       "no_watermark_price": "No Watermark Price",
+      "no_watermark_buy_price": "Buy price without watermark",
+      "no_watermark_sell_price": "Sell price without watermark",
       "balance": "Balance",
       "link": "Link",
       "created_at": "Created at",
@@ -533,7 +535,7 @@
       "priceTypeOptions": {
         "standard": "Стандартный",
         "vip": "VIP",
-        "no_watermark": "Без водяного знака"
+        "no_watermark": "Без рекламы"
       },
       "paymentTypeOptions": {
         "CARD": "Карта",
@@ -627,7 +629,9 @@
       "buy_price": "Цена покупки",
       "standard_price": "Стандартная цена",
       "vip_price": "VIP-цена",
-      "no_watermark_price": "Цена без водяного знака",
+      "no_watermark_price": "Цена без рекламы",
+      "no_watermark_buy_price": "Цена покупки без рекламы",
+      "no_watermark_sell_price": "Цена продажи без рекламы",
       "balance": "Баланс",
       "link": "Ссылка",
       "created_at": "Дата создания",
@@ -989,7 +993,9 @@
       "buy_price": "Sotib olish narxi",
       "standard_price": "Standart narx",
       "vip_price": "VIP narx",
-      "no_watermark_price": "Suv belgisisiz narx",
+      "no_watermark_price": "Reklamasiz narx",
+      "no_watermark_buy_price": "Reklamasiz sotib olish narxi",
+      "no_watermark_sell_price": "Reklamasiz sotish narxi",
       "balance": "Balans",
       "link": "Havola",
       "created_at": "Yaratilgan sana",

@@ -5,13 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { toNumber } from '@/lib/helpers'
 import { useLang } from '@/hooks/useLang'
 import { Button } from '@/components/ui/button'
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-} from '@/components/ui/form'
+import { Form } from '@/components/ui/form'
 import {
   Sheet,
   SheetContent,
@@ -20,7 +14,6 @@ import {
   SheetHeader,
   SheetTitle,
 } from '@/components/ui/sheet'
-import { Switch } from '@/components/ui/switch'
 import { FormFieldWrapper } from '@/components/form-field-wrapper'
 import { NetworkCategorySchema } from '../../categories/data/schema'
 import { NetworkTypeSchema } from '../../types/data/schema'
@@ -97,9 +90,13 @@ export function NetworkSocialMutateDrawer({
           .number()
           .min(0, t.form_validations.invalid_value)
           .optional(),
+        no_watermark_buy_price: z
+          .number()
+          .min(0, t.form_validations.invalid_value)
+          .optional(),
         balance: z.number().min(0, t.form_validations.invalid_value).optional(),
         contact_info: z.string().optional().nullable(),
-        is_active: z.boolean().optional(),
+        // is_active: z.boolean().optional(),
       }),
     [t]
   )
@@ -115,6 +112,7 @@ export function NetworkSocialMutateDrawer({
       standard_sell_price: toNumber(currentRow?.standard_sell_price),
       vip_sell_price: toNumber(currentRow?.vip_sell_price),
       no_watermark_sell_price: toNumber(currentRow?.no_watermark_sell_price),
+      no_watermark_buy_price: toNumber(currentRow?.no_watermark_buy_price),
       tags: currentRow?.tags || [],
       category_id: currentRow?.category_id ?? undefined,
     },
@@ -179,7 +177,7 @@ export function NetworkSocialMutateDrawer({
               onSubmit={form.handleSubmit(onSubmit)}
               className='flex-1 space-y-5 px-4'
             >
-              <FormField
+              {/* <FormField
                 control={form.control}
                 name='is_active'
                 render={({ field }) => (
@@ -196,7 +194,7 @@ export function NetworkSocialMutateDrawer({
                     </div>
                   </FormItem>
                 )}
-              />
+              /> */}
               <FormFieldWrapper
                 control={form.control}
                 name='name'
@@ -270,8 +268,8 @@ export function NetworkSocialMutateDrawer({
                 />
                 <FormFieldWrapper
                   control={form.control}
-                  name='vip_sell_price'
-                  label={t.form_labels.vip_sell_price}
+                  name='no_watermark_buy_price'
+                  label={t.form_labels.no_watermark_buy_price}
                   placeholder={t.form_placeholders.enter_price}
                   type='number'
                   suffix={t.form_placeholders.uzs}
@@ -280,6 +278,15 @@ export function NetworkSocialMutateDrawer({
                   control={form.control}
                   name='no_watermark_sell_price'
                   label={t.form_labels.no_watermark_sell_price}
+                  placeholder={t.form_placeholders.enter_price}
+                  type='number'
+                  suffix={t.form_placeholders.uzs}
+                />
+
+                <FormFieldWrapper
+                  control={form.control}
+                  name='vip_sell_price'
+                  label={t.form_labels.vip_sell_price}
                   placeholder={t.form_placeholders.enter_price}
                   type='number'
                   suffix={t.form_placeholders.uzs}

@@ -14,6 +14,7 @@ export const networkSocialSchema = z.object({
   standard_sell_price: z.union([z.string(), z.number()]).optional(),
   vip_sell_price: z.union([z.string(), z.number()]).optional(),
   no_watermark_sell_price: z.union([z.string(), z.number()]).optional(),
+  no_watermark_buy_price: z.union([z.string(), z.number()]).optional(),
   balance: z.union([z.string(), z.number()]).optional(),
   subscriber_count: z.number().optional(),
   average_view_count: z.number().optional(),
