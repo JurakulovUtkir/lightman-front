@@ -7,13 +7,7 @@ import { toNumber } from '@/lib/helpers'
 import { PaymentType } from '@/constants/enums'
 import { useLang } from '@/hooks/useLang'
 import { Button } from '@/components/ui/button'
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-} from '@/components/ui/form'
+import { Form } from '@/components/ui/form'
 import {
   Sheet,
   SheetContent,
@@ -22,13 +16,10 @@ import {
   SheetHeader,
   SheetTitle,
 } from '@/components/ui/sheet'
-import { Switch } from '@/components/ui/switch'
 import { FormFieldSelect } from '@/components/form-field-select'
 import { FormFieldWrapper } from '@/components/form-field-wrapper'
 import { FormComboboxContract } from '@/features/contracts/components/form-combobox-contracts'
 import { FormComboboxUser } from '@/features/expences/components/form-combobox-users'
-// import { FormComboboxUser } from '@/features/expences/components/form-combobox-users'
-// import { FormComboboxNetworkCategory } from '@/features/network/socials/components/form-combobox-network-category'
 import { FormComboboxNetworkTags } from '@/features/network/socials/components/form-combobox-network-tags'
 import { ProjectDialogType } from '../context'
 import { useCreateProject, useUpdateProject, useProjects } from '../data/hooks'
@@ -36,7 +27,10 @@ import { ProjectSchema } from '../data/schema'
 import { FormComboboxCategories } from './form-combobox-categories'
 import { FormComboboxCompany } from './form-combobox-company'
 import { FormComboboxProject } from './form-combobox-projects'
-import { FormDistribution } from './form-distribution'
+
+// import { FormComboboxUser } from '@/features/expences/components/form-combobox-users'
+// import { FormComboboxNetworkCategory } from '@/features/network/socials/components/form-combobox-network-category'
+// import { FormDistribution } from './form-distribution'
 
 interface Props {
   open: boolean
@@ -76,6 +70,29 @@ export function ProjectMutateDrawer({
           .max(150, t.form_validations.invalid_description)
           .optional(),
         contract_id: z.string().optional().nullable(),
+        planned_views_count: z
+          .number()
+          .min(0, t.form_validations.invalid_value)
+          .optional(),
+        price_type: z.enum(['standard', 'vip', 'no_watermark']).optional(),
+        customer_company_id: z.string().optional(),
+        project_manager_id: z.string({
+          error: t.form_validations.required_field,
+        }),
+        our_company_id: z.string().optional(),
+        payment_type: z
+          .enum([
+            PaymentType.CARD,
+            PaymentType.CASH,
+            PaymentType.BANK_TRANSFER,
+            PaymentType.DEPOSIT,
+          ])
+          .optional(),
+
+        is_qqs: z.boolean().optional(),
+        tags: z.array(z.string()).optional(),
+        category_ids: z.array(z.string()).optional(),
+        clone_project_id: z.string().optional().nullable(),
         // price: z
         //   .number({
         //     error: t.form_validations.required_field,
@@ -86,35 +103,11 @@ export function ProjectMutateDrawer({
         //     error: t.form_validations.required_field,
         //   })
         //   .min(0, t.form_validations.invalid_value),
-        planned_views_count: z
-          .number()
-          .min(0, t.form_validations.invalid_value)
-          .optional(),
-        distribution_id: z.string({
-          error: t.form_validations.required_field,
-        }),
-        price_type: z.enum(['standard', 'vip', 'no_watermark']).optional(),
+        // distribution_id: z.string({
+        //   error: t.form_validations.required_field,
+        // }),
         // category_id: z.string().optional(),
-        customer_company_id: z.string().optional(),
-        project_manager_id: z.string({
-          error: t.form_validations.required_field,
-        }),
-        our_company_id: z.string({
-          error: t.form_validations.required_field,
-        }),
-        payment_type: z
-          .enum([
-            PaymentType.CARD,
-            PaymentType.CASH,
-            PaymentType.BANK_TRANSFER,
-            PaymentType.DEPOSIT,
-          ])
-          .optional(),
-        is_active: z.boolean().optional(),
-        is_qqs: z.boolean().optional(),
-        tags: z.array(z.string()).optional(),
-        category_ids: z.array(z.string()).optional(),
-        clone_project_id: z.string().optional().nullable(),
+        // is_active: z.boolean().optional(),
       }),
     [t]
   )
@@ -127,17 +120,17 @@ export function ProjectMutateDrawer({
     description: '',
     contract_id: undefined,
     planned_views_count: 0,
-    distribution_id: undefined,
     price_type: undefined,
     customer_company_id: undefined,
     our_company_id: undefined,
     project_manager_id: undefined,
     payment_type: undefined,
-    is_active: true,
     is_qqs: false,
     clone_project_id: undefined,
     tags: undefined,
     category_ids: undefined,
+    // distribution_id: undefined,
+    // is_active: true,
     // price: 0,
     // price_with_qqs: 0,
   }
@@ -147,10 +140,8 @@ export function ProjectMutateDrawer({
     defaultValues: emptyFormValues,
   })
 
-  // Watch for clone_project_id changes
   const cloneProjectId = form.watch('clone_project_id')
 
-  // Fetch projects to get the selected project data
   const { data: projectsData } = useProjects({
     offset: 0,
     limit: 100,
@@ -169,20 +160,21 @@ export function ProjectMutateDrawer({
           name: selectedProject.name,
           description: selectedProject.description,
           contract_id: selectedProject.contract_id,
-          // price: toNumber(selectedProject.price) ?? 0,
-          // price_with_qqs: toNumber(selectedProject.price_with_qqs) ?? 0,
+
           planned_views_count:
             toNumber(selectedProject.planned_views_count) ?? 0,
-          distribution_id: selectedProject.distribution_id,
           price_type: selectedProject.price_type,
           customer_company_id: selectedProject.customer_company_id ?? undefined,
-          our_company_id: selectedProject.our_company_id,
+          our_company_id: selectedProject.our_company_id ?? undefined,
           project_manager_id: selectedProject.project_manager_id,
           payment_type: selectedProject.payment_type,
-          is_active: selectedProject.is_active,
           is_qqs: selectedProject.is_qqs,
           tags: selectedProject?.tags || [],
           category_ids: selectedProject?.category_ids || [],
+          // price: toNumber(selectedProject.price) ?? 0,
+          // price_with_qqs: toNumber(selectedProject.price_with_qqs) ?? 0,
+          // distribution_id: selectedProject.distribution_id,
+          // is_active: selectedProject.is_active,
         })
       }
     }
@@ -195,19 +187,19 @@ export function ProjectMutateDrawer({
         name: currentRow.name,
         description: currentRow.description,
         contract_id: currentRow.contract_id ?? undefined,
-        // price: toNumber(currentRow.price) ?? 0,
-        // price_with_qqs: toNumber(currentRow.price_with_qqs) ?? 0,
         planned_views_count: toNumber(currentRow.planned_views_count) ?? 0,
-        distribution_id: currentRow.distribution_id,
         price_type: currentRow.price_type,
         customer_company_id: currentRow.customer_company_id ?? undefined,
-        our_company_id: currentRow.our_company_id,
+        our_company_id: currentRow.our_company_id ?? undefined,
         project_manager_id: currentRow.project_manager_id,
         payment_type: currentRow.payment_type,
-        is_active: currentRow.is_active,
         is_qqs: currentRow.is_qqs,
         clone_project_id: undefined,
         tags: currentRow?.tags || [],
+        // price: toNumber(currentRow.price) ?? 0,
+        // price_with_qqs: toNumber(currentRow.price_with_qqs) ?? 0,
+        // distribution_id: currentRow.distribution_id,
+        // is_active: currentRow.is_active,
       })
     } else if (!isUpdate && open) {
       // Reset to empty values when creating new project
@@ -276,7 +268,7 @@ export function ProjectMutateDrawer({
               onSubmit={form.handleSubmit(onSubmit)}
               className='flex-1 space-y-5 px-4'
             >
-              <FormField
+              {/* <FormField
                 control={form.control}
                 name='is_active'
                 render={({ field }) => (
@@ -294,7 +286,7 @@ export function ProjectMutateDrawer({
                     </div>
                   </FormItem>
                 )}
-              />
+              /> */}
 
               {!isUpdate && (
                 <FormComboboxProject
@@ -345,13 +337,13 @@ export function ProjectMutateDrawer({
                     withSwitch
                   />
                 </div>
-                <FormDistribution
+                {/* <FormDistribution
                   control={form.control}
                   name='distribution_id'
                   label={t.form_labels.distribution}
                   placeholder={t.form_placeholders.select_distribution}
                   detail={currentRow?.distribution ?? undefined}
-                />
+                /> */}
 
                 <FormComboboxContract
                   control={form.control}
