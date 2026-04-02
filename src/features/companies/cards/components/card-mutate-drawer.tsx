@@ -135,7 +135,6 @@ export function CardMutateDrawer({
       setOpen('delete')
     }
   }
-  console.log('form', form.formState.errors)
 
   return (
     <Sheet
