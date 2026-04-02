@@ -83,9 +83,6 @@ export function CardMutateDrawer({
             error: t.form_validations.required_field,
           })
           .min(1),
-        distribution_id: z.string({
-          error: t.form_validations.required_field,
-        }),
 
         balance: z.number().min(0, t.form_validations.invalid_value).optional(),
         card_type: z.enum(['cash', 'card']),
@@ -138,6 +135,7 @@ export function CardMutateDrawer({
       setOpen('delete')
     }
   }
+  console.log('form', form.formState.errors)
 
   return (
     <Sheet
