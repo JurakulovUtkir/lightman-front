@@ -58,7 +58,7 @@ export const getPriceTypeColor = (priceType: string): string => {
     no_watermark: 'bg-indigo-100 text-indigo-800 border-indigo-200',
   }
   return (
-    colors[priceType.toLowerCase()] ||
+    colors[priceType?.toLowerCase()] ||
     'bg-gray-100 text-gray-800 border-gray-200'
   )
 }

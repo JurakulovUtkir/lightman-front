@@ -264,9 +264,9 @@ export const columns = (
       ) as keyof typeof t.paymentTypeOptions
       return (
         <div
-          className={`inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-medium capitalize ${getPaymentTypeColor(paymentType)}`}
+          className={`inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-medium capitalize ${paymentType && getPaymentTypeColor(paymentType)}`}
         >
-          {t.paymentTypeOptions[paymentType]}
+          {paymentType ? t.paymentTypeOptions[paymentType] : '-'}
         </div>
       )
     },
@@ -283,9 +283,9 @@ export const columns = (
       ) as keyof typeof t.priceTypeOptions
       return (
         <div
-          className={`inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-medium capitalize ${getPriceTypeColor(priceType)}`}
+          className={`inline-flex items-center rounded-md border px-2.5 py-0.5 text-xs font-medium capitalize ${priceType && getPriceTypeColor(priceType)}`}
         >
-          {t.priceTypeOptions[priceType]}
+          {priceType ? t.priceTypeOptions[priceType] : '-'}
         </div>
       )
     },
